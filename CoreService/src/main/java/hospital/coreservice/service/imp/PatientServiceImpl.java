@@ -1,21 +1,21 @@
 package hospital.coreservice.service.imp;
 
-import com.hospital.coreService.dto.patient.PatientCreateDto;
-import com.hospital.coreService.dto.patient.PatientResponseDto;
-import com.hospital.coreService.dto.patient.PatientUpdateDto;
-import com.hospital.coreService.exception.common.InvalidSearchParameterException;
-import com.hospital.coreService.exception.patient.*;
-import com.hospital.coreService.exception.room.RoomFullException;
-import com.hospital.coreService.exception.room.RoomNotFoundException;
-import com.hospital.coreService.mapper.PatientMapper;
-import com.hospital.coreService.model.Patient;
-import com.hospital.coreService.model.Room;
-import com.hospital.coreService.model.enums.BloodType;
-import com.hospital.coreService.model.enums.Gender;
-import com.hospital.coreService.model.enums.PatientStatus;
-import com.hospital.coreService.repository.PatientRepository;
-import com.hospital.coreService.repository.RoomRepository;
-import com.hospital.coreService.service.PatientService;
+import hospital.coreservice.dto.patient.PatientCreateDto;
+import hospital.coreservice.dto.patient.PatientResponseDto;
+import hospital.coreservice.dto.patient.PatientUpdateDto;
+import hospital.coreservice.exception.common.InvalidSearchParameterException;
+import hospital.coreservice.exception.patient.*;
+import hospital.coreservice.exception.room.RoomFullException;
+import hospital.coreservice.exception.room.RoomNotFoundException;
+import hospital.coreservice.mapper.PatientMapper;
+import hospital.coreservice.model.Patient;
+import hospital.coreservice.model.Room;
+import hospital.coreservice.model.enums.BloodType;
+import hospital.coreservice.model.enums.Gender;
+import hospital.coreservice.model.enums.PatientStatus;
+import hospital.coreservice.repository.PatientRepository;
+import hospital.coreservice.repository.RoomRepository;
+import hospital.coreservice.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +33,9 @@ import java.util.stream.Collectors;
  *
  * @author Mobina
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PatientServiceImpl implements PatientService {
 
     private final PatientRepository patientRepository;
@@ -340,7 +340,7 @@ public class PatientServiceImpl implements PatientService {
                 .orElseThrow(() -> PatientNotFoundException.byId(patientId));
 
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RoomNotFoundException(roomId));
+                .orElseThrow(() -> RoomNotFoundException.byId(roomId));
 
         if (room.getCurrentPatientList().size() >= room.getCapacity()) {
             throw new RoomFullException(roomId, room.getCapacity());

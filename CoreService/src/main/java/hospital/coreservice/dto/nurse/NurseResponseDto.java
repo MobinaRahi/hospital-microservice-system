@@ -1,8 +1,8 @@
 package hospital.coreservice.dto.nurse;
 
-import com.hospital.coreService.dto.department.DepartmentResponseDto;
-import com.hospital.coreService.dto.shift.ShiftResponseDto;
-import com.hospital.coreService.model.enums.NursePosition;
+import hospital.coreservice.dto.department.DepartmentResponseDto;
+import hospital.coreservice.dto.shift.ShiftResponseDto;
+import hospital.coreservice.model.enums.NursePosition;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,7 @@
 package hospital.coreservice.model;
 
-import com.hospital.coreService.model.enums.AppointmentStatus;
-import com.hospital.coreService.model.enums.AppointmentType;
+import hospital.coreservice.model.enums.AppointmentStatus;
+import hospital.coreservice.model.enums.AppointmentType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,7 @@
 package hospital.coreservice.exception.appointment;
 
-import com.hospital.coreService.model.enums.AppointmentStatus;
+
+import hospital.coreservice.model.enums.AppointmentStatus;
 
 public class InvalidAppointmentStateException extends RuntimeException {
     public InvalidAppointmentStateException(Long id, AppointmentStatus status) {

@@ -1,8 +1,8 @@
 package hospital.coreservice.dto.department;
 
-import com.hospital.coreService.dto.doctor.DoctorResponseDto;
-import com.hospital.coreService.dto.nurse.NurseResponseDto;
-import com.hospital.coreService.dto.room.RoomResponseDto;
+import hospital.coreservice.dto.doctor.DoctorResponseDto;
+import hospital.coreservice.dto.nurse.NurseResponseDto;
+import hospital.coreservice.dto.room.RoomResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 

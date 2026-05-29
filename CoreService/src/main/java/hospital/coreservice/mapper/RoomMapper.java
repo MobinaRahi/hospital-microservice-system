@@ -1,9 +1,9 @@
 package hospital.coreservice.mapper;
 
-import com.hospital.coreService.dto.room.RoomCreateDto;
-import com.hospital.coreService.dto.room.RoomResponseDto;
-import com.hospital.coreService.dto.room.RoomUpdateDto;
-import com.hospital.coreService.model.Room;
+import hospital.coreservice.dto.room.RoomCreateDto;
+import hospital.coreservice.dto.room.RoomResponseDto;
+import hospital.coreservice.dto.room.RoomUpdateDto;
+import hospital.coreservice.model.Room;
 import org.mapstruct.*;
 
 /**

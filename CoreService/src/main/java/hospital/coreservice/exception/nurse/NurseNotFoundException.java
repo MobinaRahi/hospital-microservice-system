@@ -1,7 +1,5 @@
 package hospital.coreservice.exception.nurse;
 
-import com.hospital.coreService.exception.doctor.DoctorNotFoundException;
-
 public class NurseNotFoundException extends RuntimeException {
     public NurseNotFoundException(String message) {
         super(message);

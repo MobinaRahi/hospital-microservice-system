@@ -1,11 +1,11 @@
 package hospital.coreservice.service;
 
-import com.hospital.coreService.dto.patient.PatientCreateDto;
-import com.hospital.coreService.dto.patient.PatientResponseDto;
-import com.hospital.coreService.dto.patient.PatientUpdateDto;
-import com.hospital.coreService.model.enums.BloodType;
-import com.hospital.coreService.model.enums.Gender;
-import com.hospital.coreService.model.enums.PatientStatus;
+import hospital.coreservice.dto.patient.PatientCreateDto;
+import hospital.coreservice.dto.patient.PatientResponseDto;
+import hospital.coreservice.dto.patient.PatientUpdateDto;
+import hospital.coreservice.model.enums.BloodType;
+import hospital.coreservice.model.enums.Gender;
+import hospital.coreservice.model.enums.PatientStatus;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import java.util.Map;
  * Service interface for Patient entity.
  * <p>
  * Defines all business operations for patient management in the hospital system.
- * This interface is implemented by {@link com.hospital.coreService.service.imp.PatientServiceImpl}.
+ * This interface is implemented by {@link hospital.coreservice.service.imp.PatientServiceImpl}.
  * </p>
  *
  * @author Mobina

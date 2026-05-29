@@ -1,7 +1,7 @@
 package hospital.coreservice.repository;
 
-import com.hospital.coreService.model.Appointment;
-import com.hospital.coreService.model.enums.AppointmentStatus;
+import hospital.coreservice.model.Appointment;
+import hospital.coreservice.model.enums.AppointmentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

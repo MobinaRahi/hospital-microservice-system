@@ -1,7 +1,7 @@
 package hospital.coreservice.repository;
 
-import com.hospital.coreService.model.DoctorSchedule;
-import com.hospital.coreService.model.enums.DayOfWeek;
+import hospital.coreservice.model.DoctorSchedule;
+import hospital.coreservice.model.enums.DayOfWeek;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,6 +21,11 @@ public interface DoctorScheduleRepository extends JpaRepository<DoctorSchedule, 
      * Find all schedules for a specific doctor
      */
     List<DoctorSchedule> findByDoctorId(Long doctorId);
+
+    /**
+     * Find schedule for a specific day of week
+     */
+    List<DoctorSchedule> findByDayOfWeek(DayOfWeek dayOfWeek);
 
     /**
      * Find schedule for a doctor on a specific day of week

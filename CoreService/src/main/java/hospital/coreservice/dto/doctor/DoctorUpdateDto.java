@@ -1,6 +1,7 @@
 package hospital.coreservice.dto.doctor;
 
-import com.hospital.coreService.model.enums.Speciality;
+
+import hospital.coreservice.model.enums.Speciality;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;

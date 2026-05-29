@@ -1,19 +1,19 @@
 package hospital.coreservice.service.imp;
 
-import com.hospital.coreService.dto.appointment.AppointmentCreateDto;
-import com.hospital.coreService.dto.appointment.AppointmentResponseDto;
-import com.hospital.coreService.dto.appointment.AppointmentUpdateDto;
-import com.hospital.coreService.exception.appointment.*;
-import com.hospital.coreService.exception.doctor.DoctorNotAvailableException;
-import com.hospital.coreService.exception.doctor_schedule.DoctorScheduleNotFoundException;
-import com.hospital.coreService.exception.patient.PatientAppointmentConflictException;
-import com.hospital.coreService.mapper.AppointmentMapper;
-import com.hospital.coreService.model.Appointment;
-import com.hospital.coreService.model.DoctorSchedule;
-import com.hospital.coreService.model.enums.AppointmentStatus;
-import com.hospital.coreService.repository.AppointmentRepository;
-import com.hospital.coreService.repository.DoctorScheduleRepository;
-import com.hospital.coreService.service.AppointmentService;
+import hospital.coreservice.dto.appointment.AppointmentCreateDto;
+import hospital.coreservice.dto.appointment.AppointmentResponseDto;
+import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
+import hospital.coreservice.exception.appointment.*;
+import hospital.coreservice.exception.doctor.DoctorNotAvailableException;
+import hospital.coreservice.exception.doctor_schedule.DoctorScheduleNotFoundException;
+import hospital.coreservice.exception.patient.PatientAppointmentConflictException;
+import hospital.coreservice.mapper.AppointmentMapper;
+import hospital.coreservice.model.Appointment;
+import hospital.coreservice.model.DoctorSchedule;
+import hospital.coreservice.model.enums.AppointmentStatus;
+import hospital.coreservice.repository.AppointmentRepository;
+import hospital.coreservice.repository.DoctorScheduleRepository;
+import hospital.coreservice.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
  * @author Mobina
  */
 @Service
-@Log4j2
 @RequiredArgsConstructor
+@Log4j2
 public class AppointmentServiceImpl implements AppointmentService {
 
     private final AppointmentRepository appointmentRepository;

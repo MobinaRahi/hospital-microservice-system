@@ -1,30 +1,30 @@
 package hospital.coreservice.service.imp;
 
-import com.hospital.coreService.dto.department.DepartmentCreateDto;
-import com.hospital.coreService.dto.department.DepartmentResponseDto;
-import com.hospital.coreService.dto.department.DepartmentUpdateDto;
-import com.hospital.coreService.dto.doctor.DoctorResponseDto;
-import com.hospital.coreService.dto.nurse.NurseResponseDto;
-import com.hospital.coreService.dto.room.RoomResponseDto;
-import com.hospital.coreService.exception.department.DepartmentHasNoHeadDoctorException;
-import com.hospital.coreService.exception.department.DepartmentHasNoHeadNurseException;
-import com.hospital.coreService.exception.department.DepartmentNotFoundException;
-import com.hospital.coreService.exception.doctor.DoctorNotFoundException;
-import com.hospital.coreService.exception.nurse.NurseNotFoundException;
-import com.hospital.coreService.exception.room.RoomNotFoundException;
-import com.hospital.coreService.mapper.DepartmentMapper;
-import com.hospital.coreService.mapper.DoctorMapper;
-import com.hospital.coreService.mapper.NurseMapper;
-import com.hospital.coreService.mapper.RoomMapper;
-import com.hospital.coreService.model.Department;
-import com.hospital.coreService.model.Doctor;
-import com.hospital.coreService.model.Nurse;
-import com.hospital.coreService.model.Room;
-import com.hospital.coreService.repository.DepartmentRepository;
-import com.hospital.coreService.repository.DoctorRepository;
-import com.hospital.coreService.repository.NurseRepository;
-import com.hospital.coreService.repository.RoomRepository;
-import com.hospital.coreService.service.DepartmentService;
+import hospital.coreservice.dto.department.DepartmentCreateDto;
+import hospital.coreservice.dto.department.DepartmentResponseDto;
+import hospital.coreservice.dto.department.DepartmentUpdateDto;
+import hospital.coreservice.dto.doctor.DoctorResponseDto;
+import hospital.coreservice.dto.nurse.NurseResponseDto;
+import hospital.coreservice.dto.room.RoomResponseDto;
+import hospital.coreservice.exception.department.DepartmentHasNoHeadDoctorException;
+import hospital.coreservice.exception.department.DepartmentHasNoHeadNurseException;
+import hospital.coreservice.exception.department.DepartmentNotFoundException;
+import hospital.coreservice.exception.doctor.DoctorNotFoundException;
+import hospital.coreservice.exception.nurse.NurseNotFoundException;
+import hospital.coreservice.exception.room.RoomNotFoundException;
+import hospital.coreservice.mapper.DepartmentMapper;
+import hospital.coreservice.mapper.DoctorMapper;
+import hospital.coreservice.mapper.NurseMapper;
+import hospital.coreservice.mapper.RoomMapper;
+import hospital.coreservice.model.Department;
+import hospital.coreservice.model.Doctor;
+import hospital.coreservice.model.Nurse;
+import hospital.coreservice.model.Room;
+import hospital.coreservice.repository.DepartmentRepository;
+import hospital.coreservice.repository.DoctorRepository;
+import hospital.coreservice.repository.NurseRepository;
+import hospital.coreservice.repository.RoomRepository;
+import hospital.coreservice.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,9 +38,9 @@ import java.util.stream.Collectors;
  *
  * @author Mobina
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
@@ -451,6 +451,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Long countActiveDepartments() {
         log.debug("Counting active departments");
         return departmentRepository.countByIsActiveTrue();
+    }
+
+    @Override
+    public Long countInactiveDepartments() {
+        log.debug("Counting inActive departments");
+        return departmentRepository.countByIsActiveFalse();
     }
 
     // ========== Validation ==========

@@ -1,9 +1,10 @@
 package hospital.coreservice.dto.doctor;
 
-import com.hospital.coreService.dto.department.DepartmentResponseDto;
-import com.hospital.coreService.dto.doctor_schedule.DoctorScheduleResponseDto;
-import com.hospital.coreService.model.enums.Speciality;
-import com.hospital.coreService.model.enums.SubSpeciality;
+
+import hospital.coreservice.dto.department.DepartmentResponseDto;
+import hospital.coreservice.dto.doctor_schedule.DoctorScheduleResponseDto;
+import hospital.coreservice.model.enums.Speciality;
+import hospital.coreservice.model.enums.SubSpeciality;
 import lombok.Getter;
 import lombok.Setter;
 

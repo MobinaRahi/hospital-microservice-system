@@ -1,9 +1,9 @@
 package hospital.coreservice.mapper;
 
-import com.hospital.coreService.dto.appointment.AppointmentCreateDto;
-import com.hospital.coreService.dto.appointment.AppointmentResponseDto;
-import com.hospital.coreService.dto.appointment.AppointmentUpdateDto;
-import com.hospital.coreService.model.Appointment;
+import hospital.coreservice.dto.appointment.AppointmentCreateDto;
+import hospital.coreservice.dto.appointment.AppointmentResponseDto;
+import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
+import hospital.coreservice.model.Appointment;
 import org.mapstruct.*;
 
 /**

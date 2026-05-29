@@ -1,14 +1,13 @@
 package hospital.coreservice.service;
 
-import com.hospital.coreService.dto.department.DepartmentCreateDto;
-import com.hospital.coreService.dto.department.DepartmentResponseDto;
-import com.hospital.coreService.dto.department.DepartmentUpdateDto;
-import com.hospital.coreService.dto.doctor.DoctorResponseDto;
-import com.hospital.coreService.dto.nurse.NurseResponseDto;
-import com.hospital.coreService.dto.room.RoomResponseDto;
+import hospital.coreservice.dto.department.DepartmentCreateDto;
+import hospital.coreservice.dto.department.DepartmentResponseDto;
+import hospital.coreservice.dto.department.DepartmentUpdateDto;
+import hospital.coreservice.dto.doctor.DoctorResponseDto;
+import hospital.coreservice.dto.nurse.NurseResponseDto;
+import hospital.coreservice.dto.room.RoomResponseDto;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service interface for Department management.
@@ -50,6 +49,7 @@ public interface DepartmentService {
      * Get department by name
      */
     List<DepartmentResponseDto> getDepartmentByName(String name);
+
     /**
      * Get all departments
      */
@@ -216,6 +216,11 @@ public interface DepartmentService {
      * Count active departments
      */
     Long countActiveDepartments();
+
+    /**
+     * Count inActive departments
+     */
+    Long countInactiveDepartments();
 
     // ========== Validation ==========
 

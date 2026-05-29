@@ -1,7 +1,7 @@
 package hospital.coreservice.repository;
 
-import com.hospital.coreService.model.Nurse;
-import com.hospital.coreService.model.enums.NursePosition;
+import hospital.coreservice.model.Nurse;
+import hospital.coreservice.model.enums.NursePosition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

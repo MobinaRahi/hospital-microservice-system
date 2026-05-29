@@ -1,9 +1,9 @@
 package hospital.coreservice.repository;
 
-import com.hospital.coreService.model.Patient;
-import com.hospital.coreService.model.enums.BloodType;
-import com.hospital.coreService.model.enums.Gender;
-import com.hospital.coreService.model.enums.PatientStatus;
+import hospital.coreservice.model.Patient;
+import hospital.coreservice.model.enums.BloodType;
+import hospital.coreservice.model.enums.Gender;
+import hospital.coreservice.model.enums.PatientStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,6 +1,6 @@
 package hospital.coreservice.dto.doctor_schedule;
 
-import com.hospital.coreService.model.enums.DayOfWeek;
+import hospital.coreservice.model.enums.DayOfWeek;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;

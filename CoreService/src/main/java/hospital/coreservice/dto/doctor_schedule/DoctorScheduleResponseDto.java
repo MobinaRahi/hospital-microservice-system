@@ -1,7 +1,7 @@
 package hospital.coreservice.dto.doctor_schedule;
 
-import com.hospital.coreService.dto.doctor.DoctorResponseDto;
-import com.hospital.coreService.model.enums.DayOfWeek;
+import hospital.coreservice.dto.doctor.DoctorResponseDto;
+import hospital.coreservice.model.enums.DayOfWeek;
 import lombok.Getter;
 import lombok.Setter;
 

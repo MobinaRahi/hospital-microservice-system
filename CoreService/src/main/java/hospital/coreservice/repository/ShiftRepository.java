@@ -1,6 +1,6 @@
 package hospital.coreservice.repository;
 
-import com.hospital.coreService.model.Shift;
+import hospital.coreservice.model.Shift;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

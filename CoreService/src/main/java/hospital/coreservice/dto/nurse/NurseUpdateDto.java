@@ -1,6 +1,6 @@
 package hospital.coreservice.dto.nurse;
 
-import com.hospital.coreService.model.enums.NursePosition;
+import hospital.coreservice.model.enums.NursePosition;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

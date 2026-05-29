@@ -1,10 +1,8 @@
 package hospital.coreservice.repository;
 
-import com.hospital.coreService.model.Doctor;
-import com.hospital.coreService.model.enums.Speciality;
-import com.hospital.coreService.model.enums.SubSpeciality;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import hospital.coreservice.model.Doctor;
+import hospital.coreservice.model.enums.Speciality;
+import hospital.coreservice.model.enums.SubSpeciality;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,137 +15,154 @@ import java.util.Optional;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
-    // ========== 1. Basic Find Methods (Exact Match) ==========
+    // ========== 1. Basic Find Methods ==========
 
     /**
-     * Find doctors by first name (exact match).
-     *
-     * @param firstName the first name to search for
-     * @return list of doctors with the given first name
+     * Find doctor by user ID (reference to Auth Service)
      */
-    List<Doctor> findByFirstName(String firstName);
+    Optional<Doctor> findByUserId(Long userId);
 
     /**
-     * Find doctors by last name (exact match).
-     *
-     * @param lastName the last name to search for
-     * @return list of doctors with the given last name
-     */
-    List<Doctor> findByLastName(String lastName);
-
-    /**
-     * Find a doctor by license number (unique).
-     *
-     * @param licenseNumber the medical council license number
-     * @return Optional containing the doctor if found
+     * Find doctor by license number (unique)
      */
     Optional<Doctor> findByLicenseNumber(String licenseNumber);
 
     /**
-     * Find doctors by their primary specialty.
-     *
-     * @param speciality the medical specialty (e.g., CARDIOLOGY)
-     * @return list of doctors with the given specialty
+     * Find doctors by first name
+     */
+    List<Doctor> findByFirstNameContainingIgnoreCase(String firstName);
+
+    /**
+     * Find doctors by last name
+     */
+    List<Doctor> findByLastNameContainingIgnoreCase(String lastName);
+
+    /**
+     * Find doctors by specialty
      */
     List<Doctor> findBySpeciality(Speciality speciality);
 
-    // ========== 2. Advanced Search Methods (Partial Match, Join) ==========
+    /**
+     * Find doctors by department ID
+     */
+    List<Doctor> findByDepartmentId(Long departmentId);
+
+    // ========== 2. Search Methods (Partial Match, Case-Insensitive) ==========
 
     /**
-     * Search for doctors by sub-specialty (e.g., INTERVENTIONAL_CARDIOLOGY).
-     * Uses JOIN query on the doctor_sub_specialities collection table.
-     *
-     * @param subSpeciality the sub-specialty to search for
-     * @return list of doctors having this sub-specialty
+     * Search doctors by first name and last name (partial match, case-insensitive)
+     */
+    List<Doctor> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(String firstName, String lastName);
+
+    /**
+     * Search doctors by sub-specialty (uses JOIN on collection table)
      */
     @Query("SELECT d FROM doctorEntity d JOIN d.subSpecialities s WHERE s = :subSpeciality")
     List<Doctor> findBySubSpeciality(@Param("subSpeciality") SubSpeciality subSpeciality);
 
     /**
-     * Find doctors by department ID.
-     *
-     * @param departmentId the department identifier
-     * @return list of doctors working in the specified department
+     * Search doctors by years of experience range
      */
-    List<Doctor> findByDepartmentId(Long departmentId);
+    List<Doctor> findByYearsOfExperienceBetween(int startYears, int endYears);
+
+    // ========== 3. Active/Inactive Filtering ==========
 
     /**
-     * Search for doctors by first name and last name (case-insensitive, partial match).
-     * Useful for search boxes in UI.
-     *
-     * @param firstName the first name (partial match allowed)
-     * @param lastName the last name (partial match allowed)
-     * @return list of doctors matching both name fields
-     */
-    List<Doctor> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(String firstName, String lastName);
-
-    // ========== 3. Status Based Methods ==========
-
-    /**
-     * Find all active doctors (isActive = true).
-     *
-     * @return list of active doctors
+     * Get all active doctors
      */
     @Query("SELECT d FROM doctorEntity d WHERE d.isActive = true")
     List<Doctor> findAllActiveDoctors();
 
     /**
-     * Find all inactive doctors (isActive = false).
-     *
-     * @return list of inactive doctors
+     * Get all inactive doctors
      */
     @Query("SELECT d FROM doctorEntity d WHERE d.isActive = false")
     List<Doctor> findAllInactiveDoctors();
 
-    // ========== 4. Pagination Methods ==========
-
     /**
-     * Get all doctors with pagination support.
-     * Useful for large datasets to avoid memory issues.
-     *
-     * @param pageable pagination information (page number, page size, sort)
-     * @return a page of doctors
+     * Get active doctors by specialty
      */
-    Page<Doctor> findAll(Pageable pageable);
+    @Query("SELECT d FROM doctorEntity d WHERE d.speciality = :speciality AND d.isActive = true")
+    List<Doctor> findActiveBySpeciality(@Param("speciality") Speciality speciality);
 
     /**
-     * Get active doctors with pagination support.
-     *
-     * @param pageable pagination information
-     * @return a page of active doctors
+     * Get active doctors by sub-specialty
      */
-    Page<Doctor> findByIsActiveTrue(Pageable pageable);
-
-    // ========== 5. Update Operations (Status Management) ==========
+    @Query("SELECT d FROM doctorEntity d JOIN d.subSpecialities s WHERE s = :subSpeciality AND d.isActive = true")
+    List<Doctor> findActiveBySubSpeciality(@Param("subSpeciality") SubSpeciality subSpeciality);
 
     /**
-     * Deactivate a doctor (sets isActive = false).
-     *
-     * @param doctorId the ID of the doctorSchedule to deactivate
+     * Get active doctors by department ID
+     */
+    @Query("SELECT d FROM doctorEntity d WHERE d.department.id = :departmentId AND d.isActive = true")
+    List<Doctor> findActiveByDepartmentId(@Param("departmentId") Long departmentId);
+
+    /**
+     * Get active doctors by specialty and sub-specialty together
+     */
+    @Query("SELECT d FROM doctorEntity d JOIN d.subSpecialities s WHERE s = :subSpeciality AND d.speciality = :speciality AND d.isActive = true")
+    List<Doctor> findActiveDoctorsBySpecialityAndSubSpeciality(@Param("speciality") Speciality speciality, @Param("subSpeciality") SubSpeciality subSpeciality);
+
+    // ========== 4. Combined Filters (Without Active Check) ==========
+
+    /**
+     * Get doctors by specialty and sub-specialty (all statuses)
+     */
+    @Query("SELECT d FROM doctorEntity d JOIN d.subSpecialities s WHERE s = :subSpeciality AND d.speciality = :speciality")
+    List<Doctor> findBySpecialityAndSubSpeciality(@Param("speciality") Speciality speciality, @Param("subSpeciality") SubSpeciality subSpeciality);
+
+    // ========== 5. Count Methods ==========
+
+    /**
+     * Count doctors by department ID
+     */
+    @Query("SELECT COUNT(d) FROM doctorEntity d WHERE d.department.id = :departmentId")
+    Long countByDepartmentId(@Param("departmentId") Long departmentId);
+
+    /**
+     * Count doctors by specialty
+     */
+    @Query("SELECT COUNT(d) FROM doctorEntity d WHERE d.speciality = :speciality")
+    Long countBySpeciality(@Param("speciality") Speciality speciality);
+
+    /**
+     * Count active doctors by sub-specialty
+     */
+    @Query("SELECT COUNT(d) FROM doctorEntity d WHERE d.isActive = true AND :subSpeciality MEMBER OF d.subSpecialities")
+    Long countActiveBySubSpeciality(@Param("subSpeciality") SubSpeciality subSpeciality);
+
+    /**
+     * Count all active doctors
+     */
+    @Query("SELECT COUNT(d) FROM doctorEntity d WHERE d.isActive = true")
+    Long countActiveDoctors();
+
+    /**
+     * Count all inactive doctors
+     */
+    @Query("SELECT COUNT(d) FROM doctorEntity d WHERE d.isActive = false")
+    Long countInactiveDoctors();
+
+    // ========== 6. Update Operations (Status Management) ==========
+
+    /**
+     * Deactivate a doctor (set isActive = false)
      */
     @Modifying
     @Query("UPDATE doctorEntity d SET d.isActive = false WHERE d.id = :doctorId")
     void deactivate(@Param("doctorId") Long doctorId);
 
     /**
-     * Activate a doctor (sets isActive = true).
-     *
-     * @param doctorId the ID of the doctor to activate
+     * Activate a doctor (set isActive = true)
      */
     @Modifying
     @Query("UPDATE doctorEntity d SET d.isActive = true WHERE d.id = :doctorId")
     void activate(@Param("doctorId") Long doctorId);
 
-    // ========== 6. Existence Checks ==========
+    // ========== 7. Existence Checks ==========
 
     /**
-     * Check if a doctor exists with the given license number.
-     *
-     * @param licenseNumber the license number to check
-     * @return true if a doctor with this license number exists
+     * Check if a license number already exists
      */
     boolean existsByLicenseNumber(String licenseNumber);
-
-
-    Long countByDepartmentId(Long departmentId);
 }

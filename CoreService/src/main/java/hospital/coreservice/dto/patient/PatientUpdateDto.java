@@ -1,8 +1,8 @@
 package hospital.coreservice.dto.patient;
 
-import com.hospital.coreService.model.enums.BloodType;
-import com.hospital.coreService.model.enums.Gender;
-import com.hospital.coreService.model.enums.PatientStatus;
+import hospital.coreservice.model.enums.BloodType;
+import hospital.coreservice.model.enums.Gender;
+import hospital.coreservice.model.enums.PatientStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;

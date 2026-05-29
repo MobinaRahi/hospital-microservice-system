@@ -1,6 +1,6 @@
 package hospital.coreservice.model;
 
-import com.hospital.coreService.model.enums.NursePosition;
+import hospital.coreservice.model.enums.NursePosition;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

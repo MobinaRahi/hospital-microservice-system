@@ -1,6 +1,6 @@
 package hospital.coreservice.repository;
 
-import com.hospital.coreService.model.Department;
+import hospital.coreservice.model.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -42,14 +42,18 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     // ========== Status Based ==========
 
+    @Query("SELECT d FROM departmentEntity d WHERE d.isActive=true ")
     List<Department> findByIsActiveTrue();
 
+    @Query("SELECT d FROM departmentEntity d WHERE d.isActive=false ")
     List<Department> findByIsActiveFalse();
 
     // ========== Count Methods ==========
 
+    @Query("SELECT COUNT(d) FROM departmentEntity d WHERE d.isActive = true")
     long countByIsActiveTrue();
 
+    @Query("SELECT COUNT(d) FROM departmentEntity d where d.isActive=false")
     long countByIsActiveFalse();
 
     // ========== Existence Checks ==========

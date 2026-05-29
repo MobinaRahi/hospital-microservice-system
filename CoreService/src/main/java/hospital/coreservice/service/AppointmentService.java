@@ -1,9 +1,9 @@
 package hospital.coreservice.service;
 
-import com.hospital.coreService.dto.appointment.AppointmentCreateDto;
-import com.hospital.coreService.dto.appointment.AppointmentResponseDto;
-import com.hospital.coreService.dto.appointment.AppointmentUpdateDto;
-import com.hospital.coreService.model.enums.AppointmentStatus;
+import hospital.coreservice.dto.appointment.AppointmentCreateDto;
+import hospital.coreservice.dto.appointment.AppointmentResponseDto;
+import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
+import hospital.coreservice.model.enums.AppointmentStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

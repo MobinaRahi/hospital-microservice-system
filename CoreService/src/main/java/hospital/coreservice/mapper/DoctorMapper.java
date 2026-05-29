@@ -1,9 +1,9 @@
 package hospital.coreservice.mapper;
 
-import com.hospital.coreService.dto.doctor.DoctorCreateDto;
-import com.hospital.coreService.dto.doctor.DoctorResponseDto;
-import com.hospital.coreService.dto.doctor.DoctorUpdateDto;
-import com.hospital.coreService.model.Doctor;
+import hospital.coreservice.dto.doctor.DoctorCreateDto;
+import hospital.coreservice.dto.doctor.DoctorResponseDto;
+import hospital.coreservice.dto.doctor.DoctorUpdateDto;
+import hospital.coreservice.model.Doctor;
 import org.mapstruct.*;
 
 /**

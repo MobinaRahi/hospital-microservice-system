@@ -1,7 +1,7 @@
 package hospital.coreservice.model;
 
-import com.hospital.coreService.model.enums.Speciality;
-import com.hospital.coreService.model.enums.SubSpeciality;
+import hospital.coreservice.model.enums.Speciality;
+import hospital.coreservice.model.enums.SubSpeciality;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -191,5 +191,6 @@ public class Doctor {
         this.doctorSchedules.remove(doctorSchedule);
         doctorSchedule.setDoctor(null);
     }
+
 }
 

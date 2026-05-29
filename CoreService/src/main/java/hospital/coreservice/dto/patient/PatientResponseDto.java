@@ -1,9 +1,9 @@
 package hospital.coreservice.dto.patient;
 
-import com.hospital.coreService.dto.room.RoomResponseDto;
-import com.hospital.coreService.model.enums.BloodType;
-import com.hospital.coreService.model.enums.Gender;
-import com.hospital.coreService.model.enums.PatientStatus;
+import hospital.coreservice.dto.room.RoomResponseDto;
+import hospital.coreservice.model.enums.BloodType;
+import hospital.coreservice.model.enums.Gender;
+import hospital.coreservice.model.enums.PatientStatus;
 import lombok.Getter;
 import lombok.Setter;
 

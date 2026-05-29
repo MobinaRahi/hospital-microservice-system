@@ -1,9 +1,9 @@
 package hospital.coreservice.mapper;
 
-import com.hospital.coreService.dto.department.DepartmentCreateDto;
-import com.hospital.coreService.dto.department.DepartmentResponseDto;
-import com.hospital.coreService.dto.department.DepartmentUpdateDto;
-import com.hospital.coreService.model.Department;
+import hospital.coreservice.dto.department.DepartmentCreateDto;
+import hospital.coreservice.dto.department.DepartmentResponseDto;
+import hospital.coreservice.dto.department.DepartmentUpdateDto;
+import hospital.coreservice.model.Department;
 import org.mapstruct.*;
 
 /**

@@ -1,9 +1,9 @@
 package hospital.coreservice.mapper;
 
-import com.hospital.coreService.dto.shift.ShiftCreateDto;
-import com.hospital.coreService.dto.shift.ShiftResponseDto;
-import com.hospital.coreService.dto.shift.ShiftUpdateDto;
-import com.hospital.coreService.model.Shift;
+import hospital.coreservice.dto.shift.ShiftCreateDto;
+import hospital.coreservice.dto.shift.ShiftResponseDto;
+import hospital.coreservice.dto.shift.ShiftUpdateDto;
+import hospital.coreservice.model.Shift;
 import org.mapstruct.*;
 
 /**

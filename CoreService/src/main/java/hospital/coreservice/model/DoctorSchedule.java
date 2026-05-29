@@ -1,6 +1,6 @@
 package hospital.coreservice.model;
 
-import com.hospital.coreService.model.enums.DayOfWeek;
+import hospital.coreservice.model.enums.DayOfWeek;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

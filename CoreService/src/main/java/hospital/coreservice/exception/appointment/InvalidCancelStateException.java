@@ -1,6 +1,7 @@
 package hospital.coreservice.exception.appointment;
 
-import com.hospital.coreService.model.enums.AppointmentStatus;
+
+import hospital.coreservice.model.enums.AppointmentStatus;
 
 public class InvalidCancelStateException extends RuntimeException {
     public InvalidCancelStateException(Long id, AppointmentStatus currentStatus) {
