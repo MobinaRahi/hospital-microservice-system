@@ -11,6 +11,7 @@ import hospital.coreservice.mapper.AppointmentMapper;
 import hospital.coreservice.model.Appointment;
 import hospital.coreservice.model.DoctorSchedule;
 import hospital.coreservice.model.enums.AppointmentStatus;
+import hospital.coreservice.model.enums.DayOfWeek;
 import hospital.coreservice.repository.AppointmentRepository;
 import hospital.coreservice.repository.DoctorScheduleRepository;
 import hospital.coreservice.service.AppointmentService;
@@ -105,16 +106,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     @Transactional
     public void completeAppointment(Long id) {
+        log.info("Completing appointment with id: {}", id);
         Appointment appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> AppointmentNotFoundException.byId(id));
 
-        if (appointment.getStatus() != AppointmentStatus.SCHEDULED) {
+        if (appointment.getStatus() != AppointmentStatus.CHECK_IN) {
             throw new InvalidCompleteStateException(id, appointment.getStatus());
         }
 
         appointmentRepository.updateStatus(id, AppointmentStatus.COMPLETED);
     }
-
     // ========== Basic Retrieval ==========
 
     @Override
@@ -324,10 +325,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<LocalTime> getAvailableSlots(Long doctorId, LocalDate date) {
-        String dayName = date.getDayOfWeek().toString();
+        DayOfWeek myDayOfWeek = convertToMyDayOfWeek(date.getDayOfWeek());
         DoctorSchedule schedule = doctorScheduleRepository
-                .findByDoctorIdAndDayOfWeek(doctorId, dayName)
-                .orElseThrow(() -> new DoctorScheduleNotFoundException(doctorId, dayName));
+                .findByDoctorIdAndDayOfWeek(doctorId, myDayOfWeek)
+                .orElseThrow(() -> DoctorScheduleNotFoundException.byDoctorIdAndDayOfWeek(doctorId, myDayOfWeek));
 
         List<Appointment> booked = appointmentRepository.findByDoctorIdAndAppointmentDate(doctorId, date);
 
@@ -343,6 +344,18 @@ public class AppointmentServiceImpl implements AppointmentService {
             available.remove(app.getStartTime());
         }
         return available;
+    }
+
+    public DayOfWeek convertToMyDayOfWeek(java.time.DayOfWeek javaDay) {
+        return switch (javaDay) {
+            case SATURDAY -> DayOfWeek.SATURDAY;
+            case SUNDAY -> DayOfWeek.SUNDAY;
+            case MONDAY -> DayOfWeek.MONDAY;
+            case TUESDAY -> DayOfWeek.TUESDAY;
+            case WEDNESDAY -> DayOfWeek.WEDNESDAY;
+            case THURSDAY -> DayOfWeek.THURSDAY;
+            case FRIDAY -> DayOfWeek.FRIDAY;
+        };
     }
 
     @Override
@@ -379,11 +392,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public boolean isDoctorAvailable(Long doctorId, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        String dayName = date.getDayOfWeek().toString();
+        DayOfWeek myDayOfWeek = convertToMyDayOfWeek(date.getDayOfWeek());
 
         boolean hasSchedule = doctorScheduleRepository
-                .findByDoctorIdAndDayOfWeek(doctorId, dayName)
+                .findByDoctorIdAndDayOfWeek(doctorId, myDayOfWeek)
                 .isPresent();
+
         if (!hasSchedule) return false;
 
         return appointmentRepository
@@ -400,3 +414,4 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .anyMatch(a -> a.getStartTime().equals(startTime));
     }
 }
+

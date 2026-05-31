@@ -12,6 +12,11 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository for DoctorSchedule entity.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface DoctorScheduleRepository extends JpaRepository<DoctorSchedule, Long> {
 
@@ -23,7 +28,7 @@ public interface DoctorScheduleRepository extends JpaRepository<DoctorSchedule, 
     List<DoctorSchedule> findByDoctorId(Long doctorId);
 
     /**
-     * Find schedule for a specific day of week
+     * Find all schedules for a specific day of week
      */
     List<DoctorSchedule> findByDayOfWeek(DayOfWeek dayOfWeek);
 
@@ -40,31 +45,45 @@ public interface DoctorScheduleRepository extends JpaRepository<DoctorSchedule, 
     @Query("SELECT ds FROM doctorScheduleEntity ds WHERE ds.isActive = true")
     List<DoctorSchedule> findAllActive();
 
-    // ========== Update Operations (Status Management) ==========
-
     /**
-     * Deactivate a doctorSchedule (sets isActive = false).
-     *
-     * @param doctorScheduleId the ID of the doctorSchedule to deactivate
+     * Find all inactive schedules
      */
-    @Modifying
-    @Query("UPDATE doctorScheduleEntity d SET d.isActive = false WHERE d.id = :doctorScheduleId")
-    void deactivate(@Param("doctorScheduleId") Long doctorScheduleId);
-
-    /**
-     * Activate a doctorSchedule (sets isActive = true).
-     *
-     * @param doctorScheduleId the ID of the doctor to activate
-     */
-    @Modifying
-    @Query("UPDATE doctorScheduleEntity d SET d.isActive = true WHERE d.id = :doctorScheduleId")
-    void activate(@Param("doctorScheduleId") Long doctorScheduleId);
+    @Query("SELECT ds FROM doctorScheduleEntity ds WHERE ds.isActive = false")
+    List<DoctorSchedule> findAllInactive();
 
     /**
      * Find active schedules for a specific doctor
      */
     @Query("SELECT ds FROM doctorScheduleEntity ds WHERE ds.doctor.id = :doctorId AND ds.isActive = true")
     List<DoctorSchedule> findActiveByDoctorId(@Param("doctorId") Long doctorId);
+
+    /**
+     * Find inactive schedules for a specific doctor
+     */
+    @Query("SELECT ds FROM doctorScheduleEntity ds WHERE ds.doctor.id = :doctorId AND ds.isActive = false")
+    List<DoctorSchedule> findInactiveByDoctorId(@Param("doctorId") Long doctorId);
+
+    /**
+     * Find active schedule for a doctor on a specific day of week
+     */
+    @Query("SELECT ds FROM doctorScheduleEntity ds WHERE ds.doctor.id = :doctorId AND ds.dayOfWeek = :dayOfWeek AND ds.isActive = true")
+    Optional<DoctorSchedule> findActiveByDoctorIdAndDayOfWeek(@Param("doctorId") Long doctorId, @Param("dayOfWeek") DayOfWeek dayOfWeek);
+
+    // ========== Update Operations ==========
+
+    /**
+     * Deactivate schedule (set isActive = false)
+     */
+    @Modifying
+    @Query("UPDATE doctorScheduleEntity d SET d.isActive = false WHERE d.id = :scheduleId")
+    void deactivate(@Param("scheduleId") Long scheduleId);
+
+    /**
+     * Activate schedule (set isActive = true)
+     */
+    @Modifying
+    @Query("UPDATE doctorScheduleEntity d SET d.isActive = true WHERE d.id = :scheduleId")
+    void activate(@Param("scheduleId") Long scheduleId);
 
     // ========== Time Based Queries ==========
 
@@ -78,7 +97,10 @@ public interface DoctorScheduleRepository extends JpaRepository<DoctorSchedule, 
      */
     List<DoctorSchedule> findByEndTimeBefore(LocalTime time);
 
-    @Query("SELECT ds FROM doctorScheduleEntity ds WHERE ds.doctor.id = :doctorId AND ds.dayOfWeek = :dayOfWeek")
-    Optional<DoctorSchedule> findByDoctorIdAndDayOfWeek(@Param("doctorId") Long doctorId,
-                                                        @Param("dayOfWeek") String dayOfWeek);
+    // ========== Existence Check ==========
+
+    /**
+     * Check if schedule exists for a doctor on a specific day
+     */
+    boolean existsByDoctorIdAndDayOfWeek(Long doctorId, DayOfWeek dayOfWeek);
 }
