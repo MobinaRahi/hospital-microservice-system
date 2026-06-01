@@ -7,4 +7,7 @@ public class RoomNotFoundException extends RuntimeException {
     public static RoomNotFoundException byId(Long roomId) {
         throw new RoomNotFoundException("Room not found with id: " + roomId);
     }
+    public static RoomNotFoundException byRoomNumber(String roomNumber) {
+        throw new RoomNotFoundException("Room not found with room number: " + roomNumber);
+    }
 }

@@ -1,5 +1,6 @@
 package hospital.coreservice.repository;
 
+import hospital.coreservice.model.Patient;
 import hospital.coreservice.model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,12 +12,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface for Room entity.
- * Provides database operations for room management.
+ * Repository for Room entity.
  *
  * @author Mobina
- * @version 1.0
- * @since 1.0
  */
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
@@ -24,84 +22,132 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     // ========== Find by Relationships ==========
 
     /**
-     * Finds all rooms in a specific department.
-     *
-     * @param departmentId the department ID
-     * @return list of rooms in the department
+     * Find all rooms in a specific department
      */
-    List<Room> findByDepartmentId(@Param("departmentId") Long departmentId);
+    List<Room> findByDepartmentId(Long departmentId);
 
     /**
-     * Finds a room by its unique room number.
-     *
-     * @param roomNumber the room number (e.g., "A-101")
-     * @return Optional containing the room if found
+     * Find room by unique room number
      */
-    Optional<Room> findByRoomNumber(@Param("roomNumber") String roomNumber);
+    Optional<Room> findByRoomNumber(String roomNumber);
 
     // ========== Find by Capacity ==========
 
     /**
-     * Finds rooms with exact capacity.
-     *
-     * @param capacity the number of beds
-     * @return list of rooms with the given capacity
+     * Find rooms with exact capacity
      */
-    List<Room> findByCapacity(@Param("capacity") int capacity);
+    List<Room> findByCapacity(int capacity);
 
     /**
-     * Finds rooms with capacity greater than the specified value.
-     *
-     * @param capacity the minimum capacity
-     * @return list of rooms with larger capacity
+     * Find rooms with capacity greater than given value
      */
-    List<Room> findByCapacityGreaterThan(@Param("capacity") int capacity);
+    List<Room> findByCapacityGreaterThan(int capacity);
 
     /**
-     * Finds rooms with capacity less than the specified value.
-     *
-     * @param capacity the maximum capacity
-     * @return list of rooms with smaller capacity
+     * Find rooms with capacity less than given value
      */
-    List<Room> findByCapacityLessThan(@Param("capacity") int capacity);
-
-    // ========== Find by Occupancy Status ==========
+    List<Room> findByCapacityLessThan(int capacity);
 
     /**
-     * Finds all currently occupied rooms.
-     *
-     * @return list of occupied rooms
+     * Find rooms with capacity between min and max
+     */
+    List<Room> findByCapacityBetween(int capacityStart, int capacityEnd);
+
+    // ========== Find by Occupancy ==========
+
+    /**
+     * Find all occupied rooms
      */
     @Query("SELECT r FROM roomEntity r WHERE r.isOccupied = true")
     List<Room> findOccupiedRooms();
 
     /**
-     * Finds all currently empty (non-occupied) rooms.
-     *
-     * @return list of empty rooms
+     * Find occupied rooms in a specific department
+     */
+    @Query("SELECT r FROM roomEntity r WHERE r.department.id = :departmentId AND r.isOccupied = true")
+    List<Room> findOccupiedRoomsByDepartmentId(@Param("departmentId") Long departmentId);
+
+    /**
+     * Find all empty (non-occupied) rooms
      */
     @Query("SELECT r FROM roomEntity r WHERE r.isOccupied = false")
     List<Room> findEmptyRooms();
 
+    // ========== Advanced Search ==========
+
+    /**
+     * Dynamic search with optional filters
+     */
+    @Query("SELECT r FROM roomEntity r WHERE " +
+            "(:roomNumber IS NULL OR r.roomNumber = :roomNumber) AND " +
+            "(:departmentId IS NULL OR r.department.id = :departmentId) AND " +
+            "(:isOccupied IS NULL OR r.isOccupied = :isOccupied)")
+    List<Room> searchRooms(@Param("roomNumber") String roomNumber,
+                           @Param("departmentId") Long departmentId,
+                           @Param("isOccupied") Boolean isOccupied);
+
+    // ========== Patient Queries ==========
+
+    /**
+     * Find all patients currently assigned to a room
+     */
+    @Query("SELECT p FROM patientEntity p WHERE p.currentRoom.id = :roomId")
+    List<Patient> findPatientsByRoomId(@Param("roomId") Long roomId);
+
     // ========== Update Operations ==========
 
     /**
-     * Marks a room as occupied.
-     *
-     * @param roomId the ID of the room to occupy
+     * Mark room as occupied
      */
     @Modifying
     @Query("UPDATE roomEntity r SET r.isOccupied = true WHERE r.id = :roomId")
     void occupy(@Param("roomId") Long roomId);
 
     /**
-     * Marks a room as free (unoccupied).
-     *
-     * @param roomId the ID of the room to free
+     * Mark room as free (unoccupied)
      */
     @Modifying
     @Query("UPDATE roomEntity r SET r.isOccupied = false WHERE r.id = :roomId")
     void free(@Param("roomId") Long roomId);
 
-    Long countByDepartmentId(Long departmentId);
+    /**
+     * Soft delete (deactivate) room
+     */
+    @Modifying
+    @Query("UPDATE roomEntity r SET r.isActive = false WHERE r.id = :roomId")
+    void deactivate(@Param("roomId") Long roomId);
+
+    /**
+     * Activate room
+     */
+    @Modifying
+    @Query("UPDATE roomEntity r SET r.isActive = true WHERE r.id = :roomId")
+    void activate(@Param("roomId") Long roomId);
+
+    // ========== Count Methods ==========
+
+    /**
+     * Count available (empty) rooms
+     */
+    @Query("SELECT COUNT(r) FROM roomEntity r WHERE r.isOccupied = false")
+    long countAvailableRooms();
+
+    /**
+     * Count occupied rooms
+     */
+    @Query("SELECT COUNT(r) FROM roomEntity r WHERE r.isOccupied = true")
+    long countOccupiedRooms();
+
+    /**
+     * Count rooms by department ID
+     */
+    @Query("SELECT COUNT(r) FROM roomEntity r WHERE r.department.id = :departmentId")
+    long countRoomsByDepartmentId(@Param("departmentId") Long departmentId);
+
+    // ========== Existence Check ==========
+
+    /**
+     * Check if a room number already exists
+     */
+    boolean existsByRoomNumber(String roomNumber);
 }

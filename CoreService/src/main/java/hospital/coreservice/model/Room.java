@@ -2,6 +2,7 @@ package hospital.coreservice.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -41,64 +42,53 @@ public class Room {
 
     // ========== Basic Information ==========
     /**
-     * Unique room or bed number.
-     * <p>Example format: "A-101", "B-202", "ICU-01"</p>
+     * Unique room or bed number (e.g., "A-101", "B-202")
      */
     @Column(name = "room_number", nullable = false, unique = true, length = 10)
     private String roomNumber;
 
     /**
-     * Department this room belongs to (e.g., Cardiology, ICU, Emergency).
-     * <p>Many rooms can belong to one department.</p>
+     * Department this room belongs to (many rooms -> one department)
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
 
     /**
-     * Maximum number of patients this room can accommodate.
-     * <p>- For single-bed rooms: 1</p>
-     * <p>- For shared wards: 2, 4, 6, etc.</p>
+     * Maximum number of patients this room can accommodate
      */
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
+    /**
+     * Room features and amenities (e.g., "Oxygen, Monitor, TV")
+     */
+    @Column(name = "features", length = 255)
+    private String features;
+
     // ========== Status ==========
     /**
-     * Indicates whether the room is currently occupied.
-     * <p>- true: At least one patient is assigned to this room</p>
-     * <p>- false: Room is empty and available</p>
+     * Indicates whether the room is currently occupied
      */
     @Column(name = "is_occupied", nullable = false)
     private boolean isOccupied;
 
     /**
-     * List of patients currently assigned to this room.
-     * <p>For single-bed rooms, this list contains at most one patient.</p>
-     * <p>For shared wards, this can contain multiple patients.</p>
+     * Active/Inactive status (soft delete)
      */
-    @OneToMany(mappedBy = "currentRoom", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<Patient> currentPatientList = new ArrayList<>();
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
 
+    // ========== Relationships ==========
     /**
-     * Room features and amenities.
-     * <p>Example: "Oxygen, Monitor, TV, Private Bathroom"</p>
+     * List of patients currently assigned to this room (bidirectional)
      */
-    @Column(name = "features", length = 255)
-    private String features;
+    @OneToMany(mappedBy = "currentRoom", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<Patient> currentPatientList = new ArrayList<>();
 
     // ========== Helper Methods ==========
     /**
-     * Assigns a patient to this room.
-     * <p>This method:
-     * <ul>
-     *   <li>Adds the patient to the current patient list</li>
-     *   <li>Sets the bidirectional relationship (patient.currentRoom = this)</li>
-     *   <li>Updates the occupied status to true</li>
-     * </ul>
-     * </p>
-     *
-     * @param patient the patient to assign to this room
+     * Assigns a patient to this room, updates both sides
      */
     public void addPatient(Patient patient) {
         this.currentPatientList.add(patient);
@@ -107,16 +97,7 @@ public class Room {
     }
 
     /**
-     * Removes a patient from this room.
-     * <p>This method:
-     * <ul>
-     *   <li>Removes the patient from the current patient list</li>
-     *   <li>Clears the bidirectional relationship (patient.currentRoom = null)</li>
-     *   <li>Updates the occupied status to false if no patients remain</li>
-     * </ul>
-     * </p>
-     *
-     * @param patient the patient to remove from this room
+     * Removes a patient from this room, updates both sides
      */
     public void removePatient(Patient patient) {
         this.currentPatientList.remove(patient);
@@ -125,18 +106,14 @@ public class Room {
     }
 
     /**
-     * Checks if the room has available capacity for more patients.
-     *
-     * @return true if current patient count is less than capacity, false otherwise
+     * Checks if there is available capacity
      */
     public boolean hasAvailableCapacity() {
         return currentPatientList.size() < capacity;
     }
 
     /**
-     * Gets the number of currently occupied beds in this room.
-     *
-     * @return current patient count
+     * Returns current number of patients in the room
      */
     public int getCurrentOccupancy() {
         return currentPatientList.size();
