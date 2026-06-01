@@ -82,8 +82,8 @@ public class DepartmentServiceImpl implements DepartmentService {
         log.warn("Deleting department id: {}", id);
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> DepartmentNotFoundException.byId(id));
-        departmentRepository.delete(department);
-        log.info("Department deleted id: {}", id);
+        departmentRepository.deactivate(id);
+        log.info("Department deactivate id: {}", id);
         return departmentMapper.toResponseDto(department);
     }
 

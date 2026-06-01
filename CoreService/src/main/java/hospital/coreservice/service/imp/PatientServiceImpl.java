@@ -147,7 +147,7 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() -> PatientNotFoundException.byId(id));
 
-        patientRepository.delete(patient);
+        patientRepository.deactivatePatient(id);
         log.info("Patient deleted id: {}", id);
     }
 

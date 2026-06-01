@@ -64,10 +64,10 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     @Transactional
     public void deleteDoctor(Long doctorId) {
-        log.warn("Soft deleting doctor with id: {}", doctorId);
+        log.warn("Soft deactivating doctor with id: {}", doctorId);
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> DoctorNotFoundException.byId(doctorId));
-        doctorRepository.delete(doctor);
+        doctorRepository.deactivate(doctorId);
     }
 
     // ========== Basic Retrieval ==========
@@ -141,14 +141,14 @@ public class DoctorServiceImpl implements DoctorService {
         if (firstName == null && lastName == null) {
             return getAllDoctors();
         }
-        if (firstName != null && lastName != null) {
+        else if (firstName != null && lastName != null) {
             return doctorRepository
                     .findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(firstName, lastName)
                     .stream()
                     .map(doctorMapper::toResponseDto)
                     .collect(Collectors.toList());
         }
-        if (firstName != null) {
+        else if (firstName != null) {
             return doctorRepository.findByFirstNameContainingIgnoreCase(firstName)
                     .stream()
                     .map(doctorMapper::toResponseDto)

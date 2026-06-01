@@ -249,6 +249,10 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
         return updateStatus(patientId, PatientStatus.ACTIVE);
     }
 
+    default void deactivatePatient(Long patientId) {
+        updateStatus(patientId, PatientStatus.INACTIVE);
+    }
+
     // ========== 9. Existence Checks ==========
 
     /**

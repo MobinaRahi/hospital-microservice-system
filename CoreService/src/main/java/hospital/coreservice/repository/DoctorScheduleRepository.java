@@ -103,4 +103,6 @@ public interface DoctorScheduleRepository extends JpaRepository<DoctorSchedule, 
      * Check if schedule exists for a doctor on a specific day
      */
     boolean existsByDoctorIdAndDayOfWeek(Long doctorId, DayOfWeek dayOfWeek);
+
+
 }

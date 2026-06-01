@@ -1,66 +1,196 @@
 package hospital.coreservice.service;
 
-public class NurseService {
-    //@Service
-    //public class NurseService {
-    //
-    //    private final NurseRepository nurseRepository;
-    //    private final ShiftRepository shiftRepository;
-    //
-    //    @Transactional
-    //    public void assignShiftToNurse(Long nurseId, Long shiftId) {
-    //        // 1. پیدا کردن پرستار
-    //        Nurse nurse = nurseRepository.findById(nurseId)
-    //            .orElseThrow(() -> new RuntimeException("Nurse not found"));
-    //
-    //        // 2. پیدا کردن شیفت
-    //        Shift shift = shiftRepository.findById(shiftId)
-    //            .orElseThrow(() -> new RuntimeException("Shift not found"));
-    //
-    //        // 3. اضافه کردن شیفت به لیست شیفت‌های پرستار
-    //        nurse.getShiftPreferenceList().add(shift);
-    //
-    //        // 4. ذخیره کردن
-    //        nurseRepository.save(nurse);
-    //    }
-    //
-    //    @Transactional
-    //    public void removeShiftFromNurse(Long nurseId, Long shiftId) {
-    //        Nurse nurse = nurseRepository.findById(nurseId)
-    //            .orElseThrow(() -> new RuntimeException("Nurse not found"));
-    //
-    //        Shift shift = shiftRepository.findById(shiftId)
-    //            .orElseThrow(() -> new RuntimeException("Shift not found"));
-    //
-    //        nurse.getShiftPreferenceList().remove(shift);
-    //        nurseRepository.save(nurse);
-    //    }
-    //}/**
-    // * Removes a shift assignment from a nurse.
-    // * This removes the shift from the nurse's shift preference list.
-    // *
-    // * @param nurseId the ID of the nurse
-    // * @param shiftId the ID of the shift to remove
-    // */
-    //@Transactional
-    //public void removeShiftFromNurse(Long nurseId, Long shiftId) {
-    //    // 1. Find the nurse
-    //    Nurse nurse = nurseRepository.findById(nurseId)
-    //        .orElseThrow(() -> new RuntimeException("Nurse not found with id: " + nurseId));
-    //
-    //    // 2. Find the shift
-    //    Shift shift = shiftRepository.findById(shiftId)
-    //        .orElseThrow(() -> new RuntimeException("Shift not found with id: " + shiftId));
-    //
-    //    // 3. Check if the nurse has this shift assigned
-    //    if (!nurse.getShiftPreferenceList().contains(shift)) {
-    //        throw new RuntimeException("Shift " + shiftId + " is not assigned to nurse " + nurseId);
-    //    }
-    //
-    //    // 4. Remove the shift from the nurse's list
-    //    nurse.getShiftPreferenceList().remove(shift);
-    //
-    //    // 5. Save the changes
-    //    nurseRepository.save(nurse);
-    //}
+import hospital.coreservice.dto.nurse.NurseCreateDto;
+import hospital.coreservice.dto.nurse.NurseResponseDto;
+import hospital.coreservice.dto.nurse.NurseUpdateDto;
+import hospital.coreservice.model.enums.NursePosition;
+
+import java.util.List;
+
+/**
+ * Service interface for Nurse management.
+ *
+ * @author Mobina
+ */
+public interface NurseService {
+
+    // ========== Core Operations ==========
+
+    /**
+     * Create new nurse
+     */
+    NurseResponseDto createNurse(NurseCreateDto nurseCreateDto);
+
+    /**
+     * Update existing nurse
+     */
+    NurseResponseDto updateNurse(Long nurseId, NurseUpdateDto nurseUpdateDto);
+
+    /**
+     * Soft delete nurse (deactivate)
+     */
+    void deleteNurse(Long nurseId);
+
+    // ========== Basic Retrieval ==========
+
+    /**
+     * Get nurse by ID
+     */
+    NurseResponseDto getNurseById(Long nurseId);
+
+    /**
+     * Get nurse by user ID (Auth Service)
+     */
+    NurseResponseDto getNurseByUserId(Long userId);
+
+    /**
+     * Get nurse by nurse code
+     */
+    NurseResponseDto getNurseByNurseCode(String nurseCode);
+
+    /**
+     * Get nurse by national ID
+     */
+    NurseResponseDto getNurseByNationalId(String nationalId);
+
+    /**
+     * Get nurse by phone number
+     */
+    NurseResponseDto getNurseByPhoneNumber(String phoneNumber);
+
+    /**
+     * Get nurse with shift preferences (eager loading)
+     */
+    NurseResponseDto getNurseWithShifts(Long nurseId);
+
+    /**
+     * Get all nurses
+     */
+    List<NurseResponseDto> getAllNurses();
+
+    // ========== Search & Filter ==========
+
+    /**
+     * Search nurses by name (partial match, case-insensitive)
+     */
+    List<NurseResponseDto> searchNursesByName(String firstName, String lastName);
+
+    /**
+     * Get nurses by position
+     */
+    List<NurseResponseDto> getNursesByPosition(NursePosition position);
+
+    /**
+     * Get nurses by department ID
+     */
+    List<NurseResponseDto> getNursesByDepartmentId(Long departmentId);
+
+    /**
+     * Get nurses by years of experience range
+     */
+    List<NurseResponseDto> getNursesByExperienceRange(int min, int max);
+
+    // ========== Status Based ==========
+
+    /**
+     * Get all active nurses
+     */
+    List<NurseResponseDto> getAllActiveNurses();
+
+    /**
+     * Get all inactive nurses
+     */
+    List<NurseResponseDto> getAllInactiveNurses();
+
+    /**
+     * Get active nurses by department ID
+     */
+    List<NurseResponseDto> getActiveNursesByDepartmentId(Long departmentId);
+
+    // ========== Status Management ==========
+
+    /**
+     * Activate nurse
+     */
+    void activateNurse(Long nurseId);
+
+    /**
+     * Deactivate nurse
+     */
+    void deactivateNurse(Long nurseId);
+
+    // ========== Department Assignment ==========
+
+    /**
+     * Assign department to nurse (Many-to-Many)
+     */
+    void assignDepartment(Long nurseId, Long departmentId);
+
+    /**
+     * Remove department from nurse
+     */
+    void removeDepartment(Long nurseId, Long departmentId);
+
+    // ========== Shift Preference Management ==========
+
+    /**
+     * Add shift preference to nurse
+     */
+    void addShiftPreference(Long nurseId, Long shiftId);
+
+    /**
+     * Remove shift preference from nurse
+     */
+    void removeShiftPreference(Long nurseId, Long shiftId);
+
+    // ========== Bulk Operation ==========
+
+    /**
+     * Create multiple nurses at once
+     */
+    List<NurseResponseDto> bulkCreateNurses(List<NurseCreateDto> nurseCreateDtoList);
+
+    // ========== Statistics ==========
+
+    /**
+     * Count nurses by position
+     */
+    Long countNursesByPosition(NursePosition position);
+
+    /**
+     * Count nurses by department ID
+     */
+    Long countNursesByDepartmentId(Long departmentId);
+
+    /**
+     * Count active nurses
+     */
+    Long countActiveNurses();
+
+    /**
+     * Count inactive nurses
+     */
+    Long countInactiveNurses();
+
+    /**
+     * Count total nurses
+     */
+    Long countAllNurses();
+
+    // ========== Validation ==========
+
+    /**
+     * Check if nurse code is unique
+     */
+    boolean isNurseCodeUnique(String nurseCode);
+
+    /**
+     * Check if national ID is unique
+     */
+    boolean isNationalIdUnique(String nationalId);
+
+    /**
+     * Check if nurse exists by user ID
+     */
+    boolean existsNurseByUserId(Long userId);
 }

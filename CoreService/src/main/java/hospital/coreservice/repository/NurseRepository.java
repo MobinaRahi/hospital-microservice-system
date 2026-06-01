@@ -13,155 +13,157 @@ import java.util.Optional;
 
 /**
  * Repository interface for Nurse entity.
- * Provides database operations for nurse management.
  *
  * @author Mobina
- * @version 1.0
- * @since 1.0
  */
 @Repository
 public interface NurseRepository extends JpaRepository<Nurse, Long> {
 
-    // ==========  Basic Find Methods (Unique Fields) ==========
+    // ========== Basic Find Methods (Unique Fields) ==========
 
     /**
-     * Finds a nurse by user ID (reference to Auth Service).
-     *
-     * @param userId the user ID from Auth Service
-     * @return Optional containing the nurse if found
+     * Find nurse by user ID (Auth Service)
      */
-    Optional<Nurse> findByUserId(@Param("userId") Long userId);
+    Optional<Nurse> findByUserId(Long userId);
 
     /**
-     * Finds a nurse by national ID (unique).
-     *
-     * @param nationalId the 10-digit national ID
-     * @return Optional containing the nurse if found
+     * Find nurse by national ID (unique)
      */
-    Optional<Nurse> findByNationalId(@Param("nationalId") String nationalId);
+    Optional<Nurse> findByNationalId(String nationalId);
 
     /**
-     * Finds a nurse by unique employee code.
-     *
-     * @param nurseCode the nurse's employee code (e.g., "NUR-001")
-     * @return Optional containing the nurse if found
+     * Find nurse by employee code (unique)
      */
-    Optional<Nurse> findByNurseCode(@Param("nurseCode") String nurseCode);
+    Optional<Nurse> findByNurseCode(String nurseCode);
 
     /**
-     * Finds a nurse by phone number (unique).
-     *
-     * @param phoneNumber the 11-digit mobile number
-     * @return Optional containing the nurse if found
+     * Find nurse by phone number (unique)
      */
-    Optional<Nurse> findByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+    Optional<Nurse> findByPhoneNumber(String phoneNumber);
 
-    // ==========  Search Methods (Partial Match, Case-Insensitive) ==========
+    // ========== Search Methods (Partial, Case-Insensitive) ==========
 
     /**
-     * Searches for nurses by first name (case-insensitive, partial match).
-     *
-     * @param firstName the first name to search for
-     * @return list of nurses with matching first name
+     * Search nurses by first name (partial, case-insensitive)
      */
-    List<Nurse> findByFirstNameContainingIgnoreCase(@Param("firstName") String firstName);
+    List<Nurse> findByFirstNameContainingIgnoreCase(String firstName);
 
     /**
-     * Searches for nurses by last name (case-insensitive, partial match).
-     *
-     * @param lastName the last name to search for
-     * @return list of nurses with matching last name
+     * Search nurses by last name (partial, case-insensitive)
      */
-    List<Nurse> findByLastNameContainingIgnoreCase(@Param("lastName") String lastName);
-
-    // ==========  Find NursesShifts ==========
+    List<Nurse> findByLastNameContainingIgnoreCase(String lastName);
 
     /**
-     * Finds a nurse with their shifts loaded eagerly to avoid LazyInitializationException.
-     *
-     * @param nurseId the ID of the nurse
-     * @return Optional containing the nurse with shifts
+     * Search nurses by first name and last name together
+     */
+    List<Nurse> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(String firstName, String lastName);
+
+    // ========== Find by Experience ==========
+
+    /**
+     * Find nurses by years of experience range
+     */
+    List<Nurse> findByYearsOfExperienceBetween(int start, int end);
+
+    // ========== Find by Position ==========
+
+    /**
+     * Find nurses by position
+     */
+    List<Nurse> findByPosition(NursePosition position);
+
+    // ========== Find by Department (Many-to-Many) ==========
+
+    /**
+     * Find nurses working in a specific department
+     */
+    @Query("SELECT n FROM nurseEntity n JOIN n.departmentList d WHERE d.id = :departmentId")
+    List<Nurse> findByDepartmentId(@Param("departmentId") Long departmentId);
+
+    /**
+     * Find active nurses in a specific department
+     */
+    @Query("SELECT n FROM nurseEntity n JOIN n.departmentList d WHERE d.id = :departmentId AND n.isActive = true")
+    List<Nurse> findActiveNursesByDepartmentId(@Param("departmentId") Long departmentId);
+
+    // ========== Eager Loading (Avoid LazyInitializationException) ==========
+
+    /**
+     * Find nurse by ID with shift preferences loaded eagerly
      */
     @Query("SELECT n FROM nurseEntity n LEFT JOIN FETCH n.shiftPreferenceList WHERE n.id = :nurseId")
     Optional<Nurse> findByIdWithShifts(@Param("nurseId") Long nurseId);
 
-    // ==========  Find by Position ==========
+    // ========== Status Based ==========
 
     /**
-     * Finds nurses by their position (HEAD_NURSE, SENIOR_NURSE, STAFF_NURSE, etc.).
-     *
-     * @param position the nurse position
-     * @return list of nurses with the given position
-     */
-    List<Nurse> findByPosition(@Param("position") NursePosition position);
-
-    // ==========  Find by Department ==========
-
-    /**
-     * Finds nurses working in a specific department.
-     * Note: Nurses can work in multiple departments (Many-to-Many),
-     * so this returns nurses assigned to the given department.
-     *
-     * @param departmentId the department ID
-     * @return list of nurses in the department
-     */
-    List<Nurse> findByDepartmentId(@Param("departmentId") Long departmentId);
-
-    // ==========  Status Based Methods ==========
-
-    /**
-     * Finds all active nurses (isActive = true).
-     *
-     * @return list of active nurses
+     * Get all active nurses
      */
     @Query("SELECT n FROM nurseEntity n WHERE n.isActive = true")
     List<Nurse> findAllActiveNurses();
 
     /**
-     * Finds all inactive nurses (isActive = false).
-     *
-     * @return list of inactive nurses
+     * Get all inactive nurses
      */
     @Query("SELECT n FROM nurseEntity n WHERE n.isActive = false")
     List<Nurse> findAllInactiveNurses();
 
-    // ==========  Update Operations (Status Management) ==========
+    // ========== Update Operations ==========
 
     /**
-     * Deactivates a nurse (sets isActive = false).
-     *
-     * @param nurseId the ID of the nurse to deactivate
+     * Deactivate nurse (set isActive = false)
      */
     @Modifying
     @Query("UPDATE nurseEntity n SET n.isActive = false WHERE n.id = :nurseId")
     void deactivate(@Param("nurseId") Long nurseId);
 
     /**
-     * Activates a nurse (sets isActive = true).
-     *
-     * @param nurseId the ID of the nurse to activate
+     * Activate nurse (set isActive = true)
      */
     @Modifying
     @Query("UPDATE nurseEntity n SET n.isActive = true WHERE n.id = :nurseId")
     void activate(@Param("nurseId") Long nurseId);
 
-    // ==========  Existence Checks ==========
+    // ========== Existence Checks ==========
 
     /**
-     * Checks if a nurse exists with the given national ID.
-     *
-     * @param nationalId the national ID to check
-     * @return true if a nurse with this national ID exists
+     * Check if nurse exists by national ID
      */
-    boolean existsByNationalId(@Param("nationalId") String nationalId);
+    boolean existsByNationalId(String nationalId);
 
     /**
-     * Checks if a nurse exists with the given employee code.
-     *
-     * @param nurseCode the nurse code to check
-     * @return true if a nurse with this nurse code exists
+     * Check if nurse exists by user ID
      */
-    boolean existsByNurseCode(@Param("nurseCode") String nurseCode);
+    boolean existsByUserId(Long userId);
 
-    Long countByDepartmentId(Long departmentId);
+    /**
+     * Check if nurse exists by nurse code
+     */
+    boolean existsByNurseCode(String nurseCode);
+
+    // ========== Count Methods ==========
+
+    /**
+     * Count nurses in a specific department
+     */
+    @Query("SELECT COUNT(n) FROM nurseEntity n JOIN n.departmentList d WHERE d.id = :departmentId")
+    Long countByDepartmentId(@Param("departmentId") Long departmentId);
+
+    /**
+     * Count nurses by position
+     */
+    @Query("SELECT COUNT(n) FROM nurseEntity n WHERE n.position = :position")
+    Long countByPosition(@Param("position") NursePosition position);
+
+    /**
+     * Count active nurses
+     */
+    @Query("SELECT COUNT(n) FROM nurseEntity n WHERE n.isActive = true")
+    Long countActiveNurses();
+
+    /**
+     * Count inactive nurses
+     */
+    @Query("SELECT COUNT(n) FROM nurseEntity n WHERE n.isActive = false")
+    Long countInactiveNurses();
 }

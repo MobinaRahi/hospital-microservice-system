@@ -63,8 +63,8 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
         // Check existence before delete
         doctorScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> DoctorScheduleNotFoundException.byId(scheduleId));
-        doctorScheduleRepository.deleteById(scheduleId);
-        log.info("Doctor schedule deleted with id: {}", scheduleId);
+        doctorScheduleRepository.deactivate(scheduleId);
+        log.info("Doctor schedule deactivate with id: {}", scheduleId);
     }
 
     @Override
