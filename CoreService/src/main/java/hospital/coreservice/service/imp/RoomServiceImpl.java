@@ -69,17 +69,6 @@ public class RoomServiceImpl implements RoomService {
         return roomMapper.toResponseDto(updated);
     }
 
-    @Override
-    @Transactional
-    public RoomResponseDto deleteRoom(Long roomId) {
-        log.warn("Deleting room with id: {}", roomId);
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> RoomNotFoundException.byId(roomId));
-        roomRepository.deactivate(roomId);
-        log.info("Room deactivated with id: {}", roomId);
-        return roomMapper.toResponseDto(room);
-    }
-
     // ========== Basic Retrieval ==========
 
     @Override
@@ -232,6 +221,33 @@ public class RoomServiceImpl implements RoomService {
                 .collect(Collectors.toList());
     }
 
+    // ========== Occupancy Management ==========
+
+    @Override
+    @Transactional
+    public void occupyRoom(Long roomId) {
+        log.info("Manually occupying room with id: {}", roomId);
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> RoomNotFoundException.byId(roomId));
+        if (room.isOccupied()) {
+            log.warn("Room {} is already occupied", roomId);
+            throw new IllegalStateException("Room is already occupied");
+        }
+        roomRepository.occupy(roomId);
+    }
+
+    @Override
+    @Transactional
+    public void freeRoom(Long roomId) {
+        log.info("Manually freeing room with id: {}", roomId);
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> RoomNotFoundException.byId(roomId));
+        if (!room.isOccupied()) {
+            log.warn("Room {} is already free", roomId);
+            throw new IllegalStateException("Room is already free");
+        }
+        roomRepository.free(roomId);
+    }
     // ========== Statistics ==========
 
     @Override
@@ -264,5 +280,22 @@ public class RoomServiceImpl implements RoomService {
     public boolean isRoomNumberUnique(String roomNumber) {
         log.debug("Checking uniqueness of room number: {}", roomNumber);
         return !roomRepository.existsByRoomNumber(roomNumber);
+    }
+
+    // ========== Status Management ==========
+
+    @Override
+    public void activateRoom(Long roomId) {
+        log.info("Activating room id: {}", roomId);
+       roomRepository.findById(roomId)
+                .orElseThrow(() -> RoomNotFoundException.byId(roomId));
+       roomRepository.activate(roomId);
+    }
+
+    @Override
+    public void deactivateRoom(Long roomId) {
+        roomRepository.findById(roomId)
+                .orElseThrow(() -> RoomNotFoundException.byId(roomId));
+        roomRepository.deactivate(roomId);
     }
 }

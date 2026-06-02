@@ -85,16 +85,6 @@ public class NurseServiceImpl implements NurseService {
         return nurseMapper.toResponseDto(updated);
     }
 
-    @Override
-    @Transactional
-    public void deleteNurse(Long nurseId) {
-        log.warn("Soft deleting nurse with id: {}", nurseId);
-        nurseRepository.findById(nurseId)
-                .orElseThrow(() -> NurseNotFoundException.byId(nurseId));
-        nurseRepository.deactivate(nurseId);
-        log.info("Nurse deactivated with id: {}", nurseId);
-    }
-
     // ========== Basic Retrieval ==========
 
     @Override

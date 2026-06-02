@@ -61,15 +61,6 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorMapper.toResponseDto(updated);
     }
 
-    @Override
-    @Transactional
-    public void deleteDoctor(Long doctorId) {
-        log.warn("Soft deactivating doctor with id: {}", doctorId);
-        Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> DoctorNotFoundException.byId(doctorId));
-        doctorRepository.deactivate(doctorId);
-    }
-
     // ========== Basic Retrieval ==========
 
     @Override
@@ -255,6 +246,8 @@ public class DoctorServiceImpl implements DoctorService {
         log.info("Activating doctor with id: {}", doctorId);
         doctorRepository.findById(doctorId)
                 .orElseThrow(() -> DoctorNotFoundException.byId(doctorId));
+        doctorRepository.findById(doctorId)
+                .orElseThrow(() -> DoctorNotFoundException.byId(doctorId));
         doctorRepository.activate(doctorId);
     }
 
@@ -262,6 +255,8 @@ public class DoctorServiceImpl implements DoctorService {
     @Transactional
     public void deactivateDoctor(Long doctorId) {
         log.warn("Deactivating doctor with id: {}", doctorId);
+        doctorRepository.findById(doctorId)
+                .orElseThrow(() -> DoctorNotFoundException.byId(doctorId));
         doctorRepository.findById(doctorId)
                 .orElseThrow(() -> DoctorNotFoundException.byId(doctorId));
         doctorRepository.deactivate(doctorId);

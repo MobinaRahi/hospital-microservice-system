@@ -13,147 +13,169 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Service interface for Patient entity.
- * <p>
- * Defines all business operations for patient management in the hospital system.
- * This interface is implemented by {@link hospital.coreservice.service.imp.PatientServiceImpl}.
- * </p>
+ * Service interface for Patient management.
  *
  * @author Mobina
- * @version 1.0
- * @since 1.0
  */
 public interface PatientService {
 
-    // ========== Create Operations ==========
+    // ========== Core Operations ==========
 
     /**
-     * Creates a new patient in the system.
-     *
-     * @param patientCreateDto the DTO containing patient creation data
-     * @return the created patient as ResponseDto
+     * Create new patient
      */
     PatientResponseDto createPatient(PatientCreateDto patientCreateDto);
 
-    // ========== Update Operations ==========
-
     /**
-     * Updates an existing patient's information.
-     *
-     * @param id the ID of the patient to update
-     * @param patientUpdateDto the DTO containing updated values
-     * @return the updated patient as ResponseDto
+     * Update existing patient
      */
     PatientResponseDto updatePatient(Long id, PatientUpdateDto patientUpdateDto);
 
-    // ========== Partial Update (Patch) ==========
-
     /**
-     * Partially updates a patient's information.
-     * <p>
-     * Only the fields present in the updates map will be modified.
-     * This is useful for PATCH endpoints where client sends only changed fields.
-     * </p>
-     * <p>
-     * Supported keys: "firstName", "lastName", "phoneNumber", "address",
-     * "bloodType", "insuranceId", "allergies"
-     * </p>
-     *
-     * @param id the ID of the patient to update
-     * @param updates a map of field names to new values
-     * @return the updated patient as ResponseDto
+     * Partially update patient (PATCH)
      */
     PatientResponseDto patchPatient(Long id, Map<String, Object> updates);
 
-    // ========== Delete Operations ==========
-
     /**
-     * Soft deletes a single patient from the system.
-     *
-     * @param id the ID of the patient to delete
+     * Soft delete patient (deactivate)
      */
     void deletePatient(Long id);
 
     /**
-     * Batch soft deletes multiple patients.
-     * <p>
-     * Useful for bulk operations where admin wants to archive multiple patients at once.
-     * </p>
-     *
-     * @param patientIds list of patient IDs to archive
+     * Batch soft delete patients
      */
     void archivePatients(List<Long> patientIds);
 
-    // ========== Single Record Retrieval ==========
-
-    PatientResponseDto getPatientById(Long id);
-    PatientResponseDto getPatientByNationalId(String nationalId);
-    PatientResponseDto getPatientByPhoneNumber(String phoneNumber);
-
-    // ========== Multi-Record Retrieval ==========
-
-    List<PatientResponseDto> getAllPatients();
-
-    // ========== Search by Name (Case-Insensitive, Partial Match) ==========
-
-    List<PatientResponseDto> getPatientsByFirstNameContainingIgnoreCase(String firstName);
-    List<PatientResponseDto> getPatientsByLastNameContainingIgnoreCase(String lastName);
-    List<PatientResponseDto> getPatientsByFirstNameAndLastName(String firstName, String lastName);
-
-    // ========== Advanced Search (Multiple Filters) ==========
+    // ========== Basic Retrieval ==========
 
     /**
-     * Advanced search with multiple filters.
-     * <p>
-     * All parameters are optional. Only non-null parameters are used in the search.
-     * This provides a flexible search experience similar to real hospital systems.
-     * </p>
-     *
-     * @param nationalId filter by national ID (exact match, optional)
-     * @param firstName filter by first name (partial match, optional)
-     * @param lastName filter by last name (partial match, optional)
-     * @param status filter by patient status (optional)
-     * @return list of patients matching all provided filters
+     * Get patient by ID
+     */
+    PatientResponseDto getPatientById(Long id);
+
+    /**
+     * Get patient by national ID
+     */
+    PatientResponseDto getPatientByNationalId(String nationalId);
+
+    /**
+     * Get patient by phone number
+     */
+    PatientResponseDto getPatientByPhoneNumber(String phoneNumber);
+
+    /**
+     * Get all patients
+     */
+    List<PatientResponseDto> getAllPatients();
+
+    // ========== Search by Name ==========
+
+    /**
+     * Search patients by first name (partial, case-insensitive)
+     */
+    List<PatientResponseDto> getPatientsByFirstNameContainingIgnoreCase(String firstName);
+
+    /**
+     * Search patients by last name (partial, case-insensitive)
+     */
+    List<PatientResponseDto> getPatientsByLastNameContainingIgnoreCase(String lastName);
+
+    /**
+     * Search patients by first name and last name together
+     */
+    List<PatientResponseDto> getPatientsByFirstNameAndLastName(String firstName, String lastName);
+
+    // ========== Advanced Search ==========
+
+    /**
+     * Advanced search with optional filters
      */
     List<PatientResponseDto> searchPatients(String nationalId, String firstName, String lastName, PatientStatus status);
 
-    // ========== Filtering by Attributes ==========
-
-    List<PatientResponseDto> getPatientsByGender(Gender gender);
-    List<PatientResponseDto> getPatientsByBloodType(BloodType bloodType);
-    List<PatientResponseDto> getPatientsByStatus(PatientStatus status);
-    List<PatientResponseDto> getPatientsByStatus(PatientStatus status, Pageable pageable);
-
-    // ========== Date Range Queries ==========
+    // ========== Filter by Attributes ==========
 
     /**
-     * Retrieves patients born within a specific date range.
-     * <p>
-     * Useful for demographic reports and birthday notifications.
-     * </p>
-     *
-     * @param start the start date (inclusive)
-     * @param end the end date (inclusive)
-     * @return list of patients born between the given dates
+     * Get patients by gender
+     */
+    List<PatientResponseDto> getPatientsByGender(Gender gender);
+
+    /**
+     * Get patients by blood type
+     */
+    List<PatientResponseDto> getPatientsByBloodType(BloodType bloodType);
+
+    /**
+     * Get patients by status (without pagination)
+     */
+    List<PatientResponseDto> getPatientsByStatus(PatientStatus status);
+
+    /**
+     * Get patients by status (with pagination)
+     */
+    List<PatientResponseDto> getPatientsByStatus(PatientStatus status, Pageable pageable);
+
+    // ========== Date Range ==========
+
+    /**
+     * Get patients by birthDate range
      */
     List<PatientResponseDto> getPatientsByBirthDateBetween(LocalDate start, LocalDate end);
 
-    // ========== Room Assignment Operations ==========
+    // ========== Room Assignment ==========
 
+    /**
+     * Get patients currently in a specific room
+     */
     List<PatientResponseDto> getPatientsByCurrentRoomId(Long roomId);
+
+    /**
+     * Assign patient to a room
+     */
     void assignRoom(Long patientId, Long roomId);
+
+    /**
+     * Remove patient from current room
+     */
     void unassignRoom(Long patientId);
 
-    // ========== Counting Operations ==========
+    // ========== Statistics ==========
 
+    /**
+     * Count patients by status
+     */
     Long countPatientsByStatus(PatientStatus status);
+
+    /**
+     * Count patients by gender
+     */
     Long countPatientsByGender(Gender gender);
+
+    /**
+     * Count patients by blood type
+     */
     Long countPatientsByBloodType(BloodType bloodType);
+
+    /**
+     * Count active patients
+     */
     Long countActivePatients();
 
     // ========== Existence Checks ==========
 
+    /**
+     * Check if national ID already exists
+     */
     boolean existsPatientByNationalId(String nationalId);
+
+    /**
+     * Check if phone number already exists
+     */
     boolean existsPatientByPhoneNumber(String phoneNumber);
+
+    // ========== Status Management ==========
+
+    /**
+     * Activate patient (reverse of soft delete)
+     */
     void activatePatient(Long id);
 }

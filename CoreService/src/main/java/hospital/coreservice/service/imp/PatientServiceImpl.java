@@ -144,7 +144,7 @@ public class PatientServiceImpl implements PatientService {
     public void deletePatient(Long id) {
         log.warn("Soft deleting patient id: {}", id);
 
-        Patient patient = patientRepository.findById(id)
+        patientRepository.findById(id)
                 .orElseThrow(() -> PatientNotFoundException.byId(id));
 
         patientRepository.deactivatePatient(id);

@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Mobina
  */
-public interface AppointmentService {
+public interface AppointmentService{
 
     // ========== Core Operations ==========
 
@@ -136,3 +136,4 @@ public interface AppointmentService {
     /** Check if patient has conflicting appointment */
     boolean hasPatientAppointmentConflict(Long patientId, LocalDate date, LocalTime startTime, LocalTime endTime);
 }
+

@@ -26,11 +26,6 @@ public interface RoomService {
      */
     RoomResponseDto updateRoom(Long roomId, RoomUpdateDto roomUpdateDto);
 
-    /**
-     * Delete room (physical or logical)
-     */
-    RoomResponseDto deleteRoom(Long roomId);
-
     // ========== Basic Retrieval ==========
 
     /**
@@ -112,6 +107,18 @@ public interface RoomService {
      */
     List<PatientResponseDto> getCurrentPatientsOfRoom(Long roomId);
 
+    // ========== Occupancy Management ==========
+
+    /**
+     * Mark room as occupied (manual override)
+     */
+    void occupyRoom(Long roomId);
+
+    /**
+     * Mark room as free (manual override)
+     */
+    void freeRoom(Long roomId);
+
     // ========== Statistics ==========
 
     /**
@@ -140,4 +147,16 @@ public interface RoomService {
      * Check if room number is unique
      */
     boolean isRoomNumberUnique(String roomNumber);
+
+    // ========== Status Management ==========
+
+    /**
+     * Activate room
+     */
+    void activateRoom(Long roomId);
+
+    /**
+     * Deactivate room
+     */
+    void deactivateRoom(Long roomId);
 }

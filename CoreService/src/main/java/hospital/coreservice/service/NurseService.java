@@ -26,11 +26,6 @@ public interface NurseService {
      */
     NurseResponseDto updateNurse(Long nurseId, NurseUpdateDto nurseUpdateDto);
 
-    /**
-     * Soft delete nurse (deactivate)
-     */
-    void deleteNurse(Long nurseId);
-
     // ========== Basic Retrieval ==========
 
     /**

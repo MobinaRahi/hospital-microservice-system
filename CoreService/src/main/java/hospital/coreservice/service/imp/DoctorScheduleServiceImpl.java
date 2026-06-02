@@ -58,17 +58,6 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 
     @Override
     @Transactional
-    public void deleteDoctorSchedule(Long scheduleId) {
-        log.warn("Soft deleting doctor schedule with id: {}", scheduleId);
-        // Check existence before delete
-        doctorScheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> DoctorScheduleNotFoundException.byId(scheduleId));
-        doctorScheduleRepository.deactivate(scheduleId);
-        log.info("Doctor schedule deactivate with id: {}", scheduleId);
-    }
-
-    @Override
-    @Transactional
     public void bulkCreateDoctorSchedules(List<DoctorScheduleCreateDto> createDtoList) {
         log.info("Bulk creating {} doctor schedules", createDtoList.size());
 
@@ -142,6 +131,8 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     @Transactional
     public void activateDoctorSchedule(Long scheduleId) {
         log.info("Activating doctor schedule with id: {}", scheduleId);
+        doctorScheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> DoctorScheduleNotFoundException.byId(scheduleId));
         doctorScheduleRepository.activate(scheduleId);
     }
 
@@ -149,6 +140,8 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     @Transactional
     public void deactivateDoctorSchedule(Long scheduleId) {
         log.warn("Deactivating doctor schedule with id: {}", scheduleId);
+        doctorScheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> DoctorScheduleNotFoundException.byId(scheduleId));
         doctorScheduleRepository.deactivate(scheduleId);
     }
 

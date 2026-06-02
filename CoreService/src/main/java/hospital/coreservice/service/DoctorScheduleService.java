@@ -28,11 +28,6 @@ public interface DoctorScheduleService {
     DoctorScheduleResponseDto updateDoctorSchedule(Long scheduleId, DoctorScheduleUpdateDto updateDto);
 
     /**
-     * Soft delete doctor schedule (deactivate)
-     */
-    void deleteDoctorSchedule(Long scheduleId);
-
-    /**
      * Create multiple schedules for a doctor (weekly schedule)
      */
     void bulkCreateDoctorSchedules(List<DoctorScheduleCreateDto> createDtoList);

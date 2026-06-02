@@ -76,16 +76,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentMapper.toResponseDto(updated);
     }
 
-    @Override
-    @Transactional
-    public DepartmentResponseDto deleteDepartment(Long id) {
-        log.warn("Deleting department id: {}", id);
-        Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> DepartmentNotFoundException.byId(id));
-        departmentRepository.deactivate(id);
-        log.info("Department deactivate id: {}", id);
-        return departmentMapper.toResponseDto(department);
-    }
 
     // ========== Basic Retrieval ==========
 
@@ -364,6 +354,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     public void activateDepartment(Long departmentId) {
         log.info("Activating department {}", departmentId);
+        departmentRepository.findById(departmentId)
+                .orElseThrow(() -> DepartmentNotFoundException.byId(departmentId));
+
         departmentRepository.activate(departmentId);
         log.info("Department {} activated", departmentId);
     }
@@ -372,6 +365,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     public void deactivateDepartment(Long departmentId) {
         log.info("Deactivating department {}", departmentId);
+        departmentRepository.findById(departmentId)
+                .orElseThrow(() -> DepartmentNotFoundException.byId(departmentId));
         departmentRepository.deactivate(departmentId);
         log.info("Department {} deactivated", departmentId);
     }
@@ -438,7 +433,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Long countRoomsInDepartment(Long departmentId) {
         log.debug("Counting rooms in department {}", departmentId);
-        return roomRepository.countByDepartmentId(departmentId);
+        return roomRepository.countRoomsByDepartmentId(departmentId);
     }
 
     @Override

@@ -28,11 +28,6 @@ public interface DepartmentService {
      */
     DepartmentResponseDto updateDepartment(Long id, DepartmentUpdateDto updateDto);
 
-    /**
-     * Soft delete department (deactivate)
-     */
-    DepartmentResponseDto deleteDepartment(Long id);
-
     // ========== Basic Retrieval ==========
 
     /**

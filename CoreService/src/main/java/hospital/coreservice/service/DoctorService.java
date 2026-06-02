@@ -28,11 +28,6 @@ public interface DoctorService {
      */
     DoctorResponseDto updateDoctor(Long doctorId, DoctorUpdateDto doctorUpdateDto);
 
-    /**
-     * Soft delete doctor (deactivate)
-     */
-    void deleteDoctor(Long doctorId);
-
     // ========== Basic Retrieval ==========
 
     /**
