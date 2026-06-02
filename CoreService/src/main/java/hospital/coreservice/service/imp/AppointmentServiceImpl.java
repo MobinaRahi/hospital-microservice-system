@@ -235,7 +235,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Long countAppointmentsByPatient(Long patientId, AppointmentStatus status) {
+    public Long countAppointmentsByPatientAndStatus(Long patientId, AppointmentStatus status) {
         return appointmentRepository.countByPatientIdAndStatus(patientId, status);
     }
 
@@ -250,7 +250,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Long countAppointmentsByDoctor(Long doctorId, AppointmentStatus status) {
+    public Long countAppointmentsByDoctorAndStatus(Long doctorId, AppointmentStatus status) {
         return appointmentRepository.countByDoctorIdAndStatus(doctorId, status);
     }
 

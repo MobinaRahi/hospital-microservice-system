@@ -80,7 +80,7 @@ public interface AppointmentService{
     List<AppointmentResponseDto> getAppointmentsByPatientAndStatus(Long patientId, AppointmentStatus status);
 
     /** Count appointments for a patient by status */
-    Long countAppointmentsByPatient(Long patientId, AppointmentStatus status);
+    Long countAppointmentsByPatientAndStatus(Long patientId, AppointmentStatus status);
 
     // ========== Doctor Specific ==========
 
@@ -88,7 +88,7 @@ public interface AppointmentService{
     List<AppointmentResponseDto> getAppointmentsByDoctorAndStatus(Long doctorId, AppointmentStatus status);
 
     /** Count appointments for a doctor by status */
-    Long countAppointmentsByDoctor(Long doctorId, AppointmentStatus status);
+    Long countAppointmentsByDoctorAndStatus(Long doctorId, AppointmentStatus status);
 
     // ========== Audit / User Tracking ==========
 
