@@ -7,4 +7,8 @@ public class ShiftNotFoundException extends RuntimeException {
     public static ShiftNotFoundException byId(Long shiftId) {
         return new ShiftNotFoundException("Shift with id " + shiftId + " not found");
     }
+
+    public static ShiftNotFoundException byName(String name) {
+        return new ShiftNotFoundException("Shift with name " + name + " not found");
+    }
 }

@@ -8,18 +8,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Repository interface for Shift entity.
- * Provides database operations for shift management.
- * <p>
- * Shifts represent work periods (Morning, Evening, Night, On-Call)
- * that can be assigned to nurses and other hospital staff.
- * </p>
+ * Repository for shift entity.
  *
  * @author Mobina
- * @version 1.0
- * @since 1.0
  */
 @Repository
 public interface ShiftRepository extends JpaRepository<Shift, Long> {
@@ -28,10 +22,6 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
 
     /**
      * Deactivates a shift (soft delete).
-     * Sets isActive = false for the specified shift.
-     * Inactive shifts are not available for new assignments.
-     *
-     * @param shiftId the ID of the shift to deactivate
      */
     @Modifying
     @Query("UPDATE shiftEntity s SET s.isActive = false WHERE s.id = :shiftId")
@@ -39,10 +29,6 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
 
     /**
      * Activates a shift.
-     * Sets isActive = true for the specified shift.
-     * Active shifts are available for nurse assignments.
-     *
-     * @param shiftId the ID of the shift to activate
      */
     @Modifying
     @Query("UPDATE shiftEntity s SET s.isActive = true WHERE s.id = :shiftId")
@@ -51,32 +37,26 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
     // ========== Find by Name ==========
 
     /**
-     * Finds shifts by exact name.
-     * <p>
-     * Common shift names: "Morning", "Evening", "Night", "On-Call"
-     * </p>
-     *
-     * @param name the exact shift name to search for
-     * @return list of shifts with the given name
+     * Finds a shift by its exact name (unique).
      */
-    List<Shift> findByName(@Param("name") String name);
+    Optional<Shift> findByName(String name);
 
-    // ========== Find by Properties ==========
+    // ========== Find by Shift Properties ==========
 
     /**
-     * Finds all night shifts.
-     * Night shifts typically have extra pay and different working hours.
-     *
-     * @return list of all night shifts
+     * Returns all night shifts.
      */
     @Query("SELECT s FROM shiftEntity s WHERE s.nightShift = true")
     List<Shift> findAllNightShifts();
 
     /**
-     * Finds all shifts that include extra pay/overtime compensation.
-     * These are typically night shifts, holiday shifts, or on-call shifts.
-     *
-     * @return list of shifts with extra pay
+     * Returns all non-night (day) shifts.
+     */
+    @Query("SELECT s FROM shiftEntity s WHERE s.nightShift = false")
+    List<Shift> findAllDayShifts();
+
+    /**
+     * Returns all shifts that have extra pay.
      */
     @Query("SELECT s FROM shiftEntity s WHERE s.hasExtraPay = true")
     List<Shift> findAllShiftsWithExtraPay();
@@ -84,20 +64,35 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
     // ========== Find by Status ==========
 
     /**
-     * Finds all active shifts.
-     * Active shifts are currently available for nurse assignments.
-     *
-     * @return list of all active shifts
+     * Returns all active shifts.
      */
     @Query("SELECT s FROM shiftEntity s WHERE s.isActive = true")
     List<Shift> findActiveShifts();
 
     /**
-     * Finds all inactive shifts.
-     * Inactive shifts are deprecated and not used in the system.
-     *
-     * @return list of all inactive shifts
+     * Returns all inactive shifts.
      */
     @Query("SELECT s FROM shiftEntity s WHERE s.isActive = false")
     List<Shift> findInactiveShifts();
+
+    // ========== Count Operations ==========
+
+    /**
+     * Counts all active shifts.
+     */
+    @Query("SELECT COUNT(s) FROM shiftEntity s WHERE s.isActive = true")
+    Long countActiveShifts();
+
+    /**
+     * Counts all inactive shifts.
+     */
+    @Query("SELECT COUNT(s) FROM shiftEntity s WHERE s.isActive = false")
+    Long countInactiveShifts();
+
+    // ========== Existence Check ==========
+
+    /**
+     * Checks whether a shift with the given name exists.
+     */
+    boolean existsByName(String name);
 }

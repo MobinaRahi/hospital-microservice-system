@@ -43,7 +43,7 @@ public class Shift {
      * Name of the work shift.
      * <p>Common values: "Morning", "Evening", "Night", "On-Call"</p>
      */
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50, unique = true)
     private String name;
 
     /**
