@@ -47,6 +47,7 @@ public interface RoomService {
      * Get rooms by department ID
      */
     List<RoomResponseDto> getRoomsByDepartmentId(Long departmentId);
+    List<RoomResponseDto> getActiveRoomsByDepartmentId(Long departmentId);
 
     // ========== Search & Filter ==========
 
@@ -69,21 +70,25 @@ public interface RoomService {
      * Get rooms by exact capacity
      */
     List<RoomResponseDto> getRoomsByCapacity(int capacity);
+    List<RoomResponseDto> getActiveRoomsByCapacity(int capacity);
 
     /**
      * Get rooms with capacity greater than given value
      */
     List<RoomResponseDto> getRoomsByCapacityGreaterThan(int capacity);
+    List<RoomResponseDto> getActiveRoomsByCapacityGreaterThan(int capacity);
 
     /**
      * Get rooms with capacity less than given value
      */
     List<RoomResponseDto> getRoomsByCapacityLessThan(int capacity);
+    List<RoomResponseDto> getActiveRoomsByCapacityLessThan(int capacity);
 
     /**
      * Get rooms by capacity range (min - max)
      */
     List<RoomResponseDto> getRoomsByCapacityRange(int minCapacity, int maxCapacity);
+    List<RoomResponseDto> getActiveRoomsByCapacityRange(int minCapacity, int maxCapacity);
 
     /**
      * Dynamic search with optional filters

@@ -105,6 +105,15 @@ public class RoomServiceImpl implements RoomService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<RoomResponseDto> getActiveRoomsByDepartmentId(Long departmentId) {
+        log.debug("Fetching ActiveRooms by department id: {}", departmentId);
+        return roomRepository.findByDepartmentIdAndActiveTrue(departmentId)
+                .stream()
+                .map(roomMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
     // ========== Search & Filter ==========
 
     @Override
@@ -144,9 +153,27 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public List<RoomResponseDto> getActiveRoomsByCapacityRange(int minCapacity, int maxCapacity) {
+        log.debug("Fetching activeRooms by capacity between {} and {}", minCapacity, maxCapacity);
+        return roomRepository.findByCapacityBetweenAndActiveTrue(minCapacity, maxCapacity)
+                .stream()
+                .map(roomMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<RoomResponseDto> getRoomsByCapacity(int capacity) {
         log.debug("Fetching rooms by exact capacity: {}", capacity);
         return roomRepository.findByCapacity(capacity)
+                .stream()
+                .map(roomMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RoomResponseDto> getActiveRoomsByCapacity(int capacity) {
+        log.debug("Fetching activeRooms by exact capacity: {}", capacity);
+        return roomRepository.findByCapacityAndActiveTrue(capacity)
                 .stream()
                 .map(roomMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -162,9 +189,27 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public List<RoomResponseDto> getActiveRoomsByCapacityGreaterThan(int capacity) {
+        log.debug("Fetching activeRooms with capacity > {}", capacity);
+        return roomRepository.findByCapacityGreaterThanAndActiveTrue(capacity)
+                .stream()
+                .map(roomMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<RoomResponseDto> getRoomsByCapacityLessThan(int capacity) {
         log.debug("Fetching rooms with capacity < {}", capacity);
         return roomRepository.findByCapacityLessThan(capacity)
+                .stream()
+                .map(roomMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RoomResponseDto> getActiveRoomsByCapacityLessThan(int capacity) {
+        log.debug("Fetching activeRooms with capacity < {}", capacity);
+        return roomRepository.findByCapacityLessThanAndActiveTrue(capacity)
                 .stream()
                 .map(roomMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -287,9 +332,9 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void activateRoom(Long roomId) {
         log.info("Activating room id: {}", roomId);
-       roomRepository.findById(roomId)
+        roomRepository.findById(roomId)
                 .orElseThrow(() -> RoomNotFoundException.byId(roomId));
-       roomRepository.activate(roomId);
+        roomRepository.activate(roomId);
     }
 
     @Override

@@ -96,9 +96,29 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public DepartmentResponseDto getDepartmentByCodeAndIsActiveTrue(String code) {
+        log.debug("Fetching activeDepartment by code: {}", code);
+        Department department = departmentRepository.findByDepartmentCodeAndIsActiveTrue(code)
+                .orElseThrow(() -> DepartmentNotFoundException.byCode(code));
+        return departmentMapper.toResponseDto(department);
+    }
+
+    @Override
     public List<DepartmentResponseDto> getDepartmentByName(String name) {
         log.debug("Fetching departments by name: {}", name);
         List<Department> departments = departmentRepository.findByDepartmentName(name);
+        if (departments.isEmpty()) {
+            throw DepartmentNotFoundException.byName(name);
+        }
+        return departments.stream()
+                .map(departmentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DepartmentResponseDto> getDepartmentByNameAndIsActiveTru(String name) {
+        log.debug("Fetching activeDepartment by name: {}", name);
+        List<Department> departments = departmentRepository.findByDepartmentNameAndIsActiveTrue(name);
         if (departments.isEmpty()) {
             throw DepartmentNotFoundException.byName(name);
         }
@@ -383,6 +403,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<DepartmentResponseDto> searchDepartmentsByNameAndIsActiveTrue(String name) {
+        log.debug("Searching activeDepartments by name: {}", name);
+        return departmentRepository.findByDepartmentNameContainingIgnoreCaseAndIsActiveTrue(name)
+                .stream()
+                .map(departmentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<DepartmentResponseDto> searchDepartmentsByLocation(String location) {
         log.debug("Searching departments by location: {}", location);
         return departmentRepository.findByLocationContainingIgnoreCase(location)
@@ -392,9 +421,27 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<DepartmentResponseDto> searchDepartmentsByLocationAndIsActiveTrue(String location) {
+        log.debug("Searching activeDepartments by location: {}", location);
+        return departmentRepository.findByLocationContainingIgnoreCaseAndIsActiveTrue(location)
+                .stream()
+                .map(departmentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<DepartmentResponseDto> getDepartmentsByLocation(String location) {
         log.debug("Getting departments by exact location: {}", location);
         return departmentRepository.findByLocation(location)
+                .stream()
+                .map(departmentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DepartmentResponseDto> getDepartmentsByLocationAndIsActiveTrue(String location) {
+        log.debug("Getting activeDepartments by exact location: {}", location);
+        return departmentRepository.findByLocationAndIsActiveTrue(location)
                 .stream()
                 .map(departmentMapper::toResponseDto)
                 .collect(Collectors.toList());

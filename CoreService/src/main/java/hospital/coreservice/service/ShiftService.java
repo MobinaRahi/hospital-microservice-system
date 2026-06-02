@@ -50,11 +50,13 @@ public interface ShiftService {
      * Retrieves shifts by night/day status (true = night, false = day).
      */
     List<ShiftResponseDto> getShiftsByType(boolean nightShift);
+    List<ShiftResponseDto> getActiveShiftsByType(boolean nightShift);
 
     /**
      * Retrieves shifts that have extra pay.
      */
     List<ShiftResponseDto> getShiftsWithExtraPay();
+    List<ShiftResponseDto> getActiveShiftsWithExtraPay();
 
     // ========== List by active status ==========
 

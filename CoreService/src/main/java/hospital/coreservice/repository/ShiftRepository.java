@@ -49,17 +49,26 @@ public interface ShiftRepository extends JpaRepository<Shift, Long> {
     @Query("SELECT s FROM shiftEntity s WHERE s.nightShift = true")
     List<Shift> findAllNightShifts();
 
+    @Query("SELECT s FROM shiftEntity s WHERE s.nightShift = true AND s.isActive=true ")
+    List<Shift> findAllActiveNightShifts();
+
     /**
      * Returns all non-night (day) shifts.
      */
     @Query("SELECT s FROM shiftEntity s WHERE s.nightShift = false")
     List<Shift> findAllDayShifts();
 
+    @Query("SELECT s FROM shiftEntity s WHERE s.nightShift = false AND s.isActive=true ")
+    List<Shift> findAllActiveDayShifts();
+
     /**
      * Returns all shifts that have extra pay.
      */
     @Query("SELECT s FROM shiftEntity s WHERE s.hasExtraPay = true")
     List<Shift> findAllShiftsWithExtraPay();
+
+    @Query("SELECT s FROM shiftEntity s WHERE s.hasExtraPay = true AND s.isActive=true ")
+    List<Shift> findAllActiveShiftsWithExtraPay();
 
     // ========== Find by Status ==========
 

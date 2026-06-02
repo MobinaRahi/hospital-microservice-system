@@ -99,11 +99,13 @@ public interface DoctorScheduleService {
      * Get schedules where start time is after given time
      */
     List<DoctorScheduleResponseDto> getDoctorSchedulesByStartTimeAfter(LocalTime time);
+    List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByStartTimeAfter(LocalTime time);
 
     /**
      * Get schedules where end time is before given time
      */
     List<DoctorScheduleResponseDto> getDoctorSchedulesByEndTimeBefore(LocalTime time);
+    List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByEndTimeBefore(LocalTime time);
 
     // ========== Validation ==========
 

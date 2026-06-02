@@ -25,6 +25,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * Find all rooms in a specific department
      */
     List<Room> findByDepartmentId(Long departmentId);
+    List<Room> findByDepartmentIdAndActiveTrue(Long departmentId);
 
     /**
      * Find room by unique room number
@@ -37,40 +38,44 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * Find rooms with exact capacity
      */
     List<Room> findByCapacity(int capacity);
+    List<Room> findByCapacityAndActiveTrue(int capacity);
 
     /**
      * Find rooms with capacity greater than given value
      */
     List<Room> findByCapacityGreaterThan(int capacity);
+    List<Room> findByCapacityGreaterThanAndActiveTrue(int capacity);
 
     /**
      * Find rooms with capacity less than given value
      */
     List<Room> findByCapacityLessThan(int capacity);
+    List<Room> findByCapacityLessThanAndActiveTrue(int capacity);
 
     /**
      * Find rooms with capacity between min and max
      */
     List<Room> findByCapacityBetween(int capacityStart, int capacityEnd);
+    List<Room> findByCapacityBetweenAndActiveTrue(int capacityStart, int capacityEnd);
 
     // ========== Find by Occupancy ==========
 
     /**
      * Find all occupied rooms
      */
-    @Query("SELECT r FROM roomEntity r WHERE r.isOccupied = true")
+    @Query("SELECT r FROM roomEntity r WHERE r.isOccupied = true AND r.isActive=true")
     List<Room> findOccupiedRooms();
 
     /**
      * Find occupied rooms in a specific department
      */
-    @Query("SELECT r FROM roomEntity r WHERE r.department.id = :departmentId AND r.isOccupied = true")
+    @Query("SELECT r FROM roomEntity r WHERE r.department.id = :departmentId AND r.isOccupied = true AND r.isActive=true")
     List<Room> findOccupiedRoomsByDepartmentId(@Param("departmentId") Long departmentId);
 
     /**
      * Find all empty (non-occupied) rooms
      */
-    @Query("SELECT r FROM roomEntity r WHERE r.isOccupied = false")
+    @Query("SELECT r FROM roomEntity r WHERE r.isOccupied = false AND r.isActive=true")
     List<Room> findEmptyRooms();
 
     // ========== Advanced Search ==========
@@ -100,14 +105,14 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * Mark room as occupied
      */
     @Modifying
-    @Query("UPDATE roomEntity r SET r.isOccupied = true WHERE r.id = :roomId")
+    @Query("UPDATE roomEntity r SET r.isOccupied = true WHERE r.id = :roomId AND r.isActive=true")
     void occupy(@Param("roomId") Long roomId);
 
     /**
      * Mark room as free (unoccupied)
      */
     @Modifying
-    @Query("UPDATE roomEntity r SET r.isOccupied = false WHERE r.id = :roomId")
+    @Query("UPDATE roomEntity r SET r.isOccupied = false WHERE r.id = :roomId AND r.isActive=true ")
     void free(@Param("roomId") Long roomId);
 
     /**

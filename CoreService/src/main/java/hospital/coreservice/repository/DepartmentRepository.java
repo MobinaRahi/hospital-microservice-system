@@ -32,13 +32,28 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     List<Department> findByDepartmentName(String departmentName);
 
+    @Query("SELECT d FROM departmentEntity d WHERE d.departmentName=:departmentName AND d.isActive=true")
+    List<Department> findByDepartmentNameAndIsActiveTrue(@Param("departmentName") String departmentName);
+
     List<Department> findByDepartmentNameContainingIgnoreCase(String departmentName);
+
+    @Query("SELECT d FROM departmentEntity d WHERE LOWER(d.departmentName) LIKE LOWER(CONCAT('%', :name, '%')) AND d.isActive = true")
+    List<Department> findByDepartmentNameContainingIgnoreCaseAndIsActiveTrue(@Param("departmentName") String departmentName);
 
     Optional<Department> findByDepartmentCode(String departmentCode);
 
+    @Query("SELECT d FROM departmentEntity d WHERE d.departmentCode=:departmentCode AND d.isActive=true")
+    Optional<Department> findByDepartmentCodeAndIsActiveTrue(@Param("departmentCode") String departmentCode);
+
     List<Department> findByLocation(String location);
 
+    @Query("SELECT d FROM departmentEntity d WHERE d.location=:location AND d.isActive=true")
+    List<Department> findByLocationAndIsActiveTrue(@Param("location") String location);
+
     List<Department> findByLocationContainingIgnoreCase(String location);
+
+    @Query("SELECT d FROM departmentEntity d WHERE LOWER(d.location) LIKE LOWER(CONCAT('%', :location, '%')) AND d.isActive = true")
+    List<Department> findByLocationContainingIgnoreCaseAndIsActiveTrue(@Param("location") String location);
 
     // ========== Status Based ==========
 

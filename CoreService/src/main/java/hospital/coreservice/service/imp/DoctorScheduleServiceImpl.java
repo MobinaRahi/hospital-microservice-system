@@ -193,9 +193,27 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     }
 
     @Override
+    public List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByStartTimeAfter(LocalTime time) {
+        log.debug("Fetching activeSchedules with start time after: {}", time);
+        return doctorScheduleRepository.findActiveByStartTimeAfter(time)
+                .stream()
+                .map(doctorScheduleMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<DoctorScheduleResponseDto> getDoctorSchedulesByEndTimeBefore(LocalTime time) {
         log.debug("Fetching schedules with end time before: {}", time);
         return doctorScheduleRepository.findByEndTimeBefore(time)
+                .stream()
+                .map(doctorScheduleMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByEndTimeBefore(LocalTime time) {
+        log.debug("Fetching activeSchedules with end time before: {}", time);
+        return doctorScheduleRepository.findActiveByEndTimeBefore(time)
                 .stream()
                 .map(doctorScheduleMapper::toResponseDto)
                 .collect(Collectors.toList());

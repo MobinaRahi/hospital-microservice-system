@@ -31,7 +31,6 @@ public interface DoctorScheduleRepository extends JpaRepository<DoctorSchedule, 
      * Find all schedules for a specific day of week
      */
     List<DoctorSchedule> findByDayOfWeek(DayOfWeek dayOfWeek);
-
     /**
      * Find schedule for a doctor on a specific day of week
      */
@@ -91,11 +90,13 @@ public interface DoctorScheduleRepository extends JpaRepository<DoctorSchedule, 
      * Find schedules where start time is after given time
      */
     List<DoctorSchedule> findByStartTimeAfter(LocalTime time);
+    List<DoctorSchedule> findActiveByStartTimeAfter(LocalTime time);
 
     /**
      * Find schedules where end time is before given time
      */
     List<DoctorSchedule> findByEndTimeBefore(LocalTime time);
+    List<DoctorSchedule> findActiveByEndTimeBefore(LocalTime time);
 
     // ========== Existence Check ==========
 

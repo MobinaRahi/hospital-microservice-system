@@ -170,9 +170,41 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
+    public List<NurseResponseDto> searchActiveNursesByName(String firstName, String lastName) {
+        log.debug("Searching activeNurses by name: {}, {}", firstName, lastName);
+        if (firstName == null && lastName == null) {
+            return getAllNurses();
+        } else if (lastName == null) {
+            return nurseRepository.findByFirstNameContainingIgnoreCaseAndActiveTrue(firstName)
+                    .stream()
+                    .map(nurseMapper::toResponseDto)
+                    .collect(Collectors.toList());
+        } else if (firstName == null) {
+            return nurseRepository.findByLastNameContainingIgnoreCaseAndActiveTrue(lastName)
+                    .stream()
+                    .map(nurseMapper::toResponseDto)
+                    .collect(Collectors.toList());
+        } else {
+            return nurseRepository.findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndActiveTrue(firstName, lastName)
+                    .stream()
+                    .map(nurseMapper::toResponseDto)
+                    .collect(Collectors.toList());
+        }
+    }
+
+    @Override
     public List<NurseResponseDto> getNursesByPosition(NursePosition position) {
         log.debug("Fetching nurses by position: {}", position);
         return nurseRepository.findByPosition(position)
+                .stream()
+                .map(nurseMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<NurseResponseDto> getActiveNursesByPosition(NursePosition position) {
+        log.debug("Fetching activeNurses by position: {}", position);
+        return nurseRepository.findByPositionAndActiveTrue(position)
                 .stream()
                 .map(nurseMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -191,6 +223,15 @@ public class NurseServiceImpl implements NurseService {
     public List<NurseResponseDto> getNursesByExperienceRange(int min, int max) {
         log.debug("Fetching nurses by experience between {} and {}", min, max);
         return nurseRepository.findByYearsOfExperienceBetween(min, max)
+                .stream()
+                .map(nurseMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<NurseResponseDto> getActiveNursesByExperienceRange(int min, int max) {
+        log.debug("Fetching activeNurses by experience between {} and {}", min, max);
+        return nurseRepository.findByYearsOfExperienceBetweenAndActiveTrue(min, max)
                 .stream()
                 .map(nurseMapper::toResponseDto)
                 .collect(Collectors.toList());

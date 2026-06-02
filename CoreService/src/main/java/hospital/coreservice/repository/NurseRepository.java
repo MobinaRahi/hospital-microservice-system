@@ -47,16 +47,19 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
      * Search nurses by first name (partial, case-insensitive)
      */
     List<Nurse> findByFirstNameContainingIgnoreCase(String firstName);
+    List<Nurse> findByFirstNameContainingIgnoreCaseAndActiveTrue(String firstName);
 
     /**
      * Search nurses by last name (partial, case-insensitive)
      */
     List<Nurse> findByLastNameContainingIgnoreCase(String lastName);
+    List<Nurse> findByLastNameContainingIgnoreCaseAndActiveTrue(String lastName);
 
     /**
      * Search nurses by first name and last name together
      */
     List<Nurse> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(String firstName, String lastName);
+    List<Nurse> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndActiveTrue(String firstName, String lastName);
 
     // ========== Find by Experience ==========
 
@@ -64,6 +67,7 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
      * Find nurses by years of experience range
      */
     List<Nurse> findByYearsOfExperienceBetween(int start, int end);
+    List<Nurse> findByYearsOfExperienceBetweenAndActiveTrue(int start, int end);
 
     // ========== Find by Position ==========
 
@@ -71,6 +75,7 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
      * Find nurses by position
      */
     List<Nurse> findByPosition(NursePosition position);
+    List<Nurse> findByPositionAndActiveTrue(NursePosition position);
 
     // ========== Find by Department (Many-to-Many) ==========
 

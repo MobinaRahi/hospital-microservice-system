@@ -39,11 +39,13 @@ public interface DepartmentService {
      * Get department by unique code
      */
     DepartmentResponseDto getDepartmentByCode(String code);
+    DepartmentResponseDto getDepartmentByCodeAndIsActiveTrue(String code);
 
     /**
      * Get department by name
      */
     List<DepartmentResponseDto> getDepartmentByName(String name);
+    List<DepartmentResponseDto> getDepartmentByNameAndIsActiveTru(String name);
 
     /**
      * Get all departments
@@ -169,16 +171,19 @@ public interface DepartmentService {
      * Search departments by name (partial match, case-insensitive)
      */
     List<DepartmentResponseDto> searchDepartmentsByName(String name);
+    List<DepartmentResponseDto> searchDepartmentsByNameAndIsActiveTrue(String name);
 
     /**
      * Search departments by location (partial match, case-insensitive)
      */
     List<DepartmentResponseDto> searchDepartmentsByLocation(String location);
+    List<DepartmentResponseDto> searchDepartmentsByLocationAndIsActiveTrue(String location);
 
     /**
      * Get departments by location (exact match)
      */
     List<DepartmentResponseDto> getDepartmentsByLocation(String location);
+    List<DepartmentResponseDto> getDepartmentsByLocationAndIsActiveTrue(String location);
 
     /**
      * Get departments by status (active/inactive)

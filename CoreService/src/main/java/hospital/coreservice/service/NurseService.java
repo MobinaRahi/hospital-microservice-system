@@ -69,11 +69,13 @@ public interface NurseService {
      * Search nurses by name (partial match, case-insensitive)
      */
     List<NurseResponseDto> searchNursesByName(String firstName, String lastName);
+    List<NurseResponseDto> searchActiveNursesByName(String firstName, String lastName);
 
     /**
      * Get nurses by position
      */
     List<NurseResponseDto> getNursesByPosition(NursePosition position);
+    List<NurseResponseDto> getActiveNursesByPosition(NursePosition position);
 
     /**
      * Get nurses by department ID
@@ -84,6 +86,7 @@ public interface NurseService {
      * Get nurses by years of experience range
      */
     List<NurseResponseDto> getNursesByExperienceRange(int min, int max);
+    List<NurseResponseDto> getActiveNursesByExperienceRange(int min, int max);
 
     // ========== Status Based ==========
 
