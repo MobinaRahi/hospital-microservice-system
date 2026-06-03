@@ -45,6 +45,16 @@ public interface DoctorScheduleService {
     List<DoctorScheduleResponseDto> getDoctorSchedulesByDoctorId(Long doctorId);
 
     /**
+     * Get active schedules for a specific doctor
+     */
+    List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByDoctorId(Long doctorId);
+
+    /**
+     * Get inactive schedules for a specific doctor
+     */
+    List<DoctorScheduleResponseDto> getInactiveDoctorSchedulesByDoctorId(Long doctorId);
+
+    /**
      * Get all schedules
      */
     List<DoctorScheduleResponseDto> getAllDoctorSchedules();
@@ -79,19 +89,9 @@ public interface DoctorScheduleService {
     List<DoctorScheduleResponseDto> getActiveDoctorSchedules();
 
     /**
-     * Get active schedules for a specific doctor
-     */
-    List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByDoctorId(Long doctorId);
-
-    /**
      * Get all inactive schedules
      */
     List<DoctorScheduleResponseDto> getInactiveDoctorSchedules();
-
-    /**
-     * Get inactive schedules for a specific doctor
-     */
-    List<DoctorScheduleResponseDto> getInactiveDoctorSchedulesByDoctorId(Long doctorId);
 
     // ========== Time Based Queries ==========
 
