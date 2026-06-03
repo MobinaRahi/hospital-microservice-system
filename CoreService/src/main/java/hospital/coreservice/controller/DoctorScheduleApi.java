@@ -52,6 +52,7 @@ public class DoctorScheduleApi {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PatchMapping("/by-doctor-schedule-id/{id}")
     @Operation(summary = "Update a doctor schedule by ID")
     public ResponseEntity<ApiResponse> updateDoctorSchedule(@PathVariable Long id, @Valid @RequestBody DoctorScheduleUpdateDto doctorSchedule) {
         DoctorScheduleResponseDto updated = doctorScheduleService.updateDoctorSchedule(id, doctorSchedule);
