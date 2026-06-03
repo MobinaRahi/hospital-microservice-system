@@ -230,7 +230,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public List<DoctorResponseDto> getActiveDoctorsByDepartment(Long departmentId) {
+    public List<DoctorResponseDto> getActiveDoctorsByDepartmentId(Long departmentId) {
         log.debug("Fetching active doctors by department id: {}", departmentId);
         return doctorRepository.findActiveByDepartmentId(departmentId)
                 .stream()

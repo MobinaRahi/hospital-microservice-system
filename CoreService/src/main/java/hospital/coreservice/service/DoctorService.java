@@ -114,7 +114,7 @@ public interface DoctorService {
     /**
      * Get active doctors by department
      */
-    List<DoctorResponseDto> getActiveDoctorsByDepartment(Long departmentId);
+    List<DoctorResponseDto> getActiveDoctorsByDepartmentId(Long departmentId);
 
     /**
      * Get active doctors by specialty and sub-specialty together
