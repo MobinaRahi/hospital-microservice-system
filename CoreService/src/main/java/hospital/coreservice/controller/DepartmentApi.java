@@ -576,3 +576,4 @@ public class DepartmentApi {
         return ResponseEntity.ok(response);
     }
 }
+
