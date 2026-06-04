@@ -141,7 +141,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     @Transactional
-    public void deletePatient(Long id) {
+    public void deactivatePatient(Long id) {
         log.warn("Soft deleting patient id: {}", id);
 
         patientRepository.findById(id)

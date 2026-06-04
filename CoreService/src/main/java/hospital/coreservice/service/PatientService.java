@@ -39,7 +39,7 @@ public interface PatientService {
     /**
      * Soft delete patient (deactivate)
      */
-    void deletePatient(Long id);
+    void deactivatePatient(Long id);
 
     /**
      * Batch soft delete patients
