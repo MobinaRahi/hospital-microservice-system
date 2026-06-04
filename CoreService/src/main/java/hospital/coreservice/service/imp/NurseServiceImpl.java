@@ -342,7 +342,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     @Transactional
-    public List<NurseResponseDto> bulkCreateNurses(List<NurseCreateDto> createDtoList) {
+    public void bulkCreateNurses(List<NurseCreateDto> createDtoList) {
         log.info("Bulk creating {} nurses", createDtoList.size());
         Set<String> nurseCodes = new HashSet<>();
         Set<String> nationalIds = new HashSet<>();
@@ -376,10 +376,6 @@ public class NurseServiceImpl implements NurseService {
 
         List<Nurse> saved = nurseRepository.saveAll(nurses);
         log.info("Successfully bulk created {} nurses", saved.size());
-
-        return saved.stream()
-                .map(nurseMapper::toResponseDto)
-                .collect(Collectors.toList());
     }
 
     // ========== Statistics ==========

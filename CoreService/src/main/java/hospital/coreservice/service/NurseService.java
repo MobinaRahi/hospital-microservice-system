@@ -146,7 +146,7 @@ public interface NurseService {
     /**
      * Create multiple nurses at once
      */
-    List<NurseResponseDto> bulkCreateNurses(List<NurseCreateDto> nurseCreateDtoList);
+    void bulkCreateNurses(List<NurseCreateDto> nurseCreateDtoList);
 
     // ========== Statistics ==========
 
