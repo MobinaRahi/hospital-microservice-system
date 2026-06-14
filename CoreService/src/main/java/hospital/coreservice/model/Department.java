@@ -100,7 +100,7 @@ public class Department {
      * List of nurses working in this department.
      * <p>One-to-many relationship: One department can have many nurses.</p>
      */
-    @OneToMany(mappedBy = "department", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "departmentList", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Nurse> nurseList = new ArrayList<>();
 
@@ -158,8 +158,8 @@ public class Department {
      */
     public void addNurse(Nurse nurse) {
         this.nurseList.add(nurse);
+        nurse.getDepartmentList().add(this);
     }
-
     /**
      * Removes a nurse from this department.
      *
@@ -167,6 +167,7 @@ public class Department {
      */
     public void removeNurse(Nurse nurse) {
         this.nurseList.remove(nurse);
+        nurse.getDepartmentList().remove(this);
     }
 
     /**

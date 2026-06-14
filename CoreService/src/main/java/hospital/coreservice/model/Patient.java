@@ -12,6 +12,7 @@ import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +41,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @SuperBuilder
+@EntityListeners(AuditingEntityListener.class)
 public class Patient {
 
     // ========== Primary Key ==========

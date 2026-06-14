@@ -25,8 +25,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * Find all rooms in a specific department
      */
     List<Room> findByDepartmentId(Long departmentId);
-    List<Room> findByDepartmentIdAndActiveTrue(Long departmentId);
-
+    @Query("SELECT r FROM roomEntity r WHERE r.department.id = :departmentId AND r.isActive = true")
+    List<Room> findByDepartmentIdAndActiveTrue(@Param("departmentId") Long departmentId);
     /**
      * Find room by unique room number
      */
@@ -38,26 +38,26 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
      * Find rooms with exact capacity
      */
     List<Room> findByCapacity(int capacity);
-    List<Room> findByCapacityAndActiveTrue(int capacity);
-
+    @Query("SELECT r FROM roomEntity r WHERE r.capacity = :capacity AND r.isActive = true")
+    List<Room> findByCapacityAndActiveTrue(@Param("capacity") int capacity);
     /**
      * Find rooms with capacity greater than given value
      */
     List<Room> findByCapacityGreaterThan(int capacity);
-    List<Room> findByCapacityGreaterThanAndActiveTrue(int capacity);
-
+    @Query("SELECT r FROM roomEntity r WHERE r.capacity > :capacity AND r.isActive = true")
+    List<Room> findByCapacityGreaterThanAndActiveTrue(@Param("capacity") int capacity);
     /**
      * Find rooms with capacity less than given value
      */
     List<Room> findByCapacityLessThan(int capacity);
-    List<Room> findByCapacityLessThanAndActiveTrue(int capacity);
-
+    @Query("SELECT r FROM roomEntity r WHERE r.capacity < :capacity AND r.isActive = true")
+    List<Room> findByCapacityLessThanAndActiveTrue(@Param("capacity") int capacity);
     /**
      * Find rooms with capacity between min and max
      */
     List<Room> findByCapacityBetween(int capacityStart, int capacityEnd);
-    List<Room> findByCapacityBetweenAndActiveTrue(int capacityStart, int capacityEnd);
-
+    @Query("SELECT r FROM roomEntity r WHERE r.capacity BETWEEN :capacityStart AND :capacityEnd AND r.isActive = true")
+    List<Room> findByCapacityBetweenAndActiveTrue(@Param("capacityStart") int capacityStart, @Param("capacityEnd") int capacityEnd);
     // ========== Find by Occupancy ==========
 
     /**

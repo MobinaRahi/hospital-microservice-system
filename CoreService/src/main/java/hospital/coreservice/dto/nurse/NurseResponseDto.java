@@ -1,6 +1,6 @@
 package hospital.coreservice.dto.nurse;
 
-import hospital.coreservice.dto.department.DepartmentResponseDto;
+import hospital.coreservice.dto.department.DepartmentSlimResponseDto;
 import hospital.coreservice.dto.shift.ShiftResponseDto;
 import hospital.coreservice.model.enums.NursePosition;
 import lombok.Getter;
@@ -89,7 +89,8 @@ public class NurseResponseDto {
      * <p>Each department contains full information (id, name, location, etc.).</p>
      * <p>Empty list if not assigned to any department.</p>
      */
-    private List<DepartmentResponseDto> departments = new ArrayList<>();
+    private List<DepartmentSlimResponseDto> departments = new ArrayList<>();
+
 
     /**
      * Nurse's position/rank (HEAD_NURSE, SENIOR_NURSE, STAFF_NURSE, etc.).

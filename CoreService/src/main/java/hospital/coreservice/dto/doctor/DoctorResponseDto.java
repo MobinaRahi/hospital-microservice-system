@@ -1,7 +1,7 @@
 package hospital.coreservice.dto.doctor;
 
 
-import hospital.coreservice.dto.department.DepartmentResponseDto;
+import hospital.coreservice.dto.department.DepartmentSlimResponseDto;
 import hospital.coreservice.dto.doctor_schedule.DoctorScheduleResponseDto;
 import hospital.coreservice.model.enums.Speciality;
 import hospital.coreservice.model.enums.SubSpeciality;
@@ -116,7 +116,8 @@ public class DoctorResponseDto {
      * <p>Contains full department information (id, name, location, etc.).</p>
      * <p>Can be null if not assigned to any department.</p>
      */
-    private DepartmentResponseDto department;
+    private DepartmentSlimResponseDto department;
+
 
     /**
      * List of work schedules for this doctor.

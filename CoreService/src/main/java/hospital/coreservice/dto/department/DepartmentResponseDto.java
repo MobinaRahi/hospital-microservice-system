@@ -1,7 +1,7 @@
 package hospital.coreservice.dto.department;
 
-import hospital.coreservice.dto.doctor.DoctorResponseDto;
-import hospital.coreservice.dto.nurse.NurseResponseDto;
+import hospital.coreservice.dto.doctor.DoctorSlimResponseDto;
+import hospital.coreservice.dto.nurse.NurseSlimResponseDto;
 import hospital.coreservice.dto.room.RoomResponseDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,19 +60,22 @@ public class DepartmentResponseDto {
 
     // ========== Department Leadership (Full objects for display) ==========
 
+
     /**
      * Doctor who serves as the head of this department.
      * Contains full doctor information (id, name, specialty, etc.).
      * <p>Can be null if no head doctor is assigned.</p>
      */
-    private DoctorResponseDto headDoctor;
+    private DoctorSlimResponseDto headDoctor;
+
 
     /**
      * Nurse who serves as the head nurse of this department.
      * Contains full nurse information (id, name, position, etc.).
      * <p>Can be null if no head nurse is assigned.</p>
      */
-    private NurseResponseDto headNurse;
+    private NurseSlimResponseDto headNurse;
+
 
     // ========== Relationships (Full objects for display) ==========
 
@@ -81,14 +84,14 @@ public class DepartmentResponseDto {
      * Each doctor contains full information (id, name, specialty, etc.).
      * <p>Empty list if no doctors are assigned.</p>
      */
-    private List<DoctorResponseDto> doctors = new ArrayList<>();
+    private List<DoctorSlimResponseDto> doctors = new ArrayList<>();
 
     /**
      * List of nurses working in this department.
      * Each nurse contains full information (id, name, position, etc.).
      * <p>Empty list if no nurses are assigned.</p>
      */
-    private List<NurseResponseDto> nurses = new ArrayList<>();
+    private List<NurseSlimResponseDto> nurses = new ArrayList<>();
 
     /**
      * List of rooms belonging to this department.

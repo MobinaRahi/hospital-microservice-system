@@ -47,36 +47,36 @@ public interface NurseRepository extends JpaRepository<Nurse, Long> {
      * Search nurses by first name (partial, case-insensitive)
      */
     List<Nurse> findByFirstNameContainingIgnoreCase(String firstName);
-    List<Nurse> findByFirstNameContainingIgnoreCaseAndActiveTrue(String firstName);
+    @Query("SELECT n FROM nurseEntity n WHERE LOWER(n.firstName) LIKE LOWER(CONCAT('%', :firstName, '%')) AND n.isActive = true")
+    List<Nurse> findByFirstNameContainingIgnoreCaseAndActiveTrue(@Param("firstName") String firstName);
 
     /**
      * Search nurses by last name (partial, case-insensitive)
      */
     List<Nurse> findByLastNameContainingIgnoreCase(String lastName);
-    List<Nurse> findByLastNameContainingIgnoreCaseAndActiveTrue(String lastName);
-
+    @Query("SELECT n FROM nurseEntity n WHERE LOWER(n.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')) AND n.isActive = true")
+    List<Nurse> findByLastNameContainingIgnoreCaseAndActiveTrue(@Param("lastName") String lastName);
     /**
      * Search nurses by first name and last name together
      */
     List<Nurse> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(String firstName, String lastName);
-    List<Nurse> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndActiveTrue(String firstName, String lastName);
-
-    // ========== Find by Experience ==========
+    @Query("SELECT n FROM nurseEntity n WHERE LOWER(n.firstName) LIKE LOWER(CONCAT('%', :firstName, '%')) AND LOWER(n.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')) AND n.isActive = true")
+    List<Nurse> findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndActiveTrue(@Param("firstName") String firstName, @Param("lastName") String lastName);    // ========== Find by Experience ==========
 
     /**
      * Find nurses by years of experience range
      */
     List<Nurse> findByYearsOfExperienceBetween(int start, int end);
-    List<Nurse> findByYearsOfExperienceBetweenAndActiveTrue(int start, int end);
-
+    @Query("SELECT n FROM nurseEntity n WHERE n.yearsOfExperience BETWEEN :start AND :end AND n.isActive = true")
+    List<Nurse> findByYearsOfExperienceBetweenAndActiveTrue(@Param("start") int start, @Param("end") int end);
     // ========== Find by Position ==========
 
     /**
      * Find nurses by position
      */
     List<Nurse> findByPosition(NursePosition position);
-    List<Nurse> findByPositionAndActiveTrue(NursePosition position);
-
+    @Query("SELECT n FROM nurseEntity n WHERE n.position = :position AND n.isActive = true")
+    List<Nurse> findByPositionAndActiveTrue(@Param("position") NursePosition position);
     // ========== Find by Department (Many-to-Many) ==========
 
     /**

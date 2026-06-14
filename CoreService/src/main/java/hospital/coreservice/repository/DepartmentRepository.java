@@ -38,7 +38,7 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
     List<Department> findByDepartmentNameContainingIgnoreCase(String departmentName);
 
     @Query("SELECT d FROM departmentEntity d WHERE LOWER(d.departmentName) LIKE LOWER(CONCAT('%', :name, '%')) AND d.isActive = true")
-    List<Department> findByDepartmentNameContainingIgnoreCaseAndIsActiveTrue(@Param("departmentName") String departmentName);
+    List<Department> findByDepartmentNameContainingIgnoreCaseAndIsActiveTrue(@Param("name") String departmentName);
 
     Optional<Department> findByDepartmentCode(String departmentCode);
 
