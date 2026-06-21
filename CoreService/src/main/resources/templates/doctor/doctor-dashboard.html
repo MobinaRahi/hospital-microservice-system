@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پنل پزشک – بیمارستان فوق‌تخصصی نووا</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --teal: #2a9d8f;
+        --teal-light: #4db6a8;
+        --teal-dark: #1e7268;
+        --teal-pale: #e8f5f3;
+        --navy: #1e3040;
+        --white: #ffffff;
+        --bg: #eff4f8;
+        --gray-100: #f7fafb;
+        --gray-200: #eef3f5;
+        --gray-400: #a0b4bc;
+        --gray-600: #5a7585;
+        --red: #ef4444;
+        --red-pale: #fee2e2;
+        --amber: #f59e0b;
+        --amber-pale: #fef3c7;
+        --blue: #3b82f6;
+        --blue-pale: #dbeafe;
+        --green: #16a34a;
+        --green-pale: #dcfce7;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.1);
+        --radius: 12px;
+        --radius-lg: 18px;
+        --sidebar-w: 260px;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Vazirmatn", Tahoma, sans-serif;
+        background: var(--bg);
+        color: var(--navy);
+        direction: rtl;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      /* SIDEBAR - doctor themed with blue accent */
+      .sidebar {
+        width: var(--sidebar-w);
+        background: linear-gradient(
+          170deg,
+          #1a2840 0%,
+          #0d1a2e 60%,
+          #060f1e 100%
+        );
+        color: white;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 200;
+        overflow-y: auto;
+      }
+      .sidebar::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 200px;
+        background: radial-gradient(
+          ellipse at top right,
+          rgba(59, 130, 246, 0.18) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .sidebar-logo {
+        padding: 22px 18px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon-wrap {
+        width: 42px;
+        height: 42px;
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.4),
+          rgba(59, 130, 246, 0.15)
+        );
+        border-radius: 12px;
+        border: 1px solid rgba(59, 130, 246, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .logo-text-wrap {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+      }
+      .logo-main {
+        font-size: 14px;
+        font-weight: 800;
+        color: white;
+      }
+      .logo-sub {
+        font-size: 11px;
+        color: #93c5fd;
+        font-weight: 500;
+      }
+      .sidebar-section {
+        padding: 20px 18px 7px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        color: rgba(255, 255, 255, 0.25);
+        text-transform: uppercase;
+      }
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 11px 14px;
+        border-radius: 11px;
+        font-size: 13.5px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.6);
+        margin: 2px 10px;
+        transition: all 0.2s;
+      }
+      .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+      }
+      .sidebar-link.active {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+      }
+      .link-icon {
+        width: 34px;
+        height: 34px;
+        background: rgba(255, 255, 255, 0.07);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 16px;
+      }
+      .sidebar-link.active .link-icon {
+        background: rgba(255, 255, 255, 0.18);
+      }
+      .sidebar-badge {
+        margin-right: auto;
+        background: var(--red);
+        color: white;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 20px;
+      }
+      .sidebar-footer {
+        margin-top: auto;
+        padding: 14px 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .sidebar-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+      }
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+        color: white;
+        flex-shrink: 0;
+      }
+      .user-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.35;
+      }
+      .user-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: white;
+      }
+      .user-role {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+      }
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+      .main {
+        flex: 1;
+        margin-right: var(--sidebar-w);
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        height: 64px;
+        background: var(--white);
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: var(--shadow-sm);
+      }
+      .topbar-title h1 {
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .topbar-date {
+        font-size: 12px;
+        color: var(--gray-400);
+        font-weight: 500;
+        margin-top: 1px;
+      }
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .topbar-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: var(--bg);
+        border: 1.5px solid var(--gray-200);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s;
+        color: var(--gray-600);
+      }
+      .notif-dot {
+        width: 7px;
+        height: 7px;
+        background: var(--red);
+        border-radius: 50%;
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        border: 1.5px solid white;
+      }
+      .btn-logout {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1.5px solid #fca5a5;
+        border-radius: 10px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+      }
+      .page-content {
+        flex: 1;
+        padding: 28px 28px 40px;
+      }
+
+      /* DOCTOR HERO */
+      .doctor-hero {
+        background: linear-gradient(135deg, #1a2840, #0d1a2e);
+        border-radius: var(--radius-lg);
+        padding: 28px 32px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 24px;
+        position: relative;
+        overflow: hidden;
+      }
+      .doctor-hero::before {
+        content: "";
+        position: absolute;
+        top: -40px;
+        left: -40px;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          ellipse,
+          rgba(59, 130, 246, 0.2) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .doctor-hero::after {
+        content: "";
+        position: absolute;
+        bottom: -40px;
+        right: 100px;
+        width: 160px;
+        height: 160px;
+        background: radial-gradient(
+          ellipse,
+          rgba(42, 157, 143, 0.15) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .doc-avatar-lg {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        flex-shrink: 0;
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        z-index: 1;
+      }
+      .doc-info {
+        position: relative;
+        z-index: 1;
+      }
+      .doc-name {
+        font-size: 22px;
+        font-weight: 900;
+        color: white;
+        margin-bottom: 4px;
+      }
+      .doc-spec {
+        font-size: 13px;
+        color: #93c5fd;
+        margin-bottom: 8px;
+      }
+      .doc-tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .doc-tag {
+        padding: 4px 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        font-size: 11.5px;
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 600;
+      }
+      .hero-stats {
+        margin-right: auto;
+        display: flex;
+        gap: 20px;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-stat {
+        text-align: center;
+      }
+      .hero-stat-num {
+        font-size: 26px;
+        font-weight: 900;
+        color: white;
+      }
+      .hero-stat-label {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 2px;
+      }
+
+      /* GRID */
+      .dash-grid {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 20px;
+      }
+      .dash-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        box-shadow: var(--shadow-sm);
+      }
+      .dash-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .dash-card-header h3 {
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .dash-card-header a {
+        font-size: 13px;
+        color: var(--blue);
+        font-weight: 700;
+      }
+
+      /* TIMELINE */
+      .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .tl-item {
+        display: flex;
+        gap: 16px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--gray-200);
+        position: relative;
+      }
+      .tl-item:last-child {
+        border-bottom: none;
+      }
+      .tl-time {
+        width: 60px;
+        flex-shrink: 0;
+        text-align: center;
+      }
+      .tl-hour {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--navy);
+      }
+      .tl-min {
+        font-size: 11px;
+        color: var(--gray-400);
+      }
+      .tl-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 5px;
+      }
+      .tl-dot.s {
+        background: var(--teal);
+      }
+      .tl-dot.c {
+        background: var(--green);
+      }
+      .tl-dot.x {
+        background: var(--red);
+      }
+      .tl-dot.w {
+        background: var(--amber);
+      }
+      .tl-content {
+        flex: 1;
+      }
+      .tl-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--navy);
+      }
+      .tl-type {
+        font-size: 12px;
+        color: var(--gray-600);
+      }
+      .tl-badge {
+        display: inline-flex;
+        padding: 3px 10px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 700;
+        margin-top: 4px;
+      }
+      .tl-badge.s {
+        background: var(--teal-pale);
+        color: var(--teal-dark);
+      }
+      .tl-badge.c {
+        background: var(--green-pale);
+        color: var(--green);
+      }
+      .tl-badge.x {
+        background: var(--red-pale);
+        color: #991b1b;
+      }
+      .tl-badge.w {
+        background: var(--amber-pale);
+        color: #92400e;
+      }
+      .tl-actions {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .tl-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1.5px solid var(--gray-200);
+        background: transparent;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        color: var(--gray-600);
+        transition: all 0.2s;
+      }
+      .tl-btn:hover {
+        border-color: var(--blue);
+        color: var(--blue);
+      }
+
+      /* PATIENTS */
+      .patient-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--gray-200);
+      }
+      .patient-item:last-child {
+        border-bottom: none;
+      }
+      .pt-avatar {
+        width: 38px;
+        height: 38px;
+        background: var(--blue-pale);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+      .pt-name {
+        font-size: 13.5px;
+        font-weight: 700;
+      }
+      .pt-sub {
+        font-size: 12px;
+        color: var(--gray-400);
+      }
+      .pt-right {
+        margin-right: auto;
+        text-align: left;
+      }
+      .pt-room {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--blue);
+      }
+      .pt-days {
+        font-size: 11px;
+        color: var(--gray-400);
+      }
+
+      /* SCHEDULE MINI */
+      .sched-mini {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .sched-mini-item {
+        background: var(--gray-100);
+        border-radius: var(--radius);
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-right: 4px solid;
+      }
+      .sched-mini-item.m {
+        border-color: #f59e0b;
+        background: #fffbeb;
+      }
+      .sched-mini-item.e {
+        border-color: var(--blue);
+        background: var(--blue-pale);
+      }
+      .sched-mini-item.off {
+        border-color: var(--gray-200);
+        background: var(--gray-100);
+      }
+      .smi-day {
+        font-size: 13px;
+        font-weight: 700;
+        width: 60px;
+      }
+      .smi-shift {
+        font-size: 12px;
+        color: var(--gray-600);
+      }
+      .smi-tag {
+        margin-right: auto;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 8px;
+      }
+      .smi-tag.m {
+        background: #fef3c7;
+        color: #92400e;
+      }
+      .smi-tag.e {
+        background: var(--blue-pale);
+        color: #1d4ed8;
+      }
+      .smi-tag.off {
+        background: var(--gray-200);
+        color: var(--gray-400);
+      }
+
+      @media (max-width: 1000px) {
+        .dash-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-stats {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+              <path
+                d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
+                fill="#3B82F6"
+              />
+              <path
+                d="M14 8v12M8 14h12"
+                stroke="white"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div class="logo-text-wrap">
+            <span class="logo-main">بیمارستان نووا</span
+            ><span class="logo-sub">پنل پزشک</span>
+          </div>
+        </div>
+        <div class="sidebar-section">منوی من</div>
+        <a href="#" class="sidebar-link active"
+          ><div class="link-icon">🏠</div>
+          داشبورد من</a
+        >
+        <a href="#" class="sidebar-link"
+          ><div class="link-icon">📅</div>
+          نوبت‌های امروز<span class="sidebar-badge">۸</span></a
+        >
+        <a href="#" class="sidebar-link"
+          ><div class="link-icon">👤</div>
+          بیماران من</a
+        >
+        <a href="#" class="sidebar-link"
+          ><div class="link-icon">📆</div>
+          برنامه هفتگی</a
+        >
+        <div class="sidebar-section">بالینی</div>
+        <a href="#" class="sidebar-link"
+          ><div class="link-icon">🛏</div>
+          بیماران بستری</a
+        >
+        <a href="#" class="sidebar-link"
+          ><div class="link-icon">📋</div>
+          پرونده‌ها</a
+        >
+        <a href="#" class="sidebar-link"
+          ><div class="link-icon">💊</div>
+          تجویزها</a
+        >
+        <div class="sidebar-section">حساب کاربری</div>
+        <a href="#" class="sidebar-link"
+          ><div class="link-icon">👤</div>
+          پروفایل من</a
+        >
+        <a
+          th:href="@{/doctor/change-password}"
+          href="/doctor/change-password"
+          class="sidebar-link"
+          ><div class="link-icon">🔐</div>
+          تغییر رمز</a
+        >
+
+        <div class="sidebar-footer">
+          <div class="sidebar-user">
+            <div class="user-avatar">🩺</div>
+            <div class="user-info">
+              <span
+                class="user-name"
+                th:text="${doctor?.firstName + ' ' + doctor?.lastName ?: 'دکتر احمدی'}"
+                >دکتر سارا احمدی</span
+              >
+              <span class="user-role">متخصص قلب و عروق</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="topbar-title">
+            <h1>داشبورد پزشک</h1>
+            <div class="topbar-date" id="currentDate">در حال بارگذاری…</div>
+          </div>
+          <div class="topbar-actions">
+            <div class="topbar-btn">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+              <div class="notif-dot"></div>
+            </div>
+            <a th:href="@{/logout}" class="btn-logout">خروج</a>
+          </div>
+        </div>
+
+        <div class="page-content">
+          <!-- HERO -->
+          <div class="doctor-hero">
+            <div class="doc-avatar-lg">🩺</div>
+            <div class="doc-info">
+              <div
+                class="doc-name"
+                th:text="${doctor?.firstName + ' دکتر ' + doctor?.lastName ?: 'دکتر سارا احمدی'}"
+              >
+                دکتر سارا احمدی
+              </div>
+              <div class="doc-spec">متخصص قلب و عروق · بیمارستان نووا</div>
+              <div class="doc-tags">
+                <span class="doc-tag">قلب و عروق</span>
+                <span class="doc-tag">اکوکاردیوگرافی</span>
+                <span class="doc-tag">آریتمی قلب</span>
+              </div>
+            </div>
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <div class="hero-stat-num">۸</div>
+                <div class="hero-stat-label">نوبت امروز</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-num">۲۳</div>
+                <div class="hero-stat-label">بیمار این هفته</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-num">۱۴۲</div>
+                <div class="hero-stat-label">این ماه</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-grid">
+            <!-- TODAY TIMELINE -->
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h3>برنامه امروز</h3>
+                <a href="#">مشاهده همه ←</a>
+              </div>
+              <div class="timeline">
+                <div class="tl-item">
+                  <div class="tl-time">
+                    <div class="tl-hour">۰۹</div>
+                    <div class="tl-min">:۰۰</div>
+                  </div>
+                  <div class="tl-dot s"></div>
+                  <div class="tl-content">
+                    <div class="tl-name">احمد رضایی</div>
+                    <div class="tl-type">مرد · ۶۲ ساله · حضوری</div>
+                    <div class="tl-badge s">رزرو‌شده</div>
+                  </div>
+                  <div class="tl-actions">
+                    <button class="tl-btn" title="ورود">✅</button
+                    ><button class="tl-btn" title="لغو">❌</button>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-time">
+                    <div class="tl-hour">۰۹</div>
+                    <div class="tl-min">:۳۰</div>
+                  </div>
+                  <div class="tl-dot c"></div>
+                  <div class="tl-content">
+                    <div class="tl-name">مریم حسینی</div>
+                    <div class="tl-type">زن · ۴۵ ساله · حضوری</div>
+                    <div class="tl-badge c">انجام‌شده</div>
+                  </div>
+                  <div class="tl-actions">
+                    <button class="tl-btn">👁</button>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-time">
+                    <div class="tl-hour">۱۱</div>
+                    <div class="tl-min">:۰۰</div>
+                  </div>
+                  <div class="tl-dot w"></div>
+                  <div class="tl-content">
+                    <div class="tl-name">علی تهرانی</div>
+                    <div class="tl-type">مرد · ۵۵ ساله · ویدیویی</div>
+                    <div class="tl-badge w">در انتظار</div>
+                  </div>
+                  <div class="tl-actions">
+                    <button class="tl-btn">✅</button
+                    ><button class="tl-btn">❌</button>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-time">
+                    <div class="tl-hour">۱۴</div>
+                    <div class="tl-min">:۰۰</div>
+                  </div>
+                  <div class="tl-dot s"></div>
+                  <div class="tl-content">
+                    <div class="tl-name">فاطمه نصیری</div>
+                    <div class="tl-type">زن · ۳۸ ساله · حضوری</div>
+                    <div class="tl-badge s">رزرو‌شده</div>
+                  </div>
+                  <div class="tl-actions">
+                    <button class="tl-btn">✅</button
+                    ><button class="tl-btn">❌</button>
+                  </div>
+                </div>
+                <div class="tl-item">
+                  <div class="tl-time">
+                    <div class="tl-hour">۱۵</div>
+                    <div class="tl-min">:۳۰</div>
+                  </div>
+                  <div class="tl-dot x"></div>
+                  <div class="tl-content">
+                    <div class="tl-name">رضا کریمی</div>
+                    <div class="tl-type">مرد · ۴۸ ساله · تلفنی</div>
+                    <div class="tl-badge x">لغو‌شده</div>
+                  </div>
+                  <div class="tl-actions">
+                    <button class="tl-btn">👁</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT COL -->
+            <div style="display: flex; flex-direction: column; gap: 20px">
+              <!-- ADMITTED PATIENTS -->
+              <div class="dash-card">
+                <div class="dash-card-header">
+                  <h3>بیماران بستری من</h3>
+                  <a href="#">همه ←</a>
+                </div>
+                <div class="patient-item">
+                  <div class="pt-avatar">👤</div>
+                  <div>
+                    <div class="pt-name">رضا کریمی</div>
+                    <div class="pt-sub">نارسایی قلبی · ۵۸ ساله</div>
+                  </div>
+                  <div class="pt-right">
+                    <div class="pt-room">اتاق ICU-1</div>
+                    <div class="pt-days">۷ روز</div>
+                  </div>
+                </div>
+                <div class="patient-item">
+                  <div class="pt-avatar">👤</div>
+                  <div>
+                    <div class="pt-name">علی محمودی</div>
+                    <div class="pt-sub">آنژین پایدار · ۶۵ ساله</div>
+                  </div>
+                  <div class="pt-right">
+                    <div class="pt-room">اتاق ۱۰۱</div>
+                    <div class="pt-days">۳ روز</div>
+                  </div>
+                </div>
+                <div class="patient-item">
+                  <div class="pt-avatar">👤</div>
+                  <div>
+                    <div class="pt-name">زهرا مرادی</div>
+                    <div class="pt-sub">فشار خون بالا · ۵۲ ساله</div>
+                  </div>
+                  <div class="pt-right">
+                    <div class="pt-room">اتاق ۲۰۳</div>
+                    <div class="pt-days">۱ روز</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- WEEKLY SCHEDULE -->
+              <div class="dash-card">
+                <div class="dash-card-header"><h3>برنامه هفتگی</h3></div>
+                <div class="sched-mini">
+                  <div class="sched-mini-item m">
+                    <div class="smi-day">شنبه</div>
+                    <div class="smi-shift">صبح · ۰۷–۱۵</div>
+                    <span class="smi-tag m">صبح</span>
+                  </div>
+                  <div class="sched-mini-item e">
+                    <div class="smi-day">یکشنبه</div>
+                    <div class="smi-shift">عصر · ۱۵–۲۳</div>
+                    <span class="smi-tag e">عصر</span>
+                  </div>
+                  <div class="sched-mini-item m">
+                    <div class="smi-day">دوشنبه</div>
+                    <div class="smi-shift">صبح · ۰۷–۱۵</div>
+                    <span class="smi-tag m">صبح</span>
+                  </div>
+                  <div class="sched-mini-item off">
+                    <div class="smi-day">سه‌شنبه</div>
+                    <div class="smi-shift">مرخصی</div>
+                    <span class="smi-tag off">مرخصی</span>
+                  </div>
+                  <div class="sched-mini-item m">
+                    <div class="smi-day">چهارشنبه</div>
+                    <div class="smi-shift">صبح · ۰۷–۱۵</div>
+                    <span class="smi-tag m">صبح</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script>
+      document.getElementById("currentDate").textContent =
+        new Date().toLocaleDateString("fa-IR", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+    </script>
+  </body>
+</html>

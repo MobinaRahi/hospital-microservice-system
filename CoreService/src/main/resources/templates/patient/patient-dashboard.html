@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل بیمار – بیمارستان فوق‌تخصصی نووا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root{--teal:#2A9D8F;--teal-light:#4DB6A8;--teal-dark:#1E7268;--teal-pale:#E8F5F3;--navy:#1E3040;--white:#FFFFFF;--bg:#EFF4F8;--gray-100:#F7FAFB;--gray-200:#EEF3F5;--gray-400:#A0B4BC;--gray-600:#5A7585;--red:#EF4444;--red-pale:#FEE2E2;--amber:#F59E0B;--amber-pale:#FEF3C7;--blue:#3B82F6;--blue-pale:#DBEAFE;--green:#16A34A;--green-pale:#DCFCE7;--purple:#7C3AED;--purple-pale:#EDE9FE;--shadow-sm:0 2px 8px rgba(0,0,0,0.06);--shadow-md:0 6px 24px rgba(0,0,0,0.10);--radius:12px;--radius-lg:18px;--sidebar-w:260px;}
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Vazirmatn',Tahoma,sans-serif;background:var(--bg);color:var(--navy);direction:rtl;line-height:1.6;min-height:100vh;}
+        a{text-decoration:none;color:inherit;}
+        /* SIDEBAR - patient themed with purple */
+        .sidebar{width:var(--sidebar-w);background:linear-gradient(170deg,#1e1a30 0%,#120f20 60%,#080614 100%);color:white;display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;z-index:200;overflow-y:auto;}
+        .sidebar::before{content:'';position:absolute;top:0;right:0;left:0;height:200px;background:radial-gradient(ellipse at top right,rgba(124,58,237,0.2) 0%,transparent 65%);pointer-events:none;}
+        .sidebar-logo{padding:22px 18px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px;}
+        .logo-icon-wrap{width:42px;height:42px;background:linear-gradient(135deg,rgba(124,58,237,0.4),rgba(124,58,237,0.15));border-radius:12px;border:1px solid rgba(124,58,237,0.35);display:flex;align-items:center;justify-content:center;}
+        .logo-text-wrap{display:flex;flex-direction:column;line-height:1.3;}
+        .logo-main{font-size:14px;font-weight:800;color:white;}
+        .logo-sub{font-size:11px;color:#C4B5FD;font-weight:500;}
+        .sidebar-section{padding:20px 18px 7px;font-size:10px;font-weight:700;letter-spacing:1.4px;color:rgba(255,255,255,0.25);text-transform:uppercase;}
+        .sidebar-link{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,0.6);margin:2px 10px;transition:all 0.2s;}
+        .sidebar-link:hover{background:rgba(255,255,255,0.06);color:white;}
+        .sidebar-link.active{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:white;font-weight:700;box-shadow:0 4px 16px rgba(124,58,237,0.35);}
+        .link-icon{width:34px;height:34px;background:rgba(255,255,255,0.07);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+        .sidebar-link.active .link-icon{background:rgba(255,255,255,0.18);}
+        .sidebar-badge{margin-right:auto;background:var(--red);color:white;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;}
+        .sidebar-footer{margin-top:auto;padding:14px 12px;border-top:1px solid rgba(255,255,255,0.07);}
+        .sidebar-user{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.05);cursor:pointer;}
+        .user-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#5B21B6);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:white;flex-shrink:0;}
+        .user-info{display:flex;flex-direction:column;line-height:1.35;}
+        .user-name{font-size:13px;font-weight:700;color:white;}
+        .user-role{font-size:11px;color:rgba(255,255,255,0.4);}
+        .layout{display:flex;min-height:100vh;}
+        .main{flex:1;margin-right:var(--sidebar-w);display:flex;flex-direction:column;}
+        .topbar{height:64px;background:var(--white);border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);}
+        .topbar-title h1{font-size:20px;font-weight:900;}
+        .topbar-date{font-size:12px;color:var(--gray-400);font-weight:500;margin-top:1px;}
+        .topbar-actions{display:flex;align-items:center;gap:10px;}
+        .topbar-btn{width:38px;height:38px;border-radius:10px;background:var(--bg);border:1.5px solid var(--gray-200);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all 0.2s;color:var(--gray-600);}
+        .notif-dot{width:7px;height:7px;background:var(--red);border-radius:50%;position:absolute;top:7px;left:7px;border:1.5px solid white;}
+        .btn-logout{background:#FEF2F2;color:#DC2626;border:1.5px solid #FCA5A5;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;}
+        .btn-primary{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:white;border:none;border-radius:10px;padding:9px 20px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:7px;}
+        .btn-primary:hover{box-shadow:0 4px 16px rgba(124,58,237,0.4);transform:translateY(-1px);}
+        .page-content{flex:1;padding:28px 28px 40px;}
+
+        /* PATIENT HERO */
+        .patient-hero{background:linear-gradient(135deg,#1e1a30,#120f20);border-radius:var(--radius-lg);padding:28px 32px;display:flex;align-items:center;gap:24px;margin-bottom:24px;position:relative;overflow:hidden;}
+        .patient-hero::before{content:'';position:absolute;top:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(ellipse,rgba(124,58,237,0.2) 0%,transparent 70%);pointer-events:none;}
+        .pt-avatar-lg{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#5B21B6);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:3px solid rgba(255,255,255,0.2);position:relative;z-index:1;}
+        .pt-hero-info{position:relative;z-index:1;}
+        .pt-hero-name{font-size:20px;font-weight:900;color:white;margin-bottom:4px;}
+        .pt-hero-sub{font-size:13px;color:#C4B5FD;margin-bottom:8px;}
+        .pt-tags{display:flex;gap:8px;flex-wrap:wrap;}
+        .pt-tag{padding:4px 12px;background:rgba(255,255,255,0.1);border-radius:12px;font-size:11.5px;color:rgba(255,255,255,0.7);font-weight:600;}
+        .pt-tag.blood{background:rgba(239,68,68,0.2);color:#FCA5A5;}
+        .hero-right{margin-right:auto;position:relative;z-index:1;}
+        .status-chip{padding:8px 20px;background:rgba(22,163,74,0.2);border:1px solid rgba(22,163,74,0.35);border-radius:20px;color:#86EFAC;font-size:13px;font-weight:700;}
+
+        /* INFO CARDS */
+        .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px;}
+        .info-card{background:var(--white);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm);border-right:4px solid;}
+        .info-card.appt{border-color:var(--purple);}
+        .info-card.doc{border-color:var(--blue);}
+        .info-card.room{border-color:var(--teal);}
+        .info-card-label{font-size:11.5px;color:var(--gray-600);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
+        .info-card-value{font-size:17px;font-weight:900;color:var(--navy);}
+        .info-card-sub{font-size:12px;color:var(--gray-400);margin-top:4px;}
+
+        /* DASH GRID */
+        .dash-grid{display:grid;grid-template-columns:1fr 340px;gap:20px;}
+        .dash-card{background:var(--white);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm);}
+        .dash-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+        .dash-card-header h3{font-size:15px;font-weight:800;}
+        .dash-card-header a{font-size:13px;color:var(--purple);font-weight:700;}
+
+        /* APPT LIST */
+        .appt-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--gray-200);}
+        .appt-item:last-child{border-bottom:none;}
+        .appt-date-box{width:48px;height:52px;background:var(--purple-pale);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+        .appt-day{font-size:20px;font-weight:900;color:var(--purple);line-height:1;}
+        .appt-month{font-size:10px;color:var(--purple);font-weight:600;}
+        .appt-info{flex:1;}
+        .appt-doc{font-size:14px;font-weight:700;}
+        .appt-spec{font-size:12px;color:var(--gray-600);}
+        .appt-time{font-size:12px;color:var(--gray-400);margin-top:3px;}
+        .appt-badge{display:inline-flex;padding:4px 12px;border-radius:12px;font-size:11.5px;font-weight:700;}
+        .appt-badge.upcoming{background:var(--purple-pale);color:var(--purple);}
+        .appt-badge.done{background:var(--green-pale);color:var(--green);}
+
+        /* VITALS */
+        .vitals-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+        .vital-card{background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center;}
+        .vital-icon{font-size:22px;margin-bottom:6px;}
+        .vital-value{font-size:20px;font-weight:900;color:var(--navy);}
+        .vital-unit{font-size:11px;color:var(--gray-400);}
+        .vital-label{font-size:11.5px;color:var(--gray-600);margin-top:4px;font-weight:600;}
+        .vital-status{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-left:4px;}
+
+        /* QUICK ACTIONS */
+        .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+        .qa-btn{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:16px 12px;text-align:center;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;transition:all 0.2s;display:block;}
+        .qa-btn:hover{border-color:var(--purple);background:var(--purple-pale);color:var(--purple);}
+        .qa-icon{font-size:22px;display:block;margin-bottom:6px;}
+
+        @media(max-width:1000px){.dash-grid{grid-template-columns:1fr;}.info-grid{grid-template-columns:1fr;}}
+    </style>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon-wrap"><svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z" fill="#7C3AED"/><path d="M14 8v12M8 14h12" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="logo-text-wrap"><span class="logo-main">بیمارستان نووا</span><span class="logo-sub">پنل بیمار</span></div>
+        </div>
+        <div class="sidebar-section">منوی من</div>
+        <a href="#" class="sidebar-link active"><div class="link-icon">🏠</div> خانه</a>
+        <a href="#" class="sidebar-link"><div class="link-icon">📅</div> نوبت‌های من<span class="sidebar-badge">۲</span></a>
+        <a href="#" class="sidebar-link"><div class="link-icon">📋</div> پرونده پزشکی</a>
+        <a href="#" class="sidebar-link"><div class="link-icon">💊</div> نسخه‌ها</a>
+        <a href="#" class="sidebar-link"><div class="link-icon">📊</div> نتایج آزمایش</a>
+        <div class="sidebar-section">خدمات</div>
+        <a th:href="@{/appointments/book}" class="sidebar-link"><div class="link-icon">➕</div> رزرو نوبت جدید</a>
+        <a href="#" class="sidebar-link"><div class="link-icon">💬</div> پیام به پزشک</a>
+        <div class="sidebar-section">حساب</div>
+        <a href="#" class="sidebar-link"><div class="link-icon">👤</div> پروفایل</a>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar">ا</div>
+                <div class="user-info">
+                    <span class="user-name" th:text="${patient?.firstName + ' ' + patient?.lastName ?: 'احمد رضایی'}">احمد رضایی</span>
+                    <span class="user-role">بیمار</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar-title"><h1>پنل بیمار</h1><div class="topbar-date" id="currentDate">در حال بارگذاری…</div></div>
+            <div class="topbar-actions">
+                <div class="topbar-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div></div>
+                <a th:href="@{/appointments/book}" class="btn-primary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                    رزرو نوبت
+                </a>
+                <a th:href="@{/logout}" class="btn-logout">خروج</a>
+            </div>
+        </div>
+
+        <div class="page-content">
+            <!-- HERO -->
+            <div class="patient-hero">
+                <div class="pt-avatar-lg">👤</div>
+                <div class="pt-hero-info">
+                    <div class="pt-hero-name" th:text="${patient?.firstName + ' ' + patient?.lastName ?: 'احمد رضایی'}">احمد رضایی</div>
+                    <div class="pt-hero-sub">کد ملی: ۰۰۱۲۳۴۵۶۷۸ · تاریخ تولد: ۱۳۴۰/۰۵/۱۵ · ۶۲ ساله</div>
+                    <div class="pt-tags">
+                        <span class="pt-tag blood">🩸 گروه خون: A+</span>
+                        <span class="pt-tag">بیمه: تأمین اجتماعی</span>
+                        <span class="pt-tag">بستری نیست</span>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="status-chip">✅ بیمار فعال</div>
+                </div>
+            </div>
+
+            <!-- INFO CARDS -->
+            <div class="info-grid">
+                <div class="info-card appt">
+                    <div class="info-card-label">نوبت بعدی</div>
+                    <div class="info-card-value">چهارشنبه ۱۴:۰۰</div>
+                    <div class="info-card-sub">دکتر سارا احمدی · قلب و عروق</div>
+                </div>
+                <div class="info-card doc">
+                    <div class="info-card-label">پزشک معالج</div>
+                    <div class="info-card-value">دکتر سارا احمدی</div>
+                    <div class="info-card-sub">متخصص قلب و عروق</div>
+                </div>
+                <div class="info-card room">
+                    <div class="info-card-label">وضعیت بستری</div>
+                    <div class="info-card-value">بستری نیست</div>
+                    <div class="info-card-sub">آخرین بستری: ۳ ماه پیش</div>
+                </div>
+            </div>
+
+            <div class="dash-grid">
+                <!-- APPOINTMENTS -->
+                <div class="dash-card">
+                    <div class="dash-card-header"><h3>نوبت‌های من</h3><a href="#">مشاهده همه ←</a></div>
+                    <div class="appt-item">
+                        <div class="appt-date-box"><div class="appt-day">۲۵</div><div class="appt-month">خرداد</div></div>
+                        <div class="appt-info">
+                            <div class="appt-doc">دکتر سارا احمدی</div>
+                            <div class="appt-spec">متخصص قلب و عروق</div>
+                            <div class="appt-time">⏰ ساعت ۱۴:۰۰ · حضوری</div>
+                        </div>
+                        <span class="appt-badge upcoming">رزرو‌شده</span>
+                    </div>
+                    <div class="appt-item">
+                        <div class="appt-date-box"><div class="appt-day">۰۸</div><div class="appt-month">تیر</div></div>
+                        <div class="appt-info">
+                            <div class="appt-doc">دکتر علی حسینی</div>
+                            <div class="appt-spec">متخصص داخلی</div>
+                            <div class="appt-time">⏰ ساعت ۱۰:۳۰ · ویدیویی</div>
+                        </div>
+                        <span class="appt-badge upcoming">رزرو‌شده</span>
+                    </div>
+                    <div class="appt-item">
+                        <div class="appt-date-box" style="background:var(--gray-100)"><div class="appt-day" style="color:var(--gray-400)">۱۰</div><div class="appt-month" style="color:var(--gray-400)">خرداد</div></div>
+                        <div class="appt-info">
+                            <div class="appt-doc">دکتر سارا احمدی</div>
+                            <div class="appt-spec">متخصص قلب و عروق</div>
+                            <div class="appt-time">⏰ ساعت ۰۹:۰۰ · حضوری</div>
+                        </div>
+                        <span class="appt-badge done">انجام‌شده</span>
+                    </div>
+                    <div class="appt-item">
+                        <div class="appt-date-box" style="background:var(--gray-100)"><div class="appt-day" style="color:var(--gray-400)">۲۰</div><div class="appt-month" style="color:var(--gray-400)">اردیبهشت</div></div>
+                        <div class="appt-info">
+                            <div class="appt-doc">دکتر اما ویلیامز</div>
+                            <div class="appt-spec">متخصص داخلی</div>
+                            <div class="appt-time">⏰ ساعت ۱۱:۰۰ · حضوری</div>
+                        </div>
+                        <span class="appt-badge done">انجام‌شده</span>
+                    </div>
+                </div>
+
+                <!-- RIGHT COL -->
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <!-- VITALS -->
+                    <div class="dash-card">
+                        <div class="dash-card-header"><h3>آخرین علائم حیاتی</h3><span style="font-size:12px;color:var(--gray-400);">۱۰ خرداد</span></div>
+                        <div class="vitals-grid">
+                            <div class="vital-card">
+                                <div class="vital-icon">❤️</div>
+                                <div class="vital-value">۷۲<span class="vital-unit"> bpm</span></div>
+                                <div class="vital-label"><span class="vital-status"></span>ضربان قلب</div>
+                            </div>
+                            <div class="vital-card">
+                                <div class="vital-icon">🩸</div>
+                                <div class="vital-value">۱۲۰<span class="vital-unit">/۸۰</span></div>
+                                <div class="vital-label"><span class="vital-status"></span>فشار خون</div>
+                            </div>
+                            <div class="vital-card">
+                                <div class="vital-icon">🌡️</div>
+                                <div class="vital-value">۳۶٫۶<span class="vital-unit">°C</span></div>
+                                <div class="vital-label"><span class="vital-status"></span>دما</div>
+                            </div>
+                            <div class="vital-card">
+                                <div class="vital-icon">💨</div>
+                                <div class="vital-value">۱۶<span class="vital-unit">/min</span></div>
+                                <div class="vital-label"><span class="vital-status"></span>تنفس</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QUICK ACTIONS -->
+                    <div class="dash-card">
+                        <div class="dash-card-header"><h3>دسترسی سریع</h3></div>
+                        <div class="qa-grid">
+                            <a th:href="@{/appointments/book}" class="qa-btn"><span class="qa-icon">📅</span>رزرو نوبت</a>
+                            <a href="#" class="qa-btn"><span class="qa-icon">📋</span>پرونده من</a>
+                            <a href="#" class="qa-btn"><span class="qa-icon">💊</span>نسخه‌ها</a>
+                            <a href="#" class="qa-btn"><span class="qa-icon">📊</span>آزمایش‌ها</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script>
+document.getElementById('currentDate').textContent=new Date().toLocaleDateString('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+</script>
+</body>
+</html>

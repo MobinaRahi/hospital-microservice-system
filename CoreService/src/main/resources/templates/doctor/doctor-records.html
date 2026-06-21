@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پرونده‌های پزشکی – بیمارستان فوق‌تخصصی نووا</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --teal: #2a9d8f;
+        --teal-light: #4db6a8;
+        --teal-dark: #1e7268;
+        --teal-pale: #e8f5f3;
+        --navy: #1e3040;
+        --white: #ffffff;
+        --bg: #eff4f8;
+        --gray-100: #f7fafb;
+        --gray-200: #eef3f5;
+        --gray-400: #a0b4bc;
+        --gray-600: #5a7585;
+        --red: #ef4444;
+        --red-pale: #fee2e2;
+        --amber: #f59e0b;
+        --amber-pale: #fef3c7;
+        --blue: #3b82f6;
+        --blue-pale: #dbeafe;
+        --green: #16a34a;
+        --green-pale: #dcfce7;
+        --purple: #8b5cf6;
+        --purple-pale: #ede9fe;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.1);
+        --radius: 12px;
+        --radius-lg: 18px;
+        --sidebar-w: 260px;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Vazirmatn", Tahoma, sans-serif;
+        background: var(--bg);
+        color: var(--navy);
+        direction: rtl;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .sidebar {
+        width: var(--sidebar-w);
+        background: linear-gradient(
+          170deg,
+          #1a2840 0%,
+          #0d1a2e 60%,
+          #060f1e 100%
+        );
+        color: white;
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 200;
+        overflow-y: auto;
+      }
+      .sidebar::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 200px;
+        background: radial-gradient(
+          ellipse at top right,
+          rgba(59, 130, 246, 0.18) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+      }
+      .sidebar-logo {
+        padding: 22px 18px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-icon-wrap {
+        width: 42px;
+        height: 42px;
+        background: linear-gradient(
+          135deg,
+          rgba(59, 130, 246, 0.4),
+          rgba(59, 130, 246, 0.15)
+        );
+        border-radius: 12px;
+        border: 1px solid rgba(59, 130, 246, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .logo-text-wrap {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+      }
+      .logo-main {
+        font-size: 14px;
+        font-weight: 800;
+        color: white;
+      }
+      .logo-sub {
+        font-size: 11px;
+        color: #93c5fd;
+        font-weight: 500;
+      }
+      .sidebar-section {
+        padding: 20px 18px 7px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.4px;
+        color: rgba(255, 255, 255, 0.25);
+        text-transform: uppercase;
+      }
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 11px 14px;
+        border-radius: 11px;
+        font-size: 13.5px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.6);
+        margin: 2px 10px;
+        transition: all 0.2s;
+      }
+      .sidebar-link:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+      }
+      .sidebar-link.active {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        font-weight: 700;
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+      }
+      .link-icon {
+        width: 34px;
+        height: 34px;
+        background: rgba(255, 255, 255, 0.07);
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 16px;
+      }
+      .sidebar-link.active .link-icon {
+        background: rgba(255, 255, 255, 0.18);
+      }
+      .sidebar-badge {
+        margin-right: auto;
+        background: var(--red);
+        color: white;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 20px;
+      }
+      .sidebar-footer {
+        margin-top: auto;
+        padding: 14px 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .sidebar-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+      }
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 800;
+        color: white;
+        flex-shrink: 0;
+      }
+      .user-info {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.35;
+      }
+      .user-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: white;
+      }
+      .user-role {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+      }
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+      .main {
+        flex: 1;
+        margin-right: var(--sidebar-w);
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        height: 64px;
+        background: var(--white);
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 28px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: var(--shadow-sm);
+      }
+      .topbar-title h1 {
+        font-size: 20px;
+        font-weight: 900;
+      }
+      .topbar-date {
+        font-size: 12px;
+        color: var(--gray-400);
+        font-weight: 500;
+        margin-top: 1px;
+      }
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .topbar-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: var(--bg);
+        border: 1.5px solid var(--gray-200);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s;
+        color: var(--gray-600);
+      }
+      .notif-dot {
+        width: 7px;
+        height: 7px;
+        background: var(--red);
+        border-radius: 50%;
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        border: 1.5px solid white;
+      }
+      .btn-logout {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1.5px solid #fca5a5;
+        border-radius: 10px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+      }
+      .page-content {
+        flex: 1;
+        padding: 28px 28px 40px;
+      }
+      .dash-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        box-shadow: var(--shadow-sm);
+      }
+      .dash-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .dash-card-header h3 {
+        font-size: 15px;
+        font-weight: 800;
+      }
+      .dash-card-header a {
+        font-size: 13px;
+        color: var(--blue);
+        font-weight: 700;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 16px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+      }
+      .btn-outline {
+        background: var(--white);
+        border: 1.5px solid var(--gray-200);
+        color: var(--gray-600);
+      }
+      .filters-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+      }
+      .filter-input,
+      .filter-select {
+        border: 1.5px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 9px 14px;
+        font-size: 13px;
+        font-family: inherit;
+        background: var(--gray-100);
+        color: var(--navy);
+      }
+      .filter-input {
+        flex: 1;
+        min-width: 180px;
+      }
+      .stat-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+      .stat-box {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        padding: 18px 20px;
+        box-shadow: var(--shadow-sm);
+      }
+      .stat-box .num {
+        font-size: 24px;
+        font-weight: 900;
+      }
+      .stat-box .lbl {
+        font-size: 12px;
+        color: var(--gray-400);
+        margin-top: 4px;
+        font-weight: 600;
+      }
+      @media (max-width: 1000px) {
+        .stat-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .record-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .record-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 16px;
+        border-radius: var(--radius);
+        background: var(--gray-100);
+      }
+      .rec-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--purple-pale);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+      .rec-title {
+        font-size: 13.5px;
+        font-weight: 700;
+      }
+      .rec-meta {
+        font-size: 12px;
+        color: var(--gray-400);
+        margin-top: 2px;
+      }
+      .rec-desc {
+        font-size: 12.5px;
+        color: var(--gray-600);
+        margin-top: 6px;
+      }
+      .rec-actions {
+        margin-right: auto;
+        display: flex;
+        gap: 6px;
+      }
+
+      .record-item {
+        background-color: #daede9 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <div class="logo-icon-wrap">
+            <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+              <path
+                d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
+                fill="#3B82F6"
+              />
+              <path
+                d="M14 8v12M8 14h12"
+                stroke="white"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div class="logo-text-wrap">
+            <span class="logo-main">بیمارستان نووا</span
+            ><span class="logo-sub">پنل پزشک</span>
+          </div>
+        </div>
+        <div class="sidebar-section">منوی من</div>
+        <a
+          th:href="@{/doctor/dashboard}"
+          href="/doctor/dashboard"
+          class="sidebar-link"
+          ><div class="link-icon">🏠</div>
+          داشبورد من</a
+        >
+        <a
+          th:href="@{/doctor/appointments}"
+          href="/doctor/appointments"
+          class="sidebar-link"
+          ><div class="link-icon">📅</div>
+          نوبت‌های امروز<span class="sidebar-badge">۸</span></a
+        >
+        <a
+          th:href="@{/doctor/patients}"
+          href="/doctor/patients"
+          class="sidebar-link"
+          ><div class="link-icon">👤</div>
+          بیماران من</a
+        >
+        <a
+          th:href="@{/doctor/schedule}"
+          href="/doctor/schedule"
+          class="sidebar-link"
+          ><div class="link-icon">📆</div>
+          برنامه هفتگی</a
+        >
+        <div class="sidebar-section">بالینی</div>
+        <a
+          th:href="@{/doctor/admitted}"
+          href="/doctor/admitted"
+          class="sidebar-link"
+          ><div class="link-icon">🛏</div>
+          بیماران بستری</a
+        >
+        <a
+          th:href="@{/doctor/records}"
+          href="/doctor/records"
+          class="sidebar-link active"
+          ><div class="link-icon">📋</div>
+          پرونده‌ها</a
+        >
+        <a
+          th:href="@{/doctor/prescriptions}"
+          href="/doctor/prescriptions"
+          class="sidebar-link"
+          ><div class="link-icon">💊</div>
+          تجویزها</a
+        >
+        <div class="sidebar-section">حساب کاربری</div>
+        <a
+          th:href="@{/doctor/profile}"
+          href="/doctor/profile"
+          class="sidebar-link"
+          ><div class="link-icon">👤</div>
+          پروفایل من</a
+        >
+        <a
+          th:href="@{/doctor/change-password}"
+          href="/doctor/change-password"
+          class="sidebar-link"
+          ><div class="link-icon">🔐</div>
+          تغییر رمز</a
+        >
+        <div class="sidebar-footer">
+          <div class="sidebar-user">
+            <div class="user-avatar">🩺</div>
+            <div class="user-info">
+              <span
+                class="user-name"
+                th:text="${doctor?.firstName + ' ' + doctor?.lastName ?: 'دکتر احمدی'}"
+                >دکتر سارا احمدی</span
+              >
+              <span class="user-role">متخصص قلب و عروق</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div class="topbar-title">
+            <h1>پرونده‌های پزشکی</h1>
+            <div class="topbar-date" id="currentDate">در حال بارگذاری…</div>
+          </div>
+          <div class="topbar-actions">
+            <div class="topbar-btn">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+              </svg>
+              <div class="notif-dot"></div>
+            </div>
+            <a th:href="@{/logout}" href="/logout" class="btn-logout">خروج</a>
+          </div>
+        </div>
+
+        <div class="page-content">
+          <div class="filters-row">
+            <input
+              class="filter-input"
+              type="text"
+              placeholder="جستجو بر اساس نام بیمار یا عنوان پرونده..."
+            />
+            <select class="filter-select">
+              <option>همه بیماران</option>
+              <option>رضا کریمی</option>
+              <option>علی محمودی</option>
+              <option>زهرا مرادی</option>
+            </select>
+          </div>
+          <div class="dash-card">
+            <div class="dash-card-header"><h3>پرونده‌های پزشکی</h3></div>
+            <div class="record-list">
+              <div class="record-item">
+                <div class="rec-icon">📋</div>
+                <div style="flex: 1">
+                  <div class="rec-title">
+                    رضا کریمی — معاینه دوره‌ای نارسایی قلبی
+                  </div>
+                  <div class="rec-meta">۱۴۰۳/۰۸/۱۲ · اتاق ICU-1</div>
+                  <div class="rec-desc">
+                    بیمار با علائم تنگی نفس خفیف مراجعه کرد. اکوکاردیوگرافی
+                    تکرار و دوز دیورتیک تنظیم شد.
+                  </div>
+                </div>
+                <div class="rec-actions">
+                  <button
+                    class="tl-btn"
+                    style="
+                      border: 1.5px solid var(--gray-200);
+                      border-radius: 8px;
+                      width: 30px;
+                      height: 30px;
+                      background: transparent;
+                      cursor: pointer;
+                    "
+                  >
+                    👁
+                  </button>
+                </div>
+              </div>
+              <div class="record-item">
+                <div class="rec-icon">📋</div>
+                <div style="flex: 1">
+                  <div class="rec-title">علی محمودی — پیگیری آنژین پایدار</div>
+                  <div class="rec-meta">۱۴۰۳/۰۸/۱۰ · اتاق ۱۰۱</div>
+                  <div class="rec-desc">
+                    تست ورزش انجام شد، نتیجه قابل قبول. ادامه درمان دارویی فعلی
+                    تجویز گردید.
+                  </div>
+                </div>
+                <div class="rec-actions">
+                  <button
+                    style="
+                      border: 1.5px solid var(--gray-200);
+                      border-radius: 8px;
+                      width: 30px;
+                      height: 30px;
+                      background: transparent;
+                      cursor: pointer;
+                    "
+                  >
+                    👁
+                  </button>
+                </div>
+              </div>
+              <div class="record-item">
+                <div class="rec-icon">📋</div>
+                <div style="flex: 1">
+                  <div class="rec-title">زهرا مرادی — کنترل فشار خون</div>
+                  <div class="rec-meta">۱۴۰۳/۰۸/۰۱ · اتاق ۲۰۳</div>
+                  <div class="rec-desc">
+                    فشار خون ۱۴۵/۹۰، دوز داروی ضد فشار افزایش یافت. ویزیت بعدی
+                    دو هفته دیگر.
+                  </div>
+                </div>
+                <div class="rec-actions">
+                  <button
+                    style="
+                      border: 1.5px solid var(--gray-200);
+                      border-radius: 8px;
+                      width: 30px;
+                      height: 30px;
+                      background: transparent;
+                      cursor: pointer;
+                    "
+                  >
+                    👁
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script>
+      document.getElementById("currentDate").textContent =
+        new Date().toLocaleDateString("fa-IR", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+    </script>
+  </body>
+</html>
