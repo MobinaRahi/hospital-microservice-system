@@ -113,7 +113,7 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public List<ShiftResponseDto> getActiveShiftsByType(boolean nightShift) {
         log.debug("Fetching active shifts by nightShift = {}", nightShift);
-        return shiftRepository.findActiveShifts()
+        return shiftRepository.findAllActive()
                 .stream()
                 .filter(shift -> shift.isNightShift() == nightShift)
                 .map(shiftMapper::toResponseDto)
@@ -143,7 +143,7 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public List<ShiftResponseDto> getActiveShifts() {
         log.debug("Fetching active shifts");
-        return shiftRepository.findActiveShifts()
+        return shiftRepository.findAllActive()
                 .stream()
                 .map(shiftMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -152,7 +152,7 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public List<ShiftResponseDto> getInactiveShifts() {
         log.debug("Fetching inactive shifts");
-        return shiftRepository.findInactiveShifts()
+        return shiftRepository.findAllInactive()
                 .stream()
                 .map(shiftMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -189,13 +189,13 @@ public class ShiftServiceImpl implements ShiftService {
     @Override
     public Long countActiveShifts() {
         log.debug("Counting active shifts");
-        return shiftRepository.countActiveShifts();
+        return shiftRepository.countActive();
     }
 
     @Override
     public Long countInactiveShifts() {
         log.debug("Counting inactive shifts");
-        return shiftRepository.countInactiveShifts();
+        return shiftRepository.countInactive();
     }
 
     @Override

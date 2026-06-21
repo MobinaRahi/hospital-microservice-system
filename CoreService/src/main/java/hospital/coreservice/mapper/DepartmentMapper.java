@@ -20,7 +20,7 @@ public interface DepartmentMapper {
     @Mapping(target = "doctorList", ignore = true)
     @Mapping(target = "nurseList", ignore = true)
     @Mapping(target = "roomList", ignore = true)
-    @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
     Department toEntity(DepartmentCreateDto createDto);
 
     @Mapping(target = "id", ignore = true)

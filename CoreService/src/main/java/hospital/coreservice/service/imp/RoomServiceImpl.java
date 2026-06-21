@@ -50,7 +50,7 @@ public class RoomServiceImpl implements RoomService {
         }
 
         Room room = roomMapper.toEntity(createDto);
-        room.setActive(true);
+        room.setDeleted(true);
         room.setOccupied(false);
         Room saved = roomRepository.save(room);
         log.info("Room created with id: {}", saved.getId());

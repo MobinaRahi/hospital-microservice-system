@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>بیمارستان فوق‌تخصصی نووا</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Lucide icons CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.383.0/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="./css/main.css" type="text/css" />
+  </head>
+
+  <body>
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <div class="logo-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path
+                d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
+                fill="#2A9D8F"
+              />
+              <path
+                d="M14 8v12M8 14h12"
+                stroke="white"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div class="logo-text">
+            <span class="logo-main">نووا فوق‌تخصصی</span>
+            <span class="logo-sub">بیمارستان</span>
+          </div>
+        </div>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#" class="active">خانه</a></li>
+          <li><a href="#services">خدمات</a></li>
+          <li><a href="#about">درباره ما</a></li>
+          <li><a href="#blog">وبلاگ</a></li>
+          <li><a href="#contact">تماس با ما</a></li>
+        </ul>
+        <a href="#book" class="btn-book">رزرو نوبت</a>
+        <button class="nav-toggle" id="navToggle">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero">
+      <div class="hero-bg-circle hero-bg-circle-1"></div>
+      <div class="hero-bg-circle hero-bg-circle-2"></div>
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            بیش از ۲۵۰۰ پزشک آنلاین
+          </div>
+          <h1 class="hero-title">
+            درمان‌های پیشرفته برای<br />سبک زندگی سالم‌تر
+          </h1>
+          <p class="hero-desc">
+            با تکیه بر فناوری‌های پیشرفته و مراقبت‌های انسانی، خدمات بهداشتی
+            استثنایی و درمان‌های تخصصی را به بیماران عزیز ارائه می‌دهیم. سلامت
+            شما، اولویت ماست.
+          </p>
+          <div class="hero-actions">
+            <a href="#about" class="btn-view">
+              مشاهده بیمارستان
+              <span class="btn-play">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
+                  <polygon points="5,3 19,12 5,21" />
+                </svg>
+              </span>
+            </a>
+            <div class="search-pill">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2A9D8F"
+                stroke-width="2"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+              <div>
+                <span class="search-label">جستجوی پزشکی</span>
+                <span class="search-sub">با گزینه‌های نووا کر</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-image">
+          <div class="hero-img-bg"></div>
+
+          <!-- Floating card right (was left) -->
+          <div class="hero-float-card card-left">
+            <div class="float-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2A9D8F"
+                stroke-width="2"
+              >
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+            <div>
+              <div class="float-title">بیش از ۴۵۰۰ بیمار</div>
+              <div class="float-sub">با موفقیت درمان شده</div>
+            </div>
+          </div>
+
+          <!-- Floating card left (was top-right) -->
+          <div class="hero-float-card card-top">
+            <div class="float-icon">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#2A9D8F"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <div>
+              <div class="float-title">۲۴/۷ در دسترس</div>
+              <div class="float-sub">مراقبت‌های اورژانسی</div>
+            </div>
+          </div>
+
+          <div class="hero-img-wrapper">
+            <svg
+              viewBox="0 0 340 430"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <ellipse cx="170" cy="220" rx="155" ry="200" fill="#B8E0DC" />
+              <rect
+                x="80"
+                y="240"
+                width="180"
+                height="180"
+                rx="30"
+                fill="#E8F5F3"
+              />
+              <circle cx="170" cy="135" r="58" fill="#F5DEB3" />
+              <ellipse cx="170" cy="95" rx="55" ry="30" fill="#5C3D1E" />
+              <ellipse cx="130" cy="120" rx="20" ry="35" fill="#5C3D1E" />
+              <ellipse cx="210" cy="120" rx="20" ry="35" fill="#5C3D1E" />
+              <circle cx="153" cy="135" r="6" fill="#7A5C3A" opacity="0.8" />
+              <circle cx="187" cy="135" r="6" fill="#7A5C3A" opacity="0.8" />
+              <path
+                d="M158 158 Q170 168 182 158"
+                stroke="#7A5C3A"
+                stroke-width="2.5"
+                fill="none"
+                stroke-linecap="round"
+              />
+              <path
+                d="M140 193 L170 210 L200 193"
+                stroke="#E8F5F3"
+                stroke-width="3"
+                fill="none"
+              />
+              <path
+                d="M135 195 L170 215 L205 195 L210 240 L130 240 Z"
+                fill="#2A9D8F"
+                opacity="0.15"
+              />
+              <ellipse
+                cx="170"
+                cy="420"
+                rx="100"
+                ry="12"
+                fill="#2A9D8F"
+                opacity="0.1"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">۴۵۰۰+</span>
+          <span class="stat-label">بیمار راضی</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">۲۰۰</span>
+          <span class="stat-label">اتاق بیمارستانی</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">۵۰۰+</span>
+          <span class="stat-label">جایزه دریافتی</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">۲۰+</span>
+          <span class="stat-label">آمبولانس</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== APPOINTMENT SEARCH BAR ========== -->
+    <section class="appt-search">
+      <div class="appt-container">
+        <div class="appt-select">
+          <select>
+            <option value="">انتخاب بخش</option>
+            <option>قلب و عروق</option>
+            <option>مغز و اعصاب</option>
+            <option>اطفال</option>
+            <option>اورژانس پزشکی</option>
+            <option>ارتوپدی</option>
+            <option>رادیولوژی</option>
+            <option>روان‌پزشکی</option>
+          </select>
+          <svg
+            class="select-arrow"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#666"
+            stroke-width="2"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </div>
+        <div class="appt-select">
+          <select>
+            <option value="">انتخاب پزشک</option>
+            <option>دکتر اسمیت</option>
+            <option>دکتر جانسون</option>
+            <option>دکتر ویلیامز</option>
+          </select>
+          <svg
+            class="select-arrow"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#666"
+            stroke-width="2"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </div>
+        <div class="appt-select">
+          <select>
+            <option value="">انتخاب تاریخ</option>
+          </select>
+          <svg
+            class="select-arrow"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#666"
+            stroke-width="2"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </div>
+        <div class="appt-select">
+          <select>
+            <option value="">انتخاب مکان</option>
+            <option>ساختمان اصلی</option>
+            <option>بخش شمالی</option>
+            <option>کلینیک جنوبی</option>
+          </select>
+          <svg
+            class="select-arrow"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#666"
+            stroke-width="2"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </div>
+        <button class="btn-search-appt">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          جستجو
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== DEPARTMENT CATEGORY ========== -->
+    <section class="departments" id="services">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">دسته‌بندی بخش‌ها</h2>
+          <p class="section-subtitle">
+            برای دریافت خدمات تخصصی، بخش مورد نظر خود را انتخاب کنید
+          </p>
+        </div>
+        <div class="dept-grid">
+          <!-- Nephrology -->
+          <div class="dept-card">
+            <div class="dept-icon">
+              <svg
+                viewBox="0 0 80 80"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="38"
+                  fill="#E8F5F3"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                />
+                <!-- Kidney shape -->
+                <path
+                  d="M28 32 C20 32 18 40 20 47 C22 54 28 56 32 52 C34 50 34 47 36 45 C38 43 42 43 44 45 C46 47 46 52 50 54 C54 56 60 52 60 45 C60 36 54 30 48 30 C44 30 42 32 40 34 C38 32 34 30 28 32Z"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="none"
+                />
+                <circle cx="40" cy="40" r="4" fill="#2A9D8F" opacity="0.3" />
+              </svg>
+            </div>
+            <span class="dept-name">کلیه‌شناسی</span>
+          </div>
+
+          <!-- Cardiology -->
+          <div class="dept-card">
+            <div class="dept-icon">
+              <svg viewBox="0 0 80 80" fill="none">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="38"
+                  fill="#E8F5F3"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                />
+                <!-- Heart shape -->
+                <path
+                  d="M40 55 C40 55 22 44 22 33 C22 27 27 23 33 23 C36 23 39 25 40 27 C41 25 44 23 47 23 C53 23 58 27 58 33 C58 44 40 55 40 55Z"
+                  stroke="#2A9D8F"
+                  stroke-width="2"
+                  fill="rgba(42,157,143,0.1)"
+                />
+                <!-- Heartbeat line -->
+                <path
+                  d="M28 38 L33 38 L36 32 L40 44 L43 35 L47 38 L52 38"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="none"
+                />
+              </svg>
+            </div>
+            <span class="dept-name">قلب و عروق</span>
+          </div>
+
+          <!-- Pulmonology -->
+          <div class="dept-card">
+            <div class="dept-icon">
+              <svg viewBox="0 0 80 80" fill="none">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="38"
+                  fill="#E8F5F3"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                />
+                <!-- Lungs -->
+                <path
+                  d="M40 22 L40 38"
+                  stroke="#2A9D8F"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M40 30 C40 30 30 30 26 36 C22 42 22 52 28 56 C34 60 40 55 40 50"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M40 30 C40 30 50 30 54 36 C58 42 58 52 52 56 C46 60 40 55 40 50"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+                <ellipse
+                  cx="29"
+                  cy="47"
+                  rx="5"
+                  ry="7"
+                  fill="rgba(42,157,143,0.15)"
+                />
+                <ellipse
+                  cx="51"
+                  cy="47"
+                  rx="5"
+                  ry="7"
+                  fill="rgba(42,157,143,0.15)"
+                />
+              </svg>
+            </div>
+            <span class="dept-name">ریه‌شناسی</span>
+          </div>
+
+          <!-- Dental -->
+          <div class="dept-card">
+            <div class="dept-icon">
+              <svg viewBox="0 0 80 80" fill="none">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="38"
+                  fill="#E8F5F3"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                />
+                <!-- Tooth shape -->
+                <path
+                  d="M30 26 C26 26 22 30 22 35 C22 38 23 41 25 43 C26 44 27 45 27 50 C27 54 28 58 30 58 C32 58 33 55 34 51 C35 48 37 46 40 46 C43 46 45 48 46 51 C47 55 48 58 50 58 C52 58 53 54 53 50 C53 45 54 44 55 43 C57 41 58 38 58 35 C58 30 54 26 50 26 C47 26 45 28 40 28 C35 28 33 26 30 26Z"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="rgba(42,157,143,0.08)"
+                />
+                <path
+                  d="M34 34 Q40 30 46 34"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <span class="dept-name">دندانپزشکی</span>
+          </div>
+
+          <!-- Neurology -->
+          <div class="dept-card">
+            <div class="dept-icon">
+              <svg viewBox="0 0 80 80" fill="none">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="38"
+                  fill="#E8F5F3"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                />
+                <!-- Brain shape -->
+                <path
+                  d="M40 22 C34 22 30 25 29 29 C26 29 23 32 24 36 C21 37 20 41 22 44 C20 47 22 52 26 53 C28 57 34 58 38 56 C39 57 40 57 40 57"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M40 22 C46 22 50 25 51 29 C54 29 57 32 56 36 C59 37 60 41 58 44 C60 47 58 52 54 53 C52 57 46 58 42 56 C41 57 40 57 40 57"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="none"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M40 22 L40 57"
+                  stroke="#2A9D8F"
+                  stroke-width="1.2"
+                  stroke-dasharray="3,3"
+                />
+                <path
+                  d="M28 38 Q34 34 40 36 Q46 34 52 38"
+                  stroke="#2A9D8F"
+                  stroke-width="1.3"
+                  fill="none"
+                />
+                <path
+                  d="M26 45 Q33 42 40 44 Q47 42 54 45"
+                  stroke="#2A9D8F"
+                  stroke-width="1.3"
+                  fill="none"
+                />
+              </svg>
+            </div>
+            <span class="dept-name">مغز و اعصاب</span>
+          </div>
+
+          <!-- Orthopedics -->
+          <div class="dept-card">
+            <div class="dept-icon">
+              <svg viewBox="0 0 80 80" fill="none">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="38"
+                  fill="#E8F5F3"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                />
+                <!-- Bone shape -->
+                <path
+                  d="M28 24 C26 22 22 22 22 25 C22 28 25 28 27 30 L50 53 C52 55 52 58 55 58 C58 58 58 55 55 52 C53 50 53 47 51 45"
+                  stroke="#2A9D8F"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                />
+                <circle
+                  cx="26"
+                  cy="25"
+                  r="5"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="rgba(42,157,143,0.1)"
+                />
+                <circle
+                  cx="54"
+                  cy="55"
+                  r="5"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="rgba(42,157,143,0.1)"
+                />
+                <circle
+                  cx="52"
+                  cy="26"
+                  r="5"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="rgba(42,157,143,0.1)"
+                />
+                <path
+                  d="M52 24 C54 22 58 22 58 25 C58 28 55 28 53 30 L30 53 C28 55 28 58 25 58 C22 58 22 55 25 52 C27 50 27 47 29 45"
+                  stroke="#2A9D8F"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                />
+                <circle
+                  cx="26"
+                  cy="55"
+                  r="5"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="rgba(42,157,143,0.1)"
+                />
+              </svg>
+            </div>
+            <span class="dept-name">ارتوپدی</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SERVICES SECTION ========== -->
+    <section class="services-section" id="about">
+      <div class="services-left">
+        <h2 class="services-title">
+          خدمات بهداشتی جهانی<br />برای شما و<br />عزیزانتان
+        </h2>
+        <a href="#contact" class="btn-more">خدمات بیشتر ←</a>
+
+        <div class="services-doctor-img">
+          <div class="doctor-card-img">
+            <img src="./svg/nurse.svg" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="services-right">
+        <!-- Heartbeat line -->
+        <div class="heartbeat-line">
+          <svg
+            viewBox="0 0 400 60"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 30 L80 30 L100 10 L115 50 L130 5 L145 55 L160 30 L400 30"
+              stroke="white"
+              stroke-width="2"
+              fill="none"
+            />
+          </svg>
+        </div>
+
+        <div class="service-cards-grid">
+          <!-- Emergency -->
+          <div class="service-card">
+            <div class="service-card-icon">
+              <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+                <rect width="42" height="42" rx="10" fill="#E8F5F3" />
+                <!-- Ambulance cross with glow -->
+                <circle
+                  cx="21"
+                  cy="21"
+                  r="13"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                  fill="rgba(42,157,143,0.06)"
+                />
+                <rect
+                  x="15"
+                  y="19.5"
+                  width="12"
+                  height="3"
+                  rx="1.5"
+                  fill="#2A9D8F"
+                />
+                <rect
+                  x="19.5"
+                  y="15"
+                  width="3"
+                  height="12"
+                  rx="1.5"
+                  fill="#2A9D8F"
+                />
+                <!-- Flicker dot -->
+                <circle cx="30" cy="12" r="3" fill="#FF5252" opacity="0.85" />
+              </svg>
+            </div>
+            <div class="service-card-content">
+              <h3>خدمات اورژانسی</h3>
+              <p>
+                مراقبت‌های پزشکی اورژانسی ۲۴/۷ برای بیماری‌های حاد، تصادفات و
+                موقعیت‌های تهدیدکننده حیات. مجهز به درمان تروما، رویدادهای قلبی
+                و مداخلات فوری.
+              </p>
+            </div>
+          </div>
+
+          <!-- Radiology -->
+          <div class="service-card featured">
+            <div class="service-card-icon">
+              <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+                <rect
+                  width="42"
+                  height="42"
+                  rx="10"
+                  fill="white"
+                  opacity="0.18"
+                />
+                <!-- X-ray frame -->
+                <rect
+                  x="8"
+                  y="9"
+                  width="26"
+                  height="24"
+                  rx="3.5"
+                  stroke="white"
+                  stroke-width="1.8"
+                  fill="none"
+                />
+                <!-- Scan lines -->
+                <path
+                  d="M13 16 h16"
+                  stroke="white"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M13 20 h12"
+                  stroke="white"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M13 24 h9"
+                  stroke="white"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                />
+                <!-- Magnify lens -->
+                <circle
+                  cx="30"
+                  cy="30"
+                  r="6"
+                  stroke="white"
+                  stroke-width="1.6"
+                  fill="none"
+                />
+                <path
+                  d="M34.2 34.2 L37 37"
+                  stroke="white"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <path
+                  d="M28 30 h4 M30 28 v4"
+                  stroke="white"
+                  stroke-width="1.3"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <div class="service-card-content">
+              <h3>رادیولوژی و تصویربرداری</h3>
+              <p>
+                خدمات تصویربرداری تشخیصی پیشرفته شامل اشعه ایکس، سی‌تی‌اسکن، MRI
+                و سونوگرافی جهت تشخیص دقیق و سریع بیماری‌ها.
+              </p>
+            </div>
+          </div>
+
+          <!-- Pharmacy -->
+          <div class="service-card">
+            <div class="service-card-icon">
+              <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+                <rect width="42" height="42" rx="10" fill="#E8F5F3" />
+                <!-- Pill capsule -->
+                <rect
+                  x="11"
+                  y="17"
+                  width="20"
+                  height="10"
+                  rx="5"
+                  stroke="#2A9D8F"
+                  stroke-width="1.8"
+                  fill="none"
+                />
+                <path d="M21 17 L21 27" stroke="#2A9D8F" stroke-width="1.5" />
+                <rect
+                  x="11"
+                  y="17"
+                  width="10"
+                  height="10"
+                  rx="5"
+                  fill="rgba(42,157,143,0.15)"
+                />
+                <!-- Small plus -->
+                <rect
+                  x="25"
+                  y="10"
+                  width="8"
+                  height="2"
+                  rx="1"
+                  fill="#2A9D8F"
+                  opacity="0.7"
+                />
+                <rect
+                  x="28"
+                  y="7"
+                  width="2"
+                  height="8"
+                  rx="1"
+                  fill="#2A9D8F"
+                  opacity="0.7"
+                />
+                <!-- Bottle -->
+                <rect
+                  x="15"
+                  y="29"
+                  width="12"
+                  height="6"
+                  rx="2"
+                  stroke="#2A9D8F"
+                  stroke-width="1.5"
+                  fill="none"
+                />
+                <rect
+                  x="18"
+                  y="27"
+                  width="6"
+                  height="3"
+                  rx="1"
+                  fill="#2A9D8F"
+                  opacity="0.4"
+                />
+              </svg>
+            </div>
+            <div class="service-card-content">
+              <h3>داروخانه</h3>
+              <p>
+                داروخانه داخلی ارائه‌دهنده داروهای تجویزشده و ملزومات بهداشتی،
+                با دسترسی به موقع به داروهای مورد نیاز برای بیماران بستری و
+                سرپایی.
+              </p>
+            </div>
+          </div>
+
+          <!-- Laboratory -->
+          <div class="service-card featured">
+            <div class="service-card-icon">
+              <svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+                <rect
+                  width="42"
+                  height="42"
+                  rx="10"
+                  fill="white"
+                  opacity="0.18"
+                />
+                <!-- Flask -->
+                <path
+                  d="M17 10 L17 22 L11 32 C10 34 11 36 13 36 L29 36 C31 36 32 34 31 32 L25 22 L25 10"
+                  stroke="white"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="none"
+                />
+                <path
+                  d="M15 10 L27 10"
+                  stroke="white"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                />
+                <!-- Bubbles in flask -->
+                <circle cx="18" cy="30" r="2" fill="white" opacity="0.5" />
+                <circle cx="23" cy="27" r="1.5" fill="white" opacity="0.4" />
+                <circle cx="21" cy="32" r="1.2" fill="white" opacity="0.35" />
+                <!-- Fill -->
+                <path
+                  d="M13 32 C13 32 12 34 13 35 L29 35 C30 34 29 32 29 32 L13 32Z"
+                  fill="white"
+                  opacity="0.12"
+                />
+              </svg>
+            </div>
+            <div class="service-card-content">
+              <h3>خدمات آزمایشگاهی</h3>
+              <p>
+                آزمایش‌های جامع خون، ادرار و سایر خدمات، پشتیبانی از تشخیص پزشکی
+                سریع و دقیق و برنامه‌ریزی درمانی.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DOCTORS SECTION ========== -->
+    <section class="doctors-section">
+      <div class="section-container">
+        <div class="section-header">
+          <h2 class="section-title">پزشکان متخصص ما</h2>
+          <p class="section-subtitle">
+            با تیم متخصصان پزشکی بسیار مجرب و واجد شرایط ما آشنا شوید
+          </p>
+        </div>
+        <div class="doctors-grid">
+          <div class="doctor-card">
+            <div class="doctor-photo">
+              <div class="doctor-avatar">
+                <svg viewBox="0 0 100 120" fill="none">
+                    <img src="./svg/doctor.svg" alt="">
+                </svg>
+              </div>
+              <div class="doctor-status online"></div>
+            </div>
+            <div class="doctor-info">
+              <h3 class="doctor-name">دکتر سارا جانسون</h3>
+              <span class="doctor-specialty">قلب‌شناس</span>
+              <div class="doctor-rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-num">۴.۹</span>
+              </div>
+              <a href="#" class="btn-book-doctor">رزرو نوبت</a>
+            </div>
+          </div>
+
+          <div class="doctor-card">
+            <div class="doctor-photo" style="background: #eef3f5">
+              <div class="doctor-avatar">
+                <svg viewBox="0 0 100 120" fill="none">
+                  <circle cx="50" cy="42" r="28" fill="#C4D4E0" />
+                  <path d="M10 100 Q50 75 90 100" fill="#C4D4E0" />
+                  <rect
+                    x="30"
+                    y="65"
+                    width="40"
+                    height="30"
+                    rx="8"
+                    fill="#D0E8F5"
+                  />
+                  <rect
+                    x="38"
+                    y="30"
+                    width="24"
+                    height="3"
+                    rx="1.5"
+                    fill="#2A7BAD"
+                  />
+                  <rect
+                    x="49"
+                    y="19"
+                    width="3"
+                    height="24"
+                    rx="1.5"
+                    fill="#2A7BAD"
+                  />
+                  <path
+                    d="M42 75 Q42 85 48 87"
+                    stroke="#2A7BAD"
+                    stroke-width="1.5"
+                    fill="none"
+                  />
+                  <circle
+                    cx="48"
+                    cy="87"
+                    r="3"
+                    stroke="#2A7BAD"
+                    stroke-width="1.2"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+              <div class="doctor-status online"></div>
+            </div>
+            <div class="doctor-info">
+              <h3 class="doctor-name">دکتر مایکل چن</h3>
+              <span class="doctor-specialty">متخصص اعصاب</span>
+              <div class="doctor-rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-num">۴.۸</span>
+              </div>
+              <a href="#" class="btn-book-doctor">رزرو نوبت</a>
+            </div>
+          </div>
+
+          <div class="doctor-card">
+            <div class="doctor-photo" style="background: #f5eef8">
+              <div class="doctor-avatar">
+                <svg viewBox="0 0 100 120" fill="none">
+                  <circle cx="50" cy="42" r="28" fill="#D4C4E0" />
+                  <path d="M10 100 Q50 75 90 100" fill="#D4C4E0" />
+                  <rect
+                    x="30"
+                    y="65"
+                    width="40"
+                    height="30"
+                    rx="8"
+                    fill="#EEE0F8"
+                  />
+                  <rect
+                    x="38"
+                    y="30"
+                    width="24"
+                    height="3"
+                    rx="1.5"
+                    fill="#7B2AAD"
+                  />
+                  <rect
+                    x="49"
+                    y="19"
+                    width="3"
+                    height="24"
+                    rx="1.5"
+                    fill="#7B2AAD"
+                  />
+                  <path
+                    d="M42 75 Q42 85 48 87"
+                    stroke="#7B2AAD"
+                    stroke-width="1.5"
+                    fill="none"
+                  />
+                  <circle
+                    cx="48"
+                    cy="87"
+                    r="3"
+                    stroke="#7B2AAD"
+                    stroke-width="1.2"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+              <div class="doctor-status online"></div>
+            </div>
+            <div class="doctor-info">
+              <h3 class="doctor-name">دکتر اما ویلیامز</h3>
+              <span class="doctor-specialty">متخصص اطفال</span>
+              <div class="doctor-rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-num">۵.۰</span>
+              </div>
+              <a href="#" class="btn-book-doctor">رزرو نوبت</a>
+            </div>
+          </div>
+
+          <div class="doctor-card">
+            <div class="doctor-photo">
+              <div class="doctor-avatar">
+                <svg viewBox="0 0 100 120" fill="none">
+                  <circle cx="50" cy="42" r="28" fill="#B8D4CF" />
+                  <path d="M10 100 Q50 75 90 100" fill="#B8D4CF" />
+                  <rect
+                    x="30"
+                    y="65"
+                    width="40"
+                    height="30"
+                    rx="8"
+                    fill="#E8F5F3"
+                  />
+                  <rect
+                    x="38"
+                    y="30"
+                    width="24"
+                    height="3"
+                    rx="1.5"
+                    fill="#2A9D8F"
+                  />
+                  <rect
+                    x="49"
+                    y="19"
+                    width="3"
+                    height="24"
+                    rx="1.5"
+                    fill="#2A9D8F"
+                  />
+                  <path
+                    d="M42 75 Q42 85 48 87"
+                    stroke="#2A9D8F"
+                    stroke-width="1.5"
+                    fill="none"
+                  />
+                  <circle
+                    cx="48"
+                    cy="87"
+                    r="3"
+                    stroke="#2A9D8F"
+                    stroke-width="1.2"
+                    fill="none"
+                  />
+                </svg>
+              </div>
+              <div class="doctor-status busy"></div>
+            </div>
+            <div class="doctor-info">
+              <h3 class="doctor-name">دکتر جیمز ویلسون</h3>
+              <span class="doctor-specialty">جراح ارتوپدی</span>
+              <div class="doctor-rating">
+                <span class="stars">★★★★☆</span>
+                <span class="rating-num">۴.۷</span>
+              </div>
+              <a href="#" class="btn-book-doctor">رزرو نوبت</a>
+            </div>
+          </div>
+        </div>
+        <div class="section-cta">
+          <a href="#" class="btn-all-doctors">مشاهده همه پزشکان ←</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== WHY CHOOSE US ========== -->
+    <section class="why-us">
+      <div class="section-container">
+        <div class="why-content">
+          <div class="why-text">
+            <h2 class="section-title">چرا بیمارستان نووا را انتخاب کنید؟</h2>
+            <p class="section-subtitle" style="text-align: right">
+              ما فناوری پیشرفته را با مراقبت‌های انسانی ترکیب می‌کنیم تا نتایج
+              بهداشتی استثنایی ارائه دهیم.
+            </p>
+            <div class="why-features">
+              <div class="why-feature">
+                <div class="feature-icon">
+                  <!-- Certified badge -->
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#2A9D8F"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h4>متخصصان دارای گواهینامه</h4>
+                  <p>پزشکان دارای بورد تخصصی با دهه‌ها تجربه</p>
+                </div>
+              </div>
+
+              <div class="why-feature">
+                <div class="feature-icon">
+                  <!-- Clock 24h -->
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#2A9D8F"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>در دسترس ۲۴/۷</h4>
+                  <p>مراقبت و پشتیبانی اورژانسی شبانه‌روزی</p>
+                </div>
+              </div>
+
+              <div class="why-feature">
+                <div class="feature-icon">
+                  <!-- Shield hygiene -->
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#2A9D8F"
+                    stroke-width="2"
+                  >
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    <path d="M9 12l2 2 4-4" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>ایمن و بهداشتی</h4>
+                  <p>پروتکل‌های بهداشتی سخت‌گیرانه و تجهیزات استریل‌شده</p>
+                </div>
+              </div>
+
+              <div class="why-feature">
+                <div class="feature-icon">
+                  <!-- People first -->
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#2A9D8F"
+                    stroke-width="2"
+                  >
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </div>
+                <div>
+                  <h4>رویکرد بیمار‌محور</h4>
+                  <p>برنامه‌های مراقبتی شخصی‌سازی‌شده متناسب با هر بیمار</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="why-visual">
+            <div class="why-big-stat">
+              <span class="big-num">۹۸٪</span>
+              <span class="big-label">نرخ رضایت بیماران</span>
+            </div>
+            <div class="why-small-stats">
+              <div class="small-stat">
+                <span>۱۵+</span>
+                <span>سال تعالی</span>
+              </div>
+              <div class="small-stat">
+                <span>۵۰+</span>
+                <span>تخصص</span>
+              </div>
+              <div class="small-stat">
+                <span>۲۰۰+</span>
+                <span>پزشک متخصص</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer" id="contact">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom: 16px">
+            <div class="logo-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path
+                  d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
+                  fill="#2A9D8F"
+                />
+                <path
+                  d="M14 8v12M8 14h12"
+                  stroke="white"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-main" style="color: white">نووا فوق‌تخصصی</span>
+              <span class="logo-sub" style="color: #b8d4cf">بیمارستان</span>
+            </div>
+          </div>
+          <p>
+            ارائه خدمات بهداشتی در سطح جهانی با محبت و تعالی برای بیش از ۱۵ سال.
+          </p>
+        </div>
+        <div class="footer-links">
+          <h4>لینک‌های سریع</h4>
+          <ul>
+            <li><a href="#">خانه</a></li>
+            <li><a href="#services">خدمات</a></li>
+            <li><a href="#about">درباره ما</a></li>
+            <li><a href="#">پزشکان ما</a></li>
+            <li><a href="#">وبلاگ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>بخش‌ها</h4>
+          <ul>
+            <li><a href="#">قلب و عروق</a></li>
+            <li><a href="#">مغز و اعصاب</a></li>
+            <li><a href="#">اطفال</a></li>
+            <li><a href="#">اورژانس</a></li>
+            <li><a href="#">رادیولوژی</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>تماس با ما</h4>
+          <p>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="flex-shrink: 0; margin-top: 2px"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            خیابان مرکز پزشکی ۱۲۳<br />شهر سلامت
+          </p>
+          <p>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="flex-shrink: 0"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.58a16 16 0 0 0 5.5 5.5l1.65-1.65a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+              />
+            </svg>
+            ۰۲۱-۱۲۳-۴۵۶۷
+          </p>
+          <p>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="flex-shrink: 0"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            info@novasuperhospital.com
+          </p>
+          <p>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              style="flex-shrink: 0"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            خدمات اورژانسی ۲۴/۷
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© ۱۴۰۴ بیمارستان فوق‌تخصصی نووا. تمامی حقوق محفوظ است.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile nav toggle
+      document
+        .getElementById("navToggle")
+        .addEventListener("click", function () {
+          document.getElementById("navLinks").classList.toggle("open");
+        });
+
+      // Smooth scroll
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          const target = document.querySelector(a.getAttribute("href"));
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      });
+
+      // Scroll reveal animation
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = "1";
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document
+        .querySelectorAll(
+          ".dept-card, .service-card, .doctor-card, .why-feature"
+        )
+        .forEach((el) => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(20px)";
+          el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+          observer.observe(el);
+        });
+    </script>
+  </body>
+</html>

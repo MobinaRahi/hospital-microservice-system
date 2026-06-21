@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ورود – بیمارستان فوق‌تخصصی نووا</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/login.css" type="text/css" />
+  </head>
+  <body>
+    <div class="login-wrapper">
+      <!-- LEFT -->
+      <div class="login-left">
+        <div class="login-left-inner">
+          <div class="login-logo">
+            <div class="logo-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+                <path
+                  d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
+                  fill="#2A9D8F"
+                />
+                <path
+                  d="M14 8v12M8 14h12"
+                  stroke="white"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <div class="logo-text">
+              <span class="logo-main">بیمارستان نووا</span>
+              <span class="logo-sub">فوق‌تخصصی</span>
+            </div>
+          </div>
+          <h2>سلامت شما،<br />اولویت ماست</h2>
+          <p>
+            به پرونده پزشکی خود دسترسی داشته باشید، نوبت رزرو کنید و با بهترین
+            متخصصان ارتباط بگیرید — همه در یک جا.
+          </p>
+        </div>
+        <div class="login-left-stats">
+          <div class="ls">
+            <span class="ls-num">۲۰۰+</span><span class="ls-label">متخصص</span>
+          </div>
+          <div class="ls">
+            <span class="ls-num">۴۵۰۰+</span><span class="ls-label">بیمار</span>
+          </div>
+          <div class="ls">
+            <span class="ls-num">۲۴/۷</span
+            ><span class="ls-label">پشتیبانی</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="login-right">
+        <h3>خوش آمدید</h3>
+        <p class="sub">وارد حساب کاربری بیمارستان نووا شوید</p>
+
+        <div class="alert-error" th:if="${error}" th:text="${error}"></div>
+
+        <form th:action="@{/login}" method="post">
+          <div class="form-group">
+            <label for="username">نام کاربری یا ایمیل</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="نام کاربری را وارد کنید"
+              required
+              autocomplete="username"
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">رمز عبور</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="رمز عبور را وارد کنید"
+              required
+              autocomplete="current-password"
+            />
+          </div>
+          <div class="form-extras">
+            <label
+              ><input type="checkbox" name="remember-me" /> مرا به خاطر
+              بسپار</label
+            >
+            <a href="#">فراموشی رمز عبور؟</a>
+          </div>
+          <button type="submit" class="btn-login">ورود به سیستم</button>
+          <input
+            type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}"
+            th:if="${_csrf != null}"
+          />
+        </form>
+
+        <div class="login-divider">یا</div>
+        <div class="register-link">
+          حساب کاربری ندارید؟
+          <a th:href="@{/register}" href="#">ثبت‌نام کنید</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

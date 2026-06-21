@@ -242,7 +242,7 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public List<NurseResponseDto> getAllActiveNurses() {
         log.debug("Fetching all active nurses");
-        return nurseRepository.findAllActiveNurses()
+        return nurseRepository.findAllActive()
                 .stream()
                 .map(nurseMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -251,7 +251,7 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public List<NurseResponseDto> getAllInactiveNurses() {
         log.debug("Fetching all inactive nurses");
-        return nurseRepository.findAllInactiveNurses()
+        return nurseRepository.findAllInactive()
                 .stream()
                 .map(nurseMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -392,12 +392,12 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public Long countActiveNurses() {
-        return nurseRepository.countActiveNurses();
+        return nurseRepository.countActive();
     }
 
     @Override
     public Long countInactiveNurses() {
-        return nurseRepository.countInactiveNurses();
+        return nurseRepository.countInactive();
     }
 
     @Override

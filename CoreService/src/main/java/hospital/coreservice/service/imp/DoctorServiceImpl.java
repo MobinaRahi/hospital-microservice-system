@@ -186,7 +186,7 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorScheduleRepository.findByDayOfWeek(dayOfWeek)
                 .stream()
                 .map(DoctorSchedule::getDoctor)
-                .filter(Doctor::isActive)
+                .filter(Doctor::isDeleted)
                 .map(doctorMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
@@ -196,7 +196,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<DoctorResponseDto> getActiveDoctors() {
         log.debug("Fetching all active doctors");
-        return doctorRepository.findAllActiveDoctors()
+        return doctorRepository.findAllActive()
                 .stream()
                 .map(doctorMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -205,7 +205,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<DoctorResponseDto> getInactiveDoctors() {
         log.debug("Fetching all inactive doctors");
-        return doctorRepository.findAllInactiveDoctors()
+        return doctorRepository.findAllInactive()
                 .stream()
                 .map(doctorMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -337,13 +337,13 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Long countActiveDoctors() {
         log.debug("Counting active doctors");
-        return doctorRepository.countActiveDoctors();
+        return doctorRepository.countActive();
     }
 
     @Override
     public Long countInactiveDoctors() {
         log.debug("Counting inactive doctors");
-        return doctorRepository.countInactiveDoctors();
+        return doctorRepository.countInactive();
     }
 
     // ========== Validation ==========

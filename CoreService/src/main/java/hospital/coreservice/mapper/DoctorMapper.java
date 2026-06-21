@@ -17,7 +17,7 @@ public interface DoctorMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "doctorSchedules", ignore = true)
     @Mapping(target = "department", ignore = true)
-    @Mapping(target = "isActive", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
     Doctor toEntity(DoctorCreateDto createDto);
 
     @Mapping(target = "id", ignore = true)
@@ -25,5 +25,7 @@ public interface DoctorMapper {
     @Mapping(target = "department", ignore = true)
     void updateEntity(@MappingTarget Doctor doctor, DoctorUpdateDto updateDto);
 
+    @Mapping(target = "fullName", expression = "java(doctor.getFirstName() + \" \" + doctor.getLastName())")
     DoctorResponseDto toResponseDto(Doctor doctor);
+
 }

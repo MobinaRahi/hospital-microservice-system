@@ -2,7 +2,6 @@ package hospital.coreservice.repository;
 
 import hospital.coreservice.model.Appointment;
 import hospital.coreservice.model.enums.AppointmentStatus;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,13 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Repository for Appointment entity.
- *
- * @author Mobina
- */
 @Repository
-public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+public interface AppointmentRepository extends BaseEntityRepository<Appointment, Long> {
 
     // ========== Update Operations ==========
 

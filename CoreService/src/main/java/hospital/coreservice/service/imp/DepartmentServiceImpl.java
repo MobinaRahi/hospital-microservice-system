@@ -139,7 +139,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentResponseDto> getActiveDepartments() {
         log.debug("Fetching active departments");
-        return departmentRepository.findByIsActiveTrue()
+        return departmentRepository.findAllActive()
                 .stream()
                 .map(departmentMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -148,7 +148,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentResponseDto> getInactiveDepartments() {
         log.debug("Fetching inactive departments");
-        return departmentRepository.findByIsActiveFalse()
+        return departmentRepository.findAllInactive()
                 .stream()
                 .map(departmentMapper::toResponseDto)
                 .collect(Collectors.toList());
@@ -451,12 +451,12 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentResponseDto> getDepartmentsByStatus(boolean isActive) {
         log.debug("Getting departments by status: active={}", isActive);
         if (isActive) {
-            return departmentRepository.findByIsActiveTrue()
+            return departmentRepository.findAllActive()
                     .stream()
                     .map(departmentMapper::toResponseDto)
                     .collect(Collectors.toList());
         } else {
-            return departmentRepository.findByIsActiveFalse()
+            return departmentRepository.findAllInactive()
                     .stream()
                     .map(departmentMapper::toResponseDto)
                     .collect(Collectors.toList());
@@ -492,13 +492,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Long countActiveDepartments() {
         log.debug("Counting active departments");
-        return departmentRepository.countByIsActiveTrue();
+        return departmentRepository.countActive();
     }
 
     @Override
     public Long countInactiveDepartments() {
         log.debug("Counting inActive departments");
-        return departmentRepository.countByIsActiveFalse();
+        return departmentRepository.countInactive();
     }
 
     // ========== Validation ==========
@@ -526,4 +526,5 @@ public class DepartmentServiceImpl implements DepartmentService {
         log.debug("Checking if department exists by id: {}", id);
         return departmentRepository.existsById(id);
     }
+
 }

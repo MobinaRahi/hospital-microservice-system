@@ -7,10 +7,16 @@ import lombok.Setter;
 @Setter
 public class DepartmentSlimResponseDto {
     private Long id;
+
     private String departmentName;
+
     private String departmentCode;
+
     private String description;
+
     private String location;
+
     private String phoneNumber;
+
     private Boolean isActive;
 }
