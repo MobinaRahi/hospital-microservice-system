@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>اتاق‌ها – بیمارستان فوق‌تخصصی نووا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/panel.css}" href="../static/css/panel.css" />
+</head>
+<body>
+  <div class="panel-shell">
+    <nav class="panel-nav">
+      <a class="panel-brand" href="/"><span class="panel-logo">+</span><span>بیمارستان نووا</span></a>
+      <div class="panel-links">
+  <a href="/">خانه</a><a href="/dashboard">داشبورد</a><a href="/doctors">پزشکان</a><a href="/appointments">نوبت‌ها</a><a href="/patients">بیماران</a><a href="/nurses">پرستاران</a><a href="/rooms">اتاق‌ها</a><a href="/shifts">شیفت‌ها</a><a href="/login">ورود</a>
+</div>
+    </nav>
+    <header class="panel-hero">
+      <div class="eyebrow">مدیریت اتاق‌ها</div>
+      <h1>اتاق‌ها</h1>
+      <p class="panel-desc">نمایش ظرفیت، اشغال و تخصیص بیمار به اتاق.</p>
+      <div class="actions"><a class="btn btn-primary" href="/appointments/book">رزرو نوبت</a><a class="btn btn-light" href="/dashboard">بازگشت به داشبورد</a></div>
+    </header>
+    <div class="grid grid-4 cards"><div class="card"><div class="metric-label">اتاق خالی</div><div class="metric-value" th:text="${availableRoomCount} ?: '۷'">۷</div><span class="badge">خالی</span></div><div class="card"><div class="metric-label">اتاق اشغال</div><div class="metric-value" th:text="${occupiedRoomCount} ?: '۶۵'">۶۵</div><span class="badge">اشغال</span></div><div class="card"><div class="metric-label">ظرفیت کل</div><div class="metric-value" >۱۷۶</div><span class="badge">ظرفیت</span></div><div class="card"><div class="metric-label">بخش‌ها</div><div class="metric-value" >۱۲</div><span class="badge">بخش</span></div></div><section class="section"><div class="section-head"><h2 class="section-title">اتاق‌ها</h2><span class="badge">RoomApi</span></div><div class="table-wrap"><table><thead><tr><th>شماره</th><th>بخش</th><th>ظرفیت</th><th>وضعیت</th></tr></thead><tbody><tr th:each="item : ${rooms}"><td th:text="${item.roomNumber}">-</td><td th:text="${item.department != null ? item.department.departmentName : '-'}">-</td><td th:text="${item.capacity}">-</td><td th:text="${item.isOccupied}">-</td></tr><tr><td>۱۰۲</td><td>قلب</td><td>۲</td><td><span class="badge yellow">اشغال جزئی</span></td></tr><tr><td>۳۱۰</td><td>کودکان</td><td>۲</td><td><span class="badge green">خالی</span></td></tr></tbody></table></div></section>
+  </div>
+</body>
+</html>

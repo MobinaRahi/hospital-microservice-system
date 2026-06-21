@@ -16,7 +16,7 @@ public class ApiResponse<T> {
     private final String message;
     private final T data;
     private final LocalDateTime timestamp;
-    private final int statusCode;
+    private final int status;
     private final String path;
 
     // ==================== SUCCESS METHODS ====================
@@ -27,7 +27,7 @@ public class ApiResponse<T> {
                 .message(sanitize(message))
                 .data(data)
                 .timestamp(LocalDateTime.now())
-                .statusCode(statusCode)
+                .status(statusCode)
                 .path(sanitize(path))
                 .build();
     }
@@ -59,7 +59,7 @@ public class ApiResponse<T> {
                 .success(false)
                 .message(sanitize(message))
                 .timestamp(LocalDateTime.now())
-                .statusCode(statusCode)
+                .status(statusCode)
                 .path(sanitize(path))
                 .build();
     }
@@ -85,7 +85,7 @@ public class ApiResponse<T> {
                 .message(sanitize(message))
                 .data(data)
                 .timestamp(LocalDateTime.now())
-                .statusCode(statusCode)
+                .status(statusCode)
                 .path(sanitize(path))
                 .build();
     }

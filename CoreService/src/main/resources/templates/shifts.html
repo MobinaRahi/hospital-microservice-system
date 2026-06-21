@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شیفت‌ها – بیمارستان فوق‌تخصصی نووا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/panel.css}" href="../static/css/panel.css" />
+</head>
+<body>
+  <div class="panel-shell">
+    <nav class="panel-nav">
+      <a class="panel-brand" href="/"><span class="panel-logo">+</span><span>بیمارستان نووا</span></a>
+      <div class="panel-links">
+  <a href="/">خانه</a><a href="/dashboard">داشبورد</a><a href="/doctors">پزشکان</a><a href="/appointments">نوبت‌ها</a><a href="/patients">بیماران</a><a href="/nurses">پرستاران</a><a href="/rooms">اتاق‌ها</a><a href="/shifts">شیفت‌ها</a><a href="/login">ورود</a>
+</div>
+    </nav>
+    <header class="panel-hero">
+      <div class="eyebrow">مدیریت شیفت‌ها</div>
+      <h1>شیفت‌ها</h1>
+      <p class="panel-desc">تعریف و مدیریت شیفت‌های پرسنل بیمارستان.</p>
+      <div class="actions"><a class="btn btn-primary" href="/appointments/book">رزرو نوبت</a><a class="btn btn-light" href="/dashboard">بازگشت به داشبورد</a></div>
+    </header>
+    <div class="grid grid-4 cards"><div class="card"><div class="metric-label">شیفت فعال</div><div class="metric-value" th:text="${activeShiftCount} ?: '۳'">۳</div><span class="badge">فعال</span></div><div class="card"><div class="metric-label">صبح</div><div class="metric-value" >۱</div><span class="badge">صبح</span></div><div class="card"><div class="metric-label">عصر</div><div class="metric-value" >۱</div><span class="badge">عصر</span></div><div class="card"><div class="metric-label">شب</div><div class="metric-value" >۱</div><span class="badge">شب</span></div></div><section class="section"><div class="section-head"><h2 class="section-title">شیفت‌ها</h2><span class="badge">ShiftApi</span></div><div class="table-wrap"><table><thead><tr><th>نام</th><th>شروع</th><th>پایان</th><th>شب</th><th>وضعیت</th></tr></thead><tbody><tr th:each="item : ${shifts}"><td th:text="${item.name}">-</td><td th:text="${item.startTime}">-</td><td th:text="${item.endTime}">-</td><td th:text="${item.nightShift}">-</td><td th:text="${item.isActive}">-</td></tr><tr><td>صبح</td><td>۰۷:۰۰</td><td>۱۵:۰۰</td><td>خیر</td><td><span class="badge green">فعال</span></td></tr><tr><td>شب</td><td>۲۳:۰۰</td><td>۰۷:۰۰</td><td>بله</td><td><span class="badge yellow">اضافه‌کار</span></td></tr></tbody></table></div></section>
+  </div>
+</body>
+</html>

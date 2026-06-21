@@ -1,579 +1,343 @@
-//package hospital.coreservice.controller;
-//
-//import hospital.coreservice.dto.response.ApiResponse;
-//import hospital.coreservice.dto.department.DepartmentCreateDto;
-//import hospital.coreservice.dto.department.DepartmentResponseDto;
-//import hospital.coreservice.dto.department.DepartmentUpdateDto;
-//import hospital.coreservice.dto.doctor.DoctorResponseDto;
-//import hospital.coreservice.dto.nurse.NurseResponseDto;
-//import hospital.coreservice.dto.room.RoomResponseDto;
-//import hospital.coreservice.service.DepartmentService;
-//import io.swagger.v3.oas.annotations.Operation;
-//import io.swagger.v3.oas.annotations.tags.Tag;
-//import jakarta.validation.Valid;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/api/v1/departments")
-//@RequiredArgsConstructor
-//@Tag(name = "Department Management", description = "Department CRUD and management APIs")
-//public class DepartmentApi {
-//
-//    private final DepartmentService departmentService;
-//
-//    // ========== Core Operations ==========
-//
-//    @PostMapping
-//    @Operation(summary = "Create a new department")
-//    public ResponseEntity<ApiResponse> createDepartment(@Valid @RequestBody DepartmentCreateDto departmentDto) {
-//        DepartmentResponseDto created = departmentService.createDepartment(departmentDto);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.CREATED.value())
-//                .message("Department created successfully")
-//                .data(created)
-//                .build();
-//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-//    }
-//
-//    @PutMapping("/{id}")
-//    @Operation(summary = "Update a department by ID")
-//    public ResponseEntity<ApiResponse> updateDepartment(@PathVariable Long id, @Valid @RequestBody DepartmentUpdateDto departmentDto) {
-//        DepartmentResponseDto updated = departmentService.updateDepartment(id, departmentDto);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Department updated successfully with id: " + id)
-//                .data(updated)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/{id}/deactivate")
-//    @Operation(summary = "Deactivate a department by ID")
-//    public ResponseEntity<ApiResponse> deactivateDepartment(@PathVariable Long id) {
-//        departmentService.deactivateDepartment(id);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Department deactivated successfully with id: " + id)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/{id}/activate")
-//    @Operation(summary = "Activate a department by ID")
-//    public ResponseEntity<ApiResponse> activateDepartment(@PathVariable Long id) {
-//        departmentService.activateDepartment(id);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Department activated successfully with id: " + id)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    // ========== Leadership Management ==========
-//
-//    @PutMapping("/head-doctor/assign/{departmentId}")
-//    @Operation(summary = "Assign head doctor to department")
-//    public ResponseEntity<ApiResponse> assignHeadDoctor(@PathVariable Long departmentId, @RequestBody Long doctorId) {
-//        departmentService.assignHeadDoctor(departmentId, doctorId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Head doctor assigned successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PutMapping("/head-nurse/assign/{departmentId}")
-//    @Operation(summary = "Assign head nurse to department")
-//    public ResponseEntity<ApiResponse> assignHeadNurse(@PathVariable Long departmentId, @RequestBody Long nurseId) {
-//        departmentService.assignHeadNurse(departmentId, nurseId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Head nurse assigned successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/head-doctor/remove/{departmentId}")
-//    @Operation(summary = "Remove head doctor from department")
-//    public ResponseEntity<ApiResponse> removeHeadDoctor(@PathVariable Long departmentId) {
-//        departmentService.removeHeadDoctor(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Head doctor removed successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/head-nurse/remove/{departmentId}")
-//    @Operation(summary = "Remove head nurse from department")
-//    public ResponseEntity<ApiResponse> removeHeadNurse(@PathVariable Long departmentId) {
-//        departmentService.removeHeadNurse(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Head nurse removed successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    // ========== Member Management (Doctors) ==========
-//
-//    @PatchMapping("/doctor/add/{departmentId}")
-//    @Operation(summary = "Add a doctor to department")
-//    public ResponseEntity<ApiResponse> addDoctorToDepartment(@PathVariable Long departmentId, @RequestBody Long doctorId) {
-//        departmentService.addDoctorToDepartment(departmentId, doctorId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Doctor added successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/doctor/remove/{departmentId}")
-//    @Operation(summary = "Remove a doctor from department")
-//    public ResponseEntity<ApiResponse> removeDoctorFromDepartment(@PathVariable Long departmentId, @RequestBody Long doctorId) {
-//        departmentService.removeDoctorFromDepartment(departmentId, doctorId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Doctor removed successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/doctor/remove-all/{departmentId}")
-//    @Operation(summary = "Remove all doctors from department")
-//    public ResponseEntity<ApiResponse> removeAllDoctorsFromDepartment(@PathVariable Long departmentId) {
-//        departmentService.removeAllDoctorsFromDepartment(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("All doctors removed successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/doctor/{departmentId}")
-//    @Operation(summary = "Get doctors by department ID")
-//    public ResponseEntity<ApiResponse> getDoctorsByDepartmentId(@PathVariable Long departmentId) {
-//        List<DoctorResponseDto> doctors = departmentService.getDoctorsByDepartmentId(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Doctors retrieved successfully")
-//                .data(doctors)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    // ========== Member Management (Nurses) ==========
-//
-//    @PatchMapping("/nurse/add/{departmentId}")
-//    @Operation(summary = "Add a nurse to department")
-//    public ResponseEntity<ApiResponse> addNurseToDepartment(@PathVariable Long departmentId, @RequestBody Long nurseId) {
-//        departmentService.addNurseToDepartment(departmentId, nurseId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Nurse added successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/nurse/remove/{departmentId}")
-//    @Operation(summary = "Remove a nurse from department")
-//    public ResponseEntity<ApiResponse> removeNurseFromDepartment(@PathVariable Long departmentId, @RequestBody Long nurseId) {
-//        departmentService.removeNurseFromDepartment(departmentId, nurseId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Nurse removed successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/nurse/remove-all/{departmentId}")
-//    @Operation(summary = "Remove all nurses from department")
-//    public ResponseEntity<ApiResponse> removeAllNursesFromDepartment(@PathVariable Long departmentId) {
-//        departmentService.removeAllNursesFromDepartment(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("All nurses removed successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/nurse/{departmentId}")
-//    @Operation(summary = "Get nurses by department ID")
-//    public ResponseEntity<ApiResponse> getNursesByDepartmentId(@PathVariable Long departmentId) {
-//        List<NurseResponseDto> nurses = departmentService.getNursesByDepartmentId(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Nurses retrieved successfully")
-//                .data(nurses)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    // ========== Member Management (Rooms) ==========
-//
-//    @PatchMapping("/room/add/{departmentId}")
-//    @Operation(summary = "Add a room to department")
-//    public ResponseEntity<ApiResponse> addRoomToDepartment(@PathVariable Long departmentId, @RequestBody Long roomId) {
-//        departmentService.addRoomToDepartment(departmentId, roomId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Room added successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @PatchMapping("/room/remove/{departmentId}")
-//    @Operation(summary = "Remove a room from department")
-//    public ResponseEntity<ApiResponse> removeRoomFromDepartment(@PathVariable Long departmentId, @RequestBody Long roomId) {
-//        departmentService.removeRoomFromDepartment(departmentId, roomId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Room removed successfully")
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/room/{departmentId}")
-//    @Operation(summary = "Get rooms by department ID")
-//    public ResponseEntity<ApiResponse> getRoomsByDepartmentId(@PathVariable Long departmentId) {
-//        List<RoomResponseDto> rooms = departmentService.getRoomsByDepartmentId(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Rooms retrieved successfully")
-//                .data(rooms)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    // ========== Head Retrieval ==========
-//
-//    @GetMapping("/head-doctor/{departmentId}")
-//    @Operation(summary = "Get head doctor of department")
-//    public ResponseEntity<ApiResponse> getDepartmentHeadDoctor(@PathVariable Long departmentId) {
-//        DoctorResponseDto doctor = departmentService.getDepartmentHeadDoctor(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Head doctor retrieved successfully")
-//                .data(doctor)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/head-nurse/{departmentId}")
-//    @Operation(summary = "Get head nurse of department")
-//    public ResponseEntity<ApiResponse> getDepartmentHeadNurse(@PathVariable Long departmentId) {
-//        NurseResponseDto nurse = departmentService.getDepartmentHeadNurse(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Head nurse retrieved successfully")
-//                .data(nurse)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    // ========== Basic Retrieval ==========
-//
-//    @GetMapping("/{id}")
-//    @Operation(summary = "Get department by ID")
-//    public ResponseEntity<ApiResponse> getDepartmentById(@PathVariable Long id) {
-//        DepartmentResponseDto department = departmentService.getDepartmentById(id);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Department retrieved successfully")
-//                .data(department)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/by-code")
-//    @Operation(summary = "Get department by code")
-//    public ResponseEntity<ApiResponse> getDepartmentByCode(@RequestParam String code) {
-//        DepartmentResponseDto department = departmentService.getDepartmentByCode(code);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Department retrieved successfully")
-//                .data(department)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/active/by-code")
-//    @Operation(summary = "Get active department by code")
-//    public ResponseEntity<ApiResponse> getActiveDepartmentByCode(@RequestParam String code) {
-//        DepartmentResponseDto department = departmentService.getDepartmentByCodeAndIsActiveTrue(code);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Active department retrieved successfully")
-//                .data(department)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/by-name")
-//    @Operation(summary = "Get departments by name")
-//    public ResponseEntity<ApiResponse> getDepartmentsByName(@RequestParam String name) {
-//        List<DepartmentResponseDto> departments = departmentService.getDepartmentByName(name);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Departments retrieved successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/active/by-name")
-//    @Operation(summary = "Get active departments by name")
-//    public ResponseEntity<ApiResponse> getActiveDepartmentsByName(@RequestParam String name) {
-//        List<DepartmentResponseDto> departments = departmentService.getDepartmentByNameAndIsActiveTru(name);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Active departments retrieved successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/active")
-//    @Operation(summary = "Get all active departments")
-//    public ResponseEntity<ApiResponse> getActiveDepartments() {
-//        List<DepartmentResponseDto> departments = departmentService.getActiveDepartments();
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Active departments retrieved successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/inactive")
-//    @Operation(summary = "Get all inactive departments")
-//    public ResponseEntity<ApiResponse> getInactiveDepartments() {
-//        List<DepartmentResponseDto> departments = departmentService.getInactiveDepartments();
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Inactive departments retrieved successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/all")
-//    @Operation(summary = "Get all departments")
-//    public ResponseEntity<ApiResponse> getAllDepartments() {
-//        List<DepartmentResponseDto> departments = departmentService.getAllDepartments();
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("All departments retrieved successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    // ========== Search ==========
-//
-//    @GetMapping("/search/by-name")
-//    @Operation(summary = "Search departments by name (partial match, case-insensitive)")
-//    public ResponseEntity<ApiResponse> searchDepartmentsByName(@RequestParam String name) {
-//        List<DepartmentResponseDto> departments = departmentService.searchDepartmentsByName(name);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Departments found successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/search/by-location")
-//    @Operation(summary = "Search departments by location (partial match, case-insensitive)")
-//    public ResponseEntity<ApiResponse> searchDepartmentsByLocation(@RequestParam String location) {
-//        List<DepartmentResponseDto> departments = departmentService.searchDepartmentsByLocation(location);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Departments found successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/by-location")
-//    @Operation(summary = "Get departments by exact location")
-//    public ResponseEntity<ApiResponse> getDepartmentsByLocation(@RequestParam String location) {
-//        List<DepartmentResponseDto> departments = departmentService.getDepartmentsByLocation(location);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Departments retrieved successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/by-status")
-//    @Operation(summary = "Get departments by status")
-//    public ResponseEntity<ApiResponse> getDepartmentsByStatus(@RequestParam boolean isActive) {
-//        List<DepartmentResponseDto> departments = departmentService.getDepartmentsByStatus(isActive);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Departments retrieved successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/search/active/by-name")
-//    @Operation(summary = "Search active departments by name")
-//    public ResponseEntity<ApiResponse> searchActiveDepartmentsByName(@RequestParam String name) {
-//        List<DepartmentResponseDto> departments = departmentService.searchDepartmentsByNameAndIsActiveTrue(name);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Active departments found successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/search/active/by-location")
-//    @Operation(summary = "Search active departments by location")
-//    public ResponseEntity<ApiResponse> searchActiveDepartmentsByLocation(@RequestParam String location) {
-//        List<DepartmentResponseDto> departments = departmentService.searchDepartmentsByLocationAndIsActiveTrue(location);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Active departments found successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/active/by-location")
-//    @Operation(summary = "Get active departments by exact location")
-//    public ResponseEntity<ApiResponse> getActiveDepartmentsByLocation(@RequestParam String location) {
-//        List<DepartmentResponseDto> departments = departmentService.getDepartmentsByLocationAndIsActiveTrue(location);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Active departments retrieved successfully")
-//                .data(departments)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    // ========== Statistics ==========
-//
-//    @GetMapping("/count/doctors")
-//    @Operation(summary = "Count doctors in a department")
-//    public ResponseEntity<ApiResponse> countDoctorsInDepartment(@RequestParam Long departmentId) {
-//        Long count = departmentService.countDoctorsInDepartment(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Doctor count retrieved successfully")
-//                .data(count)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/count/nurses")
-//    @Operation(summary = "Count nurses in a department")
-//    public ResponseEntity<ApiResponse> countNursesInDepartment(@RequestParam Long departmentId) {
-//        Long count = departmentService.countNursesInDepartment(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Nurse count retrieved successfully")
-//                .data(count)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/count/rooms")
-//    @Operation(summary = "Count rooms in a department")
-//    public ResponseEntity<ApiResponse> countRoomsInDepartment(@RequestParam Long departmentId) {
-//        Long count = departmentService.countRoomsInDepartment(departmentId);
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Room count retrieved successfully")
-//                .data(count)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/count/total")
-//    @Operation(summary = "Count total departments")
-//    public ResponseEntity<ApiResponse> countTotalDepartments() {
-//        Long count = departmentService.countTotalDepartments();
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Total departments count retrieved successfully")
-//                .data(count)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/count/active")
-//    @Operation(summary = "Count active departments")
-//    public ResponseEntity<ApiResponse> countActiveDepartments() {
-//        Long count = departmentService.countActiveDepartments();
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Active departments count retrieved successfully")
-//                .data(count)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//
-//    @GetMapping("/count/inactive")
-//    @Operation(summary = "Count inactive departments")
-//    public ResponseEntity<ApiResponse> countInactiveDepartments() {
-//        Long count = departmentService.countInactiveDepartments();
-//        ApiResponse response = ApiResponse.builder()
-//                .success(true)
-//                .status(HttpStatus.OK.value())
-//                .message("Inactive departments count retrieved successfully")
-//                .data(count)
-//                .build();
-//        return ResponseEntity.ok(response);
-//    }
-//}
-//
+package hospital.coreservice.controller;
+
+import hospital.coreservice.dto.response.ApiResponse;
+import hospital.coreservice.dto.department.DepartmentCreateDto;
+import hospital.coreservice.dto.department.DepartmentResponseDto;
+import hospital.coreservice.dto.department.DepartmentUpdateDto;
+import hospital.coreservice.dto.doctor.DoctorResponseDto;
+import hospital.coreservice.dto.nurse.NurseResponseDto;
+import hospital.coreservice.dto.room.RoomResponseDto;
+import hospital.coreservice.service.DepartmentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/departments")
+@RequiredArgsConstructor
+@Tag(name = "Department Management", description = "Department CRUD and management APIs")
+public class DepartmentApi {
+
+    private final DepartmentService departmentService;
+
+    // ========== Core Operations ==========
+
+    @PostMapping
+    @Operation(summary = "Create a new department")
+    public ResponseEntity<ApiResponse<DepartmentResponseDto>> createDepartment(@Valid @RequestBody DepartmentCreateDto departmentDto) {
+        DepartmentResponseDto created = departmentService.createDepartment(departmentDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(created, "Department created successfully", HttpStatus.CREATED.value()));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update a department by ID")
+    public ResponseEntity<ApiResponse<DepartmentResponseDto>> updateDepartment(
+            @PathVariable Long id,
+            @Valid @RequestBody DepartmentUpdateDto departmentDto) {
+        DepartmentResponseDto updated = departmentService.updateDepartment(id, departmentDto);
+        return ResponseEntity.ok(ApiResponse.success(updated, "Department updated successfully with id: " + id, HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/{id}/deactivate")
+    @Operation(summary = "Deactivate a department by ID")
+    public ResponseEntity<ApiResponse<Void>> deactivateDepartment(@PathVariable Long id) {
+        departmentService.deactivateDepartment(id);
+        return ResponseEntity.ok(ApiResponse.success("Department deactivated successfully with id: " + id, HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/{id}/activate")
+    @Operation(summary = "Activate a department by ID")
+    public ResponseEntity<ApiResponse<Void>> activateDepartment(@PathVariable Long id) {
+        departmentService.activateDepartment(id);
+        return ResponseEntity.ok(ApiResponse.success("Department activated successfully with id: " + id, HttpStatus.OK.value()));
+    }
+
+    // ========== Leadership Management ==========
+
+    @PutMapping("/head-doctor/assign/{departmentId}")
+    @Operation(summary = "Assign head doctor to department")
+    public ResponseEntity<ApiResponse<Void>> assignHeadDoctor(@PathVariable Long departmentId, @RequestBody Long doctorId) {
+        departmentService.assignHeadDoctor(departmentId, doctorId);
+        return ResponseEntity.ok(ApiResponse.success("Head doctor assigned successfully", HttpStatus.OK.value()));
+    }
+
+    @PutMapping("/head-nurse/assign/{departmentId}")
+    @Operation(summary = "Assign head nurse to department")
+    public ResponseEntity<ApiResponse<Void>> assignHeadNurse(@PathVariable Long departmentId, @RequestBody Long nurseId) {
+        departmentService.assignHeadNurse(departmentId, nurseId);
+        return ResponseEntity.ok(ApiResponse.success("Head nurse assigned successfully", HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/head-doctor/remove/{departmentId}")
+    @Operation(summary = "Remove head doctor from department")
+    public ResponseEntity<ApiResponse<Void>> removeHeadDoctor(@PathVariable Long departmentId) {
+        departmentService.removeHeadDoctor(departmentId);
+        return ResponseEntity.ok(ApiResponse.success("Head doctor removed successfully", HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/head-nurse/remove/{departmentId}")
+    @Operation(summary = "Remove head nurse from department")
+    public ResponseEntity<ApiResponse<Void>> removeHeadNurse(@PathVariable Long departmentId) {
+        departmentService.removeHeadNurse(departmentId);
+        return ResponseEntity.ok(ApiResponse.success("Head nurse removed successfully", HttpStatus.OK.value()));
+    }
+
+    // ========== Member Management (Doctors) ==========
+
+    @PatchMapping("/doctor/add/{departmentId}")
+    @Operation(summary = "Add a doctor to department")
+    public ResponseEntity<ApiResponse<Void>> addDoctorToDepartment(@PathVariable Long departmentId, @RequestBody Long doctorId) {
+        departmentService.addDoctorToDepartment(departmentId, doctorId);
+        return ResponseEntity.ok(ApiResponse.success("Doctor added successfully", HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/doctor/remove/{departmentId}")
+    @Operation(summary = "Remove a doctor from department")
+    public ResponseEntity<ApiResponse<Void>> removeDoctorFromDepartment(@PathVariable Long departmentId, @RequestBody Long doctorId) {
+        departmentService.removeDoctorFromDepartment(departmentId, doctorId);
+        return ResponseEntity.ok(ApiResponse.success("Doctor removed successfully", HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/doctor/remove-all/{departmentId}")
+    @Operation(summary = "Remove all doctors from department")
+    public ResponseEntity<ApiResponse<Void>> removeAllDoctorsFromDepartment(@PathVariable Long departmentId) {
+        departmentService.removeAllDoctorsFromDepartment(departmentId);
+        return ResponseEntity.ok(ApiResponse.success("All doctors removed successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/doctor/{departmentId}")
+    @Operation(summary = "Get doctors by department ID")
+    public ResponseEntity<ApiResponse<List<DoctorResponseDto>>> getDoctorsByDepartmentId(@PathVariable Long departmentId) {
+        List<DoctorResponseDto> doctors = departmentService.getDoctorsByDepartmentId(departmentId);
+        return ResponseEntity.ok(ApiResponse.success(doctors, "Doctors retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    // ========== Member Management (Nurses) ==========
+
+    @PatchMapping("/nurse/add/{departmentId}")
+    @Operation(summary = "Add a nurse to department")
+    public ResponseEntity<ApiResponse<Void>> addNurseToDepartment(@PathVariable Long departmentId, @RequestBody Long nurseId) {
+        departmentService.addNurseToDepartment(departmentId, nurseId);
+        return ResponseEntity.ok(ApiResponse.success("Nurse added successfully", HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/nurse/remove/{departmentId}")
+    @Operation(summary = "Remove a nurse from department")
+    public ResponseEntity<ApiResponse<Void>> removeNurseFromDepartment(@PathVariable Long departmentId, @RequestBody Long nurseId) {
+        departmentService.removeNurseFromDepartment(departmentId, nurseId);
+        return ResponseEntity.ok(ApiResponse.success("Nurse removed successfully", HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/nurse/remove-all/{departmentId}")
+    @Operation(summary = "Remove all nurses from department")
+    public ResponseEntity<ApiResponse<Void>> removeAllNursesFromDepartment(@PathVariable Long departmentId) {
+        departmentService.removeAllNursesFromDepartment(departmentId);
+        return ResponseEntity.ok(ApiResponse.success("All nurses removed successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/nurse/{departmentId}")
+    @Operation(summary = "Get nurses by department ID")
+    public ResponseEntity<ApiResponse<List<NurseResponseDto>>> getNursesByDepartmentId(@PathVariable Long departmentId) {
+        List<NurseResponseDto> nurses = departmentService.getNursesByDepartmentId(departmentId);
+        return ResponseEntity.ok(ApiResponse.success(nurses, "Nurses retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    // ========== Member Management (Rooms) ==========
+
+    @PatchMapping("/room/add/{departmentId}")
+    @Operation(summary = "Add a room to department")
+    public ResponseEntity<ApiResponse<Void>> addRoomToDepartment(@PathVariable Long departmentId, @RequestBody Long roomId) {
+        departmentService.addRoomToDepartment(departmentId, roomId);
+        return ResponseEntity.ok(ApiResponse.success("Room added successfully", HttpStatus.OK.value()));
+    }
+
+    @PatchMapping("/room/remove/{departmentId}")
+    @Operation(summary = "Remove a room from department")
+    public ResponseEntity<ApiResponse<Void>> removeRoomFromDepartment(@PathVariable Long departmentId, @RequestBody Long roomId) {
+        departmentService.removeRoomFromDepartment(departmentId, roomId);
+        return ResponseEntity.ok(ApiResponse.success("Room removed successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/room/{departmentId}")
+    @Operation(summary = "Get rooms by department ID")
+    public ResponseEntity<ApiResponse<List<RoomResponseDto>>> getRoomsByDepartmentId(@PathVariable Long departmentId) {
+        List<RoomResponseDto> rooms = departmentService.getRoomsByDepartmentId(departmentId);
+        return ResponseEntity.ok(ApiResponse.success(rooms, "Rooms retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    // ========== Head Retrieval ==========
+
+    @GetMapping("/head-doctor/{departmentId}")
+    @Operation(summary = "Get head doctor of department")
+    public ResponseEntity<ApiResponse<DoctorResponseDto>> getDepartmentHeadDoctor(@PathVariable Long departmentId) {
+        DoctorResponseDto doctor = departmentService.getDepartmentHeadDoctor(departmentId);
+        return ResponseEntity.ok(ApiResponse.success(doctor, "Head doctor retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/head-nurse/{departmentId}")
+    @Operation(summary = "Get head nurse of department")
+    public ResponseEntity<ApiResponse<NurseResponseDto>> getDepartmentHeadNurse(@PathVariable Long departmentId) {
+        NurseResponseDto nurse = departmentService.getDepartmentHeadNurse(departmentId);
+        return ResponseEntity.ok(ApiResponse.success(nurse, "Head nurse retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    // ========== Basic Retrieval ==========
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get department by ID")
+    public ResponseEntity<ApiResponse<DepartmentResponseDto>> getDepartmentById(@PathVariable Long id) {
+        DepartmentResponseDto department = departmentService.getDepartmentById(id);
+        return ResponseEntity.ok(ApiResponse.success(department, "Department retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/by-code")
+    @Operation(summary = "Get department by code")
+    public ResponseEntity<ApiResponse<DepartmentResponseDto>> getDepartmentByCode(@RequestParam String code) {
+        DepartmentResponseDto department = departmentService.getDepartmentByCode(code);
+        return ResponseEntity.ok(ApiResponse.success(department, "Department retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/active/by-code")
+    @Operation(summary = "Get active department by code")
+    public ResponseEntity<ApiResponse<DepartmentResponseDto>> getActiveDepartmentByCode(@RequestParam String code) {
+        DepartmentResponseDto department = departmentService.getDepartmentByCodeAndIsActiveTrue(code);
+        return ResponseEntity.ok(ApiResponse.success(department, "Active department retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/by-name")
+    @Operation(summary = "Get departments by name")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getDepartmentsByName(@RequestParam String name) {
+        List<DepartmentResponseDto> departments = departmentService.getDepartmentByName(name);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Departments retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/active/by-name")
+    @Operation(summary = "Get active departments by name")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getActiveDepartmentsByName(@RequestParam String name) {
+        List<DepartmentResponseDto> departments = departmentService.getDepartmentByNameAndIsActiveTru(name);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Active departments retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/active")
+    @Operation(summary = "Get all active departments")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getActiveDepartments() {
+        List<DepartmentResponseDto> departments = departmentService.getActiveDepartments();
+        return ResponseEntity.ok(ApiResponse.success(departments, "Active departments retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/inactive")
+    @Operation(summary = "Get all inactive departments")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getInactiveDepartments() {
+        List<DepartmentResponseDto> departments = departmentService.getInactiveDepartments();
+        return ResponseEntity.ok(ApiResponse.success(departments, "Inactive departments retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/all")
+    @Operation(summary = "Get all departments")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getAllDepartments() {
+        List<DepartmentResponseDto> departments = departmentService.getAllDepartments();
+        return ResponseEntity.ok(ApiResponse.success(departments, "All departments retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    // ========== Search ==========
+
+    @GetMapping("/search/by-name")
+    @Operation(summary = "Search departments by name (partial match, case-insensitive)")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> searchDepartmentsByName(@RequestParam String name) {
+        List<DepartmentResponseDto> departments = departmentService.searchDepartmentsByName(name);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Departments found successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/search/by-location")
+    @Operation(summary = "Search departments by location (partial match, case-insensitive)")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> searchDepartmentsByLocation(@RequestParam String location) {
+        List<DepartmentResponseDto> departments = departmentService.searchDepartmentsByLocation(location);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Departments found successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/by-location")
+    @Operation(summary = "Get departments by exact location")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getDepartmentsByLocation(@RequestParam String location) {
+        List<DepartmentResponseDto> departments = departmentService.getDepartmentsByLocation(location);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Departments retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/by-status")
+    @Operation(summary = "Get departments by status")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getDepartmentsByStatus(@RequestParam boolean isActive) {
+        List<DepartmentResponseDto> departments = departmentService.getDepartmentsByStatus(isActive);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Departments retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/search/active/by-name")
+    @Operation(summary = "Search active departments by name")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> searchActiveDepartmentsByName(@RequestParam String name) {
+        List<DepartmentResponseDto> departments = departmentService.searchDepartmentsByNameAndIsActiveTrue(name);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Active departments found successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/search/active/by-location")
+    @Operation(summary = "Search active departments by location")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> searchActiveDepartmentsByLocation(@RequestParam String location) {
+        List<DepartmentResponseDto> departments = departmentService.searchDepartmentsByLocationAndIsActiveTrue(location);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Active departments found successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/active/by-location")
+    @Operation(summary = "Get active departments by exact location")
+    public ResponseEntity<ApiResponse<List<DepartmentResponseDto>>> getActiveDepartmentsByLocation(@RequestParam String location) {
+        List<DepartmentResponseDto> departments = departmentService.getDepartmentsByLocationAndIsActiveTrue(location);
+        return ResponseEntity.ok(ApiResponse.success(departments, "Active departments retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    // ========== Statistics ==========
+
+    @GetMapping("/count/doctors")
+    @Operation(summary = "Count doctors in a department")
+    public ResponseEntity<ApiResponse<Long>> countDoctorsInDepartment(@RequestParam Long departmentId) {
+        Long count = departmentService.countDoctorsInDepartment(departmentId);
+        return ResponseEntity.ok(ApiResponse.success(count, "Doctor count retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/count/nurses")
+    @Operation(summary = "Count nurses in a department")
+    public ResponseEntity<ApiResponse<Long>> countNursesInDepartment(@RequestParam Long departmentId) {
+        Long count = departmentService.countNursesInDepartment(departmentId);
+        return ResponseEntity.ok(ApiResponse.success(count, "Nurse count retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/count/rooms")
+    @Operation(summary = "Count rooms in a department")
+    public ResponseEntity<ApiResponse<Long>> countRoomsInDepartment(@RequestParam Long departmentId) {
+        Long count = departmentService.countRoomsInDepartment(departmentId);
+        return ResponseEntity.ok(ApiResponse.success(count, "Room count retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/count/total")
+    @Operation(summary = "Count total departments")
+    public ResponseEntity<ApiResponse<Long>> countTotalDepartments() {
+        Long count = departmentService.countTotalDepartments();
+        return ResponseEntity.ok(ApiResponse.success(count, "Total departments count retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/count/active")
+    @Operation(summary = "Count active departments")
+    public ResponseEntity<ApiResponse<Long>> countActiveDepartments() {
+        Long count = departmentService.countActiveDepartments();
+        return ResponseEntity.ok(ApiResponse.success(count, "Active departments count retrieved successfully", HttpStatus.OK.value()));
+    }
+
+    @GetMapping("/count/inactive")
+    @Operation(summary = "Count inactive departments")
+    public ResponseEntity<ApiResponse<Long>> countInactiveDepartments() {
+        Long count = departmentService.countInactiveDepartments();
+        return ResponseEntity.ok(ApiResponse.success(count, "Inactive departments count retrieved successfully", HttpStatus.OK.value()));
+    }
+}
