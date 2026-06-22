@@ -21,4 +21,5 @@ public class PermissionResponseDto {
 
     private int roleCount;
 
+    private String action;
 }

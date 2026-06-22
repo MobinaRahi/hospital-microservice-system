@@ -12,4 +12,6 @@ public class PermissionSlimResponseDto {
     private String name;
 
     private String category;
+
+    private String action;
 }

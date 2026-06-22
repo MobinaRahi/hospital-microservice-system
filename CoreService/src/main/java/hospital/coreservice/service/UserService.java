@@ -48,6 +48,7 @@ public interface UserService {
     long countActiveUsers();
     long countEnabledUsers();
     long countUsersByRole(@NonNull String roleName);
+    Long countAllUsers();
     int disableInactiveUsers(@NonNull LocalDateTime cutoffDate);
     void softDeleteUsersBulk(@NonNull List<Long> userIds);
     boolean isUsernameUnique(@NonNull String username);

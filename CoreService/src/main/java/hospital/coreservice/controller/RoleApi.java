@@ -84,7 +84,7 @@ public class RoleApi {
     }
 
     @GetMapping("/exists")
-    public ResponseEntity<ApiResponse<Boolean>> exists(@RequestParam String name) {
+    public ResponseEntity<ApiResponse<Boolean>> exists(@RequestParam RoleName name) {
         return ResponseEntity.ok(ApiResponse.success(roleService.roleExists(name), "Role existence checked", HttpStatus.OK.value()));
     }
 
@@ -94,7 +94,7 @@ public class RoleApi {
     }
 
     @GetMapping("/by-names")
-    public ResponseEntity<ApiResponse<List<RoleResponseDto>>> byNames(@RequestParam Set<String> names) {
+    public ResponseEntity<ApiResponse<List<RoleResponseDto>>> byNames(@RequestParam Set<RoleName> names) {
         return ResponseEntity.ok(ApiResponse.success(roleService.getRolesByNames(names), "Roles loaded", HttpStatus.OK.value()));
     }
 

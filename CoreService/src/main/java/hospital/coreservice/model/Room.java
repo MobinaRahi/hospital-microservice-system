@@ -14,7 +14,6 @@ import java.util.List;
 @Entity(name = "roomEntity")
 @Table(name = "rooms",
         indexes = {
-                @Index(name = "idx_room_number", columnList = "room_number"),
                 @Index(name = "idx_room_department", columnList = "department_id"),
                 @Index(name = "idx_room_is_occupied", columnList = "is_occupied")
         })

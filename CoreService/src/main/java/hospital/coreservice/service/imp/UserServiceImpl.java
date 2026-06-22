@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
         User user = buildUserFromDto(createDto);
 
         Set<Role> roles = roleNames.stream()
-                .map(rn -> roleRepository.findByName(rn.name())
+                .map(rn -> roleRepository.findByName(rn)
                         .orElseThrow(() -> new RoleNotFoundException(Long.valueOf(rn.name()))))
                 .collect(Collectors.toSet());
         user.setRoles(roles);
@@ -436,6 +436,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public long countUsersByRole(@NonNull String roleName) {
         return userRepository.countActiveUsersByRole(roleName);
+    }
+
+    @Override
+    public Long countAllUsers() {
+        return userRepository.count();
     }
 
 

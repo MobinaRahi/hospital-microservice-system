@@ -15,9 +15,6 @@ import java.util.List;
 @Entity(name = "nurseEntity")
 @Table(name = "nurses",
         indexes = {
-                @Index(name = "idx_nurse_national_id", columnList = "national_id"),
-                @Index(name = "idx_nurse_phone", columnList = "phone_number"),
-                @Index(name = "idx_nurse_code", columnList = "nurse_code"),
                 @Index(name = "idx_nurse_is_active", columnList = "is_active")
         })
 @NoArgsConstructor

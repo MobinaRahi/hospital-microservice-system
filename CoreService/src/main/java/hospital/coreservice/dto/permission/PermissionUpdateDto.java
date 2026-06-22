@@ -7,9 +7,11 @@ import lombok.Setter;
 @Setter
 public class PermissionUpdateDto {
 
-    String name;
+    private String name;
 
-    String description;
+    private String description;
 
-    String category;
+    private String category;
+
+    private String action;
 }

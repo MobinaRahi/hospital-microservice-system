@@ -12,9 +12,9 @@ import java.util.Set;
 @Repository
 public interface RoleRepository extends BaseEntityRepository<Role, Long> {
 
-    Optional<Role> findByName(String name);
+    Optional<Role> findByName(RoleName name);
 
-    boolean existsByName(String name);
+    boolean existsByName(RoleName name);
 
     @Query("SELECT r FROM roleEntity r LEFT JOIN FETCH r.permissions WHERE r.id = :id AND r.deleted = false")
     Optional<Role> findNotDeletedByIdWithPermissions(@Param("id") Long id);
@@ -22,7 +22,7 @@ public interface RoleRepository extends BaseEntityRepository<Role, Long> {
     @Query("SELECT r FROM roleEntity r LEFT JOIN FETCH r.permissions WHERE r.name = :name AND r.deleted = false")
     Optional<Role> findNotDeletedByNameWithPermissions(@Param("name") RoleName name);
 
-    Set<Role> findByNameIn(Set<String> names);
+    Set<Role> findByNameIn(Set<RoleName> names);
 
     @Query("""
         SELECT r FROM roleEntity r

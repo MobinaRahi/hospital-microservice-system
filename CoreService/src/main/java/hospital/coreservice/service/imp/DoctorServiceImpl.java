@@ -5,17 +5,21 @@ import hospital.coreservice.dto.doctor.DoctorResponseDto;
 import hospital.coreservice.dto.doctor.DoctorUpdateDto;
 import hospital.coreservice.exception.department.DepartmentNotFoundException;
 import hospital.coreservice.exception.doctor.DoctorNotFoundException;
+import hospital.coreservice.exception.user.UserNotFoundException;
 import hospital.coreservice.mapper.DoctorMapper;
 import hospital.coreservice.model.Department;
 import hospital.coreservice.model.Doctor;
 import hospital.coreservice.model.DoctorSchedule;
+import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.DayOfWeek;
 import hospital.coreservice.model.enums.Speciality;
 import hospital.coreservice.model.enums.SubSpeciality;
 import hospital.coreservice.repository.DepartmentRepository;
 import hospital.coreservice.repository.DoctorRepository;
 import hospital.coreservice.repository.DoctorScheduleRepository;
+import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.service.DoctorService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -38,6 +42,7 @@ public class DoctorServiceImpl implements DoctorService {
     private final DoctorMapper doctorMapper;
     private final DoctorScheduleRepository doctorScheduleRepository;
     private final DepartmentRepository departmentRepository;
+    private final UserRepository userRepository;
 
     // ========== Core Operations ==========
 
@@ -45,9 +50,23 @@ public class DoctorServiceImpl implements DoctorService {
     @Transactional
     public DoctorResponseDto createDoctor(DoctorCreateDto doctorCreateDto) {
         log.info("Creating new doctor with license: {}", doctorCreateDto.getLicenseNumber());
+        User user = userRepository.findById(doctorCreateDto.getUserId())
+                .orElseThrow(() -> {
+                    return UserNotFoundException.byId(doctorCreateDto.getUserId());
+                });
+        Department department = null;
+        if (doctorCreateDto.getDepartmentId() != null) {
+            department = departmentRepository.findById(doctorCreateDto.getDepartmentId())
+                    .orElseThrow(() -> DepartmentNotFoundException.byId(doctorCreateDto.getDepartmentId()));
+        }
         Doctor doctor = doctorMapper.toEntity(doctorCreateDto);
-        Doctor saved = doctorRepository.save(doctor);
-        return doctorMapper.toResponseDto(saved);
+        doctor.setUser(user);
+        doctor.setDepartment(department);
+        if (doctorCreateDto.getSubSpecialities() != null) {
+            doctor.setSubSpecialities(doctorCreateDto.getSubSpecialities());
+        }
+        doctorRepository.save(doctor);
+        return doctorMapper.toResponseDto(doctor);
     }
 
     @Override
@@ -64,6 +83,7 @@ public class DoctorServiceImpl implements DoctorService {
     // ========== Basic Retrieval ==========
 
     @Override
+    @Transactional(readOnly = true)
     public DoctorResponseDto getDoctorById(Long doctorId) {
         log.debug("Fetching doctor by id: {}", doctorId);
         Doctor doctor = doctorRepository.findById(doctorId)
@@ -72,6 +92,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public DoctorResponseDto getDoctorByUserId(Long userId) {
         log.debug("Fetching doctor by user id: {}", userId);
         Doctor doctor = doctorRepository.findByUserId(userId)
@@ -80,6 +101,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public DoctorResponseDto getDoctorByLicenseNumber(String licenseNumber) {
         log.debug("Fetching doctor by license: {}", licenseNumber);
         Doctor doctor = doctorRepository.findByLicenseNumber(licenseNumber)
@@ -88,6 +110,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getAllDoctors() {
         log.debug("Fetching all doctors");
         return doctorRepository.findAll()
@@ -99,6 +122,7 @@ public class DoctorServiceImpl implements DoctorService {
     // ========== Filtering & Search ==========
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getDoctorsBySpeciality(Speciality speciality) {
         log.debug("Fetching doctors by specialty: {}", speciality);
         return doctorRepository.findBySpeciality(speciality)
@@ -108,6 +132,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getDoctorsBySubSpeciality(SubSpeciality subSpeciality) {
         log.debug("Fetching doctors by sub-specialty: {}", subSpeciality);
         return doctorRepository.findBySubSpeciality(subSpeciality)
@@ -117,6 +142,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getDoctorsByDepartmentId(Long departmentId) {
         log.debug("Fetching doctors by department id: {}", departmentId);
         return doctorRepository.findByDepartmentId(departmentId)
@@ -126,20 +152,19 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> searchDoctorsByName(String firstName, String lastName) {
         log.debug("Searching doctors by name: firstName={}, lastName={}", firstName, lastName);
 
         if (firstName == null && lastName == null) {
             return getAllDoctors();
-        }
-        else if (firstName != null && lastName != null) {
+        } else if (firstName != null && lastName != null) {
             return doctorRepository
                     .findByFirstNameContainingIgnoreCaseAndLastNameContainingIgnoreCase(firstName, lastName)
                     .stream()
                     .map(doctorMapper::toResponseDto)
                     .collect(Collectors.toList());
-        }
-        else if (firstName != null) {
+        } else if (firstName != null) {
             return doctorRepository.findByFirstNameContainingIgnoreCase(firstName)
                     .stream()
                     .map(doctorMapper::toResponseDto)
@@ -152,6 +177,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getDoctorsBySpecialityAndSubSpeciality(Speciality speciality, SubSpeciality subSpeciality) {
         log.debug("Fetching doctors by specialty: {} and sub-specialty: {}", speciality, subSpeciality);
         return doctorRepository.findBySpecialityAndSubSpeciality(speciality, subSpeciality)
@@ -161,6 +187,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getActiveDoctorsBySpecialityAndSubSpeciality(Speciality speciality, SubSpeciality subSpeciality) {
         log.debug("Fetching active doctors by specialty: {} and sub-specialty: {}", speciality, subSpeciality);
         return doctorRepository.findActiveDoctorsBySpecialityAndSubSpeciality(speciality, subSpeciality)
@@ -170,6 +197,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getDoctorsByExperienceRange(int minYears, int maxYears) {
         log.debug("Fetching doctors by experience range: {} - {} years", minYears, maxYears);
         return doctorRepository.findByYearsOfExperienceBetween(minYears, maxYears)
@@ -181,6 +209,7 @@ public class DoctorServiceImpl implements DoctorService {
     // ========== Availability ==========
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getAvailableDoctorsByDay(DayOfWeek dayOfWeek) {
         log.debug("Fetching available doctors by day: {}", dayOfWeek);
         return doctorScheduleRepository.findByDayOfWeek(dayOfWeek)
@@ -194,6 +223,7 @@ public class DoctorServiceImpl implements DoctorService {
     // ========== Active/Inactive ==========
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getActiveDoctors() {
         log.debug("Fetching all active doctors");
         return doctorRepository.findAllActive()
@@ -203,6 +233,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getInactiveDoctors() {
         log.debug("Fetching all inactive doctors");
         return doctorRepository.findAllInactive()
@@ -212,6 +243,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getActiveDoctorsBySpeciality(Speciality speciality) {
         log.debug("Fetching active doctors by specialty: {}", speciality);
         return doctorRepository.findActiveBySpeciality(speciality)
@@ -221,6 +253,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getActiveDoctorsBySubSpeciality(SubSpeciality subSpeciality) {
         log.debug("Fetching active doctors by sub-specialty: {}", subSpeciality);
         return doctorRepository.findActiveBySubSpeciality(subSpeciality)
@@ -230,6 +263,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<DoctorResponseDto> getActiveDoctorsByDepartmentId(Long departmentId) {
         log.debug("Fetching active doctors by department id: {}", departmentId);
         return doctorRepository.findActiveByDepartmentId(departmentId)
@@ -311,36 +345,42 @@ public class DoctorServiceImpl implements DoctorService {
     // ========== Statistics ==========
 
     @Override
+    @Transactional(readOnly = true)
     public Long countDoctorsBySpeciality(Speciality speciality) {
         log.debug("Counting doctors by specialty: {}", speciality);
         return doctorRepository.countBySpeciality(speciality);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countDoctorsBySubSpeciality(SubSpeciality subSpeciality) {
         log.debug("Counting active doctors by sub-specialty: {}", subSpeciality);
         return doctorRepository.countActiveBySubSpeciality(subSpeciality);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countDoctorsByDepartmentId(Long departmentId) {
         log.debug("Counting doctors by department id: {}", departmentId);
         return doctorRepository.countByDepartmentId(departmentId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countAllDoctors() {
         log.debug("Counting all doctors");
         return doctorRepository.count();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countActiveDoctors() {
         log.debug("Counting active doctors");
         return doctorRepository.countActive();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countInactiveDoctors() {
         log.debug("Counting inactive doctors");
         return doctorRepository.countInactive();
@@ -349,6 +389,7 @@ public class DoctorServiceImpl implements DoctorService {
     // ========== Validation ==========
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isLicenseNumberUnique(String licenseNumber) {
         log.debug("Checking if license number is unique: {}", licenseNumber);
         return !doctorRepository.existsByLicenseNumber(licenseNumber);

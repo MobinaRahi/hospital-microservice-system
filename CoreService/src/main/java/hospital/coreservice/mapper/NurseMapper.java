@@ -18,6 +18,7 @@ public interface NurseMapper {
     @Mapping(target = "departmentList", ignore = true)
     @Mapping(target = "shiftPreferenceList", ignore = true)
     @Mapping(target = "deleted", ignore = true)
+    @Mapping(target = "yearsOfExperience", source = "yearsOfExperience")
     @Mapping(target = "createdAt", ignore = true)
     Nurse toEntity(NurseCreateDto createDto);
 

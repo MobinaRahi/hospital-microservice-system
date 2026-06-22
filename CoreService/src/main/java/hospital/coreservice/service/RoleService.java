@@ -35,7 +35,7 @@ public interface RoleService {
 
     void deleteRole(Long roleId);
 
-    boolean roleExists(String name);
+    boolean roleExists(RoleName name);
 
     long countUsersByRoleId(Long roleId);
 
@@ -43,7 +43,7 @@ public interface RoleService {
 
     Page<RoleResponseDto> getAllRolesPaged(Pageable pageable);
 
-    List<RoleResponseDto> getRolesByNames(Set<String> names);
+    List<RoleResponseDto> getRolesByNames(Set<RoleName> names);
 
     long countAllRoles();
 

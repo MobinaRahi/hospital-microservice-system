@@ -157,6 +157,11 @@ public class PermissionServiceImp implements PermissionService {
         return permissionMapper.toResponseDto(updated);
     }
 
+    @Override
+    public Long countAllPermissions() {
+        return permissionRepository.count();
+    }
+
     // ============================================================
     //  DELETE
     // ============================================================

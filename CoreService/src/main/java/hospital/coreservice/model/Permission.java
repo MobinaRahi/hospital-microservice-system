@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name="permissions",
         uniqueConstraints = @UniqueConstraint(name = "uk_permission_name", columnNames = "name"),
         indexes = {
-                @Index(name = "idx_permission_name", columnList = "name"),
                 @Index(name = "idx_permission_deleted", columnList = "deleted"),
         })
 @Getter
@@ -29,7 +28,7 @@ public class Permission extends BaseEntity  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false,unique = true)
     private String name;
 
     @Column(name = "description", nullable = false, length = 100)

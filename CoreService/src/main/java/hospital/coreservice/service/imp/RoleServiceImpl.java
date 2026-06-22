@@ -36,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
     public RoleResponseDto createRole(RoleCreateDto createDto) {
         log.info("Creating new role with name: {}", createDto.getName());
 
-        if (roleRepository.existsByName(createDto.getName().getAuthority())) {
+        if (roleRepository.existsByName(createDto.getName())) {
             throw new DuplicateShiftNameException(createDto.getName().getAuthority());
         }
 
@@ -141,7 +141,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean roleExists(String name) {
+    public boolean roleExists(RoleName name) {
         return roleRepository.existsByName(name);
     }
 
@@ -167,7 +167,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleResponseDto> getRolesByNames(Set<String> names) {
+    public List<RoleResponseDto> getRolesByNames(Set<RoleName> names) {
         if (CollectionUtils.isEmpty(names)) {
             return List.of();
         }

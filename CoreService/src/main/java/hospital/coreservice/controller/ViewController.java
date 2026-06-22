@@ -36,6 +36,17 @@ public class ViewController {
     @GetMapping({"/", "/home"})
     public String home(Model model) {
         addPublicStats(model);
+        // اضافه کردن لیست پزشکان و بخش‌ها برای نمایش در صفحه اصلی و فرم جستجو
+        // پزشکان فعال
+        model.addAttribute("doctors", doctorService.getActiveDoctors());
+
+        // بخش‌ها
+        model.addAttribute("departments", departmentService.getActiveDepartments());
+
+        // آمار
+        model.addAttribute("activeDoctorCount", doctorService.countActiveDoctors());
+        model.addAttribute("activePatientCount", patientService.countActivePatients());
+        model.addAttribute("activeDepartmentCount", departmentService.countActiveDepartments());
         return "index";
     }
 
@@ -216,6 +227,8 @@ public class ViewController {
         model.addAttribute("activeShiftCount", safe(shiftService::countActiveShifts, 0L));
         return "shifts";
     }
+
+    // ========== Private Helpers ==========
 
     private void addPublicStats(Model model) {
         model.addAttribute("activeDoctorCount", safe(doctorService::countActiveDoctors, 0L));

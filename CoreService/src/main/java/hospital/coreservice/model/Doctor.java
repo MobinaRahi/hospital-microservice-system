@@ -16,7 +16,6 @@ import java.util.List;
 @Table(name = "doctors",
         indexes = {
                 @Index(name = "idx_doctor_user", columnList = "user_id"),
-                @Index(name = "idx_doctor_license", columnList = "license_number"),
                 @Index(name = "idx_doctor_speciality", columnList = "speciality"),
                 @Index(name = "idx_doctor_department", columnList = "department_id"),
                 @Index(name = "idx_doctor_is_active", columnList = "is_active")

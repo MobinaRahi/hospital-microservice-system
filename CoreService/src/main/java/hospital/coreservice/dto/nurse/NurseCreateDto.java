@@ -15,6 +15,9 @@ import java.util.List;
 @Setter
 public class NurseCreateDto {
 
+    @NotBlank(message = "userId is required")
+    private Long userId;
+
     @NotBlank(message = "First name is required")
     private String firstName;
 
@@ -35,6 +38,8 @@ public class NurseCreateDto {
 
     @NotBlank(message = "Nurse code is required")
     private String nurseCode;
+
+    private Integer yearsOfExperience;
 
     private List<Long> departmentIds = new ArrayList<>();
 

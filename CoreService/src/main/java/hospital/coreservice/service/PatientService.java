@@ -38,6 +38,8 @@ public interface PatientService {
     Long countPatientsByGender(Gender gender);
     Long countPatientsByBloodType(BloodType bloodType);
     Long countActivePatients();
+    Long countInactivePatients();
+    Long countAllPatients();
     boolean existsPatientByNationalId(String nationalId);
     boolean existsPatientByPhoneNumber(String phoneNumber);
     void activatePatient(Long id);

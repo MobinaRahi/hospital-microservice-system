@@ -173,6 +173,7 @@ public class PatientServiceImpl implements PatientService {
     // ========== Single Record Retrieval ==========
 
     @Override
+    @Transactional(readOnly = true)
     public PatientResponseDto getPatientById(Long id) {
         log.debug("Fetching patient id: {}", id);
 
@@ -402,6 +403,16 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Long countActivePatients() {
         return patientRepository.countByStatus(PatientStatus.ACTIVE);
+    }
+
+    @Override
+    public Long countInactivePatients() {
+        return patientRepository.countByStatus(PatientStatus.ACTIVE);
+    }
+
+    @Override
+    public Long countAllPatients() {
+        return patientRepository.count();
     }
 
     // ========== Existence Checks ==========

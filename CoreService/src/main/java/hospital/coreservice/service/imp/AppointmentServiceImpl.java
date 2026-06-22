@@ -4,16 +4,17 @@ import hospital.coreservice.dto.appointment.AppointmentCreateDto;
 import hospital.coreservice.dto.appointment.AppointmentResponseDto;
 import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
 import hospital.coreservice.exception.appointment.*;
+import hospital.coreservice.exception.department.DepartmentNotFoundException;
 import hospital.coreservice.exception.doctor.DoctorNotAvailableException;
+import hospital.coreservice.exception.doctor.DoctorNotFoundException;
 import hospital.coreservice.exception.doctor_schedule.DoctorScheduleNotFoundException;
 import hospital.coreservice.exception.patient.PatientAppointmentConflictException;
+import hospital.coreservice.exception.patient.PatientNotFoundException;
 import hospital.coreservice.mapper.AppointmentMapper;
-import hospital.coreservice.model.Appointment;
-import hospital.coreservice.model.DoctorSchedule;
+import hospital.coreservice.model.*;
 import hospital.coreservice.model.enums.AppointmentStatus;
 import hospital.coreservice.model.enums.DayOfWeek;
-import hospital.coreservice.repository.AppointmentRepository;
-import hospital.coreservice.repository.DoctorScheduleRepository;
+import hospital.coreservice.repository.*;
 import hospital.coreservice.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -40,31 +41,37 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final AppointmentMapper appointmentMapper;
     private final DoctorScheduleRepository doctorScheduleRepository;
+    private final PatientRepository patientRepository;
+    private final DoctorRepository doctorRepository;
+    private final DepartmentRepository departmentRepository;
 
     // ========== Core Operations ==========
 
     @Override
     @Transactional
     public AppointmentResponseDto createAppointment(AppointmentCreateDto createDto) {
-        // Check doctor availability
-        if (!isDoctorAvailable(createDto.getDoctorId(), createDto.getAppointmentDate(),
-                createDto.getStartTime(), createDto.getEndTime())) {
-            throw new DoctorNotAvailableException(createDto.getDoctorId(),
-                    createDto.getAppointmentDate(), createDto.getStartTime());
-        }
+        log.info("Creating new appointment for patient: {} with doctor: {} on {}",
+                createDto.getPatientId(), createDto.getDoctorId(), createDto.getAppointmentDate());
+        Patient patient = patientRepository.findById(createDto.getPatientId())
+                .orElseThrow(() -> PatientNotFoundException.byId(createDto.getPatientId()));
 
-        // Check patient conflict
-        if (hasPatientAppointmentConflict(createDto.getPatientId(), createDto.getAppointmentDate(),
-                createDto.getStartTime(), createDto.getEndTime())) {
-            throw new PatientAppointmentConflictException(createDto.getPatientId(),
-                    createDto.getAppointmentDate(), createDto.getStartTime());
-        }
+        Doctor doctor = doctorRepository.findById(createDto.getDoctorId())
+                .orElseThrow(() -> DoctorNotFoundException.byId(createDto.getDoctorId()));
 
+        Department department = null;
+        if (createDto.getDepartmentId() != null) {
+            department = departmentRepository.findById(createDto.getDepartmentId())
+                    .orElseThrow(() -> DepartmentNotFoundException.byId(createDto.getDepartmentId()));
+        }
         Appointment appointment = appointmentMapper.toEntity(createDto);
+        appointment.setPatient(patient);
+        appointment.setDoctor(doctor);
+        appointment.setDepartment(department);
         appointment.setStatus(AppointmentStatus.SCHEDULED);
         Appointment saved = appointmentRepository.save(appointment);
         return appointmentMapper.toResponseDto(saved);
     }
+
 
     @Override
     @Transactional

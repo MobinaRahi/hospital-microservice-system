@@ -20,8 +20,6 @@ import java.time.LocalDateTime;
 @Entity(name = "patientEntity")
 @Table(name = "patients",
         indexes = {
-                @Index(name = "idx_patient_national_id", columnList = "national_id"),
-                @Index(name = "idx_patient_phone", columnList = "phone_number"),
                 @Index(name = "idx_patient_status", columnList = "status")
         })
 @NoArgsConstructor

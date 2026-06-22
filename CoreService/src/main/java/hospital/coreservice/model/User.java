@@ -20,8 +20,6 @@ import java.util.Set;
                 @UniqueConstraint(name = "uk_user_email", columnNames = "email")
         },
         indexes = {
-                @Index(name = "idx_user_username", columnList = "username"),
-                @Index(name = "idx_user_email", columnList = "email"),
                 @Index(name = "idx_user_deleted", columnList = "deleted"),
                 @Index(name = "idx_user_enabled", columnList = "enabled"),
                 @Index(name = "idx_user_last_login", columnList = "last_login")

@@ -1,5 +1,6 @@
 package hospital.coreservice.dto.doctor;
 
+import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.Speciality;
 import hospital.coreservice.model.enums.SubSpeciality;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +16,9 @@ import java.util.List;
 @Getter
 @Setter
 public class DoctorCreateDto {
+
+    @NotBlank(message = "userId is required")
+    private Long userId;
 
     @NotBlank(message = "First name is required")
     private String firstName;

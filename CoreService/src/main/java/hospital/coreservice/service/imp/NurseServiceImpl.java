@@ -7,20 +7,24 @@ import hospital.coreservice.exception.department.DepartmentNotFoundException;
 import hospital.coreservice.exception.nurse.NurseAlreadyExistsException;
 import hospital.coreservice.exception.nurse.NurseNotFoundException;
 import hospital.coreservice.exception.shift.ShiftNotFoundException;
+import hospital.coreservice.exception.user.UserNotFoundException;
 import hospital.coreservice.mapper.NurseMapper;
 import hospital.coreservice.model.Department;
 import hospital.coreservice.model.Nurse;
 import hospital.coreservice.model.Shift;
+import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.NursePosition;
 import hospital.coreservice.repository.DepartmentRepository;
 import hospital.coreservice.repository.NurseRepository;
 import hospital.coreservice.repository.ShiftRepository;
+import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.service.NurseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +44,7 @@ public class NurseServiceImpl implements NurseService {
     private final NurseMapper nurseMapper;
     private final DepartmentRepository departmentRepository;
     private final ShiftRepository shiftRepository;
+    private final UserRepository userRepository;
 
     // ========== Core Operations ==========
 
@@ -47,17 +52,21 @@ public class NurseServiceImpl implements NurseService {
     @Transactional
     public NurseResponseDto createNurse(NurseCreateDto createDto) {
         log.info("Creating new nurse with code: {}", createDto.getNurseCode());
-
-        if (nurseRepository.existsByNationalId(createDto.getNationalId())) {
-            throw NurseAlreadyExistsException.byNationalId(createDto.getNationalId());
-        }
-        if (nurseRepository.existsByNurseCode(createDto.getNurseCode())) {
-            throw NurseAlreadyExistsException.byNurseCode(createDto.getNurseCode());
-        }
-
+        User user = userRepository.findById(createDto.getUserId())
+                .orElseThrow(() ->  UserNotFoundException.byId(createDto.getUserId()));
         Nurse nurse = nurseMapper.toEntity(createDto);
+        nurse.setUser(user);
+        if (createDto.getYearsOfExperience() != null) {
+            nurse.setYearsOfExperience(createDto.getYearsOfExperience());
+        }
+    if (createDto.getDepartmentIds() != null && !createDto.getDepartmentIds().isEmpty()) {
+            List<Department> departments = departmentRepository.findAllById(createDto.getDepartmentIds());
+            if (departments.size() != createDto.getDepartmentIds().size()) {
+                log.warn("Some department IDs were not found");
+            }
+            nurse.setDepartmentList(departments);
+        }
         Nurse saved = nurseRepository.save(nurse);
-        log.info("Nurse created with id: {}", saved.getId());
         return nurseMapper.toResponseDto(saved);
     }
 
@@ -88,6 +97,7 @@ public class NurseServiceImpl implements NurseService {
     // ========== Basic Retrieval ==========
 
     @Override
+    @Transactional(readOnly = true)
     public NurseResponseDto getNurseById(Long nurseId) {
         log.debug("Fetching nurse by id: {}", nurseId);
         Nurse nurse = nurseRepository.findById(nurseId)
@@ -96,6 +106,7 @@ public class NurseServiceImpl implements NurseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public NurseResponseDto getNurseByUserId(Long userId) {
         log.debug("Fetching nurse by userId: {}", userId);
         Nurse nurse = nurseRepository.findByUserId(userId)
@@ -147,6 +158,7 @@ public class NurseServiceImpl implements NurseService {
     // ========== Search & Filter ==========
 
     @Override
+    @Transactional(readOnly = true)
     public List<NurseResponseDto> searchNursesByName(String firstName, String lastName) {
         log.debug("Searching nurses by name: {}, {}", firstName, lastName);
         if (firstName == null && lastName == null) {

@@ -3,6 +3,7 @@ package hospital.coreservice.model;
 import hospital.coreservice.model.enums.AppointmentStatus;
 import hospital.coreservice.model.enums.AppointmentType;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -56,7 +57,8 @@ public class Appointment extends BaseEntity {
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private AppointmentStatus status;
+    @Builder.Default
+    private AppointmentStatus status=AppointmentStatus.SCHEDULED;
 
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)

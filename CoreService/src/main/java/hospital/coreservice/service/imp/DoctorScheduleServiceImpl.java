@@ -3,11 +3,14 @@ package hospital.coreservice.service.imp;
 import hospital.coreservice.dto.doctor_schedule.DoctorScheduleCreateDto;
 import hospital.coreservice.dto.doctor_schedule.DoctorScheduleResponseDto;
 import hospital.coreservice.dto.doctor_schedule.DoctorScheduleUpdateDto;
+import hospital.coreservice.exception.doctor.DoctorNotFoundException;
 import hospital.coreservice.exception.doctor_schedule.DoctorScheduleNotFoundException;
 import hospital.coreservice.exception.doctor_schedule.DuplicateDoctorScheduleException;
 import hospital.coreservice.mapper.DoctorScheduleMapper;
+import hospital.coreservice.model.Doctor;
 import hospital.coreservice.model.DoctorSchedule;
 import hospital.coreservice.model.enums.DayOfWeek;
+import hospital.coreservice.repository.DoctorRepository;
 import hospital.coreservice.repository.DoctorScheduleRepository;
 import hospital.coreservice.service.DoctorScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -31,18 +34,24 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
 
     private final DoctorScheduleRepository doctorScheduleRepository;
     private final DoctorScheduleMapper doctorScheduleMapper;
+    private final DoctorRepository doctorRepository;
 
     // ========== Core Operations ==========
 
     @Override
     @Transactional
     public DoctorScheduleResponseDto createDoctorSchedule(DoctorScheduleCreateDto createDto) {
-        log.info("Creating new doctor schedule for doctor id: {} on day: {}", createDto.getDoctorId(), createDto.getDayOfWeek());
+        log.info("Creating new doctor schedule for doctor id: {} on day: {}",
+                createDto.getDoctorId(), createDto.getDayOfWeek());
+
+        Doctor doctor = doctorRepository.findById(createDto.getDoctorId())
+                .orElseThrow(() -> DoctorNotFoundException.byId(createDto.getDoctorId()));
         DoctorSchedule schedule = doctorScheduleMapper.toEntity(createDto);
+        schedule.setDoctor(doctor);
         DoctorSchedule saved = doctorScheduleRepository.save(schedule);
-        log.info("Doctor schedule created with id: {}", saved.getId());
         return doctorScheduleMapper.toResponseDto(saved);
     }
+
 
     @Override
     @Transactional

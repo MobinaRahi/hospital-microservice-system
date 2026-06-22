@@ -2,6 +2,7 @@ package hospital.coreservice.dto.patient;
 
 import hospital.coreservice.model.enums.BloodType;
 import hospital.coreservice.model.enums.Gender;
+import hospital.coreservice.model.enums.PatientStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -23,6 +24,8 @@ public class PatientCreateDto {
 
     @NotBlank(message = "Last name is required")
     private String lastName;
+
+    private PatientStatus status;
 
     @NotNull(message = "Gender is required")
     private Gender gender;

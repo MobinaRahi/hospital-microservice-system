@@ -20,6 +20,7 @@ public interface PermissionService  {
     Set<PermissionResponseDto> getPermissionsByUserId(@NonNull Long userId);
     Permission getPermissionEntityById(@NonNull Long id);
     PermissionResponseDto updatePermission(@NonNull Long permissionId, @NonNull PermissionUpdateDto updateDto);
+    Long countAllPermissions();
     void deletePermission(@NonNull Long permissionId);
     void hardDeletePermission(@NonNull Long permissionId);
     boolean existsByName(@NonNull String name);

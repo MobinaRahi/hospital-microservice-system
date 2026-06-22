@@ -12,7 +12,6 @@ import java.time.LocalTime;
 @Entity(name = "shiftEntity")
 @Table(name = "shifts",
         indexes = {
-                @Index(name = "idx_shift_name", columnList = "name"),
                 @Index(name = "idx_shift_is_active", columnList = "is_active")
         })
 @NoArgsConstructor

@@ -24,6 +24,8 @@ public interface PermissionMapper {
     @Mapping(target = "version", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "resource", source = "resource")
+    @Mapping(target = "action", source = "action")
     @Mapping(target = "deleted", constant = "false")
     Permission toEntity(PermissionCreateDto createDto);
 
