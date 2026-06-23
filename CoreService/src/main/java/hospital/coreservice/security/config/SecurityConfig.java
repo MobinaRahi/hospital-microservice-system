@@ -78,14 +78,18 @@ public class SecurityConfig {
                                 // صفحات عمومی
                                 "/", "/index", "/home", "/login", "/error", "/favicon.ico",
                                 "/css/**", "/js/**", "/images/**", "/static/**", "/webjars/**",
-
+                                "/patient/book",
+                                "/api/v1/doctor/active/by-department-id",   // برای گرفتن پزشکان بر اساس بخش
+                                "/api/v1/appointments/doctor/available",    // برای گرفتن ساعت‌های خالی
+                                "/api/v1/appointments/patient",         // برای ثبت نوبت توسط بیمار
                                 // جستجو و مشاهده عمومی
                                 "/doctors/**",
                                 "/departments/**",
                                 "/appointments/book",           // جستجوی نوبت
                                 "/api/v1/doctors/search",       // API جستجوی پزشک
                                 "/api/v1/departments",          // لیست بخش‌ها
-                                "/api/v1/doctors"               // لیست پزشکان
+                                "/api/v1/doctors",         // لیست پزشکان
+                                "/api/v1/doctor/by-department-id"
                         ).permitAll()
 
                         // ==================== احراز هویت ====================

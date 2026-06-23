@@ -5,8 +5,9 @@ import hospital.coreservice.dto.doctor_schedule.DoctorScheduleResponseDto;
 import hospital.coreservice.dto.doctor_schedule.DoctorScheduleUpdateDto;
 import hospital.coreservice.model.enums.DayOfWeek;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
+
 public interface DoctorScheduleService {
     DoctorScheduleResponseDto createDoctorSchedule(DoctorScheduleCreateDto createDto);
     DoctorScheduleResponseDto updateDoctorSchedule(Long scheduleId, DoctorScheduleUpdateDto updateDto);
@@ -22,9 +23,13 @@ public interface DoctorScheduleService {
     void deactivateDoctorSchedule(Long scheduleId);
     List<DoctorScheduleResponseDto> getActiveDoctorSchedules();
     List<DoctorScheduleResponseDto> getInactiveDoctorSchedules();
-    List<DoctorScheduleResponseDto> getDoctorSchedulesByStartTimeAfter(LocalTime time);
-    List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByStartTimeAfter(LocalTime time);
-    List<DoctorScheduleResponseDto> getDoctorSchedulesByEndTimeBefore(LocalTime time);
-    List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByEndTimeBefore(LocalTime time);
+
+    // ===== LocalTime → LocalDateTime =====
+    List<DoctorScheduleResponseDto> getDoctorSchedulesByStartTimeAfter(LocalDateTime time);
+    List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByStartTimeAfter(LocalDateTime time);
+    List<DoctorScheduleResponseDto> getDoctorSchedulesByEndTimeBefore(LocalDateTime time);
+    List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByEndTimeBefore(LocalDateTime time);
+    // =====================================
+
     boolean existsByDoctorAndDay(Long doctorId, DayOfWeek dayOfWeek);
 }

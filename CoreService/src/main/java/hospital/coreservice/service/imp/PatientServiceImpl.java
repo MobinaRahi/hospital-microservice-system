@@ -10,11 +10,13 @@ import hospital.coreservice.exception.room.RoomNotFoundException;
 import hospital.coreservice.mapper.PatientMapper;
 import hospital.coreservice.model.Patient;
 import hospital.coreservice.model.Room;
+import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.BloodType;
 import hospital.coreservice.model.enums.Gender;
 import hospital.coreservice.model.enums.PatientStatus;
 import hospital.coreservice.repository.PatientRepository;
 import hospital.coreservice.repository.RoomRepository;
+import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,7 @@ public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
 
     // ========== Create ==========
 
@@ -56,10 +59,18 @@ public class PatientServiceImpl implements PatientService {
             throw new DuplicatePhoneNumberException(createDto.getPhoneNumber());
         }
 
-        Patient patient = patientMapper.toEntity(createDto);
-        patient.setStatus(PatientStatus.ACTIVE);
-        Patient saved = patientRepository.save(patient);
+        User user = null;
+        if (createDto.getUserId() != null) {
+            user = userRepository.findById(createDto.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + createDto.getUserId()));
+        }
+        // =====================================
 
+        Patient patient = patientMapper.toEntity(createDto);
+        patient.setUser(user);
+        patient.setStatus(PatientStatus.ACTIVE);
+
+        Patient saved = patientRepository.save(patient);
         log.info("Patient created with id: {}", saved.getId());
         return patientMapper.toResponseDto(saved);
     }

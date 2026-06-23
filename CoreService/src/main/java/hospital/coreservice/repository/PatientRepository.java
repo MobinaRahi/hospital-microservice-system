@@ -16,11 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface PatientRepository extends BaseEntityRepository<Patient,Long>{
+public interface PatientRepository extends BaseEntityRepository<Patient, Long> {
 
     Optional<Patient> findByNationalId(String nationalId);
 
     Optional<Patient> findByPhoneNumber(String phoneNumber);
+
+    @Query("select p from patientEntity p where p.user.id=:userId")
+    Optional<Patient> findByUserId(@Param("userId") Long userId);
 
     List<Patient> findByFirstNameContainingIgnoreCase(String firstName);
 

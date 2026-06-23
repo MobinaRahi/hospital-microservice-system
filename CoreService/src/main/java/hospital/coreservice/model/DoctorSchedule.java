@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity(name = "doctorScheduleEntity")
@@ -38,10 +39,10 @@ public class DoctorSchedule extends BaseEntity {
     private DayOfWeek dayOfWeek;
 
     @Column(name = "start_time", nullable = false)
-    private LocalTime startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time", nullable = false)
-    private LocalTime endTime;
+    private LocalDateTime endTime;
 
     @Column(name = "slot_duration", nullable = false)
     private Integer slotDuration;

@@ -1,5 +1,6 @@
 package hospital.coreservice.dto.patient;
 
+import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.BloodType;
 import hospital.coreservice.model.enums.Gender;
 import hospital.coreservice.model.enums.PatientStatus;
@@ -14,6 +15,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class PatientCreateDto {
+
+    private Long userId;
 
     @NotBlank(message = "National ID is required")
     @Pattern(regexp = "^[0-9]{10}$", message = "National ID must be 10 digits")

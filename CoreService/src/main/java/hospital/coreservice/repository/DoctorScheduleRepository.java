@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,13 +29,15 @@ public interface DoctorScheduleRepository extends BaseEntityRepository<DoctorSch
     @Query("SELECT ds FROM doctorScheduleEntity ds WHERE ds.doctor.id = :doctorId AND ds.dayOfWeek = :dayOfWeek AND ds.isActive = true")
     Optional<DoctorSchedule> findActiveByDoctorIdAndDayOfWeek(@Param("doctorId") Long doctorId, @Param("dayOfWeek") DayOfWeek dayOfWeek);
 
-    List<DoctorSchedule> findByStartTimeAfter(LocalTime time);
+    // ===== تغییرات: LocalTime → LocalDateTime =====
+    List<DoctorSchedule> findByStartTimeAfter(LocalDateTime time);
 
-    List<DoctorSchedule> findActiveByStartTimeAfter(LocalTime time);
+    List<DoctorSchedule> findActiveByStartTimeAfter(LocalDateTime time);
 
-    List<DoctorSchedule> findByEndTimeBefore(LocalTime time);
+    List<DoctorSchedule> findByEndTimeBefore(LocalDateTime time);
 
-    List<DoctorSchedule> findActiveByEndTimeBefore(LocalTime time);
+    List<DoctorSchedule> findActiveByEndTimeBefore(LocalDateTime time);
+    // =============================================
 
     boolean existsByDoctorIdAndDayOfWeek(Long doctorId, DayOfWeek dayOfWeek);
 

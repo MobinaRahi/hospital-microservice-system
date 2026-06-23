@@ -18,9 +18,9 @@ public class DoctorScheduleResponseDto {
 
     private DayOfWeek dayOfWeek;
 
-    private LocalTime startTime;
+    private LocalDateTime startTime;
 
-    private LocalTime endTime;
+    private LocalDateTime endTime;
 
     private Integer slotDuration;
 

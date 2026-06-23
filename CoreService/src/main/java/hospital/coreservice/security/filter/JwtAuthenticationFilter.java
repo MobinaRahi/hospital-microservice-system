@@ -61,4 +61,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
+
+    // ========== اضافه شده ==========
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+
+        return path.startsWith("/") && (
+                path.equals("/") ||
+                        path.equals("/index") ||
+                        path.equals("/home") ||
+                        path.equals("/login") ||
+                        path.equals("/error") ||
+                        path.startsWith("/css/") ||
+                        path.startsWith("/js/") ||
+                        path.startsWith("/images/") ||
+                        path.startsWith("/static/") ||
+                        path.startsWith("/webjars/") ||
+                        path.startsWith("/patient/book") ||
+                        path.startsWith("/doctors/") ||
+                        path.startsWith("/departments/") ||
+                        path.startsWith("/appointments/book") ||
+                        path.startsWith("/api/v1/doctors/search") ||
+                        path.startsWith("/api/v1/departments") ||
+                        path.startsWith("/api/v1/doctors") ||
+                        path.startsWith("/api/v1/doctor/by-department-id") ||
+                        path.startsWith("/api/v1/auth/") ||
+                        path.startsWith("/swagger-ui/") ||
+                        path.startsWith("/v3/api-docs/") ||
+                        path.startsWith("/api/v1/doctor/active/by-department-id") ||
+                        path.startsWith("/api/v1/appointments/doctor/available") ||
+                        path.startsWith("/api/v1/appointments/patient") ||
+                        path.startsWith("/h2-console/")
+        );
+    }
 }

@@ -18,15 +18,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Implementation of DoctorScheduleService.
- *
- * @author Mobina
- */
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -52,7 +47,6 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
         return doctorScheduleMapper.toResponseDto(saved);
     }
 
-
     @Override
     @Transactional
     public DoctorScheduleResponseDto updateDoctorSchedule(Long scheduleId, DoctorScheduleUpdateDto updateDto) {
@@ -70,7 +64,6 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     public void bulkCreateDoctorSchedules(List<DoctorScheduleCreateDto> createDtoList) {
         log.info("Bulk creating {} doctor schedules", createDtoList.size());
 
-        // Check for duplicate schedules
         DoctorScheduleCreateDto duplicate = createDtoList.stream()
                 .filter(dto -> doctorScheduleRepository.existsByDoctorIdAndDayOfWeek(dto.getDoctorId(), dto.getDayOfWeek()))
                 .findFirst()
@@ -190,10 +183,10 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
                 .collect(Collectors.toList());
     }
 
-    // ========== Time Based Queries ==========
+    // ========== Time Based Queries (با LocalDateTime) ==========
 
     @Override
-    public List<DoctorScheduleResponseDto> getDoctorSchedulesByStartTimeAfter(LocalTime time) {
+    public List<DoctorScheduleResponseDto> getDoctorSchedulesByStartTimeAfter(LocalDateTime time) {
         log.debug("Fetching schedules with start time after: {}", time);
         return doctorScheduleRepository.findByStartTimeAfter(time)
                 .stream()
@@ -202,8 +195,8 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     }
 
     @Override
-    public List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByStartTimeAfter(LocalTime time) {
-        log.debug("Fetching activeSchedules with start time after: {}", time);
+    public List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByStartTimeAfter(LocalDateTime time) {
+        log.debug("Fetching active schedules with start time after: {}", time);
         return doctorScheduleRepository.findActiveByStartTimeAfter(time)
                 .stream()
                 .map(doctorScheduleMapper::toResponseDto)
@@ -211,7 +204,7 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     }
 
     @Override
-    public List<DoctorScheduleResponseDto> getDoctorSchedulesByEndTimeBefore(LocalTime time) {
+    public List<DoctorScheduleResponseDto> getDoctorSchedulesByEndTimeBefore(LocalDateTime time) {
         log.debug("Fetching schedules with end time before: {}", time);
         return doctorScheduleRepository.findByEndTimeBefore(time)
                 .stream()
@@ -220,8 +213,8 @@ public class DoctorScheduleServiceImpl implements DoctorScheduleService {
     }
 
     @Override
-    public List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByEndTimeBefore(LocalTime time) {
-        log.debug("Fetching activeSchedules with end time before: {}", time);
+    public List<DoctorScheduleResponseDto> getActiveDoctorSchedulesByEndTimeBefore(LocalDateTime time) {
+        log.debug("Fetching active schedules with end time before: {}", time);
         return doctorScheduleRepository.findActiveByEndTimeBefore(time)
                 .stream()
                 .map(doctorScheduleMapper::toResponseDto)

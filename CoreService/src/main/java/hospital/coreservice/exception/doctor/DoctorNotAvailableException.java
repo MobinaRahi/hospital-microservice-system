@@ -1,6 +1,7 @@
 package hospital.coreservice.exception.doctor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class DoctorNotAvailableException extends RuntimeException {

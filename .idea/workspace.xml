@@ -5,68 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/runner/DataInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/request/PatientBookingRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/patient-book.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/3f0abb1f-815b-469d-b3e8-4cb3891ef7a7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/3f0abb1f-815b-469d-b3e8-4cb3891ef7a7.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/CoreServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/CoreServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/RoleApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/RoleApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/AppointmentApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/AppointmentApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/DoctorScheduleApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/DoctorScheduleApi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/ViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/ViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/doctor/DoctorCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/doctor/DoctorCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/nurse/NurseCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/nurse/NurseCreateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/doctor_schedule/DoctorScheduleCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/doctor_schedule/DoctorScheduleCreateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/doctor_schedule/DoctorScheduleResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/doctor_schedule/DoctorScheduleResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/doctor_schedule/DoctorScheduleUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/doctor_schedule/DoctorScheduleUpdateDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/patient/PatientCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/patient/PatientCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionSlimResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionSlimResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/role/RoleCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/role/RoleCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/NurseMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/NurseMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/PermissionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/PermissionMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/AuditLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/AuditLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Doctor.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Doctor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Nurse.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Nurse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/patient/PatientUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/patient/PatientUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/doctor/DoctorNotAvailableException.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/doctor/DoctorNotAvailableException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/patient/PatientAppointmentConflictException.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/patient/PatientAppointmentConflictException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/PatientMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/PatientMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/DoctorSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/DoctorSchedule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Patient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Permission.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Permission.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Shift.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/Shift.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/AppointmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/AppointmentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/DoctorScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/DoctorScheduleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/PatientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/PatientRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/runner/DataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/runner/DataInitializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/PatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/PatientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/PermissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/PermissionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/RoleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/filter/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/AppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/AppointmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/DoctorScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/DoctorScheduleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/AppointmentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/AppointmentServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/DoctorScheduleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/DoctorScheduleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/DoctorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/DoctorServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/NurseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/NurseServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/PatientServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/PatientServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/PermissionServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/PermissionServiceImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/RoleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/admin_system/appointments.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/appointments.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/admin_system/book-appointment.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/book-appointment.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/admin_system/departments.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/departments.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/admin_system/doctors.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctors.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/admin_system/nurses.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/nurses.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/admin_system/patients.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/patients.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/admin_system/rooms.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/admin_system/shifts.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-admitted.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-admitted.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-appointments.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-appointments.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-my-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-my-profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-patients.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-patients.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-prescriptions.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-prescriptions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-records.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-records.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor/doctor-schedule.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-schedule.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/patient/patient-appointments.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/patient-appointments.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/patient/patient-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/patient-dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/patient/patient-records.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/patient-records.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/rooms.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/rooms.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/shifts.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/shifts.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +59,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;git@github.com:/MobinaRahi/hospital-microservice-system.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/MobinaRahi/hospital-microservice-system&quot;,
     &quot;accountId&quot;: &quot;ec1121a2-da58-40e9-8b78-f1fbe631af6c&quot;
   }
 }</component>
@@ -116,36 +84,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.CoreServiceApplication.executor": "Run",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/AvalPc/Desktop/Hospital.Spring/HospitalSpringBoot/CoreService/src/main/resources/templates",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.CoreServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/AvalPc/Desktop/Hospital.Spring/HospitalSpringBoot/CoreService/src/main/resources/templates&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "oracle"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;oracle&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="hospital.coreservice.mapper" />
@@ -194,6 +162,8 @@
       <workItem from="1782050543352" duration="10097000" />
       <workItem from="1782067286867" duration="600000" />
       <workItem from="1782071409328" duration="15702000" />
+      <workItem from="1782227172906" duration="3660000" />
+      <workItem from="1782235973336" duration="11430000" />
     </task>
     <task id="LOCAL-00001" summary="ADD controllers">
       <option name="closed" value="true" />

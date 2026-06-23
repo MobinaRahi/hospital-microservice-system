@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -19,9 +20,9 @@ public class DoctorScheduleUpdateDto {
 
     private DayOfWeek dayOfWeek;
 
-    private LocalTime startTime;
+    private LocalDateTime startTime;
 
-    private LocalTime endTime;
+    private LocalDateTime endTime;
 
     @Positive(message = "Slot duration must be positive")
     private Integer slotDuration;

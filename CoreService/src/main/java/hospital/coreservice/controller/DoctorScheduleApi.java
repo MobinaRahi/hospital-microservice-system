@@ -10,11 +10,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -143,32 +144,36 @@ public class DoctorScheduleApi {
         return ResponseEntity.ok(ApiResponse.success(doctorScheduleList, "Inactive doctor schedules retrieved successfully", HttpStatus.OK.value()));
     }
 
-    // ========== Time-based Queries ==========
+    // ========== Time-based Queries (با LocalDateTime) ==========
 
     @GetMapping("/by-start-time-after")
     @Operation(summary = "Get doctor schedules by start time after")
-    public ResponseEntity<ApiResponse<List<DoctorScheduleResponseDto>>> getDoctorSchedulesByStartTimeAfter(@RequestParam LocalTime time) {
+    public ResponseEntity<ApiResponse<List<DoctorScheduleResponseDto>>> getDoctorSchedulesByStartTimeAfter(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime time) {
         List<DoctorScheduleResponseDto> doctorScheduleList = doctorScheduleService.getDoctorSchedulesByStartTimeAfter(time);
         return ResponseEntity.ok(ApiResponse.success(doctorScheduleList, "Doctor schedules retrieved successfully by start time after: " + time, HttpStatus.OK.value()));
     }
 
     @GetMapping("/active/by-start-time-after")
     @Operation(summary = "Get active doctor schedules by start time after")
-    public ResponseEntity<ApiResponse<List<DoctorScheduleResponseDto>>> getActiveDoctorSchedulesByStartTimeAfter(@RequestParam LocalTime time) {
+    public ResponseEntity<ApiResponse<List<DoctorScheduleResponseDto>>> getActiveDoctorSchedulesByStartTimeAfter(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime time) {
         List<DoctorScheduleResponseDto> doctorScheduleList = doctorScheduleService.getActiveDoctorSchedulesByStartTimeAfter(time);
         return ResponseEntity.ok(ApiResponse.success(doctorScheduleList, "Active doctor schedules retrieved successfully by start time after: " + time, HttpStatus.OK.value()));
     }
 
     @GetMapping("/by-end-time-before")
     @Operation(summary = "Get doctor schedules by end time before")
-    public ResponseEntity<ApiResponse<List<DoctorScheduleResponseDto>>> getDoctorSchedulesByEndTimeBefore(@RequestParam LocalTime time) {
+    public ResponseEntity<ApiResponse<List<DoctorScheduleResponseDto>>> getDoctorSchedulesByEndTimeBefore(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime time) {
         List<DoctorScheduleResponseDto> doctorScheduleList = doctorScheduleService.getDoctorSchedulesByEndTimeBefore(time);
         return ResponseEntity.ok(ApiResponse.success(doctorScheduleList, "Doctor schedules retrieved successfully by end time before: " + time, HttpStatus.OK.value()));
     }
 
     @GetMapping("/active/by-end-time-before")
     @Operation(summary = "Get active doctor schedules by end time before")
-    public ResponseEntity<ApiResponse<List<DoctorScheduleResponseDto>>> getActiveDoctorSchedulesByEndTimeBefore(@RequestParam LocalTime time) {
+    public ResponseEntity<ApiResponse<List<DoctorScheduleResponseDto>>> getActiveDoctorSchedulesByEndTimeBefore(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime time) {
         List<DoctorScheduleResponseDto> doctorScheduleList = doctorScheduleService.getActiveDoctorSchedulesByEndTimeBefore(time);
         return ResponseEntity.ok(ApiResponse.success(doctorScheduleList, "Active doctor schedules retrieved successfully by end time before: " + time, HttpStatus.OK.value()));
     }

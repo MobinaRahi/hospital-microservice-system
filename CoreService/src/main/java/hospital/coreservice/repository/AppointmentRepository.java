@@ -32,7 +32,7 @@ public interface AppointmentRepository extends BaseEntityRepository<Appointment,
     List<Appointment> findByDoctorId(Long doctorId);
     List<Appointment> findByPatientId(Long patientId);
     List<Appointment> findByDepartmentId(Long departmentId);
-    List<Appointment> findByAppointmentDate(LocalDate appointmentDate);
+    List<Appointment> findByAppointmentDate(LocalDate appointmentDate);         // LocalDate ✓
 
     // ========== Find by Status ==========
 
@@ -40,17 +40,17 @@ public interface AppointmentRepository extends BaseEntityRepository<Appointment,
 
     // ========== Find by Date Range ==========
 
-    List<Appointment> findByAppointmentDateBetween(LocalDate start, LocalDate end);
+    List<Appointment> findByAppointmentDateBetween(LocalDate start, LocalDate end); // LocalDate ✓
 
     // ========== Find by Doctor + Date ==========
 
-    List<Appointment> findByDoctorIdAndAppointmentDate(Long doctorId, LocalDate date);
+    List<Appointment> findByDoctorIdAndAppointmentDate(Long doctorId, LocalDate date); // LocalDate ✓
 
     // ========== Find by Patient + Date ==========
 
-    List<Appointment> findByPatientIdAndAppointmentDate(Long patientId, LocalDate date);
-    List<Appointment> findByPatientIdAndAppointmentDateGreaterThanEqual(Long patientId, LocalDate date);
-    List<Appointment> findByPatientIdAndAppointmentDateLessThanEqual(Long patientId, LocalDate date);
+    List<Appointment> findByPatientIdAndAppointmentDate(Long patientId, LocalDate date);                    // LocalDate ✓
+    List<Appointment> findByPatientIdAndAppointmentDateGreaterThanEqual(Long patientId, LocalDate date);    // LocalDate ✓
+    List<Appointment> findByPatientIdAndAppointmentDateLessThanEqual(Long patientId, LocalDate date);       // LocalDate ✓
 
     // ========== Find by Patient + Status ==========
 
@@ -67,13 +67,13 @@ public interface AppointmentRepository extends BaseEntityRepository<Appointment,
 
     // ========== Find by Creation Date ==========
 
-    List<Appointment> findByCreatedAtAfter(LocalDateTime createdAt);
-    List<Appointment> findByCreatedAtBefore(LocalDateTime createdAt);
+    List<Appointment> findByCreatedAtAfter(LocalDateTime createdAt);    // createdAt از BaseEntity هست، LocalDateTime ✓
+    List<Appointment> findByCreatedAtBefore(LocalDateTime createdAt);   // createdAt از BaseEntity هست، LocalDateTime ✓
 
     // ========== Find by Cancellation Date ==========
 
-    List<Appointment> findByCanceledAtAfter(LocalDateTime canceledAt);
-    List<Appointment> findByCanceledAtBefore(LocalDateTime canceledAt);
+    List<Appointment> findByCanceledAtAfter(LocalDateTime canceledAt);  // canceledAt در entity، LocalDateTime ✓
+    List<Appointment> findByCanceledAtBefore(LocalDateTime canceledAt); // canceledAt در entity، LocalDateTime ✓
 
     // ========== Find by User ==========
 

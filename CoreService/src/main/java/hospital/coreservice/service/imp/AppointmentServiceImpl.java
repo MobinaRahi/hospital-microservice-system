@@ -3,36 +3,33 @@ package hospital.coreservice.service.imp;
 import hospital.coreservice.dto.appointment.AppointmentCreateDto;
 import hospital.coreservice.dto.appointment.AppointmentResponseDto;
 import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
+import hospital.coreservice.dto.request.PatientBookingRequest;
 import hospital.coreservice.exception.appointment.*;
 import hospital.coreservice.exception.department.DepartmentNotFoundException;
 import hospital.coreservice.exception.doctor.DoctorNotAvailableException;
 import hospital.coreservice.exception.doctor.DoctorNotFoundException;
-import hospital.coreservice.exception.doctor_schedule.DoctorScheduleNotFoundException;
 import hospital.coreservice.exception.patient.PatientAppointmentConflictException;
 import hospital.coreservice.exception.patient.PatientNotFoundException;
 import hospital.coreservice.mapper.AppointmentMapper;
 import hospital.coreservice.model.*;
-import hospital.coreservice.model.enums.AppointmentStatus;
-import hospital.coreservice.model.enums.DayOfWeek;
+import hospital.coreservice.model.enums.*;
 import hospital.coreservice.repository.*;
+import hospital.coreservice.security.model.SecurityUser;
 import hospital.coreservice.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Implementation of AppointmentService.
- *
- * @author Mobina
- */
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -44,6 +41,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
     private final DepartmentRepository departmentRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     // ========== Core Operations ==========
 
@@ -52,6 +52,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentResponseDto createAppointment(AppointmentCreateDto createDto) {
         log.info("Creating new appointment for patient: {} with doctor: {} on {}",
                 createDto.getPatientId(), createDto.getDoctorId(), createDto.getAppointmentDate());
+
         Patient patient = patientRepository.findById(createDto.getPatientId())
                 .orElseThrow(() -> PatientNotFoundException.byId(createDto.getPatientId()));
 
@@ -63,15 +64,16 @@ public class AppointmentServiceImpl implements AppointmentService {
             department = departmentRepository.findById(createDto.getDepartmentId())
                     .orElseThrow(() -> DepartmentNotFoundException.byId(createDto.getDepartmentId()));
         }
+
         Appointment appointment = appointmentMapper.toEntity(createDto);
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
         appointment.setDepartment(department);
         appointment.setStatus(AppointmentStatus.SCHEDULED);
+
         Appointment saved = appointmentRepository.save(appointment);
         return appointmentMapper.toResponseDto(saved);
     }
-
 
     @Override
     @Transactional
@@ -123,6 +125,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointmentRepository.updateStatus(id, AppointmentStatus.COMPLETED);
     }
+
     // ========== Basic Retrieval ==========
 
     @Override
@@ -190,12 +193,11 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .collect(Collectors.toList());
     }
 
-    /// Ask
     @Override
     public List<AppointmentResponseDto> getThisWeekAppointments() {
         LocalDate today = LocalDate.now();
-        int daysUntilFriday = 5 - today.getDayOfWeek().getValue();
-        LocalDate endOfWeek = today.plusDays(daysUntilFriday);
+        int daysUntilFriday = (5 - today.getDayOfWeek().getValue() + 7) % 7;
+        LocalDate endOfWeek = today.plusDays(daysUntilFriday == 0 ? 7 : daysUntilFriday);
 
         return appointmentRepository.findByAppointmentDateBetween(today, endOfWeek)
                 .stream()
@@ -328,29 +330,42 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.count();
     }
 
-    // ========== Features ==========
+    // ========== Available Slots (اصلاح‌شده) ==========
 
     @Override
     public List<LocalTime> getAvailableSlots(Long doctorId, LocalDate date) {
         DayOfWeek myDayOfWeek = convertToMyDayOfWeek(date.getDayOfWeek());
-        DoctorSchedule schedule = doctorScheduleRepository
-                .findByDoctorIdAndDayOfWeek(doctorId, myDayOfWeek)
-                .orElseThrow(() -> DoctorScheduleNotFoundException.byDoctorIdAndDayOfWeek(doctorId, myDayOfWeek));
 
+        Optional<DoctorSchedule> scheduleOpt = doctorScheduleRepository
+                .findByDoctorIdAndDayOfWeek(doctorId, myDayOfWeek);
+
+        if (scheduleOpt.isEmpty()) {
+            log.warn("Doctor {} has no schedule on {}", doctorId, myDayOfWeek);
+            return Collections.emptyList();
+        }
+
+        DoctorSchedule schedule = scheduleOpt.get();
+
+        // گرفتن نوبت‌های رزرو شده برای این تاریخ
         List<Appointment> booked = appointmentRepository.findByDoctorIdAndAppointmentDate(doctorId, date);
 
+        // تولید اسلات‌ها (فقط زمان)
         List<LocalTime> slots = new ArrayList<>();
-        LocalTime current = schedule.getStartTime();
-        while (current.isBefore(schedule.getEndTime())) {
-            slots.add(current);
+        LocalDateTime current = schedule.getStartTime();
+        LocalDateTime end = schedule.getEndTime();
+
+        while (current.isBefore(end)) {
+            slots.add(current.toLocalTime());  // فقط زمان رو اضافه کن
             current = current.plusMinutes(schedule.getSlotDuration());
         }
 
-        List<LocalTime> available = new ArrayList<>(slots);
-        for (Appointment app : booked) {
-            available.remove(app.getStartTime());
-        }
-        return available;
+        // حذف زمان‌های رزرو شده
+        List<LocalTime> bookedTimes = booked.stream()
+                .map(Appointment::getStartTime)
+                .collect(Collectors.toList());
+        slots.removeAll(bookedTimes);
+
+        return slots;
     }
 
     public DayOfWeek convertToMyDayOfWeek(java.time.DayOfWeek javaDay) {
@@ -364,6 +379,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             case FRIDAY -> DayOfWeek.FRIDAY;
         };
     }
+
+    // ========== Reschedule ==========
 
     @Override
     @Transactional
@@ -420,5 +437,83 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .stream()
                 .anyMatch(a -> a.getStartTime().equals(startTime));
     }
-}
 
+    // ========== Book Appointment by Patient (Guest & Logged-in) ==========
+
+    @Override
+    @Transactional
+    public AppointmentResponseDto bookAppointmentByPatient(PatientBookingRequest request, Authentication authentication) {
+
+        Long patientId;
+
+        // ===== ۱. تشخیص بیمار =====
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+            Patient patient = patientRepository.findByUserId(securityUser.getId())
+                    .orElseThrow(() -> new RuntimeException("Patient not found for user: " + securityUser.getUsername()));
+            patientId = patient.getId();
+        } else {
+            // ===== ۲. کاربر مهمان است → ثبت‌نام خودکار =====
+            Optional<Patient> existingPatient = patientRepository.findByNationalId(request.getNationalId());
+            if (existingPatient.isPresent()) {
+                patientId = existingPatient.get().getId();
+            } else {
+                // ساخت کاربر جدید
+                User user = new User();
+                user.setUsername(request.getPhone());
+                user.setPasswordHash(passwordEncoder.encode("tempPassword" + System.currentTimeMillis()));
+                String[] nameParts = request.getFullName().split(" ");
+                user.setFirstName(nameParts[0]);
+                user.setLastName(nameParts.length > 1 ? nameParts[1] : "");
+                user.setEmail(request.getPhone() + "@temp.com");
+                user.setPhoneNumber(request.getPhone());
+                user.setNationalId(request.getNationalId());
+                user.setEnabled(true);
+                user.setAccountNonLocked(true);
+                user.setBirthDate(LocalDate.now().minusYears(30));
+
+                Role patientRole = roleRepository.findByName(RoleName.PATIENT)
+                        .orElseThrow(() -> new RuntimeException("Role PATIENT not found"));
+                user.setRoles(Set.of(patientRole));
+                user = userRepository.save(user);
+
+                // ساخت بیمار از روی کاربر
+                Patient patient = new Patient();
+                patient.setUser(user);
+                patient.setFirstName(user.getFirstName());
+                patient.setLastName(user.getLastName());
+                patient.setPhoneNumber(request.getPhone());
+                patient.setNationalId(request.getNationalId());
+                patient.setStatus(PatientStatus.ACTIVE);
+                patient.setGender(Gender.UNKNOWN);
+                patient.setBloodType(BloodType.UNKNOWN);
+                patient.setAddress("ثبت نشده");
+                patient.setBirthDate(LocalDate.now().minusYears(30));
+
+                patient = patientRepository.save(patient);
+                patientId = patient.getId();
+            }
+        }
+
+        // ===== ۳. ساخت Appointment =====
+        AppointmentCreateDto createDto = new AppointmentCreateDto();
+        createDto.setPatientId(patientId);
+        createDto.setDoctorId(request.getDoctorId());
+        createDto.setAppointmentDate(LocalDate.parse(request.getAppointmentDate()));
+        createDto.setStartTime(LocalTime.parse(request.getStartTime()));
+        createDto.setEndTime(LocalTime.parse(request.getEndTime()));
+        createDto.setType(AppointmentType.valueOf(request.getType()));
+        createDto.setReason(request.getReason());
+        createDto.setNotes(request.getNotes());
+
+        Doctor doctor = doctorRepository.findById(request.getDoctorId())
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+
+        if (doctor.getDepartment() == null) {
+            throw new RuntimeException("Doctor does not have a department assigned");
+        }
+        createDto.setDepartmentId(doctor.getDepartment().getId());
+
+        return createAppointment(createDto);
+    }
+}

@@ -19,6 +19,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
@@ -42,16 +43,14 @@ public class DataInitializer implements CommandLineRunner {
     private final AppointmentService appointmentService;
 
     @Override
-    // @Transactional را حذف کردیم تا هر متد سرویس تراکنش خود را مدیریت کند
     public void run(String... args) {
         try {
-            // بررسی اینکه آیا داده‌ها از قبل وجود دارند یا خیر
             if (departmentService.countTotalDepartments() > 0) {
-                log.info("⏭️ Data already exists, skipping initialization.");
+                log.info("⏭️ داده‌ها از قبل موجود هستند، مقداردهی اولیه نادیده گرفته می‌شود.");
                 return;
             }
 
-            log.info("🚀 Starting data initialization...");
+            log.info("🚀 شروع مقداردهی اولیه داده‌ها...");
 
             initRolesAndPermissions();
             initUsers();
@@ -64,57 +63,55 @@ public class DataInitializer implements CommandLineRunner {
             initDoctorSchedules();
             initAppointments();
 
-            log.info("✅ All sample data created successfully!");
-            log.info("📊 Summary:");
-            log.info("   • Users: {}", userService.countAllUsers());
-            log.info("   • Departments: {}", departmentService.countTotalDepartments());
-            log.info("   • Doctors: {}", doctorService.countAllDoctors());
-            log.info("   • Nurses: {}", nurseService.countAllNurses());
-            log.info("   • Patients: {}", patientService.countAllPatients());
-            log.info("   • Rooms: {}", roomService.countAllRooms());
-            log.info("   • Shifts: {}", shiftService.countAllShifts());
-            log.info("   • Appointments: {}", appointmentService.countTotalAppointments());
+            log.info("✅ تمام داده‌های نمونه با موفقیت ایجاد شدند!");
+            log.info("📊 خلاصه:");
+            log.info("   • کاربران: {}", userService.countAllUsers());
+            log.info("   • بخش‌ها: {}", departmentService.countTotalDepartments());
+            log.info("   • پزشکان: {}", doctorService.countAllDoctors());
+            log.info("   • پرستاران: {}", nurseService.countAllNurses());
+            log.info("   • بیماران: {}", patientService.countAllPatients());
+            log.info("   • اتاق‌ها: {}", roomService.countAllRooms());
+            log.info("   • شیفت‌ها: {}", shiftService.countAllShifts());
+            log.info("   • نوبت‌ها: {}", appointmentService.countTotalAppointments());
 
         } catch (Exception e) {
-            log.error("❌ Data initialization failed with exception: ", e);
-            // در صورت نیاز می‌توانید استثنا را دوباره پرتاب کنید تا برنامه متوقف شود
-            // throw new RuntimeException("Data initialization failed", e);
+            log.error("❌ مقداردهی اولیه داده‌ها با خطا مواجه شد: ", e);
         }
     }
 
-    // ============ 1. Roles & Permissions ============
+    // ============ 1. نقش‌ها و دسترسی‌ها ============
 
     private void initRolesAndPermissions() {
-        log.info("📋 Creating roles and permissions...");
+        log.info("📋 ایجاد نقش‌ها و دسترسی‌ها...");
 
         if (permissionService.countAllPermissions() == 0) {
-            createPermission("CREATE_USER", "Create new users", "USER", "CREATE");
-            createPermission("READ_USER", "Read user details", "USER", "READ");
-            createPermission("UPDATE_USER", "Update user details", "USER", "UPDATE");
-            createPermission("DELETE_USER", "Delete users", "USER", "DELETE");
-            createPermission("VIEW_PROFILE", "View user profiles", "USER", "READ");
-            createPermission("MANAGE_ROLES", "Manage roles", "ADMIN", "MANAGE");
-            createPermission("VIEW_AUDIT", "View audit logs", "ADMIN", "READ");
+            createPermission("CREATE_USER", "ایجاد کاربر جدید", "USER", "CREATE");
+            createPermission("READ_USER", "مشاهده اطلاعات کاربر", "USER", "READ");
+            createPermission("UPDATE_USER", "ویرایش اطلاعات کاربر", "USER", "UPDATE");
+            createPermission("DELETE_USER", "حذف کاربر", "USER", "DELETE");
+            createPermission("VIEW_PROFILE", "مشاهده پروفایل کاربران", "USER", "READ");
+            createPermission("MANAGE_ROLES", "مدیریت نقش‌ها", "ADMIN", "MANAGE");
+            createPermission("VIEW_AUDIT", "مشاهده لاگ‌های حسابرسی", "ADMIN", "READ");
         }
 
         if (roleService.countAllRoles() == 0) {
-            createRole(RoleName.SUPER_ADMIN, "Super Administrator - Full access");
-            createRole(RoleName.ADMIN, "Administrator - Manage users and roles");
-            createRole(RoleName.DOCTOR, "Doctor - Medical staff");
-            createRole(RoleName.NURSE, "Nurse - Nursing staff");
-            createRole(RoleName.PATIENT, "Patient - Regular user");
-            createRole(RoleName.RECEPTIONIST, "Receptionist - Front desk");
+            createRole(RoleName.SUPER_ADMIN, "مدیر ارشد سیستم - دسترسی کامل");
+            createRole(RoleName.ADMIN, "مدیر سیستم - مدیریت کاربران و نقش‌ها");
+            createRole(RoleName.DOCTOR, "پزشک - کادر پزشکی");
+            createRole(RoleName.NURSE, "پرستار - کادر پرستاری");
+            createRole(RoleName.PATIENT, "بیمار - کاربر عادی");
+            createRole(RoleName.RECEPTIONIST, "پذیرش - میز جلو");
         }
 
-        log.info("✅ Roles and permissions created successfully");
+        log.info("✅ نقش‌ها و دسترسی‌ها با موفقیت ایجاد شدند");
     }
 
     private void createPermission(String name, String description, String resource, String action) {
         try {
             permissionService.createPermission(new PermissionCreateDto(name, description, resource, action));
-            log.debug("Permission '{}' created", name);
+            log.debug("دسترسی '{}' ایجاد شد", name);
         } catch (Exception e) {
-            log.warn("Permission '{}' creation failed: {}", name, e.getMessage(), e);
+            log.warn("ایجاد دسترسی '{}' ناموفق بود: {}", name, e.getMessage(), e);
         }
     }
 
@@ -122,24 +119,24 @@ public class DataInitializer implements CommandLineRunner {
         try {
             roleService.createRole(new hospital.coreservice.dto.role.RoleCreateDto(roleName, description, null));
         } catch (Exception e) {
-            log.warn("Role '{}' creation failed: {}", roleName, e.getMessage(), e);
+            log.warn("ایجاد نقش '{}' ناموفق بود: {}", roleName, e.getMessage(), e);
         }
     }
 
-    // ============ 2. Users ============
+    // ============ 2. کاربران ============
 
     private void initUsers() {
-        log.info("👤 Creating users...");
+        log.info("👤 ایجاد کاربران...");
 
-        createUser("Dr. John", "Doe", "dr.john", "john.doe@hospital.com", "Doctor@123", "09121111111");
-        createUser("Dr. Jane", "Smith", "dr.jane", "jane.smith@hospital.com", "Doctor@123", "09122222222");
-        createUser("Nurse Alice", "Brown", "nurse.alice", "alice.brown@hospital.com", "Nurse@123", "09123333333");
-        createUser("Nurse Bob", "White", "nurse.bob", "bob.white@hospital.com", "Nurse@123", "09124444444");
-        createUser("Patient Jack", "Black", "patient.jack", "jack.black@hospital.com", "Patient@123", "09125555555");
-        createUser("Patient Mary", "Green", "patient.mary", "mary.green@hospital.com", "Patient@123", "09126666666");
-        createUser("Admin", "System", "admin", "admin@hospital.com", "Admin@123", "09127777777");
+        createUser("دکتر علی", "رضایی", "dr.ali", "ali.rezaei@hospital.com", "Doctor@123", "09121111111");
+        createUser("دکتر مریم", "احمدی", "dr.maryam", "maryam.ahmadi@hospital.com", "Doctor@123", "09122222222");
+        createUser("پرستار فاطمه", "محمدی", "nurse.fatemeh", "fatemeh.mohammadi@hospital.com", "Nurse@123", "09123333333");
+        createUser("پرستار حسین", "کریمی", "nurse.hossein", "hossein.karimi@hospital.com", "Nurse@123", "09124444444");
+        createUser("بیمار رضا", "نجفی", "patient.reza", "reza.najafi@hospital.com", "Patient@123", "09125555555");
+        createUser("بیمار زهرا", "حسینی", "patient.zahra", "zahra.hosseini@hospital.com", "Patient@123", "09126666666");
+        createUser("مدیر", "سیستم", "admin", "admin@hospital.com", "Admin@123", "09127777777");
 
-        log.info("✅ Users created successfully");
+        log.info("✅ کاربران با موفقیت ایجاد شدند");
     }
 
     private void createUser(String firstName, String lastName, String username, String email, String password, String phone) {
@@ -153,21 +150,21 @@ public class DataInitializer implements CommandLineRunner {
             dto.setPhoneNumber(phone);
             dto.setBirthDate(LocalDate.of(1990, 1, 1));
             userService.registerUser(dto);
-            log.debug("User '{}' created", username);
+            log.debug("کاربر '{}' ایجاد شد", username);
         } catch (Exception e) {
-            log.warn("User '{}' creation failed: {}", username, e.getMessage(), e);
+            log.warn("ایجاد کاربر '{}' ناموفق بود: {}", username, e.getMessage(), e);
         }
     }
 
-    // ============ 3. Departments ============
+    // ============ 3. بخش‌ها ============
 
     private void initDepartments() {
-        log.info("🏥 Creating departments...");
+        log.info("🏥 ایجاد بخش‌ها...");
 
-        createDepartment("Cardiology", "CARD-001", "Heart diseases and treatments", "Floor 3, Building A", "0211111111");
-        createDepartment("Neurology", "NEUR-001", "Brain and nervous system", "Floor 4, Building A", "0212222222");
+        createDepartment("قلب و عروق", "CARD-001", "بیماری‌ها و درمان‌های قلبی", "طبقه سوم، ساختمان الف", "0211111111");
+        createDepartment("مغز و اعصاب", "NEUR-001", "مغز و سیستم عصبی", "طبقه چهارم، ساختمان الف", "0212222222");
 
-        log.info("✅ Departments created successfully");
+        log.info("✅ بخش‌ها با موفقیت ایجاد شدند");
     }
 
     private void createDepartment(String name, String code, String desc, String location, String phone) {
@@ -179,26 +176,26 @@ public class DataInitializer implements CommandLineRunner {
             dto.setLocation(location);
             dto.setPhoneNumber(phone);
             departmentService.createDepartment(dto);
-            log.debug("Department '{}' created", name);
+            log.debug("بخش '{}' ایجاد شد", name);
         } catch (Exception e) {
-            log.warn("Department '{}' creation failed: {}", name, e.getMessage(), e);
+            log.warn("ایجاد بخش '{}' ناموفق بود: {}", name, e.getMessage(), e);
         }
     }
 
-    // ============ 4. Doctors ============
+    // ============ 4. پزشکان ============
 
     private void initDoctors() {
-        log.info("👨‍⚕️ Creating doctors...");
+        log.info("👨‍⚕️ ایجاد پزشکان...");
 
-        createDoctor("dr.john", "Dr. John Doe", "LIC-001", Speciality.CARDIOLOGY,
+        createDoctor("dr.ali", "دکتر علی رضایی", "LIC-001", Speciality.CARDIOLOGY,
                 List.of(SubSpeciality.INTERVENTIONAL_CARDIOLOGY, SubSpeciality.ECHOCARDIOGRAPHY),
                 12, 150000L, "09121111111", 20, 30, "CARD-001");
 
-        createDoctor("dr.jane", "Dr. Jane Smith", "LIC-002", Speciality.NEUROLOGY,
+        createDoctor("dr.maryam", "دکتر مریم احمدی", "LIC-002", Speciality.NEUROLOGY,
                 List.of(SubSpeciality.STROKE, SubSpeciality.EPILEPSY),
                 8, 180000L, "09122222222", 15, 30, "NEUR-001");
 
-        log.info("✅ Doctors created successfully");
+        log.info("✅ پزشکان با موفقیت ایجاد شدند");
     }
 
     private void createDoctor(String username, String fullName, String license, Speciality speciality,
@@ -210,8 +207,8 @@ public class DataInitializer implements CommandLineRunner {
 
             DoctorCreateDto dto = new DoctorCreateDto();
             dto.setUserId(user.getId());
-            dto.setFirstName(fullName.split(" ")[0]);
-            dto.setLastName(fullName.split(" ")[1]);
+            dto.setFirstName(fullName.split(" ")[1]);
+            dto.setLastName(fullName.split(" ")[2]);
             dto.setSpeciality(speciality);
             dto.setSubSpecialities(subSpecialities);
             dto.setLicenseNumber(license);
@@ -223,24 +220,24 @@ public class DataInitializer implements CommandLineRunner {
             dto.setDepartmentId(department.getId());
 
             doctorService.createDoctor(dto);
-            log.debug("Doctor '{}' created", username);
+            log.debug("پزشک '{}' ایجاد شد", username);
         } catch (Exception e) {
-            log.warn("Doctor '{}' creation failed: {}", username, e.getMessage(), e);
+            log.warn("ایجاد پزشک '{}' ناموفق بود: {}", username, e.getMessage(), e);
         }
     }
 
-    // ============ 5. Nurses ============
+    // ============ 5. پرستاران ============
 
     private void initNurses() {
-        log.info("👩‍⚕️ Creating nurses...");
+        log.info("👩‍⚕️ ایجاد پرستاران...");
 
-        createNurse("nurse.alice", "Alice Brown", "NURSE-001", "1234567890",
+        createNurse("nurse.fatemeh", "فاطمه محمدی", "NURSE-001", "1234567890",
                 NursePosition.HEAD_NURSE, 10, true, "CARD-001");
 
-        createNurse("nurse.bob", "Bob White", "NURSE-002", "0987654321",
+        createNurse("nurse.hossein", "حسین کریمی", "NURSE-002", "0987654321",
                 NursePosition.STAFF_NURSE, 5, true, "NEUR-001");
 
-        log.info("✅ Nurses created successfully");
+        log.info("✅ پرستاران با موفقیت ایجاد شدند");
     }
 
     private void createNurse(String username, String fullName, String nurseCode, String nationalId,
@@ -262,24 +259,24 @@ public class DataInitializer implements CommandLineRunner {
             dto.setDepartmentIds(Collections.singletonList(department.getId()));
 
             nurseService.createNurse(dto);
-            log.debug("Nurse '{}' created", username);
+            log.debug("پرستار '{}' ایجاد شد", username);
         } catch (Exception e) {
-            log.warn("Nurse '{}' creation failed: {}", username, e.getMessage(), e);
+            log.warn("ایجاد پرستار '{}' ناموفق بود: {}", username, e.getMessage(), e);
         }
     }
 
-    // ============ 6. Patients ============
+    // ============ 6. بیماران ============
 
     private void initPatients() {
-        log.info("🧑‍🤝‍🧑 Creating patients...");
+        log.info("🧑‍🤝‍🧑 ایجاد بیماران...");
 
-        createPatient("patient.jack", "Jack Black", "1111111111", Gender.MAN,
-                BloodType.A_POSITIVE, "123 Main St", "09125555555", "No allergies");
+        createPatient("patient.reza", "رضا نجفی", "1111111111", Gender.MAN,
+                BloodType.A_POSITIVE, "تهران، خیابان ولیعصر، پلاک ۱۲", "09125555555", "بدون حساسیت خاص");
 
-        createPatient("patient.mary", "Mary Green", "2222222222", Gender.FEMALE,
-                BloodType.O_POSITIVE, "456 Elm St", "09126666666", "Penicillin allergy");
+        createPatient("patient.zahra", "زهرا حسینی", "2222222222", Gender.FEMALE,
+                BloodType.O_POSITIVE, "تهران، خیابان انقلاب، پلاک ۴۵", "09126666666", "حساسیت به پنی‌سیلین");
 
-        log.info("✅ Patients created successfully");
+        log.info("✅ بیماران با موفقیت ایجاد شدند");
     }
 
     private void createPatient(String username, String fullName, String nationalId, Gender gender,
@@ -288,6 +285,7 @@ public class DataInitializer implements CommandLineRunner {
             var user = userService.getUserEntityByUsername(username);
 
             PatientCreateDto dto = new PatientCreateDto();
+            dto.setUserId(user.getId());
             dto.setNationalId(nationalId);
             dto.setFirstName(fullName.split(" ")[0]);
             dto.setLastName(fullName.split(" ")[1]);
@@ -300,22 +298,22 @@ public class DataInitializer implements CommandLineRunner {
             dto.setBirthDate(LocalDate.of(1980, 5, 15));
 
             patientService.createPatient(dto);
-            log.debug("Patient '{}' created", username);
+            log.debug("بیمار '{}' ایجاد شد", username);
         } catch (Exception e) {
-            log.warn("Patient '{}' creation failed: {}", username, e.getMessage(), e);
+            log.warn("ایجاد بیمار '{}' ناموفق بود: {}", username, e.getMessage(), e);
         }
     }
 
-    // ============ 7. Rooms ============
+    // ============ 7. اتاق‌ها ============
 
     private void initRooms() {
-        log.info("🛏️ Creating rooms...");
+        log.info("🛏️ ایجاد اتاق‌ها...");
 
-        createRoom("101", "CARD-001", 4, "ICU with monitors", true);
-        createRoom("102", "CARD-001", 2, "Private room", true);
-        createRoom("201", "NEUR-001", 3, "Neurology ward", true);
+        createRoom("101", "CARD-001", 4, "بخش مراقبت‌های ویژه با مانیتورینگ", true);
+        createRoom("102", "CARD-001", 2, "اتاق خصوصی", true);
+        createRoom("201", "NEUR-001", 3, "بخش اعصاب", true);
 
-        log.info("✅ Rooms created successfully");
+        log.info("✅ اتاق‌ها با موفقیت ایجاد شدند");
     }
 
     private void createRoom(String roomNumber, String departmentCode, int capacity, String features, boolean active) {
@@ -329,22 +327,22 @@ public class DataInitializer implements CommandLineRunner {
             dto.setFeatures(features);
 
             roomService.createRoom(dto);
-            log.debug("Room '{}' created", roomNumber);
+            log.debug("اتاق '{}' ایجاد شد", roomNumber);
         } catch (Exception e) {
-            log.warn("Room '{}' creation failed: {}", roomNumber, e.getMessage(), e);
+            log.warn("ایجاد اتاق '{}' ناموفق بود: {}", roomNumber, e.getMessage(), e);
         }
     }
 
-    // ============ 8. Shifts ============
+    // ============ 8. شیفت‌ها ============
 
     private void initShifts() {
-        log.info("🕐 Creating shifts...");
+        log.info("🕐 ایجاد شیفت‌ها...");
 
-        createShift("Morning Shift", LocalTime.of(6, 0), LocalTime.of(14, 0), 8, false, false);
-        createShift("Evening Shift", LocalTime.of(14, 0), LocalTime.of(22, 0), 8, false, false);
-        createShift("Night Shift", LocalTime.of(22, 0), LocalTime.of(6, 0), 8, true, true);
+        createShift("شیفت صبح", LocalTime.of(6, 0), LocalTime.of(14, 0), 8, false, false);
+        createShift("شیفت عصر", LocalTime.of(14, 0), LocalTime.of(22, 0), 8, false, false);
+        createShift("شیفت شب", LocalTime.of(22, 0), LocalTime.of(6, 0), 8, true, true);
 
-        log.info("✅ Shifts created successfully");
+        log.info("✅ شیفت‌ها با موفقیت ایجاد شدند");
     }
 
     private void createShift(String name, LocalTime start, LocalTime end, int duration, boolean night, boolean extraPay) {
@@ -358,32 +356,56 @@ public class DataInitializer implements CommandLineRunner {
             dto.setHasExtraPay(extraPay);
 
             shiftService.createShift(dto);
-            log.debug("Shift '{}' created", name);
+            log.debug("شیفت '{}' ایجاد شد", name);
         } catch (Exception e) {
-            log.warn("Shift '{}' creation failed: {}", name, e.getMessage(), e);
+            log.warn("ایجاد شیفت '{}' ناموفق بود: {}", name, e.getMessage(), e);
         }
     }
 
-    // ============ 9. Doctor Schedules ============
+    // ============ 9. برنامه پزشکان ============
+
+// ============ 9. برنامه پزشکان ============
 
     private void initDoctorSchedules() {
-        log.info("📅 Creating doctor schedules...");
+        log.info("📅 ایجاد برنامه پزشکان...");
 
-        createDoctorSchedule("dr.john", DayOfWeek.SATURDAY, LocalTime.of(8, 0), LocalTime.of(14, 0), 30, "Room 101");
-        createDoctorSchedule("dr.john", DayOfWeek.SUNDAY, LocalTime.of(8, 0), LocalTime.of(14, 0), 30, "Room 101");
-        createDoctorSchedule("dr.john", DayOfWeek.MONDAY, LocalTime.of(8, 0), LocalTime.of(14, 0), 30, "Room 101");
-        createDoctorSchedule("dr.john", DayOfWeek.TUESDAY, LocalTime.of(8, 0), LocalTime.of(14, 0), 30, "Room 101");
-        createDoctorSchedule("dr.john", DayOfWeek.WEDNESDAY, LocalTime.of(8, 0), LocalTime.of(14, 0), 30, "Room 101");
+        int year = LocalDate.now().getYear(); // سال جاری
 
-        createDoctorSchedule("dr.jane", DayOfWeek.SATURDAY, LocalTime.of(9, 0), LocalTime.of(15, 0), 30, "Room 201");
-        createDoctorSchedule("dr.jane", DayOfWeek.SUNDAY, LocalTime.of(9, 0), LocalTime.of(15, 0), 30, "Room 201");
-        createDoctorSchedule("dr.jane", DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(15, 0), 30, "Room 201");
-        createDoctorSchedule("dr.jane", DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(15, 0), 30, "Room 201");
+        // ===== دکتر علی =====
+        createDoctorSchedule("dr.ali", DayOfWeek.SATURDAY,
+                LocalDateTime.of(year, 6, 27, 8, 0), LocalDateTime.of(year, 6, 27, 14, 0), 30, "اتاق ۱۰۱");
+        createDoctorSchedule("dr.ali", DayOfWeek.SUNDAY,
+                LocalDateTime.of(year, 6, 28, 8, 0), LocalDateTime.of(year, 6, 28, 14, 0), 30, "اتاق ۱۰۱");
+        createDoctorSchedule("dr.ali", DayOfWeek.MONDAY,
+                LocalDateTime.of(year, 6, 29, 8, 0), LocalDateTime.of(year, 6, 29, 14, 0), 30, "اتاق ۱۰۱");
+        createDoctorSchedule("dr.ali", DayOfWeek.TUESDAY,
+                LocalDateTime.of(year, 6, 30, 8, 0), LocalDateTime.of(year, 6, 30, 14, 0), 30, "اتاق ۱۰۱");
+        createDoctorSchedule("dr.ali", DayOfWeek.WEDNESDAY,
+                LocalDateTime.of(year, 6, 24, 8, 0), LocalDateTime.of(year, 6, 24, 14, 0), 30, "اتاق ۱۰۱");
+        createDoctorSchedule("dr.ali", DayOfWeek.THURSDAY,
+                LocalDateTime.of(year, 6, 25, 8, 0), LocalDateTime.of(year, 6, 25, 12, 0), 30, "اتاق ۱۰۱");
+        createDoctorSchedule("dr.ali", DayOfWeek.FRIDAY,
+                LocalDateTime.of(year, 6, 26, 8, 0), LocalDateTime.of(year, 6, 26, 12, 0), 30, "اتاق ۱۰۱");
 
-        log.info("✅ Doctor schedules created successfully");
+        // ===== دکتر مریم =====
+        createDoctorSchedule("dr.maryam", DayOfWeek.SATURDAY,
+                LocalDateTime.of(year, 6, 27, 9, 0), LocalDateTime.of(year, 6, 27, 15, 0), 30, "اتاق ۲۰۱");
+        createDoctorSchedule("dr.maryam", DayOfWeek.SUNDAY,
+                LocalDateTime.of(year, 6, 28, 9, 0), LocalDateTime.of(year, 6, 28, 15, 0), 30, "اتاق ۲۰۱");
+        createDoctorSchedule("dr.maryam", DayOfWeek.MONDAY,
+                LocalDateTime.of(year, 6, 29, 9, 0), LocalDateTime.of(year, 6, 29, 15, 0), 30, "اتاق ۲۰۱");
+        createDoctorSchedule("dr.maryam", DayOfWeek.TUESDAY,
+                LocalDateTime.of(year, 6, 30, 9, 0), LocalDateTime.of(year, 6, 30, 15, 0), 30, "اتاق ۲۰۱");
+        createDoctorSchedule("dr.maryam", DayOfWeek.WEDNESDAY,
+                LocalDateTime.of(year, 6, 24, 9, 0), LocalDateTime.of(year, 6, 24, 15, 0), 30, "اتاق ۲۰۱");
+        createDoctorSchedule("dr.maryam", DayOfWeek.THURSDAY,
+                LocalDateTime.of(year, 6, 25, 9, 0), LocalDateTime.of(year, 6, 25, 13, 0), 30, "اتاق ۲۰۱");
+        createDoctorSchedule("dr.maryam", DayOfWeek.FRIDAY,
+                LocalDateTime.of(year, 6, 26, 9, 0), LocalDateTime.of(year, 6, 26, 13, 0), 30, "اتاق ۲۰۱");
+
+        log.info("✅ برنامه پزشکان با موفقیت ایجاد شد");
     }
-
-    private void createDoctorSchedule(String username, DayOfWeek day, LocalTime start, LocalTime end, int slotDuration, String location) {
+    private void createDoctorSchedule(String username, DayOfWeek day, LocalDateTime start, LocalDateTime end, int slotDuration, String location) {
         try {
             var user = userService.getUserEntityByUsername(username);
             var doctor = doctorService.getDoctorByUserId(user.getId());
@@ -397,26 +419,26 @@ public class DataInitializer implements CommandLineRunner {
             dto.setLocation(location);
 
             doctorScheduleService.createDoctorSchedule(dto);
-            log.debug("Schedule for '{}' on {} created", username, day);
+            log.debug("برنامه '{}' برای روز {} ایجاد شد", username, day);
         } catch (Exception e) {
-            log.warn("Schedule for '{}' on {} creation failed: {}", username, day, e.getMessage(), e);
+            log.warn("ایجاد برنامه '{}' برای روز {} ناموفق بود: {}", username, day, e.getMessage(), e);
         }
     }
 
-    // ============ 10. Appointments ============
+    // ============ 10. نوبت‌ها ============
 
     private void initAppointments() {
-        log.info("📋 Creating appointments...");
+        log.info("📋 ایجاد نوبت‌ها...");
 
-        createAppointment("patient.jack", "dr.john", "CARD-001", "1111111111",
+        createAppointment("patient.reza", "dr.ali", "CARD-001", "1111111111",
                 LocalDate.now().plusDays(1), LocalTime.of(9, 0), LocalTime.of(9, 30),
-                AppointmentType.IN_PERSON, "Chest pain, follow-up");
+                AppointmentType.IN_PERSON, "درد قفسه سینه، ویزیت پیگیری");
 
-        createAppointment("patient.mary", "dr.jane", "NEUR-001", "2222222222",
+        createAppointment("patient.zahra", "dr.maryam", "NEUR-001", "2222222222",
                 LocalDate.now().plusDays(2), LocalTime.of(10, 0), LocalTime.of(10, 30),
-                AppointmentType.IN_PERSON, "Headache and dizziness");
+                AppointmentType.IN_PERSON, "سردرد و سرگیجه");
 
-        log.info("✅ Appointments created successfully");
+        log.info("✅ نوبت‌ها با موفقیت ایجاد شدند");
     }
 
     private void createAppointment(String patientUsername, String doctorUsername, String departmentCode,
@@ -439,9 +461,9 @@ public class DataInitializer implements CommandLineRunner {
             dto.setReason(reason);
 
             appointmentService.createAppointment(dto);
-            log.debug("Appointment created for {} with {} on {}", patientUsername, doctorUsername, date);
+            log.debug("نوبت برای {} با {} در تاریخ {} ایجاد شد", patientUsername, doctorUsername, date);
         } catch (Exception e) {
-            log.warn("Appointment creation failed for {} with {} on {}: {}", patientUsername, doctorUsername, date, e.getMessage(), e);
+            log.warn("ایجاد نوبت برای {} با {} در تاریخ {} ناموفق بود: {}", patientUsername, doctorUsername, date, e.getMessage(), e);
         }
     }
 }

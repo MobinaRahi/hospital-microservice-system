@@ -17,6 +17,8 @@ public class PatientUpdateDto {
     @NotNull(message = "Patient ID is required for update")
     private Long id;
 
+    private Long userId;
+
     @Pattern(regexp = "^[0-9]{10}$", message = "National ID must be 10 digits")
     private String nationalId;
 

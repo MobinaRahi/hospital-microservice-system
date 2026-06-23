@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -226,6 +227,30 @@ public class ViewController {
         model.addAttribute("shifts", safe(shiftService::getAllShifts, List.of()));
         model.addAttribute("activeShiftCount", safe(shiftService::countActiveShifts, 0L));
         return "shifts";
+    }
+
+    @GetMapping("/patient/book")
+    public String patientBookAppointment(
+            @RequestParam(required = false) Long doctorId,
+            @RequestParam(required = false) Long departmentId,
+            Model model) {
+
+        // اگه از جای دیگه (مثلاً صفحه پزشکان) کلیک کرده باشه، اینا رو پر می‌کنیم
+        if (doctorId != null) {
+            model.addAttribute("preselectedDoctorId", doctorId);
+        }
+        if (departmentId != null) {
+            model.addAttribute("preselectedDepartmentId", departmentId);
+        }
+
+        // لیست بخش‌های فعال رو از دیتابیس می‌گیریم و توی مدل می‌ذاریم
+        model.addAttribute("departments", departmentService.getActiveDepartments());
+
+        // لیست پزشکان فعال رو هم می‌ذاریم (فعلاً برای نمایش)
+        model.addAttribute("doctors", doctorService.getActiveDoctors());
+
+        // اسم فایل HTML رو برمی‌گردونیم
+        return "patient-book";
     }
 
     // ========== Private Helpers ==========

@@ -1,5 +1,6 @@
 package hospital.coreservice.controller;
 
+import hospital.coreservice.dto.request.PatientBookingRequest;
 import hospital.coreservice.dto.response.ApiResponse;
 import hospital.coreservice.dto.appointment.AppointmentCreateDto;
 import hospital.coreservice.dto.appointment.AppointmentResponseDto;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -255,12 +257,13 @@ public class AppointmentApi {
 
     @GetMapping("/doctor/available")
     @Operation(summary = "Get available time slots for a doctor on a specific date")
-    public ResponseEntity<ApiResponse<List<LocalTime>>> getAvailableSlots(
+ public ResponseEntity<ApiResponse<List<LocalTime>>> getAvailableSlots(
             @RequestParam Long doctorId,
-            @RequestParam LocalDate date) {
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         List<LocalTime> available = appointmentService.getAvailableSlots(doctorId, date);
         return ResponseEntity.ok(ApiResponse.success(available, "Available slots retrieved successfully", HttpStatus.OK.value()));
     }
+
 
     // ========== Special Cases ==========
 
@@ -294,5 +297,15 @@ public class AppointmentApi {
     public ResponseEntity<ApiResponse<List<AppointmentResponseDto>>> getAppointmentsByCanceledBy(@PathVariable Long canceledBy) {
         List<AppointmentResponseDto> appointments = appointmentService.getAppointmentsByCanceledBy(canceledBy);
         return ResponseEntity.ok(ApiResponse.success(appointments, "Appointments found successfully", HttpStatus.OK.value()));
+    }
+
+    @PostMapping("/patient")
+    @Operation(summary = "Book an appointment as a patient (with or without login)")
+    public ResponseEntity<ApiResponse<AppointmentResponseDto>> bookAppointmentByPatient(
+            @RequestBody PatientBookingRequest request,
+            Authentication authentication) {
+        AppointmentResponseDto appointment = appointmentService.bookAppointmentByPatient(request, authentication);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(appointment, "Appointment booked successfully", HttpStatus.CREATED.value()));
     }
 }

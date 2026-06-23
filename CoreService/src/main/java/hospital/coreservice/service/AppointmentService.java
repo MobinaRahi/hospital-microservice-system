@@ -3,14 +3,16 @@ package hospital.coreservice.service;
 import hospital.coreservice.dto.appointment.AppointmentCreateDto;
 import hospital.coreservice.dto.appointment.AppointmentResponseDto;
 import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
+import hospital.coreservice.dto.request.PatientBookingRequest;
 import hospital.coreservice.model.enums.AppointmentStatus;
+import org.springframework.security.core.Authentication;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-public interface AppointmentService{
+public interface AppointmentService {
 
     AppointmentResponseDto createAppointment(AppointmentCreateDto createDto);
 
@@ -70,12 +72,15 @@ public interface AppointmentService{
 
     Long countTotalAppointments();
 
+    // ===== تغییر اصلی: LocalDate ورودی، List<LocalTime> خروجی =====
     List<LocalTime> getAvailableSlots(Long doctorId, LocalDate date);
+    // ==============================================================
 
     AppointmentResponseDto rescheduleAppointment(Long id, LocalDate newDate, LocalTime newStartTime, LocalTime newEndTime);
 
     boolean isDoctorAvailable(Long doctorId, LocalDate date, LocalTime startTime, LocalTime endTime);
 
     boolean hasPatientAppointmentConflict(Long patientId, LocalDate date, LocalTime startTime, LocalTime endTime);
-}
 
+    AppointmentResponseDto bookAppointmentByPatient(PatientBookingRequest request, Authentication authentication);
+}

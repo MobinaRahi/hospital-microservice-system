@@ -1,6 +1,7 @@
 package hospital.coreservice.exception.patient;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class PatientAppointmentConflictException extends RuntimeException {

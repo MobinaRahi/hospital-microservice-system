@@ -19,6 +19,7 @@ public interface PatientMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deleted", ignore = true)
     @Mapping(target = "currentRoom", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Patient toEntity(PatientCreateDto createDto);
 
     @Mapping(target = "id", ignore = true)
