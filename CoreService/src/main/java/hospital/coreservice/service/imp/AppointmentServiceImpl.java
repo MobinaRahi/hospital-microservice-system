@@ -3,6 +3,7 @@ package hospital.coreservice.service.imp;
 import hospital.coreservice.dto.appointment.AppointmentCreateDto;
 import hospital.coreservice.dto.appointment.AppointmentResponseDto;
 import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
+import hospital.coreservice.dto.appointment.TimeSlotResponseDto;
 import hospital.coreservice.dto.request.PatientBookingRequest;
 import hospital.coreservice.exception.appointment.*;
 import hospital.coreservice.exception.department.DepartmentNotFoundException;
@@ -65,14 +66,29 @@ public class AppointmentServiceImpl implements AppointmentService {
                     .orElseThrow(() -> DepartmentNotFoundException.byId(createDto.getDepartmentId()));
         }
 
+        // ===== جلوگیری از دابل‌بوکینگ: همین چک قبل از ثبت ضروریه =====
+        if (!isDoctorAvailable(createDto.getDoctorId(), createDto.getAppointmentDate(),
+                createDto.getStartTime(), createDto.getEndTime())) {
+            throw new DoctorNotAvailableException(createDto.getDoctorId(), createDto.getAppointmentDate(), createDto.getStartTime());
+        }
+
+        if (hasPatientAppointmentConflict(createDto.getPatientId(), createDto.getAppointmentDate(),
+                createDto.getStartTime(), createDto.getEndTime())) {
+            throw new PatientAppointmentConflictException(createDto.getPatientId(), createDto.getAppointmentDate(), createDto.getStartTime());
+        }
+
         Appointment appointment = appointmentMapper.toEntity(createDto);
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
         appointment.setDepartment(department);
         appointment.setStatus(AppointmentStatus.SCHEDULED);
 
-        Appointment saved = appointmentRepository.save(appointment);
-        return appointmentMapper.toResponseDto(saved);
+        try {
+            Appointment saved = appointmentRepository.save(appointment);
+            return appointmentMapper.toResponseDto(saved);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            throw new DoctorNotAvailableException(createDto.getDoctorId(), createDto.getAppointmentDate(), createDto.getStartTime());
+        }
     }
 
     @Override
@@ -333,7 +349,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     // ========== Available Slots (اصلاح‌شده) ==========
 
     @Override
-    public List<LocalTime> getAvailableSlots(Long doctorId, LocalDate date) {
+    public List<TimeSlotResponseDto> getAvailableSlots(Long doctorId, LocalDate date) {
         DayOfWeek myDayOfWeek = convertToMyDayOfWeek(date.getDayOfWeek());
 
         Optional<DoctorSchedule> scheduleOpt = doctorScheduleRepository
@@ -346,24 +362,35 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         DoctorSchedule schedule = scheduleOpt.get();
 
-        // گرفتن نوبت‌های رزرو شده برای این تاریخ
-        List<Appointment> booked = appointmentRepository.findByDoctorIdAndAppointmentDate(doctorId, date);
+        // اگه slotDuration خالی بود، به‌جای کرش، ۳۰ دقیقه پیش‌فرض می‌گیریم
+        int slotDuration = schedule.getSlotDuration() != null ? schedule.getSlotDuration() : 30;
 
-        // تولید اسلات‌ها (فقط زمان)
-        List<LocalTime> slots = new ArrayList<>();
         LocalDateTime current = schedule.getStartTime();
         LocalDateTime end = schedule.getEndTime();
-
-        while (current.isBefore(end)) {
-            slots.add(current.toLocalTime());  // فقط زمان رو اضافه کن
-            current = current.plusMinutes(schedule.getSlotDuration());
+        if (current == null || end == null) {
+            log.warn("Doctor {} schedule on {} has no start/end time", doctorId, myDayOfWeek);
+            return Collections.emptyList();
         }
 
-        // حذف زمان‌های رزرو شده
+        // نوبت‌های رزروشده برای این تاریخ؛ لغوشده‌ها دیگه جایی رو اشغال نمی‌کنن
+        List<Appointment> booked = appointmentRepository.findByDoctorIdAndAppointmentDate(doctorId, date);
         List<LocalTime> bookedTimes = booked.stream()
-                .map(Appointment::getStartTime)
-                .collect(Collectors.toList());
-        slots.removeAll(bookedTimes);
+                .filter(a -> a.getStatus() != AppointmentStatus.CANCELLED)
+                .map(Appointment::getStartTime)   // Appointment.startTime از نوع LocalTime هست
+                .toList();
+
+        List<TimeSlotResponseDto> slots = new ArrayList<>();
+
+        while (current.isBefore(end)) {
+            LocalTime slotStart = current.toLocalTime();
+            LocalDateTime nextDt = current.plusMinutes(slotDuration);
+            LocalTime slotEnd = nextDt.toLocalTime();
+
+            if (!bookedTimes.contains(slotStart)) {
+                slots.add(new TimeSlotResponseDto(slotStart, slotEnd));
+            }
+            current = nextDt;
+        }
 
         return slots;
     }

@@ -1,5 +1,6 @@
 package hospital.coreservice.controller;
 
+import hospital.coreservice.dto.appointment.TimeSlotResponseDto;
 import hospital.coreservice.dto.request.PatientBookingRequest;
 import hospital.coreservice.dto.response.ApiResponse;
 import hospital.coreservice.dto.appointment.AppointmentCreateDto;
@@ -256,12 +257,11 @@ public class AppointmentApi {
     }
 
     @GetMapping("/doctor/available")
-    @Operation(summary = "Get available time slots for a doctor on a specific date")
- public ResponseEntity<ApiResponse<List<LocalTime>>> getAvailableSlots(
+    public ResponseEntity<ApiResponse<List<TimeSlotResponseDto>>> getAvailableSlots(
             @RequestParam Long doctorId,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        List<LocalTime> available = appointmentService.getAvailableSlots(doctorId, date);
-        return ResponseEntity.ok(ApiResponse.success(available, "Available slots retrieved successfully", HttpStatus.OK.value()));
+            @RequestParam LocalDate date) {
+        List<TimeSlotResponseDto> available = appointmentService.getAvailableSlots(doctorId, date);
+        return ResponseEntity.ok(ApiResponse.success(available, "...", HttpStatus.OK.value()));
     }
 
 

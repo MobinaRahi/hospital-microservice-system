@@ -2,6 +2,7 @@ package hospital.coreservice.controller;
 
 import hospital.coreservice.service.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -187,7 +188,7 @@ public class ViewController {
         return "patients";
     }
 
-    @GetMapping("/patient/dashboard")
+    @GetMapping("/patient_dashboard")
     public String patientDashboard(Model model) {
         model.addAttribute("patient", safe(() -> patientService.getPatientById(1L), null));
         model.addAttribute("appointments", safe(() -> appointmentService.getAppointmentsByPatientId(1L), List.of()));

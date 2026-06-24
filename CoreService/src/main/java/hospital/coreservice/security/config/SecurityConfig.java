@@ -81,7 +81,11 @@ public class SecurityConfig {
                                 "/patient/book",
                                 "/api/v1/doctor/active/by-department-id",   // برای گرفتن پزشکان بر اساس بخش
                                 "/api/v1/appointments/doctor/available",    // برای گرفتن ساعت‌های خالی
-                                "/api/v1/appointments/patient",         // برای ثبت نوبت توسط بیمار
+                                "/api/v1/appointments/patient",// برای ثبت نوبت توسط بیمار
+                                "/patient/dashboard/",
+                                "/patient/dashboard",
+                                "/patient/patient_dashboard",
+                                "/patient_dashboard",
                                 // جستجو و مشاهده عمومی
                                 "/doctors/**",
                                 "/departments/**",

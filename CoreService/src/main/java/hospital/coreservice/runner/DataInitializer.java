@@ -187,11 +187,11 @@ public class DataInitializer implements CommandLineRunner {
     private void initDoctors() {
         log.info("👨‍⚕️ ایجاد پزشکان...");
 
-        createDoctor("dr.ali", "دکتر علی رضایی", "LIC-001", Speciality.CARDIOLOGY,
+        createDoctor("dr.ali", "دکتر سجاد رضایی", "LIC-001", Speciality.CARDIOLOGY,
                 List.of(SubSpeciality.INTERVENTIONAL_CARDIOLOGY, SubSpeciality.ECHOCARDIOGRAPHY),
                 12, 150000L, "09121111111", 20, 30, "CARD-001");
 
-        createDoctor("dr.maryam", "دکتر مریم احمدی", "LIC-002", Speciality.NEUROLOGY,
+        createDoctor("dr.maryam", "دکتر محبوبه سخندان", "LIC-002", Speciality.NEUROLOGY,
                 List.of(SubSpeciality.STROKE, SubSpeciality.EPILEPSY),
                 8, 180000L, "09122222222", 15, 30, "NEUR-001");
 

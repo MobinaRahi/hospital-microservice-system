@@ -73,7 +73,7 @@ public interface AppointmentService {
     Long countTotalAppointments();
 
     // ===== تغییر اصلی: LocalDate ورودی، List<LocalTime> خروجی =====
-    List<LocalTime> getAvailableSlots(Long doctorId, LocalDate date);
+    List<hospital.coreservice.dto.appointment.TimeSlotResponseDto> getAvailableSlots(Long doctorId, LocalDate date);
     // ==============================================================
 
     AppointmentResponseDto rescheduleAppointment(Long id, LocalDate newDate, LocalTime newStartTime, LocalTime newEndTime);

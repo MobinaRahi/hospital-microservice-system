@@ -10,7 +10,6 @@
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
         body{font-family:'Vazirmatn',Tahoma,sans-serif;background:var(--bg);color:var(--navy);direction:rtl;line-height:1.6;min-height:100vh;}
         a{text-decoration:none;color:inherit;}
-        /* SIDEBAR - patient themed with purple */
         .sidebar{width:var(--sidebar-w);background:linear-gradient(170deg,#1e1a30 0%,#120f20 60%,#080614 100%);color:white;display:flex;flex-direction:column;position:fixed;top:0;right:0;bottom:0;z-index:200;overflow-y:auto;}
         .sidebar::before{content:'';position:absolute;top:0;right:0;left:0;height:200px;background:radial-gradient(ellipse at top right,rgba(124,58,237,0.2) 0%,transparent 65%);pointer-events:none;}
         .sidebar-logo{padding:22px 18px 20px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;gap:12px;}
@@ -19,11 +18,13 @@
         .logo-main{font-size:14px;font-weight:800;color:white;}
         .logo-sub{font-size:11px;color:#C4B5FD;font-weight:500;}
         .sidebar-section{padding:20px 18px 7px;font-size:10px;font-weight:700;letter-spacing:1.4px;color:rgba(255,255,255,0.25);text-transform:uppercase;}
-        .sidebar-link{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,0.6);margin:2px 10px;transition:all 0.2s;}
+        .sidebar-link{display:flex;align-items:center;gap:11px;padding:11px 14px;border-radius:11px;font-size:13.5px;font-weight:500;color:rgba(255,255,255,0.6);margin:2px 10px;transition:all 0.2s;cursor:pointer;}
         .sidebar-link:hover{background:rgba(255,255,255,0.06);color:white;}
         .sidebar-link.active{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:white;font-weight:700;box-shadow:0 4px 16px rgba(124,58,237,0.35);}
+        .sidebar-link.guest{background:rgba(124,58,237,0.15);color:#C4B5FD;border:1px solid rgba(124,58,237,0.2);}
         .link-icon{width:34px;height:34px;background:rgba(255,255,255,0.07);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
         .sidebar-link.active .link-icon{background:rgba(255,255,255,0.18);}
+        .sidebar-link.guest .link-icon{background:rgba(124,58,237,0.2);}
         .sidebar-badge{margin-right:auto;background:var(--red);color:white;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;}
         .sidebar-footer{margin-top:auto;padding:14px 12px;border-top:1px solid rgba(255,255,255,0.07);}
         .sidebar-user{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.05);cursor:pointer;}
@@ -40,24 +41,25 @@
         .topbar-btn{width:38px;height:38px;border-radius:10px;background:var(--bg);border:1.5px solid var(--gray-200);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all 0.2s;color:var(--gray-600);}
         .notif-dot{width:7px;height:7px;background:var(--red);border-radius:50%;position:absolute;top:7px;left:7px;border:1.5px solid white;}
         .btn-logout{background:#FEF2F2;color:#DC2626;border:1.5px solid #FCA5A5;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;}
-        .btn-primary{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:white;border:none;border-radius:10px;padding:9px 20px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:7px;}
+        .btn-primary{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:white;border:none;border-radius:10px;padding:9px 20px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:7px;text-decoration:none;}
         .btn-primary:hover{box-shadow:0 4px 16px rgba(124,58,237,0.4);transform:translateY(-1px);}
+        .btn-guest{background:transparent;color:#7C3AED;border:2px solid #7C3AED;border-radius:10px;padding:8px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+        .btn-guest:hover{background:#7C3AED;color:white;}
         .page-content{flex:1;padding:28px 28px 40px;}
-
-        /* PATIENT HERO */
         .patient-hero{background:linear-gradient(135deg,#1e1a30,#120f20);border-radius:var(--radius-lg);padding:28px 32px;display:flex;align-items:center;gap:24px;margin-bottom:24px;position:relative;overflow:hidden;}
         .patient-hero::before{content:'';position:absolute;top:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(ellipse,rgba(124,58,237,0.2) 0%,transparent 70%);pointer-events:none;}
         .pt-avatar-lg{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#5B21B6);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:3px solid rgba(255,255,255,0.2);position:relative;z-index:1;}
-        .pt-hero-info{position:relative;z-index:1;}
+        .pt-hero-info{position:relative;z-index:1;flex:1;}
         .pt-hero-name{font-size:20px;font-weight:900;color:white;margin-bottom:4px;}
         .pt-hero-sub{font-size:13px;color:#C4B5FD;margin-bottom:8px;}
         .pt-tags{display:flex;gap:8px;flex-wrap:wrap;}
         .pt-tag{padding:4px 12px;background:rgba(255,255,255,0.1);border-radius:12px;font-size:11.5px;color:rgba(255,255,255,0.7);font-weight:600;}
         .pt-tag.blood{background:rgba(239,68,68,0.2);color:#FCA5A5;}
+        .pt-tag.guest-tag{background:rgba(245,158,11,0.2);color:#FCD34D;}
         .hero-right{margin-right:auto;position:relative;z-index:1;}
-        .status-chip{padding:8px 20px;background:rgba(22,163,74,0.2);border:1px solid rgba(22,163,74,0.35);border-radius:20px;color:#86EFAC;font-size:13px;font-weight:700;}
-
-        /* INFO CARDS */
+        .status-chip{padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;}
+        .status-chip.active{background:rgba(22,163,74,0.2);border:1px solid rgba(22,163,74,0.35);color:#86EFAC;}
+        .status-chip.guest{background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.35);color:#FCD34D;}
         .info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px;}
         .info-card{background:var(--white);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm);border-right:4px solid;}
         .info-card.appt{border-color:var(--purple);}
@@ -66,18 +68,17 @@
         .info-card-label{font-size:11.5px;color:var(--gray-600);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
         .info-card-value{font-size:17px;font-weight:900;color:var(--navy);}
         .info-card-sub{font-size:12px;color:var(--gray-400);margin-top:4px;}
-
-        /* DASH GRID */
         .dash-grid{display:grid;grid-template-columns:1fr 340px;gap:20px;}
         .dash-card{background:var(--white);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow-sm);}
         .dash-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
         .dash-card-header h3{font-size:15px;font-weight:800;}
         .dash-card-header a{font-size:13px;color:var(--purple);font-weight:700;}
-
-        /* APPT LIST */
         .appt-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--gray-200);}
         .appt-item:last-child{border-bottom:none;}
         .appt-date-box{width:48px;height:52px;background:var(--purple-pale);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+        .appt-date-box.past{background:var(--gray-100);}
+        .appt-date-box.past .appt-day{color:var(--gray-400);}
+        .appt-date-box.past .appt-month{color:var(--gray-400);}
         .appt-day{font-size:20px;font-weight:900;color:var(--purple);line-height:1;}
         .appt-month{font-size:10px;color:var(--purple);font-weight:600;}
         .appt-info{flex:1;}
@@ -87,8 +88,7 @@
         .appt-badge{display:inline-flex;padding:4px 12px;border-radius:12px;font-size:11.5px;font-weight:700;}
         .appt-badge.upcoming{background:var(--purple-pale);color:var(--purple);}
         .appt-badge.done{background:var(--green-pale);color:var(--green);}
-
-        /* VITALS */
+        .appt-badge.cancelled{background:var(--red-pale);color:var(--red);}
         .vitals-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
         .vital-card{background:var(--gray-100);border-radius:var(--radius);padding:14px;text-align:center;}
         .vital-icon{font-size:22px;margin-bottom:6px;}
@@ -96,183 +96,313 @@
         .vital-unit{font-size:11px;color:var(--gray-400);}
         .vital-label{font-size:11.5px;color:var(--gray-600);margin-top:4px;font-weight:600;}
         .vital-status{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-left:4px;}
-
-        /* QUICK ACTIONS */
         .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
         .qa-btn{background:var(--gray-100);border:1.5px solid var(--gray-200);border-radius:var(--radius);padding:16px 12px;text-align:center;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;transition:all 0.2s;display:block;}
         .qa-btn:hover{border-color:var(--purple);background:var(--purple-pale);color:var(--purple);}
         .qa-icon{font-size:22px;display:block;margin-bottom:6px;}
-
+        .locked-overlay{background:#f7fafb;border-radius:var(--radius);padding:32px 24px;text-align:center;border:2px dashed var(--gray-200);}
+        .locked-overlay .lock-icon{font-size:32px;display:block;margin-bottom:12px;}
+        .locked-overlay p{color:var(--gray-600);font-size:14px;margin-bottom:12px;}
+        .no-data{text-align:center;padding:24px 0;color:var(--gray-400);}
+        .no-data .empty-icon{font-size:40px;display:block;margin-bottom:12px;}
         @media(max-width:1000px){.dash-grid{grid-template-columns:1fr;}.info-grid{grid-template-columns:1fr;}}
+        @media(max-width:768px){.sidebar{display:none;}.main{margin-right:0;}.patient-hero{flex-direction:column;text-align:center;}.hero-right{margin-right:0;}}
     </style>
 </head>
 <body>
 <div class="layout">
+    <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
         <div class="sidebar-logo">
-            <div class="logo-icon-wrap"><svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z" fill="#7C3AED"/><path d="M14 8v12M8 14h12" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
-            <div class="logo-text-wrap"><span class="logo-main">بیمارستان نووا</span><span class="logo-sub">پنل بیمار</span></div>
+            <div class="logo-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+                    <path d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z" fill="#7C3AED"/>
+                    <path d="M14 8v12M8 14h12" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="logo-text-wrap">
+                <span class="logo-main">بیمارستان نووا</span>
+                <span class="logo-sub">پنل بیمار</span>
+            </div>
         </div>
         <div class="sidebar-section">منوی من</div>
         <a href="#" class="sidebar-link active"><div class="link-icon">🏠</div> خانه</a>
-        <a href="#" class="sidebar-link"><div class="link-icon">📅</div> نوبت‌های من<span class="sidebar-badge">۲</span></a>
-        <a href="#" class="sidebar-link"><div class="link-icon">📋</div> پرونده پزشکی</a>
-        <a href="#" class="sidebar-link"><div class="link-icon">💊</div> نسخه‌ها</a>
-        <a href="#" class="sidebar-link"><div class="link-icon">📊</div> نتایج آزمایش</a>
+
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+            <a th:href="@{/appointments}" class="sidebar-link">
+                <div class="link-icon">📅</div>
+                نوبت‌های من
+                <span class="sidebar-badge" th:text="${#lists.size(upcomingAppointments)}">0</span>
+            </a>
+            <a href="#" class="sidebar-link"><div class="link-icon">📋</div> پرونده پزشکی</a>
+            <a href="#" class="sidebar-link"><div class="link-icon">💊</div> نسخه‌ها</a>
+            <a href="#" class="sidebar-link"><div class="link-icon">📊</div> نتایج آزمایش</a>
+        </div>
+        <div th:unless="${#authorization.expression('isAuthenticated()')}">
+            <a href="/login?redirect=/patient/dashboard" class="sidebar-link guest">
+                <div class="link-icon">🔑</div>
+                ورود / ثبت‌نام
+                <span class="sidebar-badge" style="background:#7C3AED;">!</span>
+            </a>
+        </div>
+
         <div class="sidebar-section">خدمات</div>
         <a th:href="@{/appointments/book}" class="sidebar-link"><div class="link-icon">➕</div> رزرو نوبت جدید</a>
         <a href="#" class="sidebar-link"><div class="link-icon">💬</div> پیام به پزشک</a>
+
         <div class="sidebar-section">حساب</div>
-        <a href="#" class="sidebar-link"><div class="link-icon">👤</div> پروفایل</a>
+        <div th:if="${#authorization.expression('isAuthenticated()')}">
+            <a href="#" class="sidebar-link"><div class="link-icon">👤</div> پروفایل</a>
+        </div>
+        <div th:unless="${#authorization.expression('isAuthenticated()')}">
+            <a href="/login?redirect=/patient/dashboard" class="sidebar-link guest"><div class="link-icon">👤</div> ورود به حساب</a>
+        </div>
+
         <div class="sidebar-footer">
             <div class="sidebar-user">
-                <div class="user-avatar">ا</div>
+                <div class="user-avatar" th:if="${#authorization.expression('isAuthenticated()')}" th:text="${#strings.substring(patient?.firstName, 0, 1)}">ا</div>
+                <div class="user-avatar" th:unless="${#authorization.expression('isAuthenticated()')}">👤</div>
                 <div class="user-info">
-                    <span class="user-name" th:text="${patient?.firstName + ' ' + patient?.lastName ?: 'احمد رضایی'}">احمد رضایی</span>
-                    <span class="user-role">بیمار</span>
+                    <span class="user-name" th:if="${#authorization.expression('isAuthenticated()')}" th:text="${patient?.firstName + ' ' + patient?.lastName}">کاربر</span>
+                    <span class="user-name" th:unless="${#authorization.expression('isAuthenticated()')}">مهمان</span>
+                    <span class="user-role" th:if="${#authorization.expression('isAuthenticated()')}">بیمار</span>
+                    <span class="user-role" th:unless="${#authorization.expression('isAuthenticated()')}">وارد نشده</span>
                 </div>
             </div>
         </div>
     </aside>
 
+    <!-- ===== MAIN ===== -->
     <main class="main">
+        <!-- TOPBAR -->
         <div class="topbar">
-            <div class="topbar-title"><h1>پنل بیمار</h1><div class="topbar-date" id="currentDate">در حال بارگذاری…</div></div>
+            <div>
+                <div class="topbar-title"><h1>پنل بیمار</h1><div class="topbar-date" id="currentDate"></div></div>
+            </div>
             <div class="topbar-actions">
-                <div class="topbar-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div></div>
-                <a th:href="@{/appointments/book}" class="btn-primary">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                    رزرو نوبت
-                </a>
-                <a th:href="@{/logout}" class="btn-logout">خروج</a>
+                <div th:if="${#authorization.expression('isAuthenticated()')}">
+                    <div class="topbar-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-dot"></div></div>
+                    <a th:href="@{/appointments/book}" class="btn-primary">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                        رزرو نوبت
+                    </a>
+                    <a th:href="@{/logout}" class="btn-logout">خروج</a>
+                </div>
+                <div th:unless="${#authorization.expression('isAuthenticated()')}">
+                    <a href="/login?redirect=/patient/dashboard" class="btn-primary">🔑 ورود / ثبت‌نام</a>
+                    <a href="/" class="btn-logout" style="background:transparent; border-color:var(--gray-200); color:var(--gray-600);">بازگشت</a>
+                </div>
             </div>
         </div>
 
         <div class="page-content">
-            <!-- HERO -->
+            <!-- ===== PATIENT HERO ===== -->
             <div class="patient-hero">
-                <div class="pt-avatar-lg">👤</div>
+                <div class="pt-avatar-lg" th:if="${#authorization.expression('isAuthenticated()')}">👤</div>
+                <div class="pt-avatar-lg" th:unless="${#authorization.expression('isAuthenticated()')}">👋</div>
                 <div class="pt-hero-info">
-                    <div class="pt-hero-name" th:text="${patient?.firstName + ' ' + patient?.lastName ?: 'احمد رضایی'}">احمد رضایی</div>
-                    <div class="pt-hero-sub">کد ملی: ۰۰۱۲۳۴۵۶۷۸ · تاریخ تولد: ۱۳۴۰/۰۵/۱۵ · ۶۲ ساله</div>
-                    <div class="pt-tags">
-                        <span class="pt-tag blood">🩸 گروه خون: A+</span>
-                        <span class="pt-tag">بیمه: تأمین اجتماعی</span>
-                        <span class="pt-tag">بستری نیست</span>
+                    <div class="pt-hero-name" th:if="${#authorization.expression('isAuthenticated()')}" th:text="${patient?.firstName + ' ' + patient?.lastName}">کاربر</div>
+                    <div class="pt-hero-name" th:unless="${#authorization.expression('isAuthenticated()')}">👋 مهمان گرامی</div>
+
+                    <div class="pt-hero-sub" th:if="${#authorization.expression('isAuthenticated()')}">
+                        کد ملی: <span th:text="${patient?.nationalId}">---</span> ·
+                        تاریخ تولد: <span th:text="${#temporals.format(patient?.birthDate, 'yyyy/MM/dd')}">---</span> ·
+                        <span th:text="${#temporals.yearsBetween(patient?.birthDate, #temporals.createNow())}">---</span> ساله
+                    </div>
+                    <div class="pt-hero-sub" th:unless="${#authorization.expression('isAuthenticated()')}">
+                        برای مشاهده اطلاعات کامل، لطفاً وارد شوید.
+                    </div>
+
+                    <div class="pt-tags" th:if="${#authorization.expression('isAuthenticated()')}">
+                        <span class="pt-tag blood">🩸 گروه خون: <span th:text="${patient?.bloodType}">نامشخص</span></span>
+                        <span class="pt-tag">بیمه: <span th:text="${patient?.insuranceId ? 'تأمین اجتماعی' : 'ثبت نشده'}">ثبت نشده</span></span>
+                        <span class="pt-tag" th:if="${patient?.currentRoom == null}">بستری نیست</span>
+                        <span class="pt-tag" th:if="${patient?.currentRoom != null}">🛏️ بستری در اتاق <span th:text="${patient?.currentRoom?.roomNumber}">---</span></span>
+                    </div>
+                    <div class="pt-tags" th:unless="${#authorization.expression('isAuthenticated()')}">
+                        <span class="pt-tag guest-tag">🔒 اطلاعات محدود</span>
+                        <span class="pt-tag">نوبت شما ثبت شد ✅</span>
                     </div>
                 </div>
                 <div class="hero-right">
-                    <div class="status-chip">✅ بیمار فعال</div>
+                    <div class="status-chip active" th:if="${#authorization.expression('isAuthenticated()')}">✅ بیمار فعال</div>
+                    <div class="status-chip guest" th:unless="${#authorization.expression('isAuthenticated()')}">⚠️ مهمان</div>
                 </div>
             </div>
 
-            <!-- INFO CARDS -->
+            <!-- ===== INFO CARDS ===== -->
             <div class="info-grid">
                 <div class="info-card appt">
                     <div class="info-card-label">نوبت بعدی</div>
-                    <div class="info-card-value">چهارشنبه ۱۴:۰۰</div>
-                    <div class="info-card-sub">دکتر سارا احمدی · قلب و عروق</div>
+                    <div class="info-card-value" th:if="${nextAppointment != null}">
+                        <span th:text="${#temporals.format(nextAppointment.appointmentDate, 'EEEE')}">---</span>
+                        <span th:text="${#temporals.format(nextAppointment.startTime, 'HH:mm')}">---</span>
+                    </div>
+                    <div class="info-card-value" th:if="${nextAppointment == null}">ندارید</div>
+                    <div class="info-card-sub" th:if="${nextAppointment != null}">
+                        <span th:text="${nextAppointment.doctor?.fullName}">---</span> ·
+                        <span th:text="${nextAppointment.doctor?.speciality}">---</span>
+                    </div>
+                    <div class="info-card-sub" th:if="${nextAppointment == null}">نوبتی ثبت نشده</div>
                 </div>
                 <div class="info-card doc">
                     <div class="info-card-label">پزشک معالج</div>
-                    <div class="info-card-value">دکتر سارا احمدی</div>
-                    <div class="info-card-sub">متخصص قلب و عروق</div>
+                    <div class="info-card-value" th:if="${nextAppointment != null}" th:text="${nextAppointment.doctor?.fullName}">---</div>
+                    <div class="info-card-value" th:if="${nextAppointment == null}">ثبت نشده</div>
+                    <div class="info-card-sub" th:if="${nextAppointment != null}" th:text="${nextAppointment.doctor?.speciality}">---</div>
+                    <div class="info-card-sub" th:if="${nextAppointment == null}">هنوز پزشکی تعیین نشده</div>
                 </div>
                 <div class="info-card room">
                     <div class="info-card-label">وضعیت بستری</div>
-                    <div class="info-card-value">بستری نیست</div>
-                    <div class="info-card-sub">آخرین بستری: ۳ ماه پیش</div>
+                    <div class="info-card-value" th:if="${patient?.currentRoom == null}">بستری نیست</div>
+                    <div class="info-card-value" th:if="${patient?.currentRoom != null}">اتاق <span th:text="${patient?.currentRoom?.roomNumber}">---</span></div>
+                    <div class="info-card-sub" th:if="${patient?.currentRoom != null}">از تاریخ ...</div>
+                    <div class="info-card-sub" th:if="${patient?.currentRoom == null}">وضعیت عادی</div>
                 </div>
             </div>
 
+            <!-- ===== DASHBOARD GRID ===== -->
             <div class="dash-grid">
-                <!-- APPOINTMENTS -->
+
+                <!-- ===== LEFT COLUMN: APPOINTMENTS ===== -->
                 <div class="dash-card">
-                    <div class="dash-card-header"><h3>نوبت‌های من</h3><a href="#">مشاهده همه ←</a></div>
-                    <div class="appt-item">
-                        <div class="appt-date-box"><div class="appt-day">۲۵</div><div class="appt-month">خرداد</div></div>
-                        <div class="appt-info">
-                            <div class="appt-doc">دکتر سارا احمدی</div>
-                            <div class="appt-spec">متخصص قلب و عروق</div>
-                            <div class="appt-time">⏰ ساعت ۱۴:۰۰ · حضوری</div>
+                    <div class="dash-card-header">
+                        <h3>📅 نوبت‌های من</h3>
+                        <div th:if="${#authorization.expression('isAuthenticated()')}">
+                            <a th:href="@{/appointments}">مشاهده همه ←</a>
                         </div>
-                        <span class="appt-badge upcoming">رزرو‌شده</span>
+                        <span th:unless="${#authorization.expression('isAuthenticated()')}" style="font-size:12px; color:var(--gray-400);">
+                            🔒 <a href="/login?redirect=/patient/dashboard" style="color:#7C3AED; font-weight:700;">وارد شوید</a>
+                        </span>
                     </div>
-                    <div class="appt-item">
-                        <div class="appt-date-box"><div class="appt-day">۰۸</div><div class="appt-month">تیر</div></div>
-                        <div class="appt-info">
-                            <div class="appt-doc">دکتر علی حسینی</div>
-                            <div class="appt-spec">متخصص داخلی</div>
-                            <div class="appt-time">⏰ ساعت ۱۰:۳۰ · ویدیویی</div>
+
+                    <!-- ===== نمایش نوبت‌ها (لاگین شده) ===== -->
+                    <div th:if="${#authorization.expression('isAuthenticated()')}">
+                        <div th:each="appt : ${upcomingAppointments}" class="appt-item">
+                            <div class="appt-date-box">
+                                <div class="appt-day" th:text="${#temporals.format(appt.appointmentDate, 'dd')}">--</div>
+                                <div class="appt-month" th:text="${#temporals.format(appt.appointmentDate, 'MMM')}">---</div>
+                            </div>
+                            <div class="appt-info">
+                                <div class="appt-doc" th:text="${appt.doctor?.fullName}">---</div>
+                                <div class="appt-spec" th:text="${appt.doctor?.speciality}">---</div>
+                                <div class="appt-time">
+                                    ⏰ ساعت <span th:text="${#temporals.format(appt.startTime, 'HH:mm')}">--:--</span> ·
+                                    <span th:text="${appt.type}">---</span>
+                                </div>
+                            </div>
+<!--                            <span class="appt-badge" th:classappend="${appt.status.name() == 'SCHEDULED' ? 'upcoming' : appt.status.name() == 'COMPLETED' ? 'done' : 'cancelled'}" th:text="${appt.status}">-&#45;&#45;</span>-->
                         </div>
-                        <span class="appt-badge upcoming">رزرو‌شده</span>
+
+                        <div th:each="appt : ${pastAppointments}" class="appt-item">
+                            <div class="appt-date-box past">
+                                <div class="appt-day" th:text="${#temporals.format(appt.appointmentDate, 'dd')}">--</div>
+                                <div class="appt-month" th:text="${#temporals.format(appt.appointmentDate, 'MMM')}">---</div>
+                            </div>
+                            <div class="appt-info">
+                                <div class="appt-doc" th:text="${appt.doctor?.fullName}">---</div>
+                                <div class="appt-spec" th:text="${appt.doctor?.speciality}">---</div>
+                                <div class="appt-time">⏰ ساعت <span th:text="${#temporals.format(appt.startTime, 'HH:mm')}">--:--</span> · <span th:text="${appt.type}">---</span></div>
+                            </div>
+                            <span class="appt-badge done">انجام‌شده</span>
+                        </div>
+
+                        <div th:if="${#lists.isEmpty(upcomingAppointments) and #lists.isEmpty(pastAppointments)}" class="no-data">
+                            <span class="empty-icon">📭</span>
+                            <p>هیچ نوبتی ندارید.</p>
+                            <a th:href="@{/appointments/book}" class="btn-primary" style="display:inline-block; margin-top:12px;">رزرو نوبت جدید</a>
+                        </div>
                     </div>
-                    <div class="appt-item">
-                        <div class="appt-date-box" style="background:var(--gray-100)"><div class="appt-day" style="color:var(--gray-400)">۱۰</div><div class="appt-month" style="color:var(--gray-400)">خرداد</div></div>
-                        <div class="appt-info">
-                            <div class="appt-doc">دکتر سارا احمدی</div>
-                            <div class="appt-spec">متخصص قلب و عروق</div>
-                            <div class="appt-time">⏰ ساعت ۰۹:۰۰ · حضوری</div>
-                        </div>
-                        <span class="appt-badge done">انجام‌شده</span>
-                    </div>
-                    <div class="appt-item">
-                        <div class="appt-date-box" style="background:var(--gray-100)"><div class="appt-day" style="color:var(--gray-400)">۲۰</div><div class="appt-month" style="color:var(--gray-400)">اردیبهشت</div></div>
-                        <div class="appt-info">
-                            <div class="appt-doc">دکتر اما ویلیامز</div>
-                            <div class="appt-spec">متخصص داخلی</div>
-                            <div class="appt-time">⏰ ساعت ۱۱:۰۰ · حضوری</div>
-                        </div>
-                        <span class="appt-badge done">انجام‌شده</span>
+
+                    <!-- ===== پیام برای مهمان ===== -->
+                    <div th:unless="${#authorization.expression('isAuthenticated()')}" class="locked-overlay">
+                        <span class="lock-icon">🔒</span>
+                        <p>برای مشاهده نوبت‌های خود، لطفاً وارد حساب کاربری خود شوید.</p>
+                        <a href="/login?redirect=/patient/dashboard" class="btn-primary" style="display:inline-block; padding:10px 28px;">
+                            🔑 ورود / ثبت‌نام
+                        </a>
+                        <p style="font-size:12px; color:var(--gray-400); margin-top:12px;">
+                            اگر حساب کاربری ندارید، با کلیک روی دکمه ثبت‌نام کنید.
+                        </p>
                     </div>
                 </div>
 
-                <!-- RIGHT COL -->
+                <!-- ===== RIGHT COLUMN ===== -->
                 <div style="display:flex;flex-direction:column;gap:20px;">
-                    <!-- VITALS -->
-                    <div class="dash-card">
-                        <div class="dash-card-header"><h3>آخرین علائم حیاتی</h3><span style="font-size:12px;color:var(--gray-400);">۱۰ خرداد</span></div>
+
+                    <!-- ===== VITALS (فقط لاگین شده) ===== -->
+                    <div th:if="${#authorization.expression('isAuthenticated()')}" class="dash-card">
+                        <div class="dash-card-header">
+                            <h3>آخرین علائم حیاتی</h3>
+                            <span style="font-size:12px;color:var(--gray-400);" th:text="${#temporals.format(patient?.updatedAt, 'dd MMM')}">---</span>
+                        </div>
                         <div class="vitals-grid">
                             <div class="vital-card">
                                 <div class="vital-icon">❤️</div>
-                                <div class="vital-value">۷۲<span class="vital-unit"> bpm</span></div>
+                                <div class="vital-value">---<span class="vital-unit"> bpm</span></div>
                                 <div class="vital-label"><span class="vital-status"></span>ضربان قلب</div>
                             </div>
                             <div class="vital-card">
                                 <div class="vital-icon">🩸</div>
-                                <div class="vital-value">۱۲۰<span class="vital-unit">/۸۰</span></div>
+                                <div class="vital-value">---<span class="vital-unit">/---</span></div>
                                 <div class="vital-label"><span class="vital-status"></span>فشار خون</div>
                             </div>
                             <div class="vital-card">
                                 <div class="vital-icon">🌡️</div>
-                                <div class="vital-value">۳۶٫۶<span class="vital-unit">°C</span></div>
+                                <div class="vital-value">---<span class="vital-unit">°C</span></div>
                                 <div class="vital-label"><span class="vital-status"></span>دما</div>
                             </div>
                             <div class="vital-card">
                                 <div class="vital-icon">💨</div>
-                                <div class="vital-value">۱۶<span class="vital-unit">/min</span></div>
+                                <div class="vital-value">---<span class="vital-unit">/min</span></div>
                                 <div class="vital-label"><span class="vital-status"></span>تنفس</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- QUICK ACTIONS -->
-                    <div class="dash-card">
-                        <div class="dash-card-header"><h3>دسترسی سریع</h3></div>
-                        <div class="qa-grid">
-                            <a th:href="@{/appointments/book}" class="qa-btn"><span class="qa-icon">📅</span>رزرو نوبت</a>
-                            <a href="#" class="qa-btn"><span class="qa-icon">📋</span>پرونده من</a>
-                            <a href="#" class="qa-btn"><span class="qa-icon">💊</span>نسخه‌ها</a>
-                            <a href="#" class="qa-btn"><span class="qa-icon">📊</span>آزمایش‌ها</a>
+                    <!-- ===== VITALS LOCKED (برای مهمان) ===== -->
+                    <div th:unless="${#authorization.expression('isAuthenticated()')}" class="dash-card">
+                        <div class="dash-card-header"><h3>آخرین علائم حیاتی</h3></div>
+                        <div class="locked-overlay" style="padding:20px;">
+                            <span class="lock-icon" style="font-size:24px;">🔒</span>
+                            <p style="font-size:13px; color:var(--gray-600);">برای مشاهده علائم حیاتی، <a href="/login?redirect=/patient/dashboard" style="color:#7C3AED; font-weight:700;">وارد شوید</a></p>
                         </div>
                     </div>
+
+                    <!-- ===== QUICK ACTIONS (همیشه قابل مشاهده) ===== -->
+                    <div class="dash-card">
+                        <div class="dash-card-header"><h3>🚀 دسترسی سریع</h3></div>
+                        <div class="qa-grid">
+                            <a th:href="@{/appointments/book}" class="qa-btn"><span class="qa-icon">📅</span>رزرو نوبت</a>
+                            <a href="#" class="qa-btn" th:if="${#authorization.expression('isAuthenticated()')}"><span class="qa-icon">📋</span>پرونده من</a>
+                            <a href="/login?redirect=/patient/dashboard" class="qa-btn" th:unless="${#authorization.expression('isAuthenticated()')}"><span class="qa-icon">🔑</span>ورود</a>
+                            <a href="#" class="qa-btn" th:if="${#authorization.expression('isAuthenticated()')}"><span class="qa-icon">💊</span>نسخه‌ها</a>
+                            <a href="/login?redirect=/patient/dashboard" class="qa-btn" th:unless="${#authorization.expression('isAuthenticated()')}"><span class="qa-icon">📋</span>ثبت‌نام</a>
+                            <a href="/" class="qa-btn"><span class="qa-icon">🏠</span>خانه</a>
+                        </div>
+                    </div>
+
+                    <!-- ===== پیام خوش‌آمدگویی برای مهمان ===== -->
+                    <div th:unless="${#authorization.expression('isAuthenticated()')}" style="background:#FFF9E6; border:1px solid #F59E0B; border-radius:var(--radius-lg); padding:16px 20px;">
+                        <p style="font-size:13px; color:#92400e; display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:20px;">💡</span>
+                            <span>نوبت شما با موفقیت ثبت شد! برای دسترسی کامل به پنل، <a href="/login?redirect=/patient/dashboard" style="color:#7C3AED; font-weight:700;">وارد شوید</a> یا <a href="/login?redirect=/patient/dashboard" style="color:#7C3AED; font-weight:700;">ثبت‌نام کنید</a>.</span>
+                        </p>
+                    </div>
+
                 </div>
             </div>
         </div>
     </main>
 </div>
+
 <script>
-document.getElementById('currentDate').textContent=new Date().toLocaleDateString('fa-IR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('fa-IR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
 </script>
 </body>
 </html>
