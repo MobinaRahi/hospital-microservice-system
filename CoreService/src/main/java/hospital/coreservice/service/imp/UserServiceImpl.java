@@ -580,4 +580,22 @@ public class UserServiceImpl implements UserService {
 
         return dto;
     }
+    @Override
+    @Transactional
+    public void changePassword(Long userId, String newPassword, String confirmPassword) {
+        if (!newPassword.equals(confirmPassword)) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
+        User user = findActiveById(userId);
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        user.setPasswordChangedAt(LocalDateTime.now());
+        userRepository.save(user);
+    }
+    public void setPassword(Long userId, String newPassword) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("کاربر یافت نشد"));
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
 }

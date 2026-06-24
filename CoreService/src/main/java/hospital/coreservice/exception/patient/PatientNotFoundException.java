@@ -10,6 +10,10 @@ public class PatientNotFoundException extends RuntimeException {
         return new PatientNotFoundException("Patient with id " + id + " not found");
     }
 
+    public static PatientNotFoundException byUserId(Long userId) {
+        return new PatientNotFoundException("Patient with userId" + userId + " not found");
+    }
+
     public static PatientNotFoundException byNationalId(String nationalId) {
         return new PatientNotFoundException("Patient with nationalId " + nationalId + " not found");
     }

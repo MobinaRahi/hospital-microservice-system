@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AppointmentRepository extends BaseEntityRepository<Appointment, Long> {
@@ -49,8 +50,6 @@ public interface AppointmentRepository extends BaseEntityRepository<Appointment,
     // ========== Find by Patient + Date ==========
 
     List<Appointment> findByPatientIdAndAppointmentDate(Long patientId, LocalDate date);                    // LocalDate ✓
-    List<Appointment> findByPatientIdAndAppointmentDateGreaterThanEqual(Long patientId, LocalDate date);    // LocalDate ✓
-    List<Appointment> findByPatientIdAndAppointmentDateLessThanEqual(Long patientId, LocalDate date);       // LocalDate ✓
 
     // ========== Find by Patient + Status ==========
 
@@ -79,4 +78,32 @@ public interface AppointmentRepository extends BaseEntityRepository<Appointment,
 
     List<Appointment> findByCreatedBy(Long createdBy);
     List<Appointment> findByCanceledBy(Long canceledBy);
+
+    @Query("SELECT a FROM appointmentEntity a " +
+            "JOIN FETCH a.patient p " +
+            "JOIN FETCH a.doctor d " +
+            "WHERE p.id = :patientId AND a.appointmentDate > :date AND a.status != :status " +
+            "ORDER BY a.appointmentDate ASC, a.startTime ASC")
+    List<Appointment> findUpcomingByPatientId(@Param("patientId") Long patientId,
+                                              @Param("date") LocalDate date,
+                                              @Param("status") AppointmentStatus status);
+
+    @Query("SELECT a FROM appointmentEntity a " +
+            "JOIN FETCH a.patient p " +
+            "JOIN FETCH a.doctor d " +
+            "WHERE p.id = :patientId AND a.appointmentDate < :date AND a.status != :status " +
+            "ORDER BY a.appointmentDate DESC")
+    List<Appointment> findPastByPatientId(@Param("patientId") Long patientId,
+                                          @Param("date") LocalDate date,
+                                          @Param("status") AppointmentStatus status);
+
+    // AppointmentRepository.java
+    @Query("SELECT a FROM appointmentEntity a " +
+            "JOIN FETCH a.patient p " +
+            "JOIN FETCH a.doctor d " +
+            "WHERE p.id = :patientId AND a.appointmentDate >= :date AND a.status != :status " +
+            "ORDER BY a.appointmentDate ASC, a.startTime ASC")
+    List<Appointment> findFirstUpcomingByPatientId(@Param("patientId") Long patientId,
+                                                   @Param("date") LocalDate date,
+                                                   @Param("status") AppointmentStatus status);
 }

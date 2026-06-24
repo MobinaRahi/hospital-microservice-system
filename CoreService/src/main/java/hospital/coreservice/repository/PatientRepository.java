@@ -79,4 +79,5 @@ public interface PatientRepository extends BaseEntityRepository<Patient, Long> {
     long countByGender(Gender gender);
 
     long countByBloodType(BloodType bloodType);
+
 }

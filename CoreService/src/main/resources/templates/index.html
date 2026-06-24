@@ -505,7 +505,7 @@
                 شما، اولویت ماست.
             </p>
             <div class="hero-actions">
-                <a href="#book" class="btn-view">
+                <a th:href="@{/patient/book}" class="btn-view">
                     رزرو نوبت آنلاین
                     <span class="btn-play">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="white">
@@ -513,16 +513,6 @@
                 </svg>
               </span>
                 </a>
-                <div class="search-pill">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2A9D8F" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="M21 21l-4.35-4.35"/>
-                    </svg>
-                    <div>
-                        <span class="search-label">جستجوی پزشکی</span>
-                        <span class="search-sub">با گزینه‌های نووا کر</span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -611,11 +601,12 @@
 </section>
 
 <!-- ========== LIVE STATS BAR ========== -->
-<div class="live-stats-bar">
-    <div class="live-stats-inner">
-        <div class="live-stat-item">
-            <div class="lsi-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+<!-- ========== LIVE STATS BAR ========== -->
+<div class="live-stats-bar" style="background: linear-gradient(135deg, #2a9d8f 0%, #1e7268 100%) !important; padding: 28px 0 !important; overflow: hidden !important;">
+    <div class="live-stats-inner" style="max-width: 1260px !important; margin: 0 auto !important; padding: 0 28px !important; display: flex !important; align-items: center !important; justify-content: space-around !important; flex-wrap: wrap !important; gap: 32px !important;">
+        <div class="live-stat-item" style="display: flex !important; align-items: center !important; gap: 16px !important; color: white !important; flex: 1 1 180px !important; min-width: 150px !important;">
+            <div class="lsi-icon" style="width: 56px !important; height: 56px !important; background: rgba(255, 255, 255, 0.15) !important; border-radius: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
                     <circle cx="9" cy="7" r="4"/>
                     <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
@@ -623,37 +614,37 @@
                 </svg>
             </div>
             <div>
-                <div class="lsi-num" th:text="${activeDoctorCount != null ? activeDoctorCount : 0}">۰</div>
-                <div class="lsi-label">پزشک فعال</div>
+                <div class="lsi-num" style="font-size: 2.2rem !important; font-weight: 900 !important; line-height: 1.2 !important;" th:text="${activeDoctorCount != null ? activeDoctorCount : 0}">۰</div>
+                <div class="lsi-label" style="font-size: 1rem !important; opacity: 0.9 !important; font-weight: 500 !important;">پزشک فعال</div>
             </div>
         </div>
-        <div class="live-stat-item">
-            <div class="lsi-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <div class="live-stat-item" style="display: flex !important; align-items: center !important; gap: 16px !important; color: white !important; flex: 1 1 180px !important; min-width: 150px !important;">
+            <div class="lsi-icon" style="width: 56px !important; height: 56px !important; background: rgba(255, 255, 255, 0.15) !important; border-radius: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                 </svg>
             </div>
             <div>
-                <div class="lsi-num" th:text="${activePatientCount != null ? activePatientCount : 0}">۰</div>
-                <div class="lsi-label">بیمار فعال</div>
+                <div class="lsi-num" style="font-size: 2.2rem !important; font-weight: 900 !important; line-height: 1.2 !important;" th:text="${activePatientCount != null ? activePatientCount : 0}">۰</div>
+                <div class="lsi-label" style="font-size: 1rem !important; opacity: 0.9 !important; font-weight: 500 !important;">بیمار فعال</div>
             </div>
         </div>
-        <div class="live-stat-item">
-            <div class="lsi-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <div class="live-stat-item" style="display: flex !important; align-items: center !important; gap: 16px !important; color: white !important; flex: 1 1 180px !important; min-width: 150px !important;">
+            <div class="lsi-icon" style="width: 56px !important; height: 56px !important; background: rgba(255, 255, 255, 0.15) !important; border-radius: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                     <rect x="3" y="3" width="18" height="18" rx="2"/>
                     <path d="M3 9h18M9 21V9"/>
                 </svg>
             </div>
             <div>
-                <div class="lsi-num" th:text="${activeDepartmentCount != null ? activeDepartmentCount : 0}">۰</div>
-                <div class="lsi-label">بخش تخصصی</div>
+                <div class="lsi-num" style="font-size: 2.2rem !important; font-weight: 900 !important; line-height: 1.2 !important;" th:text="${activeDepartmentCount != null ? activeDepartmentCount : 0}">۰</div>
+                <div class="lsi-label" style="font-size: 1rem !important; opacity: 0.9 !important; font-weight: 500 !important;">بخش تخصصی</div>
             </div>
         </div>
-        <div class="live-stat-item">
-            <div class="lsi-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+        <div class="live-stat-item" style="display: flex !important; align-items: center !important; gap: 16px !important; color: white !important; flex: 1 1 180px !important; min-width: 150px !important;">
+            <div class="lsi-icon" style="width: 56px !important; height: 56px !important; background: rgba(255, 255, 255, 0.15) !important; border-radius: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0 !important;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                     <rect x="3" y="4" width="18" height="18" rx="2"/>
                     <line x1="16" y1="2" x2="16" y2="6"/>
                     <line x1="8" y1="2" x2="8" y2="6"/>
@@ -661,64 +652,12 @@
                 </svg>
             </div>
             <div>
-                <div class="lsi-num" th:text="${totalAppointmentCount != null ? totalAppointmentCount : 0}">۰</div>
-                <div class="lsi-label">نوبت ثبت‌شده</div>
+                <div class="lsi-num" style="font-size: 2.2rem !important; font-weight: 900 !important; line-height: 1.2 !important;" th:text="${totalAppointmentCount != null ? totalAppointmentCount : 0}">۰</div>
+                <div class="lsi-label" style="font-size: 1rem !important; opacity: 0.9 !important; font-weight: 500 !important;">نوبت ثبت‌شده</div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- ========== APPOINTMENT SEARCH BAR ========== -->
-<section class="appt-search" id="book">
-    <form th:action="@{/appointments/book}" action="/appointments/book" method="get" class="appt-container">
-        <!-- بخش -->
-        <div class="appt-select">
-            <label>بخش</label>
-            <select name="departmentId">
-                <option value="">انتخاب بخش</option>
-                <option th:each="dept : ${departments}"
-                        th:value="${dept.id}"
-                        th:text="${dept.departmentName}">قلب و عروق
-                </option>
-            </select>
-            <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666"
-                 stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
-            </svg>
-        </div>
-
-        <!-- پزشک -->
-        <div class="appt-select">
-            <label>پزشک</label>
-            <select name="doctorId">
-                <option value="">انتخاب پزشک</option>
-                <option th:each="doc : ${doctors}"
-                        th:value="${doc.id}"
-                        th:text="${doc.firstName + ' ' + doc.lastName}">دکتر
-                </option>
-            </select>
-            <svg class="select-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666"
-                 stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
-            </svg>
-        </div>
-
-        <!-- تاریخ -->
-        <div class="appt-select">
-            <label>تاریخ</label>
-            <input type="date" name="date"/>
-        </div>
-
-        <!-- دکمه -->
-        <button type="submit" class="btn-search-appt">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="M21 21l-4.35-4.35"/>
-            </svg>
-            جستجو و رزرو
-        </button>
-    </form>
-</section>
 
 <!-- ========== DEPARTMENT CATEGORY ========== -->
 <section class="departments" id="departments-section">
@@ -731,27 +670,27 @@
         </div>
 
         <!-- بخش‌های واقعی از دیتابیس -->
+        <!-- بخش‌های واقعی از دیتابیس -->
         <div class="dept-grid-db" th:if="${departments != null and !#lists.isEmpty(departments)}">
             <a th:each="dept : ${departments}"
-               th:href="@{/appointments/book(departmentId=${dept.id})}"
+               th:href="@{/patient/book(departmentId=${dept.id})}"
                class="dept-card-db"
-               style="text-decoration:none;">
-                <div class="dept-icon-db">
-                    <!-- آیکون بر اساس نام بخش -->
-                    <span th:switch="${dept.departmentCode}">
+               th:data-dept-id="${dept.id}"
+            style="text-decoration:none;">
+            <div class="dept-icon-db">
+            <span th:switch="${dept.departmentCode}">
                 <span th:case="'CARD-001'">🫀</span>
                 <span th:case="'NEUR-001'">🧠</span>
                 <span th:case="'ORTH-001'">🦴</span>
                 <span th:case="'PEDS-001'">👶</span>
                 <span th:case="'DERM-001'">🩺</span>
                 <span th:case="*">🏥</span>
-              </span>
-                </div>
-                <span class="dept-name-db" th:text="${dept.departmentName}">نام بخش</span>
-                <span class="dept-meta-db" th:text="${dept.location != null ? dept.location : ''}">موقعیت</span>
-                <span class="dept-badge"
-                      th:text="${#lists.size(dept.doctors) + ' پزشک'}"
-                      th:if="${dept.doctors != null}">۰ پزشک</span>
+            </span>
+            </div>
+            <span class="dept-name-db" th:text="${dept.departmentName}">نام بخش</span>
+            <span class="dept-meta-db" th:text="${dept.location != null ? dept.location : ''}">موقعیت</span>
+            <!-- بج: فعلاً بارگذاری، جاوااسکریپت مقدار رو می‌ذاره -->
+            <span class="dept-badge" th:id="'dept-badge-' + ${dept.id}">در حال بارگذاری...</span>
             </a>
         </div>
 
@@ -827,11 +766,6 @@
                 <span class="dept-name">کلیه‌شناسی</span>
             </div>
         </div>
-
-        <!-- لینک مشاهده همه بخش‌ها -->
-        <div class="section-cta">
-            <a th:href="@{/departments}" href="/departments" class="btn-all-doctors">مشاهده همه بخش‌ها ←</a>
-        </div>
     </div>
 </section>
 
@@ -841,10 +775,9 @@
         <h2 class="services-title">
             خدمات بهداشتی جهانی<br/>برای شما و<br/>عزیزانتان
         </h2>
-        <a th:href="@{/departments}" href="/departments" class="btn-more">خدمات بیشتر ←</a>
         <div class="services-doctor-img">
             <div class="doctor-card-img">
-                <img th:src="@{/svg/nurse.svg}" src="./svg/nurse.svg" alt="پرستار"/>
+                <img th:src="@{/css/images/svg/nurse.svg}" src="../static/css/images/svg/nurse.svg" alt="پرستار"/>
             </div>
         </div>
     </div>
@@ -973,8 +906,7 @@
                         <span class="stars">★★★★★</span>
                         <span class="rating-num">۵.۰</span>
                     </div>
-                    <a th:href="@{/appointments/book(doctorId=${doctor.id})}"
-                       href="/appointments/book"
+                    <a th:href="@{/patient/book(doctorId=${doctor.id})}"
                        class="btn-book-doctor">رزرو نوبت</a>
                 </div>
             </div>
@@ -993,9 +925,6 @@
             </div>
         </div>
 
-        <div class="section-cta">
-            <a th:href="@{/doctors}" href="/doctors" class="btn-all-doctors">مشاهده همه پزشکان ←</a>
-        </div>
     </div>
 </section>
 
@@ -1113,8 +1042,8 @@
                 <li><a th:href="@{/}" href="/">خانه</a></li>
                 <li><a href="#services">خدمات</a></li>
                 <li><a href="#departments-section">بخش‌ها</a></li>
-                <li><a th:href="@{/doctors}" href="/doctors">پزشکان ما</a></li>
-                <li><a th:href="@{/appointments/book}" href="/appointments/book">رزرو نوبت</a></li>
+                <li><a  href="/doctors">پزشکان ما</a></li>
+                <li><a  href="/appointments/book">رزرو نوبت</a></li>
             </ul>
         </div>
         <div class="footer-links">
@@ -1219,6 +1148,41 @@
         const today = new Date().toISOString().split("T")[0];
         dateInput.min = today;
     }
+        // ... کدهای قبلی (goStep, loadDoctors, و ...) ...
+
+        // ==============================================================
+        // بارگذاری تعداد پزشکان هر بخش (با استفاده از API موجود)
+        // ==============================================================
+        function loadDoctorCounts() {
+        const deptCards = document.querySelectorAll('.dept-card-db');
+
+        deptCards.forEach(card => {
+        const deptId = card.dataset.deptId;
+        if (!deptId) return;
+
+        const badge = document.getElementById(`dept-badge-${deptId}`);
+        if (!badge) return;
+
+        fetch(`/api/v1/doctor/count/by-department-id?departmentId=${deptId}`)
+        .then(res => {
+        if (!res.ok) throw new Error('خطا در دریافت تعداد پزشکان');
+        return res.json();
+    })
+        .then(response => {
+        const count = response.data || 0;
+        badge.textContent = count + ' پزشک';
+    })
+        .catch(err => {
+        console.error('❌ Error loading doctor count for dept', deptId, err);
+        badge.textContent = '۰ پزشک';
+    });
+    });
+    }
+
+        // اجرا بعد از لود کامل صفحه
+        document.addEventListener('DOMContentLoaded', function() {
+        loadDoctorCounts();
+    });
 </script>
 </body>
 </html>

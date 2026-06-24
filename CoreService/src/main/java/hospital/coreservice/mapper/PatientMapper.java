@@ -3,6 +3,7 @@ package hospital.coreservice.mapper;
 import hospital.coreservice.dto.patient.PatientCreateDto;
 import hospital.coreservice.dto.patient.PatientResponseDto;
 import hospital.coreservice.dto.patient.PatientUpdateDto;
+import hospital.coreservice.dto.request.CompleteRegistrationRequest;
 import hospital.coreservice.model.Patient;
 import org.mapstruct.*;
 
@@ -30,5 +31,23 @@ public interface PatientMapper {
     void updateEntity(@MappingTarget Patient patient, PatientUpdateDto updateDto);
 
     @Mapping(target = "fullName", expression = "java(patient.getFirstName() + \" \" + patient.getLastName())")
+    @Mapping(target = "username", expression = "java(patient.getUser() != null ? patient.getUser().getUsername() : null)")
+    @Mapping(target = "email", expression = "java(patient.getUser() != null ? patient.getUser().getEmail() : null)")
     PatientResponseDto toResponseDto(Patient patient);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "nationalId", ignore = true)  // کد ملی تغییر نمی‌کند
+    @Mapping(target = "status", ignore = true)      // وضعیت تغییر نمی‌کند
+    @Mapping(target = "insuranceId", ignore = true)
+    @Mapping(target = "currentRoom", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
+    @Mapping(target = "version", ignore = true)
+    @Mapping(target = "createdBy", ignore = true)
+    @Mapping(target = "updatedBy", ignore = true)
+    @Mapping(target = "deletedAt", ignore = true)
+    @Mapping(target = "deletedBy", ignore = true)
+    void updatePatientFromRegistration(@MappingTarget Patient patient, CompleteRegistrationRequest request);
 }

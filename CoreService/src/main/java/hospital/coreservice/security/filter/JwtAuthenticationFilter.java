@@ -92,6 +92,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         path.startsWith("/api/v1/doctor/active/by-department-id") ||
                         path.startsWith("/api/v1/appointments/doctor/available") ||
                         path.startsWith("/api/v1/appointments/patient") ||
+                        path.equals("/patient/complete-profile") ||
+                        path.equals("/api/v1/patient/complete-registration") ||
                         path.startsWith("/patient/dashboard") ||
                         path.startsWith("/patient_dashboard") ||
                         path.startsWith("/h2-console/")

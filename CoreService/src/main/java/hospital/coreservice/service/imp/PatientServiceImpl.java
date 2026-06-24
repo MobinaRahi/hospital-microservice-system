@@ -3,6 +3,7 @@ package hospital.coreservice.service.imp;
 import hospital.coreservice.dto.patient.PatientCreateDto;
 import hospital.coreservice.dto.patient.PatientResponseDto;
 import hospital.coreservice.dto.patient.PatientUpdateDto;
+import hospital.coreservice.dto.request.CompleteRegistrationRequest;
 import hospital.coreservice.exception.common.InvalidSearchParameterException;
 import hospital.coreservice.exception.patient.*;
 import hospital.coreservice.exception.room.RoomFullException;
@@ -18,9 +19,11 @@ import hospital.coreservice.repository.PatientRepository;
 import hospital.coreservice.repository.RoomRepository;
 import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.service.PatientService;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +48,8 @@ public class PatientServiceImpl implements PatientService {
     private final PatientMapper patientMapper;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final EntityManager entityManager;
+    private final PasswordEncoder passwordEncoder;
 
     // ========== Create ==========
 
@@ -458,4 +464,60 @@ public class PatientServiceImpl implements PatientService {
 
         log.info("Patient activated id: {}", id);
     }
+
+    @Override
+    public Optional<Patient> getPatientByUserId(Long userId) {
+        return patientRepository.findByUserId(userId);
+    }
+
+    @Override
+    @Transactional
+    public PatientResponseDto completeRegistration(Long patientId, CompleteRegistrationRequest request) {
+        log.info("🔵 START completeRegistration for patientId: {}", patientId);
+
+        Patient patient = patientRepository.findById(patientId)
+                .orElseThrow(() -> PatientNotFoundException.byId(patientId));
+
+        // ===== آپدیت بیمار =====
+        patientMapper.updatePatientFromRegistration(patient, request);
+
+        // ===== آپدیت User =====
+        User user = patient.getUser();
+        if (user != null) {
+            log.info("🔵 Found user: id={}, current username={}", user.getId(), user.getUsername());
+
+            if (request.getUsername() != null && !request.getUsername().isBlank()) {
+                user.setUsername(request.getUsername());
+            }
+            if (request.getEmail() != null && !request.getEmail().isBlank()) {
+                user.setEmail(request.getEmail());
+            }
+            if (request.getNewPassword() != null && !request.getNewPassword().isBlank()) {
+                user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+            }
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+            user.setPhoneNumber(request.getPhoneNumber());
+            user.setBirthDate(request.getBirthDate());
+
+            // 💾 ذخیره و فلش فوری
+            user = userRepository.save(user);
+            entityManager.flush();  // 🔑 نیروی ارسال به دیتابیس
+
+            // 🔍 بررسی مجدد از دیتابیس
+            User reloaded = userRepository.findById(user.getId()).orElse(null);
+            if (reloaded != null) {
+                log.info("✅ Reloaded User: id={}, username={}, passwordHash={}",
+                        reloaded.getId(),
+                        reloaded.getUsername(),
+                        reloaded.getPasswordHash() != null ? "✅ موجود" : "❌ NULL");
+            }
+        }
+
+        Patient saved = patientRepository.save(patient);
+        log.info("🔵 Patient saved: id={}", saved.getId());
+
+        return patientMapper.toResponseDto(saved);
+    }
+
 }

@@ -16,6 +16,12 @@ public class PatientResponseDto {
 
     private Long id;
 
+    private Long userId;
+
+    private String username;
+
+    private String email;
+
     private String fullName;
 
     private String nationalId;

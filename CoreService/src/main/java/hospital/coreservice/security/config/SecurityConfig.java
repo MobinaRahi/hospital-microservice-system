@@ -67,45 +67,45 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // غیرفعال کردن CSRF برای APIها (اختیاری)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                // 🔑 تغییر ۱: سشن‌ها را برای فرم لاگین فعال می‌کنیم
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
                 .authorizeHttpRequests(auth -> auth
-
-                        // ==================== PUBLIC (همه می‌تونن) ====================
+                        // ===== مسیرهای عمومی (بدون احراز هویت) =====
                         .requestMatchers(
-                                // صفحات عمومی
-                                "/", "/index", "/home", "/login", "/error", "/favicon.ico",
+                                "/", "/index", "/home", "/login", "/error",
                                 "/css/**", "/js/**", "/images/**", "/static/**", "/webjars/**",
                                 "/patient/book",
-                                "/api/v1/doctor/active/by-department-id",   // برای گرفتن پزشکان بر اساس بخش
-                                "/api/v1/appointments/doctor/available",    // برای گرفتن ساعت‌های خالی
-                                "/api/v1/appointments/patient",// برای ثبت نوبت توسط بیمار
+                                "/api/v1/doctor/active/by-department-id",
+                                "/api/v1/appointments/doctor/available",
+                                "/api/v1/appointments/patient",
+                                "/api/v1/doctor/count/by-department-id",
                                 "/patient/dashboard/",
                                 "/patient/dashboard",
                                 "/patient/patient_dashboard",
                                 "/patient_dashboard",
-                                // جستجو و مشاهده عمومی
+                                "/api/v1/doctor/**",
+                                "/patient/complete-profile",
                                 "/doctors/**",
                                 "/departments/**",
-                                "/appointments/book",           // جستجوی نوبت
-                                "/api/v1/doctors/search",       // API جستجوی پزشک
-                                "/api/v1/departments",          // لیست بخش‌ها
-                                "/api/v1/doctors",         // لیست پزشکان
-                                "/api/v1/doctor/by-department-id"
+                                "/appointments/book",
+                                "/api/v1/doctors/search",
+                                "/api/v1/departments",
+                                "/api/v1/doctors",
+                                "/api/v1/doctor/by-department-id",
+                                "/api/v1/auth/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/h2-console/**"
                         ).permitAll()
 
-                        // ==================== احراز هویت ====================
-                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        // ===== APIهای خاص که باید عمومی باشند =====
+                        .requestMatchers("/api/v1/patient/complete-registration").permitAll()
 
-                        // ==================== Swagger ====================
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-
-                        // ==================== H2 Console ====================
-                        .requestMatchers("/h2-console/**").permitAll()
-
-                        // ==================== صفحات نیازمند لاگین ====================
+                        // ===== صفحات نیازمند لاگین =====
                         .requestMatchers(
                                 "/dashboard",
                                 "/patient/**",
@@ -114,7 +114,7 @@ public class SecurityConfig {
                                 "/admin/**"
                         ).authenticated()
 
-                        // ==================== APIهای نقش‌محور ====================
+                        // ===== APIهای نقش‌محور =====
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
                         .requestMatchers("/api/v1/nurse/**").hasAnyRole("NURSE", "ADMIN")
@@ -123,19 +123,23 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
 
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(authEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler)
+                // 🔑 تغییر ۲: فعال کردن فرم لاگین
+                .formLogin(form -> form
+                        .loginPage("/login")                   // صفحه لاگین سفارشی
+                        .defaultSuccessUrl("/patient_dashboard", true) // بعد از لاگین موفق
+                        .failureUrl("/login?error=true")       // در صورت خطا
+                        .permitAll()                           // اجازه دسترسی به این مسیرها بدون لاگین
                 )
 
                 .logout(logout -> logout
-                        .logoutUrl("/api/v1/auth/logout")
-                        .addLogoutHandler(logoutHandler)
-                        .logoutSuccessHandler((req, res, auth) -> {
-                            res.setStatus(200);
-                            res.setContentType("application/json");
-                            res.getWriter().write("{\"success\":true,\"message\":\"Logged out successfully\"}");
-                        })
+                        .logoutUrl("/logout")                  // مسیر خروج
+                        .logoutSuccessUrl("/login?logout=true")
+                        .permitAll()
+                )
+
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(authEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
                 )
 
                 .userDetailsService(userDetailsService)

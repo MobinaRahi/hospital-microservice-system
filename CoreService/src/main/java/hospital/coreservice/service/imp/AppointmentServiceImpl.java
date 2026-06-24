@@ -234,23 +234,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     // ========== Patient Specific ==========
-
-    @Override
-    public List<AppointmentResponseDto> getUpcomingAppointments(Long patientId) {
-        return appointmentRepository.findByPatientIdAndAppointmentDateGreaterThanEqual(patientId, LocalDate.now())
-                .stream()
-                .map(appointmentMapper::toResponseDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<AppointmentResponseDto> getPastAppointments(Long patientId) {
-        return appointmentRepository.findByPatientIdAndAppointmentDateLessThanEqual(patientId, LocalDate.now())
-                .stream()
-                .map(appointmentMapper::toResponseDto)
-                .collect(Collectors.toList());
-    }
-
     @Override
     public List<AppointmentResponseDto> getAppointmentsByPatientAndStatus(Long patientId, AppointmentStatus status) {
         return appointmentRepository.findByPatientIdAndStatus(patientId, status)
@@ -473,26 +456,24 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Long patientId;
 
-        // ===== ۱. تشخیص بیمار =====
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
             Patient patient = patientRepository.findByUserId(securityUser.getId())
                     .orElseThrow(() -> new RuntimeException("Patient not found for user: " + securityUser.getUsername()));
             patientId = patient.getId();
         } else {
-            // ===== ۲. کاربر مهمان است → ثبت‌نام خودکار =====
+
             Optional<Patient> existingPatient = patientRepository.findByNationalId(request.getNationalId());
             if (existingPatient.isPresent()) {
                 patientId = existingPatient.get().getId();
             } else {
-                // ساخت کاربر جدید
                 User user = new User();
-                user.setUsername(request.getPhone());
+                user.setUsername(request.getNationalId());
                 user.setPasswordHash(passwordEncoder.encode("tempPassword" + System.currentTimeMillis()));
-                String[] nameParts = request.getFullName().split(" ");
+                String[] nameParts = request.getFullName().trim().split("\\s+", 2);
                 user.setFirstName(nameParts[0]);
                 user.setLastName(nameParts.length > 1 ? nameParts[1] : "");
-                user.setEmail(request.getPhone() + "@temp.com");
+                user.setEmail(request.getNationalId() + "@temp.hospital.com");
                 user.setPhoneNumber(request.getPhone());
                 user.setNationalId(request.getNationalId());
                 user.setEnabled(true);
@@ -504,7 +485,6 @@ public class AppointmentServiceImpl implements AppointmentService {
                 user.setRoles(Set.of(patientRole));
                 user = userRepository.save(user);
 
-                // ساخت بیمار از روی کاربر
                 Patient patient = new Patient();
                 patient.setUser(user);
                 patient.setFirstName(user.getFirstName());
@@ -542,5 +522,35 @@ public class AppointmentServiceImpl implements AppointmentService {
         createDto.setDepartmentId(doctor.getDepartment().getId());
 
         return createAppointment(createDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AppointmentResponseDto> getUpcomingAppointments(Long patientId) {
+        List<Appointment> appointments = appointmentRepository.findUpcomingByPatientId(
+                patientId, LocalDate.now(), AppointmentStatus.CANCELLED);
+        return appointments.stream()
+                .map(appointmentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AppointmentResponseDto> getPastAppointments(Long patientId) {
+        List<Appointment> appointments = appointmentRepository.findPastByPatientId(
+                patientId, LocalDate.now(), AppointmentStatus.CANCELLED);
+        return appointments.stream()
+                .map(appointmentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public AppointmentResponseDto getNextAppointment(Long patientId) {
+        List<Appointment> results = appointmentRepository.findFirstUpcomingByPatientId(
+                patientId, LocalDate.now(), AppointmentStatus.CANCELLED
+        );
+        if (results.isEmpty()) return null;
+        return appointmentMapper.toResponseDto(results.get(0));
     }
 }

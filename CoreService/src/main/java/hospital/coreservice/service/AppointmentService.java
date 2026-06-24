@@ -83,4 +83,6 @@ public interface AppointmentService {
     boolean hasPatientAppointmentConflict(Long patientId, LocalDate date, LocalTime startTime, LocalTime endTime);
 
     AppointmentResponseDto bookAppointmentByPatient(PatientBookingRequest request, Authentication authentication);
+
+    public AppointmentResponseDto getNextAppointment(Long patientId);
 }

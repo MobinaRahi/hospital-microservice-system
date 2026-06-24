@@ -3,6 +3,8 @@ package hospital.coreservice.service;
 import hospital.coreservice.dto.patient.PatientCreateDto;
 import hospital.coreservice.dto.patient.PatientResponseDto;
 import hospital.coreservice.dto.patient.PatientUpdateDto;
+import hospital.coreservice.dto.request.CompleteRegistrationRequest;
+import hospital.coreservice.model.Patient;
 import hospital.coreservice.model.enums.BloodType;
 import hospital.coreservice.model.enums.Gender;
 import hospital.coreservice.model.enums.PatientStatus;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface PatientService {
     PatientResponseDto createPatient(PatientCreateDto patientCreateDto);
@@ -43,4 +46,6 @@ public interface PatientService {
     boolean existsPatientByNationalId(String nationalId);
     boolean existsPatientByPhoneNumber(String phoneNumber);
     void activatePatient(Long id);
+    PatientResponseDto completeRegistration(Long patientId, CompleteRegistrationRequest request);
+    Optional<Patient> getPatientByUserId(Long userId);
 }

@@ -1,8 +1,13 @@
 package hospital.coreservice.controller;
 
+import hospital.coreservice.dto.patient.PatientResponseDto;
+import hospital.coreservice.exception.patient.PatientNotFoundException;
+import hospital.coreservice.model.Patient;
+import hospital.coreservice.security.model.SecurityUser;
 import hospital.coreservice.service.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +34,7 @@ public class ViewController {
     private final PatientService patientService;
     private final AppointmentService appointmentService;
     private final DepartmentService departmentService;
+    private final AppointmentService appointmentsService;
     private final NurseService nurseService;
     private final RoomService roomService;
     private final ShiftService shiftService;
@@ -49,6 +55,7 @@ public class ViewController {
         model.addAttribute("activeDoctorCount", doctorService.countActiveDoctors());
         model.addAttribute("activePatientCount", patientService.countActivePatients());
         model.addAttribute("activeDepartmentCount", departmentService.countActiveDepartments());
+        model.addAttribute("totalAppointmentCount", appointmentsService.countTotalAppointments());
         return "index";
     }
 
@@ -56,6 +63,7 @@ public class ViewController {
     public String login(
             @RequestParam(required = false) String error,
             @RequestParam(required = false) String logout,
+            @RequestParam(required = false) Long patientId,
             Model model) {
         if (error != null) {
             model.addAttribute("error", "Invalid username or password. Please try again.");
@@ -63,9 +71,37 @@ public class ViewController {
         if (logout != null) {
             model.addAttribute("message", "You have been logged out successfully.");
         }
+        // اگه از مرحله‌ی ساخت یوزر مهمان (مثلا موقع گرفتن نوبت) به اینجا اومده باشه،
+        // patientId رو نگه می‌داریم تا بتونیم به صفحه‌ی تکمیل ثبت‌نام پاس بدیمش
+        if (patientId != null) {
+            model.addAttribute("patientId", patientId);
+        }
         return "login";
     }
 
+    @GetMapping("/patient/complete-profile")
+    public String completeProfile(
+            @RequestParam(required = false) Long patientId,
+            Authentication authentication,
+            Model model) {
+
+        Object patient = null;
+
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+            patient = patientService.getPatientByUserId(securityUser.getId())
+                    .orElseThrow(() -> PatientNotFoundException.byUserId(securityUser.getId()));
+        }
+        else if (patientId != null) {
+            patient = patientService.getPatientById(patientId);
+        }
+        else {
+            return "redirect:/";
+        }
+
+        model.addAttribute("patient", patient);
+        return "patient-profile-complete";
+    }
     // ========== Dashboard ==========
 
     @GetMapping("/dashboard")
@@ -189,12 +225,32 @@ public class ViewController {
     }
 
     @GetMapping("/patient_dashboard")
-    public String patientDashboard(Model model) {
-        model.addAttribute("patient", safe(() -> patientService.getPatientById(1L), null));
-        model.addAttribute("appointments", safe(() -> appointmentService.getAppointmentsByPatientId(1L), List.of()));
+    public String patientDashboard(Authentication authentication, Model model) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+            SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+
+            Patient patient = patientService.getPatientByUserId(securityUser.getId())
+                    .orElseThrow(() -> PatientNotFoundException.byUserId(securityUser.getId()));
+
+            // ID رو از entity بگیر، بقیه رو از DTO
+            PatientResponseDto patientDto = patientService.getPatientById(patient.getId());
+
+            model.addAttribute("patient", patientDto);
+            model.addAttribute("upcomingAppointments",
+                    appointmentService.getUpcomingAppointments(patient.getId()));
+            model.addAttribute("pastAppointments",
+                    appointmentService.getPastAppointments(patient.getId()));
+            model.addAttribute("nextAppointment",
+                    appointmentService.getNextAppointment(patient.getId()));
+        } else {
+            model.addAttribute("patient", null);
+            model.addAttribute("upcomingAppointments", List.of());
+            model.addAttribute("pastAppointments", List.of());
+            model.addAttribute("nextAppointment", null);
+        }
         return "patient-dashboard";
     }
-
     // ========== Nurse Pages ==========
 
     @GetMapping("/nurses")
@@ -236,7 +292,6 @@ public class ViewController {
             @RequestParam(required = false) Long departmentId,
             Model model) {
 
-        // اگه از جای دیگه (مثلاً صفحه پزشکان) کلیک کرده باشه، اینا رو پر می‌کنیم
         if (doctorId != null) {
             model.addAttribute("preselectedDoctorId", doctorId);
         }
@@ -244,13 +299,10 @@ public class ViewController {
             model.addAttribute("preselectedDepartmentId", departmentId);
         }
 
-        // لیست بخش‌های فعال رو از دیتابیس می‌گیریم و توی مدل می‌ذاریم
         model.addAttribute("departments", departmentService.getActiveDepartments());
 
-        // لیست پزشکان فعال رو هم می‌ذاریم (فعلاً برای نمایش)
         model.addAttribute("doctors", doctorService.getActiveDoctors());
 
-        // اسم فایل HTML رو برمی‌گردونیم
         return "patient-book";
     }
 

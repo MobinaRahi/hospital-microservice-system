@@ -1,5 +1,6 @@
 package hospital.coreservice.controller;
 
+import hospital.coreservice.dto.request.CompleteRegistrationRequest;
 import hospital.coreservice.dto.response.ApiResponse;
 import hospital.coreservice.dto.patient.PatientCreateDto;
 import hospital.coreservice.dto.patient.PatientResponseDto;
@@ -8,6 +9,7 @@ import hospital.coreservice.model.enums.BloodType;
 import hospital.coreservice.model.enums.Gender;
 import hospital.coreservice.model.enums.PatientStatus;
 import hospital.coreservice.service.PatientService;
+import hospital.coreservice.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -28,6 +31,7 @@ import java.util.Map;
 public class PatientApi {
 
     private final PatientService patientService;
+    private final UserService userService;
 
     // ========== Core Operations (Create, Update, Patch, Delete) ==========
 
@@ -52,6 +56,26 @@ public class PatientApi {
         PatientResponseDto patched = patientService.patchPatient(id, updates);
         return ResponseEntity.ok(ApiResponse.success(patched, "Patient partially updated successfully", HttpStatus.OK.value()));
     }
+
+    @PostMapping("/complete-registration")
+    @PreAuthorize("permitAll()")
+    @Operation(summary = "Complete patient registration with password setup")
+    public ResponseEntity<ApiResponse<PatientResponseDto>> completeRegistration(
+            @Valid @RequestBody CompleteRegistrationRequest request) {
+
+        // بررسی تطابق رمز عبور
+        if (!request.getNewPassword().equals(request.getConfirmPassword())) {
+            return ResponseEntity.badRequest()
+                    .body(ApiResponse.error("رمز عبور و تأیید آن مطابقت ندارند", HttpStatus.BAD_REQUEST.value()));
+        }
+
+        PatientResponseDto updated = patientService.completeRegistration(request.getPatientId(), request);
+
+        return ResponseEntity.ok(
+                ApiResponse.success(updated, "ثبت‌نام با موفقیت کامل شد", HttpStatus.OK.value())
+        );
+    }
+
 
     @PatchMapping("/deactivate/{id}")
     @Operation(summary = "Soft delete a patient (deactivate)")

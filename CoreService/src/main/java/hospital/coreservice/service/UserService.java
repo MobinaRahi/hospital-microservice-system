@@ -56,4 +56,6 @@ public interface UserService {
     boolean existsByUsername(@NonNull String username);
     boolean existsByEmail(@NonNull String email);
     boolean isPasswordExpired(@NonNull Long userId);
+    void changePassword(Long userId, String newPassword, String confirmPassword);
+    public void setPassword(Long userId, String newPassword);
 }
