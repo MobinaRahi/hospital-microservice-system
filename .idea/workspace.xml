@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/ViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/ViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/AppointmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/AppointmentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/AppointmentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/repository/AppointmentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/DoctorScheduleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/DoctorScheduleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-appointments.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-appointments.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-patients.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-patients.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-schedule.html" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/resources/templates/doctor-schedule.html" afterDir="false" />
-    </list>
+    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -151,7 +140,7 @@
       <workItem from="1782298701920" duration="25563000" />
       <workItem from="1782343082941" duration="14064000" />
       <workItem from="1782379389021" duration="15285000" />
-      <workItem from="1782414778885" duration="1853000" />
+      <workItem from="1782414778885" duration="2576000" />
     </task>
     <task id="LOCAL-00001" summary="ADD controllers">
       <option name="closed" value="true" />
@@ -249,7 +238,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782415029827</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="update">
+      <option name="closed" value="true" />
+      <created>1782417275439</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1782417275439</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
