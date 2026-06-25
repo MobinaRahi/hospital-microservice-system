@@ -109,6 +109,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/patient/complete-registration").permitAll()
                         .requestMatchers("/api/v1/users/register-with-roles").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/patient").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/departments").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/room").hasRole("ADMIN")
 
                         // ===== صفحات نیازمند لاگین =====
                         .requestMatchers(

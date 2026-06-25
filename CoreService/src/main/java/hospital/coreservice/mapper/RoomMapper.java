@@ -25,6 +25,7 @@ public interface RoomMapper {
     @Mapping(target = "currentPatientList", ignore = true)
     void updateEntity(@MappingTarget Room room, RoomUpdateDto updateDto);
 
+    @Mapping(target = "department", ignore = true)
     @Mapping(target = "currentOccupancy", ignore = true)
     @Mapping(target = "availableCapacity", ignore = true)
     RoomResponseDto toResponseDto(Room room);

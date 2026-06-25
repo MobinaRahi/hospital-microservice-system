@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -209,7 +209,13 @@ public class ViewController {
     public String departments(Model model) {
         model.addAttribute("departments", safe(departmentService::getAllDepartments, List.of()));
         model.addAttribute("activeDepartmentCount", safe(departmentService::countActiveDepartments, 0L));
+        model.addAttribute("activeDoctorCount", safe(doctorService::countActiveDoctors, 0L));
         return "departments";
+    }
+
+    @GetMapping("/departments/add")
+    public String addDepartment(Model model) {
+        return "add-department";
     }
 
     // ========== Appointment Pages ==========
@@ -314,7 +320,14 @@ public class ViewController {
         model.addAttribute("rooms", safe(roomService::getAllRooms, List.of()));
         model.addAttribute("availableRoomCount", safe(roomService::countAvailableRooms, 0L));
         model.addAttribute("occupiedRoomCount", safe(roomService::countOccupiedRooms, 0L));
+        model.addAttribute("departments", safe(departmentService::getActiveDepartments, List.of()));
         return "rooms";
+    }
+
+    @GetMapping("/rooms/add")
+    public String addRoom(Model model) {
+        model.addAttribute("departments", safe(departmentService::getActiveDepartments, List.of()));
+        return "add-room";
     }
 
     // ========== Shift Pages ==========

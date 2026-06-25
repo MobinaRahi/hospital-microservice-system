@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>افزودن بخش – بیمارستان فوق‌تخصصی نووا</title>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+    />
+    <style>
+        :root {
+            --teal: #2a9d8f;
+            --teal-light: #4db6a8;
+            --teal-dark: #1e7268;
+            --navy: #1e3040;
+            --white: #ffffff;
+            --bg: #eff4f8;
+            --gray-100: #f7fafb;
+            --gray-200: #eef3f5;
+            --gray-400: #a0b4bc;
+            --gray-600: #5a7585;
+            --radius: 12px;
+            --radius-lg: 18px;
+            --sidebar-w: 260px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --red: #ef4444;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Vazirmatn", Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+            direction: rtl;
+            min-height: 100vh;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: var(--sidebar-w);
+            background: linear-gradient(170deg, #1a2d3e 0%, #0d1a25 60%, #071018 100%);
+            position: fixed; top: 0; right: 0; bottom: 0;
+            color: white; padding: 20px;
+        }
+        .main {
+            flex: 1;
+            margin-right: var(--sidebar-w);
+            padding: 30px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy);
+        }
+        .btn-back {
+            background: white;
+            border: 1.5px solid var(--gray-200);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gray-600);
+        }
+
+        .form-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.04);
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--teal-dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .form-control {
+            padding: 12px 14px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            background: var(--gray-100);
+            transition: all 0.2s;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: var(--teal);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(42, 157, 143, 0.3);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transform: translateY(150%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            max-width: 400px;
+            border-right: 4px solid var(--teal);
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.error {
+            border-right-color: var(--red);
+        }
+        .toast-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+        .toast-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .toast-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+        .toast-desc {
+            font-size: 13px;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div id="toast" class="toast">
+    <div id="toastIcon" class="toast-icon">⚠️</div>
+    <div class="toast-content">
+        <div id="toastTitle" class="toast-title">خطا!</div>
+        <div id="toastDesc" class="toast-desc">پیام خطا در اینجا نمایش داده می‌شود.</div>
+    </div>
+</div>
+
+<div class="layout">
+    <!-- MAIN -->
+    <main class="main">
+        <div class="page-header">
+            <h1 class="page-title">افزودن بخش جدید</h1>
+            <a th:href="@{/departments}" class="btn-back">بازگشت به لیست</a>
+        </div>
+
+        <form id="addDeptForm">
+            <div class="form-card">
+                <div class="section-title">اطلاعات اولیه بخش</div>
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label class="form-label">نام بخش</label>
+                        <input type="text" class="form-control" name="departmentName" placeholder="مثلا: قلب و عروق" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">کد بخش</label>
+                        <input type="text" class="form-control" name="departmentCode" placeholder="مثلا: CARD-001" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">موقعیت فیزیکی / طبقه</label>
+                        <input type="text" class="form-control" name="location" placeholder="مثلا: طبقه سوم ساختمان شرقی" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">شماره تماس بخش</label>
+                        <input type="text" class="form-control" name="phoneNumber" placeholder="۱۱ رقم مثلا 02111111111" required />
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="form-label">توضیحات</label>
+                        <textarea class="form-control" name="description" rows="3" placeholder="مختصری درباره فعالیت‌ها و تجهیزات این بخش..."></textarea>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">ثبت دپارتمان / بخش</button>
+            </div>
+        </form>
+    </main>
+</div>
+
+<script>
+    function showToast(title, desc, isError = false) {
+        const toast = document.getElementById('toast');
+        const toastTitle = document.getElementById('toastTitle');
+        const toastDesc = document.getElementById('toastDesc');
+        const toastIcon = document.getElementById('toastIcon');
+
+        toastTitle.textContent = title;
+        toastDesc.textContent = desc;
+
+        if (isError) {
+            toast.classList.add('error');
+            toastIcon.textContent = '❌';
+        } else {
+            toast.classList.remove('error');
+            toastIcon.textContent = '✅';
+        }
+
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); }, 6000);
+    }
+
+    document.getElementById('addDeptForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = 'در حال ذخیره‌سازی...';
+
+        const formData = new FormData(e.target);
+        const data = Object.fromElement(formData);
+
+        const payload = {
+            departmentName: data.departmentName,
+            departmentCode: data.departmentCode,
+            location: data.location,
+            phoneNumber: data.phoneNumber,
+            description: data.description || null
+        };
+
+        try {
+            const response = await fetch('/api/v1/departments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if(response.ok) {
+                showToast('عملیات موفق', 'بخش جدید با موفقیت ثبت شد!', false);
+                setTimeout(() => {
+                    window.location.href = '/departments';
+                }, 2000);
+            } else {
+                const resJson = await response.json();
+                let errorMsg = resJson.message || 'خطا در ثبت دپارتمان';
+                if (resJson.data && typeof resJson.data === 'object') {
+                    const errs = Object.values(resJson.data);
+                    if(errs.length > 0) errorMsg = errs[0];
+                }
+                showToast('خطا در عملیات', errorMsg, true);
+                btn.disabled = false;
+                btn.textContent = 'ثبت دپارتمان / بخش';
+            }
+
+        } catch (err) {
+            showToast('خطای شبکه', 'لطفا اتصال اینترنت خود را بررسی کنید.', true);
+            console.error(err);
+            btn.disabled = false;
+            btn.textContent = 'ثبت دپارتمان / بخش';
+        }
+    });
+
+    // Utility
+    Object.fromElement = function(fd) {
+        const obj = {};
+        for (let key of fd.keys()) { obj[key] = fd.get(key); }
+        return obj;
+    };
+</script>
+</body>
+</html>

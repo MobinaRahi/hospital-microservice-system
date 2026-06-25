@@ -31,5 +31,8 @@ public interface DepartmentMapper {
     @Mapping(target = "roomList", ignore = true)
     void updateEntity(@MappingTarget Department department, DepartmentUpdateDto updateDto);
 
+    @Mapping(target = "doctors", source = "doctorList")
+    @Mapping(target = "nurses", source = "nurseList")
+    @Mapping(target = "rooms", source = "roomList")
     DepartmentResponseDto toResponseDto(Department department);
 }

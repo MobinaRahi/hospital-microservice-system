@@ -1,1225 +1,1121 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>پرستاران – بیمارستان فوق‌تخصصی نووا</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
     />
     <style>
-      :root {
-        --teal: #2a9d8f;
-        --teal-light: #4db6a8;
-        --teal-dark: #1e7268;
-        --teal-pale: #e8f5f3;
-        --navy: #1e3040;
-        --navy-deep: #0f1e2a;
-        --white: #ffffff;
-        --bg: #eff4f8;
-        --gray-100: #f7fafb;
-        --gray-200: #eef3f5;
-        --gray-400: #a0b4bc;
-        --gray-600: #5a7585;
-        --red: #ef4444;
-        --red-pale: #fee2e2;
-        --amber: #f59e0b;
-        --amber-pale: #fef3c7;
-        --blue: #3b82f6;
-        --blue-pale: #dbeafe;
-        --green: #16a34a;
-        --green-pale: #dcfce7;
-        --purple: #7c3aed;
-        --purple-pale: #ede9fe;
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.1);
-        --radius: 12px;
-        --radius-lg: 18px;
-        --sidebar-w: 260px;
-      }
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Vazirmatn", Tahoma, sans-serif;
-        background: var(--bg);
-        color: var(--navy);
-        direction: rtl;
-        line-height: 1.6;
-        min-height: 100vh;
-      }
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
+        :root {
+            --teal: #2a9d8f;
+            --teal-light: #4db6a8;
+            --teal-dark: #1e7268;
+            --teal-pale: #e8f5f3;
+            --navy: #1e3040;
+            --navy-deep: #0f1e2a;
+            --white: #ffffff;
+            --bg: #eff4f8;
+            --gray-100: #f7fafb;
+            --gray-200: #eef3f5;
+            --gray-400: #a0b4bc;
+            --gray-600: #5a7585;
+            --red: #ef4444;
+            --red-pale: #fee2e2;
+            --amber: #f59e0b;
+            --amber-pale: #fef3c7;
+            --blue: #3b82f6;
+            --blue-pale: #dbeafe;
+            --green: #16a34a;
+            --green-pale: #dcfce7;
+            --purple: #7c3aed;
+            --purple-pale: #ede9fe;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --radius-lg: 18px;
+            --sidebar-w: 260px;
+        }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Vazirmatn", Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+            direction: rtl;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-      /* SIDEBAR */
-      .sidebar {
-        width: var(--sidebar-w);
-        background: linear-gradient(
-          170deg,
-          #1a2d3e 0%,
-          #0d1a25 60%,
-          #071018 100%
-        );
-        color: white;
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 200;
-        overflow-y: auto;
-        box-shadow: -4px 0 32px rgba(0, 0, 0, 0.25);
-      }
-      .sidebar::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        height: 200px;
-        background: radial-gradient(
-          ellipse at top right,
-          rgba(42, 157, 143, 0.18) 0%,
-          transparent 65%
-        );
-        pointer-events: none;
-      }
-      .sidebar-logo {
-        padding: 22px 18px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .logo-icon-wrap {
-        width: 42px;
-        height: 42px;
-        background: linear-gradient(
-          135deg,
-          rgba(42, 157, 143, 0.4),
-          rgba(42, 157, 143, 0.15)
-        );
-        border-radius: 12px;
-        border: 1px solid rgba(42, 157, 143, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .logo-text-wrap {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.3;
-      }
-      .logo-main {
-        font-size: 14px;
-        font-weight: 800;
-        color: white;
-      }
-      .logo-sub {
-        font-size: 11px;
-        color: var(--teal-light);
-        font-weight: 500;
-      }
-      .sidebar-section {
-        padding: 20px 18px 7px;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1.4px;
-        color: rgba(255, 255, 255, 0.25);
-        text-transform: uppercase;
-      }
-      .sidebar-link {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        padding: 11px 14px;
-        border-radius: 11px;
-        font-size: 13.5px;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.6);
-        margin: 2px 10px;
-        transition: all 0.2s;
-        cursor: pointer;
-      }
-      .sidebar-link:hover {
-        background: rgba(255, 255, 255, 0.06);
-        color: white;
-      }
-      .sidebar-link.active {
-        background: linear-gradient(135deg, #2a9d8f, #1e7268);
-        color: white;
-        font-weight: 700;
-        box-shadow: 0 4px 16px rgba(42, 157, 143, 0.35);
-      }
-      .link-icon {
-        width: 34px;
-        height: 34px;
-        background: rgba(255, 255, 255, 0.07);
-        border-radius: 9px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        font-size: 16px;
-      }
-      .sidebar-link.active .link-icon {
-        background: rgba(255, 255, 255, 0.18);
-      }
-      .sidebar-badge {
-        margin-right: auto;
-        background: var(--teal);
-        color: white;
-        font-size: 10px;
-        font-weight: 800;
-        padding: 2px 8px;
-        border-radius: 20px;
-      }
-      .sidebar-badge.red {
-        background: var(--red);
-      }
-      .sidebar-footer {
-        margin-top: auto;
-        padding: 14px 12px;
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
-      }
-      .sidebar-user {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.05);
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-      .sidebar-user:hover {
-        background: rgba(255, 255, 255, 0.09);
-      }
-      .user-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--teal), var(--teal-dark));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 800;
-        color: white;
-        flex-shrink: 0;
-      }
-      .user-info {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.35;
-      }
-      .user-name {
-        font-size: 13px;
-        font-weight: 700;
-        color: white;
-      }
-      .user-role {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.4);
-      }
+        /* SIDEBAR */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: linear-gradient(
+                    170deg,
+                    #1a2d3e 0%,
+                    #0d1a25 60%,
+                    #071018 100%
+            );
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 200;
+            overflow-y: auto;
+            box-shadow: -4px 0 32px rgba(0, 0, 0, 0.25);
+        }
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 200px;
+            background: radial-gradient(
+                    ellipse at top right,
+                    rgba(42, 157, 143, 0.18) 0%,
+                    transparent 65%
+            );
+            pointer-events: none;
+        }
+        .sidebar-logo {
+            padding: 22px 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon-wrap {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(
+                    135deg,
+                    rgba(42, 157, 143, 0.4),
+                    rgba(42, 157, 143, 0.15)
+            );
+            border-radius: 12px;
+            border: 1px solid rgba(42, 157, 143, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-text-wrap {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+        }
+        .logo-main {
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+        }
+        .logo-sub {
+            font-size: 11px;
+            color: var(--teal-light);
+            font-weight: 500;
+        }
+        .sidebar-section {
+            padding: 20px 18px 7px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 14px;
+            border-radius: 11px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 2px 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+        }
+        .sidebar-link.active {
+            background: linear-gradient(135deg, #2a9d8f, #1e7268);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(42, 157, 143, 0.35);
+        }
+        .link-icon {
+            width: 34px;
+            height: 34px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+        .sidebar-link.active .link-icon {
+            background: rgba(255, 255, 255, 0.18);
+        }
+        .sidebar-badge {
+            margin-right: auto;
+            background: var(--teal);
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        .sidebar-badge.red {
+            background: var(--red);
+        }
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 14px 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .sidebar-user:hover {
+            background: rgba(255, 255, 255, 0.09);
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.35;
+        }
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+        }
+        .user-role {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
 
-      /* LAYOUT */
-      .layout {
-        display: flex;
-        min-height: 100vh;
-      }
-      .main {
-        flex: 1;
-        margin-right: var(--sidebar-w);
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
+        /* LAYOUT */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .main {
+            flex: 1;
+            margin-right: var(--sidebar-w);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-      /* TOPBAR */
-      .topbar {
-        height: 64px;
-        background: var(--white);
-        border-bottom: 1px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 28px;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        box-shadow: var(--shadow-sm);
-      }
-      .topbar-title h1 {
-        font-size: 20px;
-        font-weight: 900;
-        color: var(--navy);
-      }
-      .topbar-date {
-        font-size: 12px;
-        color: var(--gray-400);
-        font-weight: 500;
-        margin-top: 1px;
-      }
-      .topbar-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .topbar-btn {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-        background: var(--bg);
-        border: 1.5px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        position: relative;
-        transition: all 0.2s;
-        color: var(--gray-600);
-      }
-      .topbar-btn:hover {
-        border-color: var(--teal);
-        color: var(--teal);
-      }
-      .notif-dot {
-        width: 7px;
-        height: 7px;
-        background: var(--red);
-        border-radius: 50%;
-        position: absolute;
-        top: 7px;
-        left: 7px;
-        border: 1.5px solid white;
-      }
-      .btn-logout {
-        background: #fef2f2;
-        color: #dc2626;
-        border: 1.5px solid #fca5a5;
-        border-radius: 10px;
-        padding: 8px 16px;
-        font-size: 13px;
-        font-weight: 700;
-        font-family: inherit;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .btn-logout:hover {
-        background: #dc2626;
-        color: white;
-        border-color: #dc2626;
-      }
-      .btn-primary {
-        background: linear-gradient(135deg, var(--teal), var(--teal-dark));
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 9px 20px;
-        font-size: 13px;
-        font-weight: 700;
-        font-family: inherit;
-        cursor: pointer;
-        transition: all 0.2s;
-        display: flex;
-        align-items: center;
-        gap: 7px;
-      }
-      .btn-primary:hover {
-        box-shadow: 0 4px 16px rgba(42, 157, 143, 0.4);
-        transform: translateY(-1px);
-      }
+        /* TOPBAR */
+        .topbar {
+            height: 64px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .topbar-title h1 {
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--navy);
+        }
+        .topbar-date {
+            font-size: 12px;
+            color: var(--gray-400);
+            font-weight: 500;
+            margin-top: 1px;
+        }
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .topbar-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--bg);
+            border: 1.5px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            color: var(--gray-600);
+        }
+        .topbar-btn:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+        .notif-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--red);
+            border-radius: 50%;
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            border: 1.5px solid white;
+        }
+        .btn-logout {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1.5px solid #fca5a5;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-logout:hover {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 9px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 16px rgba(42, 157, 143, 0.4);
+            transform: translateY(-1px);
+        }
 
-      /* PAGE */
-      .page-content {
-        flex: 1;
-        padding: 28px 28px 40px;
-      }
+        /* PAGE */
+        .page-content {
+            flex: 1;
+            padding: 28px 28px 40px;
+        }
 
-      /* STATS */
-      .stat-cards {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 18px;
-        margin-bottom: 26px;
-      }
-      .stat-card {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        padding: 20px;
-        box-shadow: var(--shadow-sm);
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        border: 1.5px solid transparent;
-        transition: all 0.2s;
-      }
-      .stat-card:hover {
-        border-color: rgba(42, 157, 143, 0.15);
-        box-shadow: var(--shadow-md);
-      }
-      .stat-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 13px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        flex-shrink: 0;
-      }
-      .stat-icon.pink {
-        background: #fdf2f8;
-      }
-      .stat-icon.teal {
-        background: var(--teal-pale);
-      }
-      .stat-icon.blue {
-        background: var(--blue-pale);
-      }
-      .stat-icon.amber {
-        background: var(--amber-pale);
-      }
-      .stat-num {
-        font-size: 26px;
-        font-weight: 900;
-        color: var(--navy);
-        line-height: 1;
-      }
-      .stat-label {
-        font-size: 12px;
-        color: var(--gray-600);
-        margin-top: 3px;
-      }
-      .stat-trend {
-        font-size: 11px;
-        font-weight: 700;
-        margin-top: 4px;
-        color: #16a34a;
-      }
-
-      /* TOOLBAR */
-      .toolbar {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-      }
-      .search-wrap {
-        position: relative;
-        flex: 1;
-        min-width: 220px;
-      }
-      .search-wrap input {
-        width: 100%;
-        height: 40px;
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 0 40px 0 12px;
-        font-family: inherit;
-        font-size: 13.5px;
-        color: var(--navy);
-        background: var(--white);
-        outline: none;
-        transition: border-color 0.2s;
-      }
-      .search-wrap input:focus {
-        border-color: var(--teal);
-      }
-      .search-icon {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--gray-400);
-      }
-      .filter-select {
-        height: 40px;
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 0 12px;
-        font-family: inherit;
-        font-size: 13px;
-        color: var(--navy);
-        background: var(--white);
-        outline: none;
-        cursor: pointer;
-      }
-      .filter-select:focus {
-        border-color: var(--teal);
-      }
-
-      /* TABLE CARD */
-      .table-card {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-sm);
-        overflow: hidden;
-      }
-      .table-header {
-        padding: 20px 24px 16px;
-        border-bottom: 1px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .table-header h3 {
-        font-size: 15px;
-        font-weight: 800;
-      }
-      .table-count {
-        font-size: 12px;
-        color: var(--gray-400);
-        font-weight: 600;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      th {
-        text-align: right;
-        font-size: 11px;
-        font-weight: 700;
-        color: var(--gray-400);
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
-        padding: 12px 20px;
-        background: var(--gray-100);
-        border-bottom: 1px solid var(--gray-200);
-      }
-      td {
-        padding: 14px 20px;
-        font-size: 13.5px;
-        color: var(--navy);
-        border-bottom: 1px solid var(--gray-200);
-      }
-      tr:last-child td {
-        border-bottom: none;
-      }
-      tr:hover td {
-        background: var(--gray-100);
-      }
-      .nurse-cell {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .nurse-avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #fdf2f8, #fce7f3);
-        border: 2px solid #fbcfe8;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        flex-shrink: 0;
-      }
-      .nurse-name {
-        font-weight: 700;
-        font-size: 14px;
-      }
-      .nurse-id {
-        font-size: 11px;
-        color: var(--gray-400);
-      }
-      .badge {
-        display: inline-flex;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 11.5px;
-        font-weight: 700;
-      }
-      .badge.active {
-        background: var(--green-pale);
-        color: var(--green);
-      }
-      .badge.inactive {
-        background: var(--gray-200);
-        color: var(--gray-600);
-      }
-      .badge.head {
-        background: var(--purple-pale);
-        color: var(--purple);
-      }
-      .badge.senior {
-        background: var(--blue-pale);
-        color: var(--blue);
-      }
-      .badge.junior {
-        background: var(--amber-pale);
-        color: #92400e;
-      }
-      .action-btn {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        border: 1.5px solid var(--gray-200);
-        background: transparent;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s;
-        color: var(--gray-600);
-        font-size: 14px;
-      }
-      .action-btn:hover {
-        border-color: var(--teal);
-        color: var(--teal);
-        background: var(--teal-pale);
-      }
-      .action-btn.danger:hover {
-        border-color: var(--red);
-        color: var(--red);
-        background: var(--red-pale);
-      }
-
-      /* MODAL */
-      .modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        z-index: 500;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-      .modal-overlay.open {
-        display: flex;
-      }
-      .modal {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        width: 100%;
-        max-width: 560px;
-        max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
-      }
-      .modal-head {
-        padding: 24px 28px 18px;
-        border-bottom: 1px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .modal-head h2 {
-        font-size: 17px;
-        font-weight: 900;
-      }
-      .modal-close {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        border: 1.5px solid var(--gray-200);
-        background: transparent;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-        color: var(--gray-600);
-        transition: all 0.2s;
-      }
-      .modal-close:hover {
-        border-color: var(--red);
-        color: var(--red);
-      }
-      .modal-body {
-        padding: 24px 28px;
-      }
-      .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .form-group.full {
-        grid-column: 1/-1;
-      }
-      .form-label {
-        font-size: 12.5px;
-        font-weight: 700;
-        color: var(--gray-600);
-      }
-      .form-input {
-        height: 42px;
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 0 14px;
-        font-family: inherit;
-        font-size: 13.5px;
-        color: var(--navy);
-        outline: none;
-        transition: border-color 0.2s;
-      }
-      .form-input:focus {
-        border-color: var(--teal);
-      }
-      .form-select {
-        height: 42px;
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 0 14px;
-        font-family: inherit;
-        font-size: 13.5px;
-        color: var(--navy);
-        outline: none;
-        cursor: pointer;
-        background: white;
-      }
-      .form-select:focus {
-        border-color: var(--teal);
-      }
-      .modal-foot {
-        padding: 18px 28px 24px;
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-      }
-      .btn-cancel {
-        background: var(--bg);
-        color: var(--navy);
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 9px 20px;
-        font-size: 13px;
-        font-weight: 700;
-        font-family: inherit;
-        cursor: pointer;
-      }
-
-      @media (max-width: 1100px) {
+        /* STATS */
         .stat-cards {
-          grid-template-columns: 1fr 1fr;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 26px;
         }
-      }
-      @media (max-width: 768px) {
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 1.5px solid transparent;
+            transition: all 0.2s;
+        }
+        .stat-card:hover {
+            border-color: rgba(42, 157, 143, 0.15);
+            box-shadow: var(--shadow-md);
+        }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .stat-icon.pink {
+            background: #fdf2f8;
+        }
+        .stat-icon.teal {
+            background: var(--teal-pale);
+        }
+        .stat-icon.blue {
+            background: var(--blue-pale);
+        }
+        .stat-icon.amber {
+            background: var(--amber-pale);
+        }
+        .stat-num {
+            font-size: 26px;
+            font-weight: 900;
+            color: var(--navy);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray-600);
+            margin-top: 3px;
+        }
+        .stat-trend {
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 4px;
+            color: #16a34a;
+        }
+
+        /* TOOLBAR */
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 220px;
+        }
+        .search-wrap input {
+            width: 100%;
+            height: 40px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 0 40px 0 12px;
+            font-family: inherit;
+            font-size: 13.5px;
+            color: var(--navy);
+            background: var(--white);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-wrap input:focus {
+            border-color: var(--teal);
+        }
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+        .filter-select {
+            height: 40px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 0 12px;
+            font-family: inherit;
+            font-size: 13px;
+            color: var(--navy);
+            background: var(--white);
+            outline: none;
+            cursor: pointer;
+        }
+        .filter-select:focus {
+            border-color: var(--teal);
+        }
+
+        /* TABLE CARD */
+        .table-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+        .table-header {
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .table-header h3 {
+            font-size: 15px;
+            font-weight: 800;
+        }
+        .table-count {
+            font-size: 12px;
+            color: var(--gray-400);
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            text-align: right;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 12px 20px;
+            background: var(--gray-100);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        td {
+            padding: 14px 20px;
+            font-size: 13.5px;
+            color: var(--navy);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:hover td {
+            background: var(--gray-100);
+        }
+        .nurse-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nurse-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+            border: 2px solid #fbcfe8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .nurse-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .nurse-id {
+            font-size: 11px;
+            color: var(--gray-400);
+        }
+        .badge {
+            display: inline-flex;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11.5px;
+            font-weight: 700;
+        }
+        .badge.active {
+            background: var(--green-pale);
+            color: var(--green);
+        }
+        .badge.inactive {
+            background: var(--gray-200);
+            color: var(--gray-600);
+        }
+        .badge.head {
+            background: var(--purple-pale);
+            color: var(--purple);
+        }
+        .badge.senior {
+            background: var(--blue-pale);
+            color: var(--blue);
+        }
+        .badge.junior {
+            background: var(--amber-pale);
+            color: #92400e;
+        }
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1.5px solid var(--gray-200);
+            background: transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+        .action-btn:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+            background: var(--teal-pale);
+        }
+        .action-btn.danger:hover {
+            border-color: var(--red);
+            color: var(--red);
+            background: var(--red-pale);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+        }
+        .modal-head {
+            padding: 24px 28px 18px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-head h2 {
+            font-size: 17px;
+            font-weight: 900;
+        }
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1.5px solid var(--gray-200);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--gray-600);
+            transition: all 0.2s;
+        }
+        .modal-close:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        .modal-body {
+            padding: 24px 28px;
+        }
         .form-grid {
-          grid-template-columns: 1fr;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
         }
-      }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-group.full {
+            grid-column: 1/-1;
+        }
+        .form-label {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--gray-600);
+        }
+        .form-input {
+            height: 42px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 0 14px;
+            font-family: inherit;
+            font-size: 13.5px;
+            color: var(--navy);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .form-input:focus {
+            border-color: var(--teal);
+        }
+        .form-select {
+            height: 42px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 0 14px;
+            font-family: inherit;
+            font-size: 13.5px;
+            color: var(--navy);
+            outline: none;
+            cursor: pointer;
+            background: white;
+        }
+        .form-select:focus {
+            border-color: var(--teal);
+        }
+        .modal-foot {
+            padding: 18px 28px 24px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .btn-cancel {
+            background: var(--bg);
+            color: var(--navy);
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 9px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1100px) {
+            .stat-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <div class="layout">
-      <aside class="sidebar">
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
-              <path
-                d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
-                fill="#2A9D8F"
-              />
-              <path
-                d="M14 8v12M8 14h12"
-                stroke="white"
-                stroke-width="2.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          </div>
-          <div class="logo-text-wrap">
-            <span class="logo-main">بیمارستان نووا</span>
-            <span class="logo-sub">سامانه مدیریت</span>
-          </div>
+            <div class="logo-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+                    <path
+                            d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
+                            fill="#2A9D8F"
+                    />
+                    <path
+                            d="M14 8v12M8 14h12"
+                            stroke="white"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                    />
+                </svg>
+            </div>
+            <div class="logo-text-wrap">
+                <span class="logo-main">بیمارستان نووا</span>
+                <span class="logo-sub">سامانه مدیریت</span>
+            </div>
         </div>
         <div class="sidebar-section">منوی اصلی</div>
         <a th:href="@{/dashboard}" class="sidebar-link"
-          ><div class="link-icon">📊</div>
-          داشبورد</a
+        ><div class="link-icon">📊</div>
+            داشبورد</a
         >
         <a th:href="@{/appointments/book}" class="sidebar-link"
-          ><div class="link-icon">📅</div>
-          نوبت‌دهی<span class="sidebar-badge red">۱۲</span></a
+        ><div class="link-icon">📅</div>
+            نوبت‌دهی<span class="sidebar-badge red">۱۲</span></a
         >
         <a th:href="@{/doctors}" class="sidebar-link"
-          ><div class="link-icon">🩺</div>
-          پزشکان</a
+        ><div class="link-icon">🩺</div>
+            پزشکان</a
         >
         <a th:href="@{/patients}" class="sidebar-link"
-          ><div class="link-icon">👤</div>
-          بیماران</a
+        ><div class="link-icon">👤</div>
+            بیماران</a
         >
         <a th:href="@{/departments}" class="sidebar-link"
-          ><div class="link-icon">🏥</div>
-          بخش‌ها</a
+        ><div class="link-icon">🏥</div>
+            بخش‌ها</a
         >
         <div class="sidebar-section">مدیریت</div>
         <a th:href="@{/rooms}" class="sidebar-link"
-          ><div class="link-icon">🛏</div>
-          اتاق‌ها</a
+        ><div class="link-icon">🛏</div>
+            اتاق‌ها</a
         >
         <a th:href="@{/nurses}" class="sidebar-link active"
-          ><div class="link-icon">👩‍⚕️</div>
-          پرستاران</a
+        ><div class="link-icon">👩‍⚕️</div>
+            پرستاران</a
         >
         <a th:href="@{/shifts}" class="sidebar-link"
-          ><div class="link-icon">⏰</div>
-          شیفت‌ها</a
+        ><div class="link-icon">⏰</div>
+            شیفت‌ها</a
         >
         <a th:href="@{/appointments}" class="sidebar-link"
-          ><div class="link-icon">📋</div>
-          نوبت‌ها</a
+        ><div class="link-icon">📋</div>
+            نوبت‌ها</a
         >
         <div class="sidebar-section">سیستم</div>
         <a href="#" class="sidebar-link"
-          ><div class="link-icon">👥</div>
-          کاربران</a
+        ><div class="link-icon">👥</div>
+            کاربران</a
         >
         <a href="#" class="sidebar-link"
-          ><div class="link-icon">🔐</div>
-          نقش‌ها</a
+        ><div class="link-icon">🔐</div>
+            نقش‌ها</a
         >
 
         <div class="sidebar-footer">
-          <div class="sidebar-user">
-            <div class="user-avatar">م</div>
-            <div class="user-info">
-              <span class="user-name">مدیر سیستم</span>
-              <span class="user-role">مدیر ارشد</span>
+            <div class="sidebar-user">
+                <div class="user-avatar">م</div>
+                <div class="user-info">
+                    <span class="user-name">مدیر سیستم</span>
+                    <span class="user-role">مدیر ارشد</span>
+                </div>
             </div>
-          </div>
         </div>
-      </aside>
+    </aside>
 
-      <main class="main">
+    <main class="main">
         <div class="topbar">
-          <div class="topbar-title">
-            <h1>مدیریت پرستاران</h1>
-            <div class="topbar-date" id="currentDate">در حال بارگذاری…</div>
-          </div>
-          <div class="topbar-actions">
-            <div class="topbar-btn">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <div class="notif-dot"></div>
+            <div class="topbar-title">
+                <h1>مدیریت پرستاران</h1>
+                <div class="topbar-date" id="currentDate">در حال بارگذاری…</div>
             </div>
-            <button
-              class="btn-primary"
-              onclick="document.getElementById('addModal').classList.add('open')"
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-              افزودن پرستار
-            </button>
-            <a th:href="@{/logout}" class="btn-logout">خروج</a>
-          </div>
+            <div class="topbar-actions">
+                <div class="topbar-btn">
+                    <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                    >
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    <div class="notif-dot"></div>
+                </div>
+                <button
+                        class="btn-primary"
+                        onclick="document.getElementById('addModal').classList.add('open')"
+                >
+                    <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                    >
+                        <path d="M12 5v14M5 12h14" />
+                    </svg>
+                    افزودن پرستار
+                </button>
+                <a th:href="@{/logout}" class="btn-logout">خروج</a>
+            </div>
         </div>
 
         <div class="page-content">
-          <div class="stat-cards">
-            <div class="stat-card">
-              <div class="stat-icon pink">👩‍⚕️</div>
-              <div>
-                <div class="stat-num">۱۱۸</div>
-                <div class="stat-label">کل پرستاران</div>
-                <div class="stat-trend">↑ ۴ نفر جدید</div>
-              </div>
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="stat-icon pink">👩‍⚕️</div>
+                    <div>
+                        <div class="stat-num">۱۱۸</div>
+                        <div class="stat-label">کل پرستاران</div>
+                        <div class="stat-trend">↑ ۴ نفر جدید</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon teal">✅</div>
+                    <div>
+                        <div class="stat-num">۹۴</div>
+                        <div class="stat-label">پرستار فعال</div>
+                        <div class="stat-trend">۷۹٪ فعال</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue">🌙</div>
+                    <div>
+                        <div class="stat-num">۳۲</div>
+                        <div class="stat-label">شیفت شب</div>
+                        <div class="stat-trend">امشب</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon amber">🏥</div>
+                    <div>
+                        <div class="stat-num">۱۲</div>
+                        <div class="stat-label">بخش پوشش‌دهی</div>
+                        <div class="stat-trend">همه بخش‌ها</div>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card">
-              <div class="stat-icon teal">✅</div>
-              <div>
-                <div class="stat-num">۹۴</div>
-                <div class="stat-label">پرستار فعال</div>
-                <div class="stat-trend">۷۹٪ فعال</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon blue">🌙</div>
-              <div>
-                <div class="stat-num">۳۲</div>
-                <div class="stat-label">شیفت شب</div>
-                <div class="stat-trend">امشب</div>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon amber">🏥</div>
-              <div>
-                <div class="stat-num">۱۲</div>
-                <div class="stat-label">بخش پوشش‌دهی</div>
-                <div class="stat-trend">همه بخش‌ها</div>
-              </div>
-            </div>
-          </div>
 
-          <div class="toolbar">
-            <div class="search-wrap">
-              <svg
-                class="search-icon"
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-              </svg>
-              <input
-                type="text"
-                placeholder="جستجو بر اساس نام یا شماره پرسنلی…"
-                id="searchInput"
-                oninput="filterTable()"
-              />
-            </div>
-            <select
-              class="filter-select"
-              id="posFilter"
-              onchange="filterTable()"
-            >
-              <option value="">همه سمت‌ها</option>
-              <option value="HEAD_NURSE">سرپرستار</option>
-              <option value="SENIOR_NURSE">پرستار ارشد</option>
-              <option value="JUNIOR_NURSE">پرستار</option>
-            </select>
-            <select
-              class="filter-select"
-              id="statusFilter"
-              onchange="filterTable()"
-            >
-              <option value="">همه وضعیت‌ها</option>
-              <option value="active">فعال</option>
-              <option value="inactive">غیرفعال</option>
-            </select>
-          </div>
-
-          <div class="table-card">
-            <div class="table-header">
-              <h3>لیست پرستاران</h3>
-              <span class="table-count" id="tableCount"
-                >نمایش ۶ از ۱۱۸ نفر</span
-              >
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>پرستار</th>
-                  <th>بخش</th>
-                  <th>سمت</th>
-                  <th>شیفت فعلی</th>
-                  <th>وضعیت</th>
-                  <th>تماس</th>
-                  <th>عملیات</th>
-                </tr>
-              </thead>
-              <tbody id="nurseTable">
-                <tr>
-                  <td>
-                    <div class="nurse-cell">
-                      <div class="nurse-avatar">👩‍⚕️</div>
-                      <div>
-                        <div class="nurse-name">فاطمه احمدی</div>
-                        <div class="nurse-id">N-۱۰۰۱</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>قلب و عروق</td>
-                  <td><span class="badge head">سرپرستار</span></td>
-                  <td>صبح (۰۷–۱۵)</td>
-                  <td><span class="badge active">فعال</span></td>
-                  <td>۰۹۱۲۱۱۱۲۲۳۳</td>
-                  <td>
-                    <button class="action-btn" title="ویرایش">✏️</button>
-                    <button class="action-btn danger" title="غیرفعال">
-                      🚫
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="nurse-cell">
-                      <div class="nurse-avatar">👩‍⚕️</div>
-                      <div>
-                        <div class="nurse-name">مریم کریمی</div>
-                        <div class="nurse-id">N-۱۰۰۲</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>اطفال</td>
-                  <td><span class="badge senior">پرستار ارشد</span></td>
-                  <td>عصر (۱۵–۲۳)</td>
-                  <td><span class="badge active">فعال</span></td>
-                  <td>۰۹۱۳۲۲۲۳۳۴۴</td>
-                  <td>
-                    <button class="action-btn" title="ویرایش">✏️</button>
-                    <button class="action-btn danger" title="غیرفعال">
-                      🚫
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="nurse-cell">
-                      <div class="nurse-avatar">👩‍⚕️</div>
-                      <div>
-                        <div class="nurse-name">زهرا محمدی</div>
-                        <div class="nurse-id">N-۱۰۰۳</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>اورژانس</td>
-                  <td><span class="badge junior">پرستار</span></td>
-                  <td>شب (۲۳–۰۷)</td>
-                  <td><span class="badge active">فعال</span></td>
-                  <td>۰۹۱۴۳۳۳۴۴۵۵</td>
-                  <td>
-                    <button class="action-btn" title="ویرایش">✏️</button>
-                    <button class="action-btn danger" title="غیرفعال">
-                      🚫
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="nurse-cell">
-                      <div class="nurse-avatar">👨‍⚕️</div>
-                      <div>
-                        <div class="nurse-name">علی رضایی</div>
-                        <div class="nurse-id">N-۱۰۰۴</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>ارتوپدی</td>
-                  <td><span class="badge senior">پرستار ارشد</span></td>
-                  <td>صبح (۰۷–۱۵)</td>
-                  <td><span class="badge active">فعال</span></td>
-                  <td>۰۹۱۵۴۴۴۵۵۶۶</td>
-                  <td>
-                    <button class="action-btn" title="ویرایش">✏️</button>
-                    <button class="action-btn danger" title="غیرفعال">
-                      🚫
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="nurse-cell">
-                      <div class="nurse-avatar">👩‍⚕️</div>
-                      <div>
-                        <div class="nurse-name">سارا نصیری</div>
-                        <div class="nurse-id">N-۱۰۰۵</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>مغز و اعصاب</td>
-                  <td><span class="badge head">سرپرستار</span></td>
-                  <td>عصر (۱۵–۲۳)</td>
-                  <td><span class="badge inactive">غیرفعال</span></td>
-                  <td>۰۹۱۶۵۵۵۶۶۷۷</td>
-                  <td>
-                    <button class="action-btn" title="ویرایش">✏️</button>
-                    <button
-                      class="action-btn"
-                      title="فعال‌سازی"
-                      style="color: var(--green)"
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <svg
+                            class="search-icon"
+                            width="15"
+                            height="15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
                     >
-                      ✅
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="nurse-cell">
-                      <div class="nurse-avatar">👩‍⚕️</div>
-                      <div>
-                        <div class="nurse-name">نگین حسینی</div>
-                        <div class="nurse-id">N-۱۰۰۶</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>جراحی عمومی</td>
-                  <td><span class="badge junior">پرستار</span></td>
-                  <td>صبح (۰۷–۱۵)</td>
-                  <td><span class="badge active">فعال</span></td>
-                  <td>۰۹۱۷۶۶۶۷۷۸۸</td>
-                  <td>
-                    <button class="action-btn" title="ویرایش">✏️</button>
-                    <button class="action-btn danger" title="غیرفعال">
-                      🚫
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </main>
-    </div>
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.35-4.35" />
+                    </svg>
+                    <input
+                            type="text"
+                            placeholder="جستجو بر اساس نام یا شماره پرسنلی…"
+                            id="searchInput"
+                            oninput="filterTable()"
+                    />
+                </div>
+                <select
+                        class="filter-select"
+                        id="posFilter"
+                        onchange="filterTable()"
+                >
+                    <option value="">همه سمت‌ها</option>
+                    <option value="HEAD_NURSE">سرپرستار</option>
+                    <option value="SENIOR_NURSE">پرستار ارشد</option>
+                    <option value="JUNIOR_NURSE">پرستار</option>
+                </select>
+                <select
+                        class="filter-select"
+                        id="statusFilter"
+                        onchange="filterTable()"
+                >
+                    <option value="">همه وضعیت‌ها</option>
+                    <option value="active">فعال</option>
+                    <option value="inactive">غیرفعال</option>
+                </select>
+            </div>
 
-    <!-- ADD MODAL -->
-    <div class="modal-overlay" id="addModal">
-      <div class="modal">
+            <div class="table-card">
+                <div class="table-header">
+                    <h3>لیست پرستاران</h3>
+                    <span class="table-count" id="tableCount" th:text="${'نمایش ' + (nurses != null ? nurses.size() : 0) + ' نفر'}"
+                    >نمایش ۶ نفر</span
+                    >
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>پرستار</th>
+                        <th>بخش</th>
+                        <th>سمت</th>
+                        <th>شیفت فعلی</th>
+                        <th>وضعیت</th>
+                        <th>تماس</th>
+                        <th>عملیات</th>
+                    </tr>
+                    </thead>
+                    <tbody id="nurseTable">
+                    <tr th:if="${nurses == null or nurses.isEmpty()}">
+                        <td colspan="7" style="text-align: center; padding: 20px;">هیچ پرستاری یافت نشد.</td>
+                    </tr>
+                    <tr th:each="nurse : ${nurses}">
+                        <td>
+                            <div class="nurse-cell">
+                                <div class="nurse-avatar">👩‍⚕️</div>
+                                <div>
+                                    <div class="nurse-name" th:text="${nurse.fullName != null ? nurse.fullName : nurse.firstName + ' ' + nurse.lastName}">فاطمه احمدی</div>
+                                    <div class="nurse-id" th:text="${nurse.nurseCode != null ? nurse.nurseCode : '-'}">N-۱۰۰۱</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td th:text="${nurse.departments != null and !nurse.departments.isEmpty() ? nurse.departments[0].name : 'بدون بخش'}">قلب و عروق</td>
+                        <td>
+                            <span th:if="${nurse.position != null and nurse.position.name() == 'HEAD_NURSE'}" class="badge head">سرپرستار</span>
+                            <span th:if="${nurse.position != null and nurse.position.name() == 'SENIOR_NURSE'}" class="badge senior">پرستار ارشد</span>
+                            <span th:if="${nurse.position != null and nurse.position.name() == 'STAFF_NURSE'}" class="badge junior">پرستار</span>
+                            <span th:if="${nurse.position != null and (nurse.position.name() != 'HEAD_NURSE' and nurse.position.name() != 'SENIOR_NURSE' and nurse.position.name() != 'STAFF_NURSE')}" class="badge junior" th:text="${nurse.position.name()}">پرستار</span>
+                            <span th:if="${nurse.position == null}" class="badge junior">-</span>
+                        </td>
+                        <td th:text="${nurse.shiftPreferences != null and !nurse.shiftPreferences.isEmpty() ? nurse.shiftPreferences[0].name : 'بدون شیفت'}">صبح (۰۷–۱۵)</td>
+                        <td>
+                            <span th:if="${nurse.isActive}" class="badge active">فعال</span>
+                            <span th:unless="${nurse.isActive}" class="badge inactive">غیرفعال</span>
+                        </td>
+                        <td th:text="${nurse.phoneNumber != null ? nurse.phoneNumber : '-'}">۰۹۱۲۱۱۱۲۲۳۳</td>
+                        <td>
+                            <button class="action-btn" title="ویرایش">✏️</button>
+                            <button class="action-btn danger" title="غیرفعال">🚫</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ADD MODAL -->
+<div class="modal-overlay" id="addModal">
+    <div class="modal">
         <div class="modal-head">
-          <h2>افزودن پرستار جدید</h2>
-          <button
-            class="modal-close"
-            onclick="document.getElementById('addModal').classList.remove('open')"
-          >
-            ✕
-          </button>
+            <h2>افزودن پرستار جدید</h2>
+            <button
+                    class="modal-close"
+                    onclick="document.getElementById('addModal').classList.remove('open')"
+            >
+                ✕
+            </button>
         </div>
         <div class="modal-body">
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="form-label">نام</label
-              ><input type="text" class="form-input" placeholder="نام پرستار" />
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">نام</label
+                    ><input type="text" class="form-input" placeholder="نام پرستار" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">نام خانوادگی</label
+                    ><input
+                        type="text"
+                        class="form-input"
+                        placeholder="نام خانوادگی"
+                />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">کد ملی</label
+                    ><input type="text" class="form-input" placeholder="۱۰ رقم" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">شماره تماس</label
+                    ><input
+                        type="text"
+                        class="form-input"
+                        placeholder="۰۹XXXXXXXXX"
+                />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">بخش</label>
+                    <select class="form-select">
+                        <option>قلب و عروق</option>
+                        <option>اطفال</option>
+                        <option>اورژانس</option>
+                        <option>ارتوپدی</option>
+                        <option>مغز و اعصاب</option>
+                        <option>جراحی عمومی</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">سمت</label>
+                    <select class="form-select">
+                        <option value="HEAD_NURSE">سرپرستار</option>
+                        <option value="SENIOR_NURSE">پرستار ارشد</option>
+                        <option value="JUNIOR_NURSE">پرستار</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">شیفت</label>
+                    <select class="form-select">
+                        <option>صبح (۰۷–۱۵)</option>
+                        <option>عصر (۱۵–۲۳)</option>
+                        <option>شب (۲۳–۰۷)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">تاریخ استخدام</label
+                    ><input type="date" class="form-input" />
+                </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">نام خانوادگی</label
-              ><input
-                type="text"
-                class="form-input"
-                placeholder="نام خانوادگی"
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label">کد ملی</label
-              ><input type="text" class="form-input" placeholder="۱۰ رقم" />
-            </div>
-            <div class="form-group">
-              <label class="form-label">شماره تماس</label
-              ><input
-                type="text"
-                class="form-input"
-                placeholder="۰۹XXXXXXXXX"
-              />
-            </div>
-            <div class="form-group">
-              <label class="form-label">بخش</label>
-              <select class="form-select">
-                <option>قلب و عروق</option>
-                <option>اطفال</option>
-                <option>اورژانس</option>
-                <option>ارتوپدی</option>
-                <option>مغز و اعصاب</option>
-                <option>جراحی عمومی</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">سمت</label>
-              <select class="form-select">
-                <option value="HEAD_NURSE">سرپرستار</option>
-                <option value="SENIOR_NURSE">پرستار ارشد</option>
-                <option value="JUNIOR_NURSE">پرستار</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">شیفت</label>
-              <select class="form-select">
-                <option>صبح (۰۷–۱۵)</option>
-                <option>عصر (۱۵–۲۳)</option>
-                <option>شب (۲۳–۰۷)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">تاریخ استخدام</label
-              ><input type="date" class="form-input" />
-            </div>
-          </div>
         </div>
         <div class="modal-foot">
-          <button
-            class="btn-cancel"
-            onclick="document.getElementById('addModal').classList.remove('open')"
-          >
-            انصراف
-          </button>
-          <button
-            class="btn-primary"
-            onclick="document.getElementById('addModal').classList.remove('open')"
-          >
-            <svg
-              width="13"
-              height="13"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
+            <button
+                    class="btn-cancel"
+                    onclick="document.getElementById('addModal').classList.remove('open')"
             >
-              <path d="M12 5v14M5 12h14" />
-            </svg>
-            ثبت پرستار
-          </button>
+                انصراف
+            </button>
+            <button
+                    class="btn-primary"
+                    onclick="document.getElementById('addModal').classList.remove('open')"
+            >
+                <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                >
+                    <path d="M12 5v14M5 12h14" />
+                </svg>
+                ثبت پرستار
+            </button>
         </div>
-      </div>
     </div>
+</div>
 
-    <script>
-      const d = new Date();
-      document.getElementById("currentDate").textContent = d.toLocaleDateString(
-        "fa-IR",
-        { weekday: "long", year: "numeric", month: "long", day: "numeric" }
-      );
-      function filterTable() {
+<script>
+    const d = new Date();
+    document.getElementById("currentDate").textContent = d.toLocaleDateString(
+            "fa-IR",
+            { weekday: "long", year: "numeric", month: "long", day: "numeric" }
+    );
+    function filterTable() {
         const s = document.getElementById("searchInput").value.toLowerCase();
         const p = document.getElementById("posFilter").value;
         const st = document.getElementById("statusFilter").value;
         const rows = document.querySelectorAll("#nurseTable tr");
         let c = 0;
         rows.forEach((r) => {
-          const txt = r.textContent.toLowerCase();
-          const pos =
-            r.querySelector(".badge:first-of-type")?.textContent || "";
-          const statusEl = r.querySelectorAll(".badge");
-          const status = statusEl[statusEl.length - 1]?.classList.contains(
-            "active"
-          )
-            ? "active"
-            : "inactive";
-          const show =
-            (!s || txt.includes(s)) &&
-            (!p ||
-              txt.includes(
-                p === "HEAD_NURSE"
-                  ? "سرپرستار"
-                  : p === "SENIOR_NURSE"
-                  ? "ارشد"
-                  : "پرستار"
-              )) &&
-            (!st || status === st);
-          r.style.display = show ? "" : "none";
-          if (show) c++;
+            const txt = r.textContent.toLowerCase();
+            const pos =
+                    r.querySelector(".badge:first-of-type")?.textContent || "";
+            const statusEl = r.querySelectorAll(".badge");
+            const status = statusEl[statusEl.length - 1]?.classList.contains(
+                    "active"
+            )
+                    ? "active"
+                    : "inactive";
+            const show =
+                    (!s || txt.includes(s)) &&
+                    (!p ||
+                            txt.includes(
+                                    p === "HEAD_NURSE"
+                                            ? "سرپرستار"
+                                            : p === "SENIOR_NURSE"
+                                                    ? "ارشد"
+                                                    : "پرستار"
+                            )) &&
+                    (!st || status === st);
+            r.style.display = show ? "" : "none";
+            if (show) c++;
         });
         document.getElementById(
-          "tableCount"
+                "tableCount"
         ).textContent = `نمایش ${c} از ۱۱۸ نفر`;
-      }
-    </script>
-  </body>
+    }
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a11383605ac50692',t:'MTc4MjM4NTY5NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
