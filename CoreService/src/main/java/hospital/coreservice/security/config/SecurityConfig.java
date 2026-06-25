@@ -3,6 +3,7 @@ package hospital.coreservice.security.config;
 import hospital.coreservice.security.filter.JwtAuthenticationFilter;
 import hospital.coreservice.security.handler.CustomAccessDeniedHandler;
 import hospital.coreservice.security.handler.CustomAuthenticationEntryPoint;
+import hospital.coreservice.security.handler.CustomAuthenticationSuccessHandler;
 import hospital.coreservice.security.service.CustomUserDetailsService;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
@@ -38,6 +39,7 @@ public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final CustomAuthenticationEntryPoint authEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final CustomAuthenticationSuccessHandler successHandler;
     private final LogoutHandler logoutHandler;
 
     @Bean
@@ -67,10 +69,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // غیرفعال کردن CSRF برای APIها (اختیاری)
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-                // 🔑 تغییر ۱: سشن‌ها را برای فرم لاگین فعال می‌کنیم
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
                 .authorizeHttpRequests(auth -> auth
@@ -126,7 +127,7 @@ public class SecurityConfig {
                 // 🔑 تغییر ۲: فعال کردن فرم لاگین
                 .formLogin(form -> form
                         .loginPage("/login")                   // صفحه لاگین سفارشی
-                        .defaultSuccessUrl("/patient_dashboard", true) // بعد از لاگین موفق
+                        .successHandler(successHandler)        // هندلر سفارشی برای هدایت بر اساس نقش
                         .failureUrl("/login?error=true")       // در صورت خطا
                         .permitAll()                           // اجازه دسترسی به این مسیرها بدون لاگین
                 )

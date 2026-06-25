@@ -860,8 +860,6 @@
                     <div class="pt-hero-sub" th:if="${#authorization.expression('isAuthenticated()') and patient != null}">
                         کد ملی: <span th:text="${patient.nationalId}">---</span> ·
                         تاریخ تولد: <span th:text="${#temporals.format(patient.birthDate, 'yyyy/MM/dd')}">---</span> ·
-                        <!-- سن به جای محاسبه با #temporals، فعلاً مقدار ثابت نمایش داده می‌شود تا خطا ندهد -->
-                        <span>---</span> ساله
                     </div>
                     <div class="pt-hero-sub" th:unless="${#authorization.expression('isAuthenticated()') and patient != null}">
                         برای مشاهده اطلاعات کامل، لطفاً وارد شوید.

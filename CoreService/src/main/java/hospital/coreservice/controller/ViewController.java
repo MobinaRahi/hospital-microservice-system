@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -107,7 +106,7 @@ public class ViewController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         addDashboardModel(model);
-        return "dash";
+        return "dashboard";
     }
 
     // ========== Doctor Pages ==========

@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -128,18 +129,18 @@ public class DataInitializer implements CommandLineRunner {
     private void initUsers() {
         log.info("👤 ایجاد کاربران...");
 
-        createUser("دکتر علی", "رضایی", "dr.ali", "ali.rezaei@hospital.com", "Doctor@123", "09121111111");
-        createUser("دکتر مریم", "احمدی", "dr.maryam", "maryam.ahmadi@hospital.com", "Doctor@123", "09122222222");
-        createUser("پرستار فاطمه", "محمدی", "nurse.fatemeh", "fatemeh.mohammadi@hospital.com", "Nurse@123", "09123333333");
-        createUser("پرستار حسین", "کریمی", "nurse.hossein", "hossein.karimi@hospital.com", "Nurse@123", "09124444444");
-        createUser("بیمار رضا", "نجفی", "patient.reza", "reza.najafi@hospital.com", "Patient@123", "09125555555");
-        createUser("بیمار زهرا", "حسینی", "patient.zahra", "zahra.hosseini@hospital.com", "Patient@123", "09126666666");
-        createUser("مدیر", "سیستم", "admin", "admin@hospital.com", "Admin@123", "09127777777");
+        createUser("دکتر علی", "رضایی", "dr.ali", "ali.rezaei@hospital.com", "Doctor@123", "09121111111", Set.of(RoleName.DOCTOR));
+        createUser("دکتر مریم", "احمدی", "dr.maryam", "maryam.ahmadi@hospital.com", "Doctor@123", "09122222222", Set.of(RoleName.DOCTOR));
+        createUser("پرستار فاطمه", "محمدی", "nurse.fatemeh", "fatemeh.mohammadi@hospital.com", "Nurse@123", "09123333333", Set.of(RoleName.NURSE));
+        createUser("پرستار حسین", "کریمی", "nurse.hossein", "hossein.karimi@hospital.com", "Nurse@123", "09124444444", Set.of(RoleName.NURSE));
+        createUser("بیمار رضا", "نجفی", "patient.reza", "reza.najafi@hospital.com", "Patient@123", "09125555555", Set.of(RoleName.PATIENT));
+        createUser("بیمار زهرا", "حسینی", "patient.zahra", "zahra.hosseini@hospital.com", "Patient@123", "09126666666", Set.of(RoleName.PATIENT));
+        createUser("مدیر", "سیستم", "admin", "admin@hospital.com", "Admin@123", "09127777777", Set.of(RoleName.SUPER_ADMIN, RoleName.ADMIN));
 
         log.info("✅ کاربران با موفقیت ایجاد شدند");
     }
 
-    private void createUser(String firstName, String lastName, String username, String email, String password, String phone) {
+    private void createUser(String firstName, String lastName, String username, String email, String password, String phone, java.util.Set<RoleName> roles) {
         try {
             UserCreateDto dto = new UserCreateDto();
             dto.setFirstName(firstName);
@@ -149,7 +150,7 @@ public class DataInitializer implements CommandLineRunner {
             dto.setPassword(password);
             dto.setPhoneNumber(phone);
             dto.setBirthDate(LocalDate.of(1990, 1, 1));
-            userService.registerUser(dto);
+            userService.registerUserWithRoles(dto, roles);
             log.debug("کاربر '{}' ایجاد شد", username);
         } catch (Exception e) {
             log.warn("ایجاد کاربر '{}' ناموفق بود: {}", username, e.getMessage(), e);
