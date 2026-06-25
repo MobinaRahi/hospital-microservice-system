@@ -5,6 +5,8 @@ import hospital.coreservice.exception.patient.PatientNotFoundException;
 import hospital.coreservice.model.Patient;
 import hospital.coreservice.security.model.SecurityUser;
 import hospital.coreservice.service.*;
+import hospital.coreservice.repository.AppointmentRepository;
+import hospital.coreservice.mapper.AppointmentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -33,10 +36,12 @@ public class ViewController {
     private final PatientService patientService;
     private final AppointmentService appointmentService;
     private final DepartmentService departmentService;
-    private final AppointmentService appointmentsService;
     private final NurseService nurseService;
     private final RoomService roomService;
     private final ShiftService shiftService;
+    private final AppointmentRepository appointmentRepository;
+    private final AppointmentMapper appointmentMapper;
+    private final UserService userService;
 
     // ========== Public Pages ==========
 
@@ -54,7 +59,7 @@ public class ViewController {
         model.addAttribute("activeDoctorCount", doctorService.countActiveDoctors());
         model.addAttribute("activePatientCount", patientService.countActivePatients());
         model.addAttribute("activeDepartmentCount", departmentService.countActiveDepartments());
-        model.addAttribute("totalAppointmentCount", appointmentsService.countTotalAppointments());
+        model.addAttribute("totalAppointmentCount", appointmentService.countTotalAppointments());
         return "index";
     }
 
@@ -116,10 +121,25 @@ public class ViewController {
             @RequestParam(required = false) String speciality,
             @RequestParam(required = false) String gender,
             Model model) {
-        model.addAttribute("doctors", safe(doctorService::getAllDoctors, List.of()));
-        model.addAttribute("activeDoctorCount", safe(doctorService::countActiveDoctors, 0L));
-        model.addAttribute("inactiveDoctorCount", safe(doctorService::countInactiveDoctors, 0L));
+
+        List<hospital.coreservice.dto.doctor.DoctorResponseDto> allDocs = safe(doctorService::getAllDoctors, List.of());
+        long activeCount = safe(doctorService::countActiveDoctors, 0L);
+        long inactiveCount = safe(doctorService::countInactiveDoctors, 0L);
+
+        // Calculate dynamic stats
+        model.addAttribute("doctors", allDocs);
+        model.addAttribute("totalDoctorCount", allDocs.size());
+        model.addAttribute("activeDoctorCount", activeCount);
+        model.addAttribute("inactiveDoctorCount", inactiveCount);
+        model.addAttribute("todayAppointmentsCount", safe(appointmentService::countTotalAppointments, 0L));
+
         return "doctors";
+    }
+
+    @GetMapping("/doctors/add")
+    public String addDoctor(Model model) {
+        model.addAttribute("departments", safe(departmentService::getAllDepartments, List.of()));
+        return "add-doctor";
     }
 
     @GetMapping("/doctors/{id}")
@@ -209,8 +229,24 @@ public class ViewController {
 
     @GetMapping("/appointments")
     public String appointments(Model model) {
-        model.addAttribute("appointments", safe(appointmentService::getTodayAppointments, List.of()));
-        model.addAttribute("appointmentCount", safe(appointmentService::countTotalAppointments, 0L));
+        List<hospital.coreservice.dto.appointment.AppointmentResponseDto> allAppointments = safe(() -> {
+            return appointmentRepository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "appointmentDate", "startTime"))
+                    .stream()
+                    .map(appointmentMapper::toResponseDto)
+                    .collect(java.util.stream.Collectors.toList());
+        }, List.of());
+
+        long scheduledCount = allAppointments.stream().filter(a -> a.getStatus().name().equals("SCHEDULED")).count();
+        long completedCount = allAppointments.stream().filter(a -> a.getStatus().name().equals("COMPLETED")).count();
+        long checkedInCount = allAppointments.stream().filter(a -> a.getStatus().name().equals("CHECK_IN")).count();
+        long cancelledCount = allAppointments.stream().filter(a -> a.getStatus().name().equals("CANCELLED")).count();
+
+        model.addAttribute("appointments", allAppointments);
+        model.addAttribute("appointmentCount", allAppointments.size());
+        model.addAttribute("scheduledCount", scheduledCount);
+        model.addAttribute("completedCount", completedCount);
+        model.addAttribute("checkedInCount", checkedInCount);
+        model.addAttribute("cancelledCount", cancelledCount);
         return "appointments";
     }
 
@@ -221,6 +257,11 @@ public class ViewController {
         model.addAttribute("patients", safe(patientService::getAllPatients, List.of()));
         model.addAttribute("activePatientCount", safe(patientService::countActivePatients, 0L));
         return "patients";
+    }
+
+    @GetMapping("/patients/add")
+    public String addPatient(Model model) {
+        return "add-patient";
     }
 
     @GetMapping("/patient_dashboard")
@@ -320,9 +361,19 @@ public class ViewController {
         model.addAttribute("occupiedRoomCount", safe(roomService::countOccupiedRooms, 0L));
         model.addAttribute("activeNurseCount", safe(nurseService::countActiveNurses, 0L));
         model.addAttribute("appointmentCount", safe(appointmentService::countTotalAppointments, 0L));
-        model.addAttribute("todayAppointments", safe(appointmentService::getTodayAppointments, List.of()));
-        model.addAttribute("doctors", safe(doctorService::getActiveDoctors, List.of()));
 
+        // Use recent appointments regardless of date to show some data in dashboard
+        List<hospital.coreservice.dto.appointment.AppointmentResponseDto> recentAppointments =
+                safe(() -> {
+                    return appointmentRepository.findAll(org.springframework.data.domain.PageRequest.of(0, 10,
+                                    org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt")))
+                            .stream()
+                            .map(appointmentMapper::toResponseDto)
+                            .collect(java.util.stream.Collectors.toList());
+                }, List.of());
+
+        model.addAttribute("todayAppointments", recentAppointments);
+        model.addAttribute("doctors", safe(doctorService::getActiveDoctors, List.of()));
     }
 
     private void addDoctorPanelModel(Model model, Long doctorId) {

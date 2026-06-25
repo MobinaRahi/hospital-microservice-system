@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>افزودن بیمار – بیمارستان فوق‌تخصصی نووا</title>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+    />
+    <style>
+        /* Same CSS variables as other dashboard pages */
+        :root {
+            --teal: #2a9d8f;
+            --teal-light: #4db6a8;
+            --teal-dark: #1e7268;
+            --navy: #1e3040;
+            --white: #ffffff;
+            --bg: #eff4f8;
+            --gray-100: #f7fafb;
+            --gray-200: #eef3f5;
+            --gray-400: #a0b4bc;
+            --gray-600: #5a7585;
+            --radius: 12px;
+            --radius-lg: 18px;
+            --sidebar-w: 260px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Vazirmatn", Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+            direction: rtl;
+            min-height: 100vh;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* Simplified Layout */
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: var(--sidebar-w);
+            background: linear-gradient(170deg, #1a2d3e 0%, #0d1a25 60%, #071018 100%);
+            position: fixed; top: 0; right: 0; bottom: 0;
+            color: white; padding: 20px;
+        }
+        .main {
+            flex: 1;
+            margin-right: var(--sidebar-w);
+            padding: 30px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--navy);
+        }
+        .btn-back {
+            background: white;
+            border: 1.5px solid var(--gray-200);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gray-600);
+        }
+
+        /* Form Card */
+        .form-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.04);
+            max-width: 900px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--teal-dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .form-control {
+            padding: 12px 14px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            background: var(--gray-100);
+            transition: all 0.2s;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: var(--teal);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(42, 157, 143, 0.3);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transform: translateY(150%);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+            max-width: 400px;
+            border-right: 4px solid var(--teal);
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.error {
+            border-right-color: var(--red);
+        }
+        .toast-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+        .toast-content {
+            display: flex;
+            flex-direction: column;
+        }
+        .toast-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+        .toast-desc {
+            font-size: 13px;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+    </style>
+</head>
+<body>
+<div id="toast" class="toast">
+    <div id="toastIcon" class="toast-icon">⚠️</div>
+    <div class="toast-content">
+        <div id="toastTitle" class="toast-title">خطا!</div>
+        <div id="toastDesc" class="toast-desc">پیام خطا در اینجا نمایش داده می‌شود.</div>
+    </div>
+</div>
+
+<div class="layout">
+    <!-- MAIN -->
+    <main class="main">
+        <div class="page-header">
+            <h1 class="page-title">افزودن بیمار (ساخت حساب کاربری + پرونده)</h1>
+            <a th:href="@{/patients}" class="btn-back">بازگشت به لیست</a>
+        </div>
+
+        <form id="addPatientForm">
+
+            <!-- ۱. اطلاعات حساب کاربری (User) -->
+            <div class="form-card">
+                <div class="section-title">۱. اطلاعات حساب کاربری (جهت ورود بیمار)</div>
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label class="form-label">نام</label>
+                        <input type="text" class="form-control" name="firstName" placeholder="نام" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">نام خانوادگی</label>
+                        <input type="text" class="form-control" name="lastName" placeholder="نام خانوادگی" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">نام کاربری</label>
+                        <input type="text" class="form-control" name="username" placeholder="مثلا ali.rezaei" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">ایمیل</label>
+                        <input type="email" class="form-control" name="email" placeholder="مثلا ali@example.com" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">رمز عبور اولیه</label>
+                        <input type="text" class="form-control" name="password" placeholder="مثلا Patient@123" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">شماره موبایل</label>
+                        <input type="text" class="form-control" name="phoneNumber" placeholder="مثلا 09121234567" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">کد ملی</label>
+                        <input type="text" class="form-control" name="nationalId" placeholder="کد ملی ۱۰ رقمی" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">تاریخ تولد</label>
+                        <input type="date" class="form-control" name="birthDate" required />
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ۲. اطلاعات پزشکی بیمار (Patient) -->
+            <div class="form-card">
+                <div class="section-title">۲. اطلاعات پرونده پزشکی</div>
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label class="form-label">جنسیت</label>
+                        <select class="form-control" name="gender" required>
+                            <option value="">-- انتخاب جنسیت --</option>
+                            <option value="MAN">مرد</option>
+                            <option value="FEMALE">زن</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">گروه خونی</label>
+                        <select class="form-control" name="bloodType" required>
+                            <option value="">-- انتخاب گروه خونی --</option>
+                            <option value="A_POSITIVE">A+</option>
+                            <option value="A_NEGATIVE">A-</option>
+                            <option value="B_POSITIVE">B+</option>
+                            <option value="B_NEGATIVE">B-</option>
+                            <option value="AB_POSITIVE">AB+</option>
+                            <option value="AB_NEGATIVE">AB-</option>
+                            <option value="O_POSITIVE">O+</option>
+                            <option value="O_NEGATIVE">O-</option>
+                            <option value="UNKNOWN">نامشخص</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">وضعیت فعلی</label>
+                        <select class="form-control" name="status">
+                            <option value="ACTIVE">فعال</option>
+                            <option value="INACTIVE">غیرفعال</option>
+                            <option value="DISCHARGED">ترخیص شده</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">حساسیت‌های دارویی/غذایی</label>
+                        <input type="text" class="form-control" name="allergies" placeholder="مثلاً: پنی‌سیلین (در صورت نداشتن خالی بگذارید)" />
+                    </div>
+
+                    <div class="form-group full">
+                        <label class="form-label">آدرس کامل</label>
+                        <textarea class="form-control" name="address" rows="3" placeholder="آدرس منزل بیمار" required></textarea>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">ثبت نام کاربری و ایجاد پرونده بیمار</button>
+            </div>
+
+        </form>
+    </main>
+</div>
+
+<script>
+    function showToast(title, desc, isError = false) {
+        const toast = document.getElementById('toast');
+        const toastTitle = document.getElementById('toastTitle');
+        const toastDesc = document.getElementById('toastDesc');
+        const toastIcon = document.getElementById('toastIcon');
+
+        toastTitle.textContent = title;
+        toastDesc.textContent = desc;
+
+        if (isError) {
+            toast.classList.add('error');
+            toastIcon.textContent = '❌';
+        } else {
+            toast.classList.remove('error');
+            toastIcon.textContent = '✅';
+        }
+
+        toast.classList.add('show');
+
+        // Hide after 6 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 6000);
+    }
+
+    document.getElementById('addPatientForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = 'در حال ذخیره‌سازی...';
+
+        const formData = new FormData(e.target);
+        const data = Object.fromElement(formData);
+
+        // ۱. ساخت Data برای اکانت User
+        const userPayload = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            phoneNumber: data.phoneNumber,
+            nationalId: data.nationalId,
+            birthDate: data.birthDate
+        };
+
+        try {
+            // مرحله اول: ثبت نام یوزر به عنوان بیمار
+            const userResponse = await fetch('/api/v1/users/register-with-roles?roles=PATIENT', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userPayload)
+            });
+
+            const userResult = await userResponse.json();
+
+            if (!userResponse.ok) {
+                let errorMsg = userResult.message || 'خطای ناشناخته در سمت سرور';
+                if (userResult.data && typeof userResult.data === 'object') {
+                    const errs = Object.values(userResult.data);
+                    if(errs.length > 0) errorMsg = errs[0];
+                }
+                showToast('خطا در ایجاد حساب کاربری', errorMsg, true);
+                btn.disabled = false;
+                btn.textContent = 'ثبت نام کاربری و ایجاد پرونده بیمار';
+                return;
+            }
+
+            const createdUserId = userResult.data.id;
+
+            // ۲. ساخت Data برای پروفایل Patient
+            const patientPayload = {
+                userId: createdUserId,
+                nationalId: data.nationalId,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                gender: data.gender,
+                phoneNumber: data.phoneNumber,
+                address: data.address,
+                bloodType: data.bloodType,
+                status: data.status || 'ACTIVE',
+                allergies: data.allergies || null,
+                birthDate: data.birthDate
+            };
+
+            // مرحله دوم: ثبت بیمار
+            const patientResponse = await fetch('/api/v1/patient', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(patientPayload)
+            });
+
+            if(patientResponse.ok) {
+                showToast('عملیات موفق', 'حساب کاربری و پرونده بیمار با موفقیت ایجاد شد!', false);
+                setTimeout(() => {
+                    window.location.href = '/patients';
+                }, 2000);
+            } else {
+                const docResult = await patientResponse.json();
+                let errorMsg = docResult.message || 'خطا در ثبت پرونده پزشکی';
+                if (docResult.data && typeof docResult.data === 'object') {
+                    const errs = Object.values(docResult.data);
+                    if(errs.length > 0) errorMsg = errs[0];
+                }
+                showToast('کاربر ایجاد شد ولی در ساخت پرونده خطا رخ داد', errorMsg, true);
+                btn.disabled = false;
+                btn.textContent = 'ثبت نام کاربری و ایجاد پرونده بیمار';
+            }
+
+        } catch (err) {
+            showToast('خطای شبکه', 'لطفا اتصال اینترنت خود را بررسی کنید.', true);
+            console.error(err);
+            btn.disabled = false;
+            btn.textContent = 'ثبت نام کاربری و ایجاد پرونده بیمار';
+        }
+    });
+
+    // Utility to convert FormData to JSON
+    Object.fromElement = function(fd) {
+        const obj = {};
+        for (let key of fd.keys()) {
+            obj[key] = fd.get(key);
+        }
+        return obj;
+    };
+</script>
+</body>
+</html>

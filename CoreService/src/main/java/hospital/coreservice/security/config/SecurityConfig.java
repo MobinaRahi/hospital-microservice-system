@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -69,9 +70,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // غیرفعال کردن CSRF برای APIها (اختیاری)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
+                // 🔑 تغییر ۱: سشن‌ها را برای فرم لاگین فعال می‌کنیم
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
                 .authorizeHttpRequests(auth -> auth
@@ -105,6 +107,8 @@ public class SecurityConfig {
 
                         // ===== APIهای خاص که باید عمومی باشند =====
                         .requestMatchers("/api/v1/patient/complete-registration").permitAll()
+                        .requestMatchers("/api/v1/users/register-with-roles").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/patient").permitAll()
 
                         // ===== صفحات نیازمند لاگین =====
                         .requestMatchers(
@@ -119,7 +123,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
                         .requestMatchers("/api/v1/nurse/**").hasAnyRole("NURSE", "ADMIN")
-                        .requestMatchers("/api/v1/patient/**").hasAnyRole("PATIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/patient/**").hasAnyRole("PATIENT", "ADMIN", "DOCTOR", "NURSE")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/patient/**").hasAnyRole("PATIENT", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/patient/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )
