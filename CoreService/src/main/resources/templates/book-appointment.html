@@ -1,1197 +1,1197 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>رزرو نوبت – بیمارستان فوق‌تخصصی نووا</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
     />
     <style>
-      :root {
-        --teal: #2a9d8f;
-        --teal-light: #4db6a8;
-        --teal-dark: #1e7268;
-        --teal-pale: #e8f5f3;
-        --navy: #1e3040;
-        --white: #ffffff;
-        --bg: #eff4f8;
-        --gray-100: #f7fafb;
-        --gray-200: #eef3f5;
-        --gray-400: #a0b4bc;
-        --gray-600: #5a7585;
-        --red: #ef4444;
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.1);
-        --radius: 12px;
-        --radius-lg: 18px;
-        --sidebar-w: 260px;
-      }
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Vazirmatn", Tahoma, sans-serif;
-        background: var(--bg);
-        color: var(--navy);
-        direction: rtl;
-        line-height: 1.6;
-        min-height: 100vh;
-      }
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
+        :root {
+            --teal: #2a9d8f;
+            --teal-light: #4db6a8;
+            --teal-dark: #1e7268;
+            --teal-pale: #e8f5f3;
+            --navy: #1e3040;
+            --white: #ffffff;
+            --bg: #eff4f8;
+            --gray-100: #f7fafb;
+            --gray-200: #eef3f5;
+            --gray-400: #a0b4bc;
+            --gray-600: #5a7585;
+            --red: #ef4444;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --radius-lg: 18px;
+            --sidebar-w: 260px;
+        }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Vazirmatn", Tahoma, sans-serif;
+            background: var(--bg);
+            color: var(--navy);
+            direction: rtl;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-      /* ══ SIDEBAR ══ */
-      .sidebar {
-        width: var(--sidebar-w);
-        background: linear-gradient(
-          170deg,
-          #1a2d3e 0%,
-          #0d1a25 60%,
-          #071018 100%
-        );
-        color: white;
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 200;
-        overflow-y: auto;
-        border-left: 1px solid rgba(255, 255, 255, 0.05);
-        box-shadow: -4px 0 32px rgba(0, 0, 0, 0.25);
-      }
-      .sidebar::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        height: 200px;
-        background: radial-gradient(
-          ellipse at top right,
-          rgba(42, 157, 143, 0.18) 0%,
-          transparent 65%
-        );
-        pointer-events: none;
-      }
-      .sidebar-logo {
-        padding: 22px 18px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        position: relative;
-      }
-      .logo-icon-wrap {
-        width: 42px;
-        height: 42px;
-        background: linear-gradient(
-          135deg,
-          rgba(42, 157, 143, 0.4),
-          rgba(42, 157, 143, 0.15)
-        );
-        border-radius: 12px;
-        border: 1px solid rgba(42, 157, 143, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 14px rgba(42, 157, 143, 0.25);
-      }
-      .logo-text-wrap {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.3;
-      }
-      .logo-main {
-        font-size: 14px;
-        font-weight: 800;
-        color: white;
-      }
-      .logo-sub {
-        font-size: 11px;
-        color: var(--teal-light);
-        font-weight: 500;
-      }
-      .sidebar-section {
-        padding: 20px 18px 7px;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1.4px;
-        color: rgba(255, 255, 255, 0.25);
-        text-transform: uppercase;
-      }
-      .sidebar-link {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        padding: 11px 14px;
-        border-radius: 11px;
-        font-size: 13.5px;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.6);
-        margin: 2px 10px;
-        transition: all 0.2s;
-        cursor: pointer;
-      }
-      .sidebar-link:hover {
-        background: rgba(255, 255, 255, 0.06);
-        color: white;
-        transform: translateX(-2px);
-      }
-      .sidebar-link.active {
-        background: linear-gradient(135deg, #2a9d8f, #1e7268);
-        color: white;
-        font-weight: 700;
-        box-shadow: 0 4px 16px rgba(42, 157, 143, 0.35);
-      }
-      .link-icon {
-        width: 34px;
-        height: 34px;
-        background: rgba(255, 255, 255, 0.07);
-        border-radius: 9px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        font-size: 16px;
-      }
-      .sidebar-link.active .link-icon {
-        background: rgba(255, 255, 255, 0.18);
-      }
-      .sidebar-badge {
-        margin-right: auto;
-        background: var(--teal);
-        color: white;
-        font-size: 10px;
-        font-weight: 800;
-        padding: 2px 8px;
-        border-radius: 20px;
-      }
-      .sidebar-badge.red {
-        background: var(--red);
-      }
-      .sidebar-footer {
-        margin-top: auto;
-        padding: 14px 12px;
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
-      }
-      .sidebar-user {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.05);
-        cursor: pointer;
-        transition: background 0.2s;
-      }
-      .sidebar-user:hover {
-        background: rgba(255, 255, 255, 0.09);
-      }
-      .user-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, var(--teal), var(--teal-dark));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 800;
-        color: white;
-        flex-shrink: 0;
-      }
-      .user-info {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.35;
-      }
-      .user-name {
-        font-size: 13px;
-        font-weight: 700;
-        color: white;
-      }
-      .user-role {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.4);
-      }
+        /* ══ SIDEBAR ══ */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: linear-gradient(
+                    170deg,
+                    #1a2d3e 0%,
+                    #0d1a25 60%,
+                    #071018 100%
+            );
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 200;
+            overflow-y: auto;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: -4px 0 32px rgba(0, 0, 0, 0.25);
+        }
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 200px;
+            background: radial-gradient(
+                    ellipse at top right,
+                    rgba(42, 157, 143, 0.18) 0%,
+                    transparent 65%
+            );
+            pointer-events: none;
+        }
+        .sidebar-logo {
+            padding: 22px 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+        .logo-icon-wrap {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(
+                    135deg,
+                    rgba(42, 157, 143, 0.4),
+                    rgba(42, 157, 143, 0.15)
+            );
+            border-radius: 12px;
+            border: 1px solid rgba(42, 157, 143, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(42, 157, 143, 0.25);
+        }
+        .logo-text-wrap {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.3;
+        }
+        .logo-main {
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+        }
+        .logo-sub {
+            font-size: 11px;
+            color: var(--teal-light);
+            font-weight: 500;
+        }
+        .sidebar-section {
+            padding: 20px 18px 7px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
+        }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 14px;
+            border-radius: 11px;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            margin: 2px 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: white;
+            transform: translateX(-2px);
+        }
+        .sidebar-link.active {
+            background: linear-gradient(135deg, #2a9d8f, #1e7268);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 4px 16px rgba(42, 157, 143, 0.35);
+        }
+        .link-icon {
+            width: 34px;
+            height: 34px;
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+        .sidebar-link.active .link-icon {
+            background: rgba(255, 255, 255, 0.18);
+        }
+        .sidebar-badge {
+            margin-right: auto;
+            background: var(--teal);
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        .sidebar-badge.red {
+            background: var(--red);
+        }
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 14px 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .sidebar-user:hover {
+            background: rgba(255, 255, 255, 0.09);
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.35;
+        }
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+        }
+        .user-role {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
 
-      /* ══ LAYOUT ══ */
-      .layout {
-        display: flex;
-        min-height: 100vh;
-      }
-      .main {
-        flex: 1;
-        margin-right: var(--sidebar-w);
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-      }
+        /* ══ LAYOUT ══ */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .main {
+            flex: 1;
+            margin-right: var(--sidebar-w);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-      /* ══ TOPBAR ══ */
-      .topbar {
-        height: 64px;
-        background: var(--white);
-        border-bottom: 1px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 28px;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        box-shadow: var(--shadow-sm);
-      }
-      .breadcrumb-nav {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        color: var(--gray-400);
-      }
-      .breadcrumb-nav a {
-        color: var(--teal);
-        font-weight: 600;
-      }
-      .breadcrumb-nav span {
-        font-weight: 600;
-        color: var(--navy);
-      }
-      .topbar-btn {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-        background: var(--bg);
-        border: 1.5px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        position: relative;
-        transition: all 0.2s;
-        color: var(--gray-600);
-      }
-      .topbar-btn:hover {
-        border-color: var(--teal);
-        color: var(--teal);
-      }
-      .notif-dot {
-        width: 7px;
-        height: 7px;
-        background: var(--red);
-        border-radius: 50%;
-        position: absolute;
-        top: 7px;
-        left: 7px;
-        border: 1.5px solid white;
-      }
-      .topbar-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+        /* ══ TOPBAR ══ */
+        .topbar {
+            height: 64px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+        .breadcrumb-nav a {
+            color: var(--teal);
+            font-weight: 600;
+        }
+        .breadcrumb-nav span {
+            font-weight: 600;
+            color: var(--navy);
+        }
+        .topbar-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--bg);
+            border: 1.5px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+            color: var(--gray-600);
+        }
+        .topbar-btn:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+        .notif-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--red);
+            border-radius: 50%;
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            border: 1.5px solid white;
+        }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-      /* ══ CONTENT ══ */
-      .page-content {
-        flex: 1;
-        padding: 28px 28px 40px;
-      }
-      .page-center {
-        max-width: 820px;
-        margin: 0 auto;
-      }
+        /* ══ CONTENT ══ */
+        .page-content {
+            flex: 1;
+            padding: 28px 28px 40px;
+        }
+        .page-center {
+            max-width: 820px;
+            margin: 0 auto;
+        }
 
-      /* ══ PAGE HEADER ══ */
-      .page-hero {
-        background: linear-gradient(
-          135deg,
-          var(--teal-dark) 0%,
-          var(--teal) 60%,
-          var(--teal-light) 100%
-        );
-        border-radius: var(--radius-lg);
-        padding: 32px 36px;
-        color: white;
-        margin-bottom: 28px;
-        position: relative;
-        overflow: hidden;
-      }
-      .page-hero::before {
-        content: "";
-        position: absolute;
-        top: -40px;
-        left: -40px;
-        width: 200px;
-        height: 200px;
-        background: rgba(255, 255, 255, 0.06);
-        border-radius: 50%;
-      }
-      .page-hero-inner {
-        position: relative;
-        z-index: 1;
-      }
-      .page-hero-title {
-        font-size: 24px;
-        font-weight: 900;
-        margin-bottom: 5px;
-      }
-      .page-hero-sub {
-        font-size: 14px;
-        opacity: 0.82;
-      }
+        /* ══ PAGE HEADER ══ */
+        .page-hero {
+            background: linear-gradient(
+                    135deg,
+                    var(--teal-dark) 0%,
+                    var(--teal) 60%,
+                    var(--teal-light) 100%
+            );
+            border-radius: var(--radius-lg);
+            padding: 32px 36px;
+            color: white;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: "";
+            position: absolute;
+            top: -40px;
+            left: -40px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+        }
+        .page-hero-inner {
+            position: relative;
+            z-index: 1;
+        }
+        .page-hero-title {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+        .page-hero-sub {
+            font-size: 14px;
+            opacity: 0.82;
+        }
 
-      /* ══ STEPS BAR ══ */
-      .steps-bar {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0;
-        margin-bottom: 28px;
-        background: var(--white);
-        border-radius: var(--radius);
-        padding: 20px;
-        box-shadow: var(--shadow-sm);
-      }
-      .step {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .step-num {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--gray-200);
-        color: var(--gray-400);
-        font-size: 13px;
-        font-weight: 800;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
-      }
-      .step.active .step-num {
-        background: var(--teal);
-        color: white;
-        box-shadow: 0 3px 10px rgba(42, 157, 143, 0.35);
-      }
-      .step.done .step-num {
-        background: #16a34a;
-        color: white;
-      }
-      .step-label {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--gray-400);
-      }
-      .step.active .step-label {
-        color: var(--teal);
-      }
-      .step.done .step-label {
-        color: #16a34a;
-      }
-      .step-line {
-        width: 56px;
-        height: 2px;
-        background: var(--gray-200);
-        margin: 0 8px;
-      }
-      .step.done ~ .step .step-line {
-        background: #16a34a;
-      }
+        /* ══ STEPS BAR ══ */
+        .steps-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 28px;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            color: var(--gray-400);
+            font-size: 13px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .step.active .step-num {
+            background: var(--teal);
+            color: white;
+            box-shadow: 0 3px 10px rgba(42, 157, 143, 0.35);
+        }
+        .step.done .step-num {
+            background: #16a34a;
+            color: white;
+        }
+        .step-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--gray-400);
+        }
+        .step.active .step-label {
+            color: var(--teal);
+        }
+        .step.done .step-label {
+            color: #16a34a;
+        }
+        .step-line {
+            width: 56px;
+            height: 2px;
+            background: var(--gray-200);
+            margin: 0 8px;
+        }
+        .step.done ~ .step .step-line {
+            background: #16a34a;
+        }
 
-      /* ══ ALERT ══ */
-      .alert-success {
-        background: #f0fff4;
-        border: 1.5px solid #86efac;
-        border-radius: var(--radius);
-        padding: 16px 20px;
-        color: #15803d;
-        font-size: 14px;
-        font-weight: 700;
-        margin-bottom: 20px;
-        display: none;
-      }
-      .alert-success.show {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+        /* ══ ALERT ══ */
+        .alert-success {
+            background: #f0fff4;
+            border: 1.5px solid #86efac;
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            color: #15803d;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .alert-success.show {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-      /* ══ BOOK CARD ══ */
-      .book-card {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-sm);
-        padding: 36px;
-      }
-      .form-section {
-        margin-bottom: 32px;
-      }
-      .form-section h3 {
-        font-size: 15px;
-        font-weight: 800;
-        color: var(--navy);
-        margin-bottom: 18px;
-        padding-bottom: 12px;
-        border-bottom: 2px solid var(--teal-pale);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .form-section h3 svg {
-        color: var(--teal);
-        flex-shrink: 0;
-      }
+        /* ══ BOOK CARD ══ */
+        .book-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 36px;
+        }
+        .form-section {
+            margin-bottom: 32px;
+        }
+        .form-section h3 {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--teal-pale);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-section h3 svg {
+            color: var(--teal);
+            flex-shrink: 0;
+        }
 
-      .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-      }
-      .form-row.three {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-      .form-row.single {
-        grid-template-columns: 1fr;
-      }
-      .fgroup {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .fgroup label {
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--navy);
-      }
-      .fgroup input,
-      .fgroup select,
-      .fgroup textarea {
-        padding: 12px 14px;
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        font-size: 14px;
-        font-family: inherit;
-        color: var(--navy);
-        background: var(--gray-100);
-        transition: border-color 0.2s, box-shadow 0.2s;
-        outline: none;
-        direction: rtl;
-      }
-      .fgroup input:focus,
-      .fgroup select:focus,
-      .fgroup textarea:focus {
-        border-color: var(--teal);
-        box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
-        background: var(--white);
-      }
-      .fgroup textarea {
-        resize: vertical;
-        min-height: 90px;
-      }
-      .fgroup small {
-        font-size: 11px;
-        color: var(--gray-400);
-      }
-      .required {
-        color: var(--red);
-        margin-right: 2px;
-      }
-
-      /* ══ TYPE CARDS ══ */
-      .type-cards {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-      }
-      .type-card {
-        border: 2px solid var(--gray-200);
-        border-radius: var(--radius);
-        padding: 16px 12px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .type-card:hover {
-        border-color: var(--teal);
-        background: var(--teal-pale);
-      }
-      .type-card input[type="radio"] {
-        display: none;
-      }
-      .type-card.selected {
-        border-color: var(--teal);
-        background: var(--teal-pale);
-      }
-      .type-card-icon {
-        font-size: 26px;
-        margin-bottom: 6px;
-      }
-      .type-card-label {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--navy);
-      }
-
-      /* ══ TIME SLOTS ══ */
-      .time-slots {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 6px;
-      }
-      .time-slot {
-        padding: 8px 16px;
-        border: 1.5px solid var(--gray-200);
-        border-radius: 8px;
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--gray-600);
-        cursor: pointer;
-        transition: all 0.15s;
-      }
-      .time-slot:hover {
-        border-color: var(--teal);
-        color: var(--teal);
-      }
-      .time-slot.selected {
-        background: var(--teal);
-        color: white;
-        border-color: var(--teal);
-      }
-      .time-slot.taken {
-        background: var(--gray-200);
-        color: var(--gray-400);
-        cursor: not-allowed;
-        text-decoration: line-through;
-      }
-
-      /* ══ FOOTER ══ */
-      .book-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 32px;
-        padding-top: 24px;
-        border-top: 1px solid var(--gray-200);
-      }
-      .btn-back {
-        background: none;
-        border: 1.5px solid var(--gray-200);
-        color: var(--gray-600);
-        padding: 12px 24px;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        font-family: inherit;
-        transition: all 0.2s;
-      }
-      .btn-back:hover {
-        border-color: var(--gray-400);
-        color: var(--navy);
-      }
-      .btn-submit {
-        background: linear-gradient(135deg, var(--teal), var(--teal-dark));
-        color: white;
-        border: none;
-        padding: 14px 40px;
-        border-radius: 12px;
-        font-size: 15px;
-        font-weight: 800;
-        cursor: pointer;
-        font-family: inherit;
-        transition: all 0.2s;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 4px 16px rgba(42, 157, 143, 0.3);
-      }
-      .btn-submit:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 8px 24px rgba(42, 157, 143, 0.4);
-      }
-
-      @media (max-width: 640px) {
-        .form-row,
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
         .form-row.three {
-          grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
         }
+        .form-row.single {
+            grid-template-columns: 1fr;
+        }
+        .fgroup {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .fgroup label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .fgroup input,
+        .fgroup select,
+        .fgroup textarea {
+            padding: 12px 14px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--navy);
+            background: var(--gray-100);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+            direction: rtl;
+        }
+        .fgroup input:focus,
+        .fgroup select:focus,
+        .fgroup textarea:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+            background: var(--white);
+        }
+        .fgroup textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+        .fgroup small {
+            font-size: 11px;
+            color: var(--gray-400);
+        }
+        .required {
+            color: var(--red);
+            margin-right: 2px;
+        }
+
+        /* ══ TYPE CARDS ══ */
         .type-cards {
-          grid-template-columns: 1fr 1fr;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
         }
-      }
+        .type-card {
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .type-card:hover {
+            border-color: var(--teal);
+            background: var(--teal-pale);
+        }
+        .type-card input[type="radio"] {
+            display: none;
+        }
+        .type-card.selected {
+            border-color: var(--teal);
+            background: var(--teal-pale);
+        }
+        .type-card-icon {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+        .type-card-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        /* ══ TIME SLOTS ══ */
+        .time-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 6px;
+        }
+        .time-slot {
+            padding: 8px 16px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .time-slot:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+        .time-slot.selected {
+            background: var(--teal);
+            color: white;
+            border-color: var(--teal);
+        }
+        .time-slot.taken {
+            background: var(--gray-200);
+            color: var(--gray-400);
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        /* ══ FOOTER ══ */
+        .book-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-200);
+        }
+        .btn-back {
+            background: none;
+            border: 1.5px solid var(--gray-200);
+            color: var(--gray-600);
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .btn-back:hover {
+            border-color: var(--gray-400);
+            color: var(--navy);
+        }
+        .btn-submit {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 16px rgba(42, 157, 143, 0.3);
+        }
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(42, 157, 143, 0.4);
+        }
+
+        @media (max-width: 640px) {
+            .form-row,
+            .form-row.three {
+                grid-template-columns: 1fr;
+            }
+            .type-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <div class="layout">
-      <!-- ══ SIDEBAR ══ -->
-      <aside class="sidebar">
+</head>
+<body>
+<div class="layout">
+    <!-- ══ SIDEBAR ══ -->
+    <aside class="sidebar">
         <div class="sidebar-logo">
-          <div class="logo-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
-              <path
-                d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
-                fill="#2A9D8F"
-              />
-              <path
-                d="M14 8v12M8 14h12"
-                stroke="white"
-                stroke-width="2.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          </div>
-          <div class="logo-text-wrap">
-            <span class="logo-main">بیمارستان نووا</span>
-            <span class="logo-sub">سامانه مدیریت</span>
-          </div>
+            <div class="logo-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+                    <path
+                            d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
+                            fill="#2A9D8F"
+                    />
+                    <path
+                            d="M14 8v12M8 14h12"
+                            stroke="white"
+                            stroke-width="2.5"
+                            stroke-linecap="round"
+                    />
+                </svg>
+            </div>
+            <div class="logo-text-wrap">
+                <span class="logo-main">بیمارستان نووا</span>
+                <span class="logo-sub">سامانه مدیریت</span>
+            </div>
         </div>
 
         <div class="sidebar-section">منوی اصلی</div>
         <a href="#" class="sidebar-link"
-          ><div class="link-icon">📊</div>
-          داشبورد</a
+        ><div class="link-icon">📊</div>
+            داشبورد</a
         >
         <a href="#" class="sidebar-link active">
-          <div class="link-icon">📅</div>
-          نوبت‌دهی
-          <span class="sidebar-badge red">۱۲</span>
+            <div class="link-icon">📅</div>
+            نوبت‌دهی
+            <span class="sidebar-badge red">۱۲</span>
         </a>
         <a href="#" class="sidebar-link"
-          ><div class="link-icon">🩺</div>
-          پزشکان</a
+        ><div class="link-icon">🩺</div>
+            پزشکان</a
         >
         <a href="#" class="sidebar-link"
-          ><div class="link-icon">👤</div>
-          بیماران<span class="sidebar-badge">۵</span></a
+        ><div class="link-icon">👤</div>
+            بیماران<span class="sidebar-badge">۵</span></a
         >
         <a href="#" class="sidebar-link"
-          ><div class="link-icon">🏥</div>
-          بخش‌ها</a
+        ><div class="link-icon">🏥</div>
+            بخش‌ها</a
         >
         <div class="sidebar-section">مدیریت</div>
         <a th:href="@{/rooms}" class="sidebar-link"
-          ><div class="link-icon">🛏</div>
-          اتاق‌ها</a
+        ><div class="link-icon">🛏</div>
+            اتاق‌ها</a
         >
         <a th:href="@{/nurses}" class="sidebar-link"
-          ><div class="link-icon">👩‍⚕️</div>
-          پرستاران</a
+        ><div class="link-icon">👩‍⚕️</div>
+            پرستاران</a
         >
         <a th:href="@{/shifts}" class="sidebar-link"
-          ><div class="link-icon">⏰</div>
-          شیفت‌ها</a
+        ><div class="link-icon">⏰</div>
+            شیفت‌ها</a
         >
         <a th:href="@{/appointments}" class="sidebar-link"
-          ><div class="link-icon">📋</div>
-          نوبت‌ها</a
+        ><div class="link-icon">📋</div>
+            نوبت‌ها</a
         >
         <div class="sidebar-section">سیستم</div>
         <a href="#" class="sidebar-link"
-          ><div class="link-icon">👥</div>
-          کاربران</a
+        ><div class="link-icon">👥</div>
+            کاربران</a
         >
         <a href="#" class="sidebar-link"
-          ><div class="link-icon">🔐</div>
-          نقش‌ها</a
+        ><div class="link-icon">🔐</div>
+            نقش‌ها</a
         >
 
         <div class="sidebar-footer">
-          <div class="sidebar-user">
-            <div class="user-avatar">م</div>
-            <div class="user-info">
-              <span class="user-name">مدیر سیستم</span>
-              <span class="user-role">مدیر ارشد</span>
+            <div class="sidebar-user">
+                <div class="user-avatar">م</div>
+                <div class="user-info">
+                    <span class="user-name">مدیر سیستم</span>
+                    <span class="user-role">مدیر ارشد</span>
+                </div>
             </div>
-          </div>
         </div>
-      </aside>
+    </aside>
 
-      <!-- ══ MAIN ══ -->
-      <main class="main">
+    <!-- ══ MAIN ══ -->
+    <main class="main">
         <!-- TOPBAR -->
         <div class="topbar">
-          <nav class="breadcrumb-nav">
-            <a href="#">خانه</a>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-            <span>رزرو نوبت</span>
-          </nav>
-          <div class="topbar-left">
-            <div class="topbar-btn">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <div class="notif-dot"></div>
+            <nav class="breadcrumb-nav">
+                <a href="#">خانه</a>
+                <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                >
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+                <span>رزرو نوبت</span>
+            </nav>
+            <div class="topbar-left">
+                <div class="topbar-btn">
+                    <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                    >
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    <div class="notif-dot"></div>
+                </div>
+                <div class="topbar-btn">
+                    <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                    >
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                    </svg>
+                </div>
             </div>
-            <div class="topbar-btn">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
-              </svg>
-            </div>
-          </div>
         </div>
 
         <!-- PAGE CONTENT -->
         <div class="page-content">
-          <div class="page-center">
-            <!-- HERO -->
-            <div class="page-hero">
-              <div class="page-hero-inner">
-                <div class="page-hero-title">رزرو نوبت</div>
-                <div class="page-hero-sub">
-                  در چند مرحله ساده با متخصصان ما وقت ملاقات بگیرید
-                </div>
-              </div>
-            </div>
-
-            <!-- STEPS BAR -->
-            <div class="steps-bar">
-              <div class="step done" id="step-ind-1">
-                <div class="step-num">✓</div>
-                <div class="step-label">انتخاب پزشک</div>
-              </div>
-              <div class="step-line"></div>
-              <div class="step active" id="step-ind-2">
-                <div class="step-num">۲</div>
-                <div class="step-label">زمان‌بندی</div>
-              </div>
-              <div class="step-line"></div>
-              <div class="step" id="step-ind-3">
-                <div class="step-num">۳</div>
-                <div class="step-label">تأیید نهایی</div>
-              </div>
-            </div>
-
-            <!-- SUCCESS ALERT -->
-            <div class="alert-success" id="successAlert">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
-              نوبت شما با موفقیت ثبت شد! تأییدیه به اطلاعات تماس شما ارسال خواهد
-              شد.
-            </div>
-
-            <!-- FORM CARD -->
-            <div class="book-card">
-              <form
-                id="bookingForm"
-                th:action="@{/api/v1/appointments}"
-                method="post"
-                onsubmit="handleSubmit(event)"
-              >
-                <!-- Appointment Type -->
-                <div class="form-section">
-                  <h3>
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <rect x="3" y="4" width="18" height="18" rx="2" />
-                      <line x1="16" y1="2" x2="16" y2="6" />
-                      <line x1="8" y1="2" x2="8" y2="6" />
-                      <line x1="3" y1="10" x2="21" y2="10" />
-                    </svg>
-                    نوع ویزیت
-                  </h3>
-                  <div class="type-cards">
-                    <label
-                      class="type-card selected"
-                      onclick="selectType(this, 'IN_PERSON')"
-                    >
-                      <input
-                        type="radio"
-                        name="type"
-                        value="IN_PERSON"
-                        checked
-                      />
-                      <div class="type-card-icon">🏥</div>
-                      <div class="type-card-label">حضوری</div>
-                    </label>
-                    <label
-                      class="type-card"
-                      onclick="selectType(this, 'VIDEO')"
-                    >
-                      <input type="radio" name="type" value="VIDEO" />
-                      <div class="type-card-icon">📹</div>
-                      <div class="type-card-label">ویدیویی</div>
-                    </label>
-                    <label
-                      class="type-card"
-                      onclick="selectType(this, 'PHONE')"
-                    >
-                      <input type="radio" name="type" value="PHONE" />
-                      <div class="type-card-icon">📞</div>
-                      <div class="type-card-label">تلفنی</div>
-                    </label>
-                    <label
-                      class="type-card"
-                      onclick="selectType(this, 'EMERGENCY')"
-                    >
-                      <input type="radio" name="type" value="EMERGENCY" />
-                      <div class="type-card-icon">🚨</div>
-                      <div class="type-card-label">اورژانس</div>
-                    </label>
-                  </div>
+            <div class="page-center">
+                <!-- HERO -->
+                <div class="page-hero">
+                    <div class="page-hero-inner">
+                        <div class="page-hero-title">رزرو نوبت</div>
+                        <div class="page-hero-sub">
+                            در چند مرحله ساده با متخصصان ما وقت ملاقات بگیرید
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Doctor & Department -->
-                <div class="form-section">
-                  <h3>
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg>
-                    پزشک و بخش
-                  </h3>
-                  <div class="form-row">
-                    <div class="fgroup">
-                      <label>بخش <span class="required">*</span></label>
-                      <select
-                        name="departmentId"
-                        id="departmentSelect"
-                        required
-                        onchange="loadDoctors()"
-                      >
-                        <option value="">— انتخاب بخش —</option>
-                        <option value="1">قلب و عروق</option>
-                        <option value="2">مغز و اعصاب</option>
-                        <option value="3">اطفال</option>
-                        <option value="4">اورژانس</option>
-                        <option value="5">ارتوپدی</option>
-                        <option value="6">رادیولوژی</option>
-                        <option value="7">روانپزشکی</option>
-                        <option value="8">داخلی</option>
-                        <option value="9">جراحی عمومی</option>
-                        <option value="10">گوارش</option>
-                      </select>
+                <!-- STEPS BAR -->
+                <div class="steps-bar">
+                    <div class="step done" id="step-ind-1">
+                        <div class="step-num">✓</div>
+                        <div class="step-label">انتخاب پزشک</div>
                     </div>
-                    <div class="fgroup">
-                      <label>پزشک <span class="required">*</span></label>
-                      <select name="doctorId" id="doctorSelect" required>
-                        <option value="">— انتخاب پزشک —</option>
-                        <option value="1">دکتر سارا احمدی</option>
-                        <option value="2">دکتر جیمز ویلسون</option>
-                        <option value="3">دکتر اما ویلیامز</option>
-                        <option value="4">دکتر علی حسینی</option>
-                      </select>
-                      <small
-                        >ابتدا بخش را انتخاب کنید تا پزشکان فیلتر شوند</small
-                      >
+                    <div class="step-line"></div>
+                    <div class="step active" id="step-ind-2">
+                        <div class="step-num">۲</div>
+                        <div class="step-label">زمان‌بندی</div>
                     </div>
-                  </div>
+                    <div class="step-line"></div>
+                    <div class="step" id="step-ind-3">
+                        <div class="step-num">۳</div>
+                        <div class="step-label">تأیید نهایی</div>
+                    </div>
                 </div>
 
-                <!-- Date & Time -->
-                <div class="form-section">
-                  <h3>
+                <!-- SUCCESS ALERT -->
+                <div class="alert-success" id="successAlert">
                     <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
                     >
-                      <circle cx="12" cy="12" r="10" />
-                      <polyline points="12 6 12 12 16 14" />
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
-                    تاریخ و ساعت
-                  </h3>
-                  <div class="form-row">
-                    <div class="fgroup">
-                      <label>تاریخ نوبت <span class="required">*</span></label>
-                      <input
-                        type="date"
-                        name="appointmentDate"
-                        id="apptDate"
-                        required
-                        min=""
-                        onchange="loadTimeSlots()"
-                      />
-                    </div>
-                    <div class="fgroup">
-                      <label>ساعت شروع <span class="required">*</span></label>
-                      <input
-                        type="time"
-                        name="startTime"
-                        id="startTime"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="fgroup" style="margin-top: 16px">
-                    <label>ساعت‌های خالی</label>
-                    <div class="time-slots" id="timeSlots">
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'09:00','09:30')"
-                        >۰۹:۰۰</span
-                      >
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'09:30','10:00')"
-                        >۰۹:۳۰</span
-                      >
-                      <span class="time-slot taken">۱۰:۰۰</span>
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'10:30','11:00')"
-                        >۱۰:۳۰</span
-                      >
-                      <span class="time-slot taken">۱۱:۰۰</span>
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'11:30','12:00')"
-                        >۱۱:۳۰</span
-                      >
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'13:00','13:30')"
-                        >۱۳:۰۰</span
-                      >
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'13:30','14:00')"
-                        >۱۳:۳۰</span
-                      >
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'14:00','14:30')"
-                        >۱۴:۰۰</span
-                      >
-                      <span class="time-slot taken">۱۴:۳۰</span>
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'15:00','15:30')"
-                        >۱۵:۰۰</span
-                      >
-                      <span
-                        class="time-slot"
-                        onclick="selectSlot(this,'15:30','16:00')"
-                        >۱۵:۳۰</span
-                      >
-                    </div>
-                    <input type="hidden" name="endTime" id="endTime" />
-                  </div>
+                    نوبت شما با موفقیت ثبت شد! تأییدیه به اطلاعات تماس شما ارسال خواهد
+                    شد.
                 </div>
 
-                <!-- Patient Info -->
-                <div class="form-section">
-                  <h3>
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
+                <!-- FORM CARD -->
+                <div class="book-card">
+                    <form
+                            id="bookingForm"
+                            th:action="@{/api/v1/appointments}"
+                            method="post"
+                            onsubmit="handleSubmit(event)"
                     >
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                      <circle cx="12" cy="7" r="4" />
-                    </svg>
-                    اطلاعات بیمار
-                  </h3>
-                  <div class="form-row">
-                    <div class="fgroup">
-                      <label>کد بیمار <span class="required">*</span></label>
-                      <input
-                        type="number"
-                        name="patientId"
-                        placeholder="کد بیمار را وارد کنید"
-                        required
-                      />
-                    </div>
-                    <div class="fgroup">
-                      <label>نام بیمار</label>
-                      <input
-                        type="text"
-                        placeholder="از روی کد تکمیل می‌شود"
-                        readonly
-                        style="
+                        <!-- Appointment Type -->
+                        <div class="form-section">
+                            <h3>
+                                <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                >
+                                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                                    <line x1="16" y1="2" x2="16" y2="6" />
+                                    <line x1="8" y1="2" x2="8" y2="6" />
+                                    <line x1="3" y1="10" x2="21" y2="10" />
+                                </svg>
+                                نوع ویزیت
+                            </h3>
+                            <div class="type-cards">
+                                <label
+                                        class="type-card selected"
+                                        onclick="selectType(this, 'IN_PERSON')"
+                                >
+                                    <input
+                                            type="radio"
+                                            name="type"
+                                            value="IN_PERSON"
+                                            checked
+                                    />
+                                    <div class="type-card-icon">🏥</div>
+                                    <div class="type-card-label">حضوری</div>
+                                </label>
+                                <label
+                                        class="type-card"
+                                        onclick="selectType(this, 'VIDEO')"
+                                >
+                                    <input type="radio" name="type" value="VIDEO" />
+                                    <div class="type-card-icon">📹</div>
+                                    <div class="type-card-label">ویدیویی</div>
+                                </label>
+                                <label
+                                        class="type-card"
+                                        onclick="selectType(this, 'PHONE')"
+                                >
+                                    <input type="radio" name="type" value="PHONE" />
+                                    <div class="type-card-icon">📞</div>
+                                    <div class="type-card-label">تلفنی</div>
+                                </label>
+                                <label
+                                        class="type-card"
+                                        onclick="selectType(this, 'EMERGENCY')"
+                                >
+                                    <input type="radio" name="type" value="EMERGENCY" />
+                                    <div class="type-card-icon">🚨</div>
+                                    <div class="type-card-label">اورژانس</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Doctor & Department -->
+                        <div class="form-section">
+                            <h3>
+                                <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                >
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                                پزشک و بخش
+                            </h3>
+                            <div class="form-row">
+                                <div class="fgroup">
+                                    <label>بخش <span class="required">*</span></label>
+                                    <select
+                                            name="departmentId"
+                                            id="departmentSelect"
+                                            required
+                                            onchange="loadDoctors()"
+                                    >
+                                        <option value="">— انتخاب بخش —</option>
+                                        <option value="1">قلب و عروق</option>
+                                        <option value="2">مغز و اعصاب</option>
+                                        <option value="3">اطفال</option>
+                                        <option value="4">اورژانس</option>
+                                        <option value="5">ارتوپدی</option>
+                                        <option value="6">رادیولوژی</option>
+                                        <option value="7">روانپزشکی</option>
+                                        <option value="8">داخلی</option>
+                                        <option value="9">جراحی عمومی</option>
+                                        <option value="10">گوارش</option>
+                                    </select>
+                                </div>
+                                <div class="fgroup">
+                                    <label>پزشک <span class="required">*</span></label>
+                                    <select name="doctorId" id="doctorSelect" required>
+                                        <option value="">— انتخاب پزشک —</option>
+                                        <option value="1">دکتر سارا احمدی</option>
+                                        <option value="2">دکتر جیمز ویلسون</option>
+                                        <option value="3">دکتر اما ویلیامز</option>
+                                        <option value="4">دکتر علی حسینی</option>
+                                    </select>
+                                    <small
+                                    >ابتدا بخش را انتخاب کنید تا پزشکان فیلتر شوند</small
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <div class="form-section">
+                            <h3>
+                                <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <polyline points="12 6 12 12 16 14" />
+                                </svg>
+                                تاریخ و ساعت
+                            </h3>
+                            <div class="form-row">
+                                <div class="fgroup">
+                                    <label>تاریخ نوبت <span class="required">*</span></label>
+                                    <input
+                                            type="date"
+                                            name="appointmentDate"
+                                            id="apptDate"
+                                            required
+                                            min=""
+                                            onchange="loadTimeSlots()"
+                                    />
+                                </div>
+                                <div class="fgroup">
+                                    <label>ساعت شروع <span class="required">*</span></label>
+                                    <input
+                                            type="time"
+                                            name="startTime"
+                                            id="startTime"
+                                            required
+                                    />
+                                </div>
+                            </div>
+                            <div class="fgroup" style="margin-top: 16px">
+                                <label>ساعت‌های خالی</label>
+                                <div class="time-slots" id="timeSlots">
+                      <span
+                              class="time-slot"
+                              onclick="selectSlot(this,'09:00','09:30')"
+                      >۰۹:۰۰</span
+                      >
+                                    <span
+                                            class="time-slot"
+                                            onclick="selectSlot(this,'09:30','10:00')"
+                                    >۰۹:۳۰</span
+                                    >
+                                    <span class="time-slot taken">۱۰:۰۰</span>
+                                    <span
+                                            class="time-slot"
+                                            onclick="selectSlot(this,'10:30','11:00')"
+                                    >۱۰:۳۰</span
+                                    >
+                                    <span class="time-slot taken">۱۱:۰۰</span>
+                                    <span
+                                            class="time-slot"
+                                            onclick="selectSlot(this,'11:30','12:00')"
+                                    >۱۱:۳۰</span
+                                    >
+                                    <span
+                                            class="time-slot"
+                                            onclick="selectSlot(this,'13:00','13:30')"
+                                    >۱۳:۰۰</span
+                                    >
+                                    <span
+                                            class="time-slot"
+                                            onclick="selectSlot(this,'13:30','14:00')"
+                                    >۱۳:۳۰</span
+                                    >
+                                    <span
+                                            class="time-slot"
+                                            onclick="selectSlot(this,'14:00','14:30')"
+                                    >۱۴:۰۰</span
+                                    >
+                                    <span class="time-slot taken">۱۴:۳۰</span>
+                                    <span
+                                            class="time-slot"
+                                            onclick="selectSlot(this,'15:00','15:30')"
+                                    >۱۵:۰۰</span
+                                    >
+                                    <span
+                                            class="time-slot"
+                                            onclick="selectSlot(this,'15:30','16:00')"
+                                    >۱۵:۳۰</span
+                                    >
+                                </div>
+                                <input type="hidden" name="endTime" id="endTime" />
+                            </div>
+                        </div>
+
+                        <!-- Patient Info -->
+                        <div class="form-section">
+                            <h3>
+                                <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                >
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                                اطلاعات بیمار
+                            </h3>
+                            <div class="form-row">
+                                <div class="fgroup">
+                                    <label>کد بیمار <span class="required">*</span></label>
+                                    <input
+                                            type="number"
+                                            name="patientId"
+                                            placeholder="کد بیمار را وارد کنید"
+                                            required
+                                    />
+                                </div>
+                                <div class="fgroup">
+                                    <label>نام بیمار</label>
+                                    <input
+                                            type="text"
+                                            placeholder="از روی کد تکمیل می‌شود"
+                                            readonly
+                                            style="
                           background: #e8f5f3;
                           color: #1e7268;
                           font-weight: 700;
                         "
-                      />
-                    </div>
-                  </div>
-                </div>
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Notes -->
-                <div class="form-section">
-                  <h3>
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-                      />
-                      <polyline points="14 2 14 8 20 8" />
-                      <line x1="16" y1="13" x2="8" y2="13" />
-                      <line x1="16" y1="17" x2="8" y2="17" />
-                    </svg>
-                    اطلاعات تکمیلی
-                  </h3>
-                  <div class="form-row single">
-                    <div class="fgroup">
-                      <label>دلیل مراجعه</label>
-                      <input
-                        type="text"
-                        name="reason"
-                        placeholder="مثلاً: معاینه سالانه، درد قفسه سینه، پیگیری…"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-row single" style="margin-top: 14px">
-                    <div class="fgroup">
-                      <label>توضیحات بیشتر</label>
-                      <textarea
-                        name="notes"
-                        placeholder="هرگونه اطلاعات تکمیلی برای پزشک…"
-                      ></textarea>
-                    </div>
-                  </div>
-                </div>
+                        <!-- Notes -->
+                        <div class="form-section">
+                            <h3>
+                                <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                >
+                                    <path
+                                            d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                    />
+                                    <polyline points="14 2 14 8 20 8" />
+                                    <line x1="16" y1="13" x2="8" y2="13" />
+                                    <line x1="16" y1="17" x2="8" y2="17" />
+                                </svg>
+                                اطلاعات تکمیلی
+                            </h3>
+                            <div class="form-row single">
+                                <div class="fgroup">
+                                    <label>دلیل مراجعه</label>
+                                    <input
+                                            type="text"
+                                            name="reason"
+                                            placeholder="مثلاً: معاینه سالانه، درد قفسه سینه، پیگیری…"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-row single" style="margin-top: 14px">
+                                <div class="fgroup">
+                                    <label>توضیحات بیشتر</label>
+                                    <textarea
+                                            name="notes"
+                                            placeholder="هرگونه اطلاعات تکمیلی برای پزشک…"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="book-footer">
-                  <button
-                    type="button"
-                    class="btn-back"
-                    onclick="history.back()"
-                  >
-                    ← بازگشت
-                  </button>
-                  <button type="submit" class="btn-submit">
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="white"
-                      stroke-width="2"
-                    >
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                      <polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
-                    تأیید و ثبت نوبت
-                  </button>
-                </div>
+                        <div class="book-footer">
+                            <button
+                                    type="button"
+                                    class="btn-back"
+                                    onclick="history.back()"
+                            >
+                                ← بازگشت
+                            </button>
+                            <button type="submit" class="btn-submit">
+                                <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="white"
+                                        stroke-width="2"
+                                >
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                    <polyline points="22 4 12 14.01 9 11.01" />
+                                </svg>
+                                تأیید و ثبت نوبت
+                            </button>
+                        </div>
 
-                <input
-                  type="hidden"
-                  th:name="${_csrf.parameterName}"
-                  th:value="${_csrf.token}"
-                  th:if="${_csrf != null}"
-                />
-              </form>
+                        <input
+                                type="hidden"
+                                th:name="${_csrf.parameterName}"
+                                th:value="${_csrf.token}"
+                                th:if="${_csrf != null}"
+                        />
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
-      </main>
-    </div>
+    </main>
+</div>
 
-    <script th:src="@{/js/app.js}"></script>
-    <script>
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      document.getElementById("apptDate").min = tomorrow
-        .toISOString()
-        .split("T")[0];
+<script th:src="@{/js/app.js}"></script>
+<script>
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById("apptDate").min = tomorrow
+            .toISOString()
+            .split("T")[0];
 
-      function selectType(el, val) {
+    function selectType(el, val) {
         document
-          .querySelectorAll(".type-card")
-          .forEach((c) => c.classList.remove("selected"));
+                .querySelectorAll(".type-card")
+                .forEach((c) => c.classList.remove("selected"));
         el.classList.add("selected");
-      }
+    }
 
-      function selectSlot(el, start, end) {
+    function selectSlot(el, start, end) {
         if (el.classList.contains("taken")) return;
         document
-          .querySelectorAll(".time-slot:not(.taken)")
-          .forEach((s) => s.classList.remove("selected"));
+                .querySelectorAll(".time-slot:not(.taken)")
+                .forEach((s) => s.classList.remove("selected"));
         el.classList.add("selected");
         document.getElementById("startTime").value = start;
         document.getElementById("endTime").value = end;
-      }
+    }
 
-      function loadDoctors() {
+    function loadDoctors() {
         /* fetch /api/v1/doctor/by-department-ID?departmentId=X */
-      }
-      function loadTimeSlots() {
+    }
+    function loadTimeSlots() {
         /* fetch /api/v1/appointments/doctor/available?doctorId=X&date=Y */
-      }
+    }
 
-      function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
         document.getElementById("successAlert").classList.add("show");
         document.getElementById("bookingForm").style.opacity = "0.5";
         document.getElementById("bookingForm").style.pointerEvents = "none";
         window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    </script>
-  </body>
+    }
+</script>
+</body>
 </html>
