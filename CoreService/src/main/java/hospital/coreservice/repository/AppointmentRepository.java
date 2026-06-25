@@ -106,4 +106,12 @@ public interface AppointmentRepository extends BaseEntityRepository<Appointment,
     List<Appointment> findFirstUpcomingByPatientId(@Param("patientId") Long patientId,
                                                    @Param("date") LocalDate date,
                                                    @Param("status") AppointmentStatus status);
+
+    @Query("SELECT a FROM appointmentEntity a " +
+            "JOIN FETCH a.patient p " +
+            "JOIN FETCH a.doctor d " +
+            "JOIN FETCH a.department dep " +
+            "ORDER BY a.appointmentDate DESC, a.startTime DESC")
+    List<Appointment> findAllWithDetails();
+
 }

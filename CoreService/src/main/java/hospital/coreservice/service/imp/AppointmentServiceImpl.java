@@ -553,4 +553,12 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (results.isEmpty()) return null;
         return appointmentMapper.toResponseDto(results.get(0));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AppointmentResponseDto> findAllWithDetails() {
+        return appointmentRepository.findAllWithDetails().stream()
+                .map(appointmentMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
 }

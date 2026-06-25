@@ -1,5 +1,6 @@
 package hospital.coreservice.controller;
 
+import hospital.coreservice.dto.appointment.AppointmentResponseDto;
 import hospital.coreservice.dto.patient.PatientResponseDto;
 import hospital.coreservice.exception.patient.PatientNotFoundException;
 import hospital.coreservice.model.Patient;
@@ -8,6 +9,7 @@ import hospital.coreservice.service.*;
 import hospital.coreservice.repository.AppointmentRepository;
 import hospital.coreservice.mapper.AppointmentMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,7 @@ import java.util.concurrent.Callable;
  */
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class ViewController {
 
     private final DoctorService doctorService;
@@ -236,7 +239,7 @@ public class ViewController {
     @GetMapping("/appointments")
     public String appointments(Model model) {
         List<hospital.coreservice.dto.appointment.AppointmentResponseDto> allAppointments = safe(() -> {
-            return appointmentRepository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "appointmentDate", "startTime"))
+            return appointmentRepository.findAllWithDetails()
                     .stream()
                     .map(appointmentMapper::toResponseDto)
                     .collect(java.util.stream.Collectors.toList());
@@ -382,7 +385,7 @@ public class ViewController {
         model.addAttribute("appointmentCount", safe(appointmentService::countTotalAppointments, 0L));
 
         // Use recent appointments regardless of date to show some data in dashboard
-        List<hospital.coreservice.dto.appointment.AppointmentResponseDto> recentAppointments =
+        List<AppointmentResponseDto> recentAppointments =
                 safe(() -> {
                     return appointmentRepository.findAll(org.springframework.data.domain.PageRequest.of(0, 10,
                                     org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt")))
@@ -405,7 +408,8 @@ public class ViewController {
         try {
             T value = callable.call();
             return value != null ? value : fallback;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            log.error("safe() fallback triggered due to exception", e);
             return fallback;
         }
     }

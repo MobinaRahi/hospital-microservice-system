@@ -820,7 +820,7 @@
                 <div class="book-card">
                     <form
                             id="bookingForm"
-                            th:action="@{/api/v1/appointments}"
+
                             method="post"
                             onsubmit="handleSubmit(event)"
                     >
@@ -904,33 +904,16 @@
                             <div class="form-row">
                                 <div class="fgroup">
                                     <label>بخش <span class="required">*</span></label>
-                                    <select
-                                            name="departmentId"
-                                            id="departmentSelect"
-                                            required
-                                            onchange="loadDoctors()"
-                                    >
+                                    <select name="departmentId" id="departmentId" required onchange="loadDoctors()">
                                         <option value="">— انتخاب بخش —</option>
-                                        <option value="1">قلب و عروق</option>
-                                        <option value="2">مغز و اعصاب</option>
-                                        <option value="3">اطفال</option>
-                                        <option value="4">اورژانس</option>
-                                        <option value="5">ارتوپدی</option>
-                                        <option value="6">رادیولوژی</option>
-                                        <option value="7">روانپزشکی</option>
-                                        <option value="8">داخلی</option>
-                                        <option value="9">جراحی عمومی</option>
-                                        <option value="10">گوارش</option>
+                                        <option th:each="dept : ${departments}" th:value="${dept.id}" th:text="${dept.departmentName}" th:selected="${dept.id == preselectedDepartmentId}"></option>
                                     </select>
                                 </div>
                                 <div class="fgroup">
                                     <label>پزشک <span class="required">*</span></label>
-                                    <select name="doctorId" id="doctorSelect" required>
+                                    <select name="doctorId" id="doctorId" required onchange="loadTimeSlots()">
                                         <option value="">— انتخاب پزشک —</option>
-                                        <option value="1">دکتر سارا احمدی</option>
-                                        <option value="2">دکتر جیمز ویلسون</option>
-                                        <option value="3">دکتر اما ویلیامز</option>
-                                        <option value="4">دکتر علی حسینی</option>
+                                        <option th:each="doc : ${doctors}" th:value="${doc.id}" th:text="${'دکتر ' + doc.firstName + ' ' + doc.lastName}" th:selected="${doc.id == preselectedDoctorId}"></option>
                                     </select>
                                     <small
                                     >ابتدا بخش را انتخاب کنید تا پزشکان فیلتر شوند</small
@@ -1157,41 +1140,136 @@
 <script>
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    document.getElementById("apptDate").min = tomorrow
-            .toISOString()
-            .split("T")[0];
+    document.getElementById("apptDate").min = tomorrow.toISOString().split("T")[0];
 
     function selectType(el, val) {
-        document
-                .querySelectorAll(".type-card")
-                .forEach((c) => c.classList.remove("selected"));
+        document.querySelectorAll(".type-card").forEach((c) => c.classList.remove("selected"));
         el.classList.add("selected");
+        // No hidden field needed since it uses radio buttons with names!
     }
 
     function selectSlot(el, start, end) {
         if (el.classList.contains("taken")) return;
-        document
-                .querySelectorAll(".time-slot:not(.taken)")
-                .forEach((s) => s.classList.remove("selected"));
+        document.querySelectorAll(".time-slot:not(.taken)").forEach((s) => s.classList.remove("selected"));
         el.classList.add("selected");
         document.getElementById("startTime").value = start;
         document.getElementById("endTime").value = end;
     }
 
-    function loadDoctors() {
-        /* fetch /api/v1/doctor/by-department-ID?departmentId=X */
-    }
-    function loadTimeSlots() {
-        /* fetch /api/v1/appointments/doctor/available?doctorId=X&date=Y */
+    async function loadDoctors() {
+        const deptId = document.getElementById("departmentId").value;
+        const doctorSelect = document.getElementById("doctorId");
+        if (!deptId) return;
+
+        try {
+            const res = await fetch(`/api/v1/doctor/active/by-department-id?departmentId=${deptId}`);
+            if (res.ok) {
+                const json = await res.json();
+                const docs = json.data || [];
+                doctorSelect.innerHTML = '<option value="">— انتخاب پزشک —</option>';
+                docs.forEach(doc => {
+                    doctorSelect.innerHTML += `<option value="${doc.id}">دکتر ${doc.firstName} ${doc.lastName}</option>`;
+                });
+            }
+        } catch(e) { console.error(e); }
     }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        document.getElementById("successAlert").classList.add("show");
-        document.getElementById("bookingForm").style.opacity = "0.5";
-        document.getElementById("bookingForm").style.pointerEvents = "none";
-        window.scrollTo({ top: 0, behavior: "smooth" });
+    async function loadTimeSlots() {
+        const doctorId = document.getElementById("doctorId").value;
+        const date = document.getElementById("apptDate").value;
+        const slotsContainer = document.getElementById("timeSlots");
+
+        if (!doctorId || !date) return;
+
+        try {
+            const res = await fetch(`/api/v1/appointments/doctor/available?doctorId=${doctorId}&date=${date}`);
+            if (res.ok) {
+                const json = await res.json();
+                const slots = json.data || [];
+                slotsContainer.innerHTML = '';
+
+                if(slots.length === 0) {
+                    slotsContainer.innerHTML = '<span style="color:red;font-size:12px;">موردی در این تاریخ یافت نشد</span>';
+                    return;
+                }
+
+                slots.forEach(slot => {
+                    const st = slot.startTime.substring(0, 5);
+                    const et = slot.endTime.substring(0, 5);
+                    if (slot.available) {
+                        slotsContainer.innerHTML += `<span class="time-slot" onclick="selectSlot(this,'${slot.startTime}','${slot.endTime}')">${st}</span>`;
+                    } else {
+                        slotsContainer.innerHTML += `<span class="time-slot taken">${st}</span>`;
+                    }
+                });
+            }
+        } catch(e) { console.error(e); }
     }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = Object.fromElement(new FormData(form));
+
+        const payload = {
+            patientId: parseInt(data.patientId),
+            doctorId: parseInt(data.doctorId),
+            departmentId: parseInt(data.departmentId),
+            appointmentDate: data.appointmentDate,
+            startTime: data.startTime,
+            endTime: data.endTime,
+            type: data.type,
+            reason: data.reason || null,
+            notes: data.notes || null,
+            status: "SCHEDULED"
+        };
+
+        const btn = form.querySelector('.btn-submit');
+        btn.disabled = true;
+        btn.innerHTML = 'در حال ثبت...';
+
+        try {
+            const res = await fetch('/api/v1/appointments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if(res.ok) {
+                document.getElementById("successAlert").classList.add("show");
+                form.style.opacity = "0.5";
+                form.style.pointerEvents = "none";
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                setTimeout(() => {
+                    window.location.href = '/appointments';
+                }, 2000);
+            } else {
+                const err = await res.json();
+
+                let errorMsg = err.message || 'خطا در ثبت نوبت';
+                if (err.data && typeof err.data === 'object') {
+                    const errs = Object.values(err.data);
+                    if(errs.length > 0) errorMsg = errs[0];
+                }
+
+                alert(errorMsg);
+                btn.disabled = false;
+                btn.innerHTML = 'تأیید و ثبت نوبت';
+            }
+        } catch(err) {
+            alert('خطای شبکه');
+            btn.disabled = false;
+            btn.innerHTML = 'تأیید و ثبت نوبت';
+        }
+    }
+
+    Object.fromElement = function(fd) {
+        const obj = {};
+        for (let key of fd.keys()) {
+            obj[key] = fd.get(key);
+        }
+        return obj;
+    };
 </script>
 </body>
 </html>
