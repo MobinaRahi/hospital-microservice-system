@@ -1,15 +1,24 @@
 package hospital.coreservice.controller;
 
 import hospital.coreservice.dto.appointment.AppointmentResponseDto;
+import hospital.coreservice.dto.doctor.DoctorResponseDto;
+import hospital.coreservice.dto.doctor_schedule.DoctorScheduleResponseDto;
 import hospital.coreservice.dto.patient.PatientResponseDto;
 import hospital.coreservice.exception.patient.PatientNotFoundException;
+import hospital.coreservice.mapper.AppointmentMapper;
 import hospital.coreservice.model.Patient;
+import hospital.coreservice.model.enums.AppointmentStatus;
+import hospital.coreservice.model.enums.AppointmentType;
+import hospital.coreservice.model.enums.Gender;
+import hospital.coreservice.model.enums.PatientStatus;
+import hospital.coreservice.model.enums.Speciality;
+import hospital.coreservice.model.enums.SubSpeciality;
+import hospital.coreservice.repository.AppointmentRepository;
 import hospital.coreservice.security.model.SecurityUser;
 import hospital.coreservice.service.*;
-import hospital.coreservice.repository.AppointmentRepository;
-import hospital.coreservice.mapper.AppointmentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,9 +28,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * View Controller for serving Thymeleaf HTML pages.
@@ -42,6 +58,7 @@ public class ViewController {
     private final NurseService nurseService;
     private final RoomService roomService;
     private final ShiftService shiftService;
+    private final DoctorScheduleService doctorScheduleService;
     private final AppointmentRepository appointmentRepository;
     private final AppointmentMapper appointmentMapper;
     private final UserService userService;
@@ -125,7 +142,7 @@ public class ViewController {
             @RequestParam(required = false) String gender,
             Model model) {
 
-        List<hospital.coreservice.dto.doctor.DoctorResponseDto> allDocs = safe(doctorService::getAllDoctors, List.of());
+        List<DoctorResponseDto> allDocs = safe(doctorService::getAllDoctors, List.of());
         long activeCount = safe(doctorService::countActiveDoctors, 0L);
         long inactiveCount = safe(doctorService::countInactiveDoctors, 0L);
 
@@ -135,6 +152,8 @@ public class ViewController {
         model.addAttribute("activeDoctorCount", activeCount);
         model.addAttribute("inactiveDoctorCount", inactiveCount);
         model.addAttribute("todayAppointmentsCount", safe(appointmentService::countTotalAppointments, 0L));
+        model.addAttribute("specialityLabels", specialityLabels());
+        model.addAttribute("subSpecialityLabels", subSpecialityLabels());
 
         return "doctors";
     }
@@ -150,59 +169,193 @@ public class ViewController {
         model.addAttribute("doctorId", id);
         model.addAttribute("doctor", safe(() -> doctorService.getDoctorById(id), null));
         model.addAttribute("availableSlots", safe(() -> appointmentService.getAvailableSlots(id, LocalDate.now()), List.of()));
+        model.addAttribute("specialityLabels", specialityLabels());
+        model.addAttribute("subSpecialityLabels", subSpecialityLabels());
         return "doctor-profile";
     }
 
     @GetMapping("/doctor/dashboard")
-    public String doctorDashboard(Model model) {
-        addDoctorPanelModel(model, 1L);
+    public String doctorDashboard(
+            @RequestParam(required = false) Long doctorId,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam(required = false) AppointmentStatus status,
+            Authentication authentication,
+            Model model) {
+
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        LocalDate selectedDate = date != null ? date : LocalDate.now();
+        DoctorPanelData data = buildDoctorPanelData(doctor, selectedDate);
+
+        List<AppointmentResponseDto> filteredTodayAppointments = data.todayAppointments().stream()
+                .filter(appointment -> status == null || appointment.getStatus() == status)
+                .filter(appointment -> matchesAppointment(appointment, q))
+                .collect(Collectors.toList());
+
+        addDoctorCommonModel(model, doctor, data, selectedDate, q);
+        model.addAttribute("status", status);
+        model.addAttribute("todayAppointments", filteredTodayAppointments);
+        model.addAttribute("upcomingAppointments", data.upcomingAppointments().stream().limit(5).collect(Collectors.toList()));
+        model.addAttribute("doctorPatients", data.patients().stream().limit(6).collect(Collectors.toList()));
+        model.addAttribute("admittedPatients", data.admittedPatients().stream().limit(5).collect(Collectors.toList()));
+        model.addAttribute("schedules", data.schedules());
+        model.addAttribute("availableSlots", data.availableSlots());
         return "doctor-dashboard";
     }
 
     @GetMapping("/doctor/appointments")
-    public String doctorAppointments(Model model) {
-        model.addAttribute("appointments", safe(() -> appointmentService.getAppointmentsByDoctorId(1L), List.of()));
+    public String doctorAppointments(
+            @RequestParam(required = false) Long doctorId,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) AppointmentStatus status,
+            @RequestParam(required = false) AppointmentType type,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            Authentication authentication,
+            Model model) {
+
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        DoctorPanelData data = buildDoctorPanelData(doctor, LocalDate.now());
+
+        List<AppointmentResponseDto> appointments = data.appointments().stream()
+                .filter(appointment -> matchesAppointment(appointment, q))
+                .filter(appointment -> status == null || appointment.getStatus() == status)
+                .filter(appointment -> type == null || appointment.getType() == type)
+                .filter(appointment -> from == null || (appointment.getAppointmentDate() != null && !appointment.getAppointmentDate().isBefore(from)))
+                .filter(appointment -> to == null || (appointment.getAppointmentDate() != null && !appointment.getAppointmentDate().isAfter(to)))
+                .sorted(Comparator
+                        .comparing(AppointmentResponseDto::getAppointmentDate, Comparator.nullsLast(Comparator.naturalOrder())).reversed()
+                        .thenComparing(AppointmentResponseDto::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList());
+
+        addDoctorCommonModel(model, doctor, data, LocalDate.now(), q);
+        model.addAttribute("appointments", appointments);
+        model.addAttribute("status", status);
+        model.addAttribute("type", type);
+        model.addAttribute("from", from);
+        model.addAttribute("to", to);
+        model.addAttribute("appointmentCount", appointments.size());
+        model.addAttribute("scheduledCount", countByStatus(appointments, AppointmentStatus.SCHEDULED));
+        model.addAttribute("checkInCount", countByStatus(appointments, AppointmentStatus.CHECK_IN));
+        model.addAttribute("completedCount", countByStatus(appointments, AppointmentStatus.COMPLETED));
+        model.addAttribute("cancelledCount", countByStatus(appointments, AppointmentStatus.CANCELLED));
         return "doctor-appointments";
     }
 
     @GetMapping("/doctor/patients")
-    public String doctorPatients(Model model) {
-        model.addAttribute("patients", safe(patientService::getAllPatients, List.of()));
+    public String doctorPatients(
+            @RequestParam(required = false) Long doctorId,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) PatientStatus status,
+            @RequestParam(required = false) Gender gender,
+            Authentication authentication,
+            Model model) {
+
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        DoctorPanelData data = buildDoctorPanelData(doctor, LocalDate.now());
+
+        List<PatientResponseDto> patients = data.patients().stream()
+                .filter(patient -> matchesPatient(patient, q))
+                .filter(patient -> status == null || patient.getStatus() == status)
+                .filter(patient -> gender == null || patient.getGender() == gender)
+                .collect(Collectors.toList());
+
+        addDoctorCommonModel(model, doctor, data, LocalDate.now(), q);
+        model.addAttribute("patients", patients);
+        model.addAttribute("status", status);
+        model.addAttribute("gender", gender);
+        model.addAttribute("lastAppointments", lastAppointmentByPatient(data.appointments()));
+        model.addAttribute("patientCount", patients.size());
+        model.addAttribute("activePatientCount", patients.stream().filter(p -> p.getStatus() == PatientStatus.ACTIVE).count());
+        model.addAttribute("admittedPatientCount", patients.stream().filter(p -> p.getCurrentRoom() != null).count());
         return "doctor-patients";
     }
 
     @GetMapping("/doctor/schedule")
-    public String doctorSchedule(Model model) {
-        model.addAttribute("doctorId", 1L);
+    public String doctorSchedule(
+            @RequestParam(required = false) Long doctorId,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            Authentication authentication,
+            Model model) {
+
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        LocalDate selectedDate = date != null ? date : LocalDate.now();
+        DoctorPanelData data = buildDoctorPanelData(doctor, selectedDate);
+
+        addDoctorCommonModel(model, doctor, data, selectedDate, null);
+        model.addAttribute("schedules", data.schedules());
+        model.addAttribute("availableSlots", data.availableSlots());
+        model.addAttribute("selectedDateAppointments", data.appointments().stream()
+                .filter(appointment -> selectedDate.equals(appointment.getAppointmentDate()))
+                .sorted(Comparator.comparing(AppointmentResponseDto::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList()));
         return "doctor-schedule";
     }
 
     @GetMapping("/doctor/admitted")
-    public String doctorAdmitted(Model model) {
-        model.addAttribute("patients", safe(patientService::getAllPatients, List.of()));
+    public String doctorAdmitted(
+            @RequestParam(required = false) Long doctorId,
+            @RequestParam(required = false) String q,
+            Authentication authentication,
+            Model model) {
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        DoctorPanelData data = buildDoctorPanelData(doctor, LocalDate.now());
+        addDoctorCommonModel(model, doctor, data, LocalDate.now(), q);
+        model.addAttribute("patients", data.admittedPatients().stream()
+                .filter(patient -> matchesPatient(patient, q))
+                .collect(Collectors.toList()));
         return "doctor-admitted";
     }
 
     @GetMapping("/doctor/records")
-    public String doctorRecords(Model model) {
-        model.addAttribute("patients", safe(patientService::getAllPatients, List.of()));
+    public String doctorRecords(
+            @RequestParam(required = false) Long doctorId,
+            @RequestParam(required = false) String q,
+            Authentication authentication,
+            Model model) {
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        DoctorPanelData data = buildDoctorPanelData(doctor, LocalDate.now());
+        addDoctorCommonModel(model, doctor, data, LocalDate.now(), q);
+        model.addAttribute("patients", data.patients().stream()
+                .filter(patient -> matchesPatient(patient, q))
+                .collect(Collectors.toList()));
         return "doctor-records";
     }
 
     @GetMapping("/doctor/prescriptions")
-    public String doctorPrescriptions(Model model) {
-        model.addAttribute("patients", safe(patientService::getAllPatients, List.of()));
+    public String doctorPrescriptions(
+            @RequestParam(required = false) Long doctorId,
+            Authentication authentication,
+            Model model) {
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        DoctorPanelData data = buildDoctorPanelData(doctor, LocalDate.now());
+        addDoctorCommonModel(model, doctor, data, LocalDate.now(), null);
+        model.addAttribute("patients", data.patients());
         return "doctor-prescriptions";
     }
 
     @GetMapping("/doctor/profile")
-    public String doctorProfilePage(Model model) {
-        model.addAttribute("doctor", safe(() -> doctorService.getDoctorById(1L), null));
+    public String doctorProfilePage(
+            @RequestParam(required = false) Long doctorId,
+            Authentication authentication,
+            Model model) {
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        DoctorPanelData data = buildDoctorPanelData(doctor, LocalDate.now());
+        addDoctorCommonModel(model, doctor, data, LocalDate.now(), null);
         return "doctor-my-profile";
     }
 
     @GetMapping("/doctor/change-password")
-    public String doctorChangePassword(Model model) {
+    public String doctorChangePassword(
+            @RequestParam(required = false) Long doctorId,
+            Authentication authentication,
+            Model model) {
+        DoctorResponseDto doctor = resolveDoctor(authentication, doctorId);
+        model.addAttribute("doctor", doctor);
         return "doctor-change-password";
     }
 
@@ -398,10 +551,339 @@ public class ViewController {
         model.addAttribute("doctors", safe(doctorService::getActiveDoctors, List.of()));
     }
 
-    private void addDoctorPanelModel(Model model, Long doctorId) {
-        model.addAttribute("doctor", safe(() -> doctorService.getDoctorById(doctorId), null));
-        model.addAttribute("appointments", safe(() -> appointmentService.getAppointmentsByDoctorId(doctorId), List.of()));
-        model.addAttribute("availableSlots", safe(() -> appointmentService.getAvailableSlots(doctorId, LocalDate.now()), List.of()));
+    private DoctorResponseDto resolveDoctor(Authentication authentication, Long requestedDoctorId) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)
+                && authentication.getPrincipal() instanceof SecurityUser securityUser) {
+            DoctorResponseDto authenticatedDoctor = safe(() -> doctorService.getDoctorByUserId(securityUser.getId()), null);
+            if (authenticatedDoctor != null) {
+                return authenticatedDoctor;
+            }
+        }
+
+        if (requestedDoctorId != null) {
+            DoctorResponseDto requestedDoctor = safe(() -> doctorService.getDoctorById(requestedDoctorId), null);
+            if (requestedDoctor != null) {
+                return requestedDoctor;
+            }
+        }
+
+        // فقط برای جلوگیری از خالی ماندن UI در محیط dev/preview؛ در حالت واقعی کاربر پزشک از session خوانده می‌شود.
+        return safe(() -> doctorService.getDoctorById(1L), null);
+    }
+
+    private DoctorPanelData buildDoctorPanelData(DoctorResponseDto doctor, LocalDate selectedDate) {
+        if (doctor == null || doctor.getId() == null) {
+            return DoctorPanelData.empty();
+        }
+
+        List<AppointmentResponseDto> appointments = doctorAppointmentsWithDetails(doctor.getId());
+        LocalDate today = LocalDate.now();
+        YearMonth currentMonth = YearMonth.from(today);
+
+        List<AppointmentResponseDto> todayAppointments = appointments.stream()
+                .filter(appointment -> selectedDate.equals(appointment.getAppointmentDate()))
+                .sorted(Comparator.comparing(AppointmentResponseDto::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList());
+
+        List<AppointmentResponseDto> upcomingAppointments = appointments.stream()
+                .filter(appointment -> appointment.getAppointmentDate() != null)
+                .filter(appointment -> !appointment.getAppointmentDate().isBefore(today))
+                .filter(appointment -> appointment.getStatus() != AppointmentStatus.CANCELLED)
+                .sorted(Comparator
+                        .comparing(AppointmentResponseDto::getAppointmentDate, Comparator.nullsLast(Comparator.naturalOrder()))
+                        .thenComparing(AppointmentResponseDto::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())))
+                .collect(Collectors.toList());
+
+        List<PatientResponseDto> patients = uniquePatients(appointments);
+        List<PatientResponseDto> admittedPatients = patients.stream()
+                .filter(patient -> patient.getCurrentRoom() != null)
+                .collect(Collectors.toList());
+
+        List<DoctorScheduleResponseDto> schedules = this.<List<DoctorScheduleResponseDto>>safe(
+                        () -> doctorScheduleService.getActiveDoctorSchedulesByDoctorId(doctor.getId()),
+                        List.of()
+                ).stream()
+                .sorted(Comparator.comparing(schedule -> schedule.getDayOfWeek() != null ? schedule.getDayOfWeek().ordinal() : 99))
+                .collect(Collectors.toList());
+
+        List<?> availableSlots = safe(() -> appointmentService.getAvailableSlots(doctor.getId(), selectedDate), List.of());
+
+        long weekPatientCount = appointments.stream()
+                .filter(appointment -> appointment.getAppointmentDate() != null)
+                .filter(appointment -> !appointment.getAppointmentDate().isBefore(today))
+                .filter(appointment -> !appointment.getAppointmentDate().isAfter(today.plusDays(7)))
+                .map(AppointmentResponseDto::getPatient)
+                .filter(Objects::nonNull)
+                .map(PatientResponseDto::getId)
+                .filter(Objects::nonNull)
+                .distinct()
+                .count();
+
+        long monthAppointmentCount = appointments.stream()
+                .filter(appointment -> appointment.getAppointmentDate() != null)
+                .filter(appointment -> YearMonth.from(appointment.getAppointmentDate()).equals(currentMonth))
+                .count();
+
+        return new DoctorPanelData(
+                appointments,
+                todayAppointments,
+                upcomingAppointments,
+                patients,
+                admittedPatients,
+                schedules,
+                availableSlots,
+                weekPatientCount,
+                monthAppointmentCount
+        );
+    }
+
+    private List<AppointmentResponseDto> doctorAppointmentsWithDetails(Long doctorId) {
+        return safe(() -> appointmentRepository.findByDoctorIdWithDetails(doctorId)
+                .stream()
+                .map(appointmentMapper::toResponseDto)
+                .collect(Collectors.toList()), List.of());
+    }
+
+    private void addDoctorCommonModel(Model model,
+                                      DoctorResponseDto doctor,
+                                      DoctorPanelData data,
+                                      LocalDate selectedDate,
+                                      String q) {
+        model.addAttribute("doctor", doctor);
+        model.addAttribute("doctorId", doctor != null ? doctor.getId() : null);
+        model.addAttribute("selectedDate", selectedDate);
+        model.addAttribute("q", q);
+        model.addAttribute("appointments", data.appointments());
+        model.addAttribute("todayAppointmentCount", data.todayAppointments().size());
+        model.addAttribute("upcomingAppointmentCount", data.upcomingAppointments().size());
+        model.addAttribute("weekPatientCount", data.weekPatientCount());
+        model.addAttribute("monthAppointmentCount", data.monthAppointmentCount());
+        model.addAttribute("patientCount", data.patients().size());
+        model.addAttribute("admittedPatientCount", data.admittedPatients().size());
+        model.addAttribute("availableSlotCount", data.availableSlots().size());
+        model.addAttribute("scheduledCount", countByStatus(data.appointments(), AppointmentStatus.SCHEDULED));
+        model.addAttribute("checkInCount", countByStatus(data.appointments(), AppointmentStatus.CHECK_IN));
+        model.addAttribute("completedCount", countByStatus(data.appointments(), AppointmentStatus.COMPLETED));
+        model.addAttribute("cancelledCount", countByStatus(data.appointments(), AppointmentStatus.CANCELLED));
+        model.addAttribute("appointmentStatuses", AppointmentStatus.values());
+        model.addAttribute("appointmentTypes", AppointmentType.values());
+        model.addAttribute("patientStatuses", PatientStatus.values());
+        model.addAttribute("genders", Gender.values());
+        model.addAttribute("statusLabels", appointmentStatusLabels());
+        model.addAttribute("typeLabels", appointmentTypeLabels());
+        model.addAttribute("patientStatusLabels", patientStatusLabels());
+        model.addAttribute("genderLabels", genderLabels());
+        model.addAttribute("dayLabels", dayLabels());
+        model.addAttribute("specialityLabels", specialityLabels());
+        model.addAttribute("subSpecialityLabels", subSpecialityLabels());
+    }
+
+    private List<PatientResponseDto> uniquePatients(List<AppointmentResponseDto> appointments) {
+        return appointments.stream()
+                .map(AppointmentResponseDto::getPatient)
+                .filter(Objects::nonNull)
+                .filter(patient -> patient.getId() != null)
+                .collect(Collectors.toMap(
+                        PatientResponseDto::getId,
+                        Function.identity(),
+                        (first, ignored) -> first,
+                        LinkedHashMap::new
+                ))
+                .values()
+                .stream()
+                .collect(Collectors.toList());
+    }
+
+    private Map<Long, AppointmentResponseDto> lastAppointmentByPatient(List<AppointmentResponseDto> appointments) {
+        return appointments.stream()
+                .filter(appointment -> appointment.getPatient() != null && appointment.getPatient().getId() != null)
+                .sorted(Comparator
+                        .comparing(AppointmentResponseDto::getAppointmentDate, Comparator.nullsLast(Comparator.naturalOrder())).reversed()
+                        .thenComparing(AppointmentResponseDto::getStartTime))
+                .collect(Collectors.toMap(
+                        appointment -> appointment.getPatient().getId(),
+                        Function.identity(),
+                        (first, ignored) -> first,
+                        LinkedHashMap::new
+                ));
+    }
+
+    private long countByStatus(List<AppointmentResponseDto> appointments, AppointmentStatus status) {
+        return appointments.stream()
+                .filter(appointment -> appointment.getStatus() == status)
+                .count();
+    }
+
+    private boolean matchesAppointment(AppointmentResponseDto appointment, String keyword) {
+        if (isBlank(keyword)) {
+            return true;
+        }
+        PatientResponseDto patient = appointment.getPatient();
+        String haystack = String.join(" ",
+                stringValue(patient != null ? patient.getFullName() : null),
+                stringValue(patient != null ? patient.getFirstName() : null),
+                stringValue(patient != null ? patient.getLastName() : null),
+                stringValue(patient != null ? patient.getNationalId() : null),
+                stringValue(patient != null ? patient.getPhoneNumber() : null),
+                stringValue(appointment.getReason()),
+                stringValue(appointment.getNotes()),
+                stringValue(appointment.getStatus()),
+                stringValue(appointment.getType())
+        );
+        return normalize(haystack).contains(normalize(keyword));
+    }
+
+    private boolean matchesPatient(PatientResponseDto patient, String keyword) {
+        if (isBlank(keyword)) {
+            return true;
+        }
+        String haystack = String.join(" ",
+                stringValue(patient.getFullName()),
+                stringValue(patient.getFirstName()),
+                stringValue(patient.getLastName()),
+                stringValue(patient.getNationalId()),
+                stringValue(patient.getPhoneNumber()),
+                stringValue(patient.getEmail()),
+                stringValue(patient.getUsername()),
+                stringValue(patient.getBloodType()),
+                stringValue(patient.getAllergies()),
+                stringValue(patient.getStatus()),
+                stringValue(patient.getGender())
+        );
+        return normalize(haystack).contains(normalize(keyword));
+    }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
+    private String stringValue(Object value) {
+        return value == null ? "" : value.toString();
+    }
+
+    private String normalize(String value) {
+        return value == null ? "" : value
+                .toLowerCase(Locale.ROOT)
+                .replace('ي', 'ی')
+                .replace('ك', 'ک')
+                .trim();
+    }
+
+    private Map<String, String> appointmentStatusLabels() {
+        Map<String, String> labels = new LinkedHashMap<>();
+        labels.put("SCHEDULED", "رزرو شده");
+        labels.put("CHECK_IN", "پذیرش شده");
+        labels.put("IN_PROGRESS", "در حال ویزیت");
+        labels.put("COMPLETED", "تکمیل شده");
+        labels.put("CANCELLED", "لغو شده");
+        labels.put("NO_SHOW", "عدم مراجعه");
+        return labels;
+    }
+
+    private Map<String, String> appointmentTypeLabels() {
+        Map<String, String> labels = new LinkedHashMap<>();
+        labels.put("IN_PERSON", "حضوری");
+        labels.put("VIDEO", "ویدیویی");
+        labels.put("PHONE", "تلفنی");
+        labels.put("EMERGENCY", "اورژانسی");
+        return labels;
+    }
+
+    private Map<String, String> patientStatusLabels() {
+        Map<String, String> labels = new LinkedHashMap<>();
+        labels.put("ACTIVE", "فعال");
+        labels.put("ARCHIVED", "آرشیو شده");
+        labels.put("DECEASED", "فوت شده");
+        labels.put("TRANSFERRED", "منتقل شده");
+        labels.put("INACTIVE", "غیرفعال");
+        return labels;
+    }
+
+    private Map<String, String> genderLabels() {
+        Map<String, String> labels = new LinkedHashMap<>();
+        labels.put("MAN", "مرد");
+        labels.put("FEMALE", "زن");
+        labels.put("OTHER", "سایر");
+        labels.put("UNKNOWN", "نامشخص");
+        return labels;
+    }
+
+    private Map<String, String> dayLabels() {
+        Map<String, String> labels = new LinkedHashMap<>();
+        labels.put("SATURDAY", "شنبه");
+        labels.put("SUNDAY", "یکشنبه");
+        labels.put("MONDAY", "دوشنبه");
+        labels.put("TUESDAY", "سه‌شنبه");
+        labels.put("WEDNESDAY", "چهارشنبه");
+        labels.put("THURSDAY", "پنجشنبه");
+        labels.put("FRIDAY", "جمعه");
+        return labels;
+    }
+
+    private Map<String, String> specialityLabels() {
+        Map<String, String> labels = new LinkedHashMap<>();
+        for (Speciality speciality : Speciality.values()) {
+            labels.put(speciality.name(), switch (speciality) {
+                case CARDIOLOGY -> "قلب و عروق";
+                case INTERNAL_MEDICINE -> "داخلی";
+                case PEDIATRICS -> "اطفال";
+                case NEUROLOGY -> "مغز و اعصاب";
+                case GASTROENTEROLOGY -> "گوارش";
+                case ENDOCRINOLOGY -> "غدد";
+                case NEPHROLOGY -> "کلیه";
+                case PULMONOLOGY -> "ریه";
+                case RHEUMATOLOGY -> "روماتولوژی";
+                case INFECTIOUS_DISEASES -> "عفونی";
+                case GENERAL_SURGERY -> "جراحی عمومی";
+                case CARDIAC_SURGERY -> "جراحی قلب";
+                case NEUROSURGERY -> "جراحی مغز و اعصاب";
+                case ORTHOPEDICS -> "ارتوپدی";
+                case PLASTIC_SURGERY -> "جراحی پلاستیک";
+                case RADIOLOGY -> "رادیولوژی";
+                case PATHOLOGY -> "پاتولوژی";
+                case ANESTHESIOLOGY -> "بیهوشی";
+                case EMERGENCY_MEDICINE -> "اورژانس";
+                case FAMILY_MEDICINE -> "پزشکی خانواده";
+                case PSYCHIATRY -> "روان‌پزشکی";
+            });
+        }
+        return labels;
+    }
+
+    private Map<String, String> subSpecialityLabels() {
+        Map<String, String> labels = new LinkedHashMap<>();
+        for (SubSpeciality subSpeciality : SubSpeciality.values()) {
+            labels.put(subSpeciality.name(), switch (subSpeciality) {
+                case INTERVENTIONAL_CARDIOLOGY -> "قلب مداخله‌ای";
+                case ECHOCARDIOGRAPHY -> "اکوکاردیوگرافی";
+                case ELECTROPHYSIOLOGY -> "الکتروفیزیولوژی";
+                case GASTROENTEROLOGY -> "گوارش";
+                case HEPATOLOGY -> "کبد";
+                case NEPHROLOGY -> "نفرولوژی";
+                case STROKE -> "سکته مغزی";
+                case EPILEPSY -> "صرع";
+                case MOVEMENT_DISORDERS -> "اختلالات حرکتی";
+                case NONE -> "بدون فوق‌تخصص";
+            });
+        }
+        return labels;
+    }
+
+    private record DoctorPanelData(
+            List<AppointmentResponseDto> appointments,
+            List<AppointmentResponseDto> todayAppointments,
+            List<AppointmentResponseDto> upcomingAppointments,
+            List<PatientResponseDto> patients,
+            List<PatientResponseDto> admittedPatients,
+            List<DoctorScheduleResponseDto> schedules,
+            List<?> availableSlots,
+            long weekPatientCount,
+            long monthAppointmentCount
+    ) {
+        static DoctorPanelData empty() {
+            return new DoctorPanelData(List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), List.of(), 0L, 0L);
+        }
     }
 
     private <T> T safe(Callable<T> callable, T fallback) {

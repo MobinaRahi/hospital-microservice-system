@@ -1,728 +1,625 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>نوبت‌های امروز – بیمارستان فوق‌تخصصی نووا</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>نوبت‌های پزشک | بیمارستان نووا</title>
     <style>
-      :root {
-        --teal: #2a9d8f;
-        --teal-light: #4db6a8;
-        --teal-dark: #1e7268;
-        --teal-pale: #e8f5f3;
-        --navy: #1e3040;
-        --white: #ffffff;
-        --bg: #eff4f8;
-        --gray-100: #f7fafb;
-        --gray-200: #eef3f5;
-        --gray-400: #a0b4bc;
-        --gray-600: #5a7585;
-        --red: #ef4444;
-        --red-pale: #fee2e2;
-        --amber: #f59e0b;
-        --amber-pale: #fef3c7;
-        --blue: #3b82f6;
-        --blue-pale: #dbeafe;
-        --green: #16a34a;
-        --green-pale: #dcfce7;
-        --purple: #8b5cf6;
-        --purple-pale: #ede9fe;
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-        --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.1);
-        --radius: 12px;
-        --radius-lg: 18px;
-        --sidebar-w: 260px;
-      }
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Vazirmatn", Tahoma, sans-serif;
-        background: var(--bg);
-        color: var(--navy);
-        direction: rtl;
-        line-height: 1.6;
-        min-height: 100vh;
-      }
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
-      .sidebar {
-        width: var(--sidebar-w);
-        background: linear-gradient(
-          170deg,
-          #1a2840 0%,
-          #0d1a2e 60%,
-          #060f1e 100%
-        );
-        color: white;
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 200;
-        overflow-y: auto;
-      }
-      .sidebar::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        height: 200px;
-        background: radial-gradient(
-          ellipse at top right,
-          rgba(59, 130, 246, 0.18) 0%,
-          transparent 65%
-        );
-        pointer-events: none;
-      }
-      .sidebar-logo {
-        padding: 22px 18px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .logo-icon-wrap {
-        width: 42px;
-        height: 42px;
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.4),
-          rgba(59, 130, 246, 0.15)
-        );
-        border-radius: 12px;
-        border: 1px solid rgba(59, 130, 246, 0.35);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .logo-text-wrap {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.3;
-      }
-      .logo-main {
-        font-size: 14px;
-        font-weight: 800;
-        color: white;
-      }
-      .logo-sub {
-        font-size: 11px;
-        color: #93c5fd;
-        font-weight: 500;
-      }
-      .sidebar-section {
-        padding: 20px 18px 7px;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1.4px;
-        color: rgba(255, 255, 255, 0.25);
-        text-transform: uppercase;
-      }
-      .sidebar-link {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        padding: 11px 14px;
-        border-radius: 11px;
-        font-size: 13.5px;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.6);
-        margin: 2px 10px;
-        transition: all 0.2s;
-      }
-      .sidebar-link:hover {
-        background: rgba(255, 255, 255, 0.06);
-        color: white;
-      }
-      .sidebar-link.active {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        color: white;
-        font-weight: 700;
-        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
-      }
-      .link-icon {
-        width: 34px;
-        height: 34px;
-        background: rgba(255, 255, 255, 0.07);
-        border-radius: 9px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        font-size: 16px;
-      }
-      .sidebar-link.active .link-icon {
-        background: rgba(255, 255, 255, 0.18);
-      }
-      .sidebar-badge {
-        margin-right: auto;
-        background: var(--red);
-        color: white;
-        font-size: 10px;
-        font-weight: 800;
-        padding: 2px 8px;
-        border-radius: 20px;
-      }
-      .sidebar-footer {
-        margin-top: auto;
-        padding: 14px 12px;
-        border-top: 1px solid rgba(255, 255, 255, 0.07);
-      }
-      .sidebar-user {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 12px;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.05);
-        cursor: pointer;
-      }
-      .user-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 800;
-        color: white;
-        flex-shrink: 0;
-      }
-      .user-info {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.35;
-      }
-      .user-name {
-        font-size: 13px;
-        font-weight: 700;
-        color: white;
-      }
-      .user-role {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.4);
-      }
-      .layout {
-        display: flex;
-        min-height: 100vh;
-      }
-      .main {
-        flex: 1;
-        margin-right: var(--sidebar-w);
-        display: flex;
-        flex-direction: column;
-      }
-      .topbar {
-        height: 64px;
-        background: var(--white);
-        border-bottom: 1px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 28px;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        box-shadow: var(--shadow-sm);
-      }
-      .topbar-title h1 {
-        font-size: 20px;
-        font-weight: 900;
-      }
-      .topbar-date {
-        font-size: 12px;
-        color: var(--gray-400);
-        font-weight: 500;
-        margin-top: 1px;
-      }
-      .topbar-actions {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .topbar-btn {
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-        background: var(--bg);
-        border: 1.5px solid var(--gray-200);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        position: relative;
-        transition: all 0.2s;
-        color: var(--gray-600);
-      }
-      .notif-dot {
-        width: 7px;
-        height: 7px;
-        background: var(--red);
-        border-radius: 50%;
-        position: absolute;
-        top: 7px;
-        left: 7px;
-        border: 1.5px solid white;
-      }
-      .btn-logout {
-        background: #fef2f2;
-        color: #dc2626;
-        border: 1.5px solid #fca5a5;
-        border-radius: 10px;
-        padding: 8px 16px;
-        font-size: 13px;
-        font-weight: 700;
-        font-family: inherit;
-        cursor: pointer;
-      }
-      .page-content {
-        flex: 1;
-        padding: 28px 28px 40px;
-      }
-      .dash-card {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        padding: 24px;
-        box-shadow: var(--shadow-sm);
-      }
-      .dash-card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      .dash-card-header h3 {
-        font-size: 15px;
-        font-weight: 800;
-      }
-      .dash-card-header a {
-        font-size: 13px;
-        color: var(--blue);
-        font-weight: 700;
-      }
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 9px 16px;
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 700;
-        font-family: inherit;
-        cursor: pointer;
-        border: none;
-      }
-      .btn-primary {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        color: white;
-      }
-      .btn-outline {
-        background: var(--white);
-        border: 1.5px solid var(--gray-200);
-        color: var(--gray-600);
-      }
-      .filters-row {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 18px;
-      }
-      .filter-input,
-      .filter-select {
-        border: 1.5px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 9px 14px;
-        font-size: 13px;
-        font-family: inherit;
-        background: var(--gray-100);
-        color: var(--navy);
-      }
-      .filter-input {
-        flex: 1;
-        min-width: 180px;
-      }
-      .stat-row {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-bottom: 22px;
-      }
-      .stat-box {
-        background: var(--white);
-        border-radius: var(--radius-lg);
-        padding: 18px 20px;
-        box-shadow: var(--shadow-sm);
-      }
-      .stat-box .num {
-        font-size: 24px;
-        font-weight: 900;
-      }
-      .stat-box .lbl {
-        font-size: 12px;
-        color: var(--gray-400);
-        margin-top: 4px;
-        font-weight: 600;
-      }
-      @media (max-width: 1000px) {
-        .stat-row {
-          grid-template-columns: repeat(2, 1fr);
+        :root {
+            --bg: #eef4f8;
+            --card: #fff;
+            --ink: #142334;
+            --muted: #64748b;
+            --line: #dfe8ee;
+            --blue: #2563eb;
+            --blue2: #1d4ed8;
+            --blue-soft: #dbeafe;
+            --green: #16a34a;
+            --green-soft: #dcfce7;
+            --amber: #d97706;
+            --amber-soft: #fef3c7;
+            --red: #dc2626;
+            --red-soft: #fee2e2;
+            --shadow: 0 18px 45px rgba(15, 35, 55, .10);
+            --sidebar: 280px
         }
-      }
 
-      .tabs {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 18px;
-      }
-      .tab {
-        padding: 9px 18px;
-        border-radius: 10px;
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--gray-600);
-        background: var(--white);
-        border: 1.5px solid var(--gray-200);
-        cursor: pointer;
-      }
-      .tab.active {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        color: white;
-        border-color: transparent;
-      }
-      .appt-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      .appt-table th {
-        text-align: right;
-        font-size: 12px;
-        color: var(--gray-400);
-        font-weight: 700;
-        padding: 10px 12px;
-        border-bottom: 2px solid var(--gray-200);
-      }
-      .appt-table td {
-        padding: 13px 12px;
-        border-bottom: 1px solid var(--gray-200);
-        font-size: 13.5px;
-      }
-      .appt-table tr:last-child td {
-        border-bottom: none;
-      }
-      .badge {
-        display: inline-flex;
-        padding: 3px 10px;
-        border-radius: 10px;
-        font-size: 11px;
-        font-weight: 700;
-      }
-      .badge.s {
-        background: var(--teal-pale);
-        color: var(--teal-dark);
-      }
-      .badge.c {
-        background: var(--green-pale);
-        color: var(--green);
-      }
-      .badge.x {
-        background: var(--red-pale);
-        color: #991b1b;
-      }
-      .badge.w {
-        background: var(--amber-pale);
-        color: #92400e;
-      }
-      .row-actions {
-        display: flex;
-        gap: 6px;
-      }
-      .row-actions button {
-        width: 30px;
-        height: 30px;
-        border-radius: 8px;
-        border: 1.5px solid var(--gray-200);
-        background: transparent;
-        cursor: pointer;
-      }
-      .filter-input {
-        background-color: #daede9 !important ;
-      }
-      .filter-select {
-        background-color: #daede9 !important ;
-      }
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: Vazirmatn, Tahoma, Arial, sans-serif;
+            line-height: 1.7
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .layout {
+            min-height: 100vh
+        }
+
+        .sidebar {
+            width: var(--sidebar);
+            position: fixed;
+            inset: 0 0 0 auto;
+            background: linear-gradient(180deg, #102139, #091524);
+            color: #fff;
+            padding: 20px 14px;
+            display: flex;
+            flex-direction: column;
+            z-index: 20
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 10px 12px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08)
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--blue), #38bdf8);
+            display: grid;
+            place-items: center;
+            font-size: 24px
+        }
+
+        .brand-title {
+            font-weight: 950
+        }
+
+        .brand-sub {
+            font-size: 12px;
+            color: #93c5fd
+        }
+
+        .nav-title {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .38);
+            font-weight: 900;
+            margin: 22px 12px 8px
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 13px;
+            margin: 4px 0;
+            border-radius: 15px;
+            color: rgba(255, 255, 255, .70);
+            font-weight: 800;
+            font-size: 14px
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, .07);
+            color: #fff
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--blue), var(--blue2));
+            color: #fff;
+            box-shadow: 0 14px 30px rgba(37, 99, 235, .28)
+        }
+
+        .nav-ico {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: rgba(255, 255, 255, .08)
+        }
+
+        .side-user {
+            margin-top: auto;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .09);
+            border-radius: 18px;
+            padding: 13px;
+            display: flex;
+            gap: 11px;
+            align-items: center
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #38bdf8, var(--blue));
+            font-weight: 900
+        }
+
+        .side-name {
+            font-size: 13px;
+            font-weight: 900
+        }
+
+        .side-role {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .45)
+        }
+
+        .main {
+            margin-right: var(--sidebar);
+            min-height: 100vh
+        }
+
+        .topbar {
+            height: 74px;
+            background: rgba(255, 255, 255, .9);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: 950
+        }
+
+        .sub {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 800
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 14px;
+            padding: 10px 15px;
+            font-weight: 900;
+            font-family: inherit;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .btn.primary {
+            background: var(--blue);
+            color: #fff
+        }
+
+        .btn.soft {
+            background: #f8fafc;
+            color: var(--ink);
+            border: 1px solid var(--line)
+        }
+
+        .btn.danger {
+            background: #fff1f2;
+            color: var(--red);
+            border: 1px solid #fecdd3
+        }
+
+        .content {
+            padding: 28px 30px 42px
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            box-shadow: 0 8px 28px rgba(15, 35, 55, .05);
+            overflow: hidden
+        }
+
+        .filters {
+            padding: 18px;
+            display: grid;
+            grid-template-columns:1.4fr .7fr .7fr .7fr .7fr auto;
+            gap: 12px;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .field label {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 950
+        }
+
+        .input, .select {
+            width: 100%;
+            height: 44px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: #f8fafc;
+            padding: 0 13px;
+            font-family: inherit;
+            font-weight: 800;
+            outline: 0
+        }
+
+        .input:focus, .select:focus {
+            border-color: #93c5fd;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, .10)
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns:repeat(5, 1fr);
+            gap: 14px;
+            margin-bottom: 20px
+        }
+
+        .stat {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 17px;
+            box-shadow: 0 8px 28px rgba(15, 35, 55, .05)
+        }
+
+        .stat-num {
+            font-size: 28px;
+            font-weight: 950
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 900
+        }
+
+        .table-wrap {
+            overflow: auto
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 980px
+        }
+
+        th {
+            font-size: 12px;
+            color: var(--muted);
+            text-align: right;
+            background: #f8fafc;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line)
+        }
+
+        td {
+            padding: 15px 16px;
+            border-bottom: 1px solid #edf2f7;
+            font-size: 13px;
+            font-weight: 750;
+            vertical-align: middle
+        }
+
+        tr:hover td {
+            background: #fbfdff
+        }
+
+        .patient {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .pt-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 14px;
+            background: #eff6ff;
+            display: grid;
+            place-items: center
+        }
+
+        .pt-name {
+            font-weight: 950
+        }
+
+        .pt-sub {
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        .pill {
+            display: inline-flex;
+            border-radius: 99px;
+            padding: 5px 10px;
+            font-size: 11px;
+            font-weight: 950;
+            background: var(--blue-soft);
+            color: var(--blue2)
+        }
+
+        .status-COMPLETED {
+            background: var(--green-soft);
+            color: var(--green)
+        }
+
+        .status-CANCELLED {
+            background: var(--red-soft);
+            color: var(--red)
+        }
+
+        .status-CHECK_IN, .status-IN_PROGRESS {
+            background: var(--amber-soft);
+            color: var(--amber)
+        }
+
+        .status-NO_SHOW {
+            background: #f1f5f9;
+            color: #475569
+        }
+
+        .type {
+            background: #f8fafc;
+            color: #475569;
+            border: 1px solid var(--line)
+        }
+
+        .empty {
+            padding: 36px;
+            text-align: center;
+            color: var(--muted);
+            font-weight: 900
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 8px
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #fff;
+            display: grid;
+            place-items: center;
+            color: var(--muted)
+        }
+
+        @media (max-width: 1100px) {
+            .filters, .stats {
+                grid-template-columns:1fr 1fr
+            }
+        }
+
+        @media (max-width: 820px) {
+            :root {
+                --sidebar: 0
+            }
+
+            .sidebar {
+                display: none
+            }
+
+            .main {
+                margin-right: 0
+            }
+
+            .filters, .stats {
+                grid-template-columns:1fr
+            }
+
+            .topbar {
+                padding: 0 16px
+            }
+
+            .content {
+                padding: 18px
+            }
+        }
     </style>
-  </head>
-  <body>
-    <div class="layout">
-      <aside class="sidebar">
-        <div class="sidebar-logo">
-          <div class="logo-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
-              <path
-                d="M14 2C7.37 2 2 7.37 2 14s5.37 12 12 12 12-5.37 12-12S20.63 2 14 2z"
-                fill="#3B82F6"
-              />
-              <path
-                d="M14 8v12M8 14h12"
-                stroke="white"
-                stroke-width="2.5"
-                stroke-linecap="round"
-              />
-            </svg>
-          </div>
-          <div class="logo-text-wrap">
-            <span class="logo-main">بیمارستان نووا</span
-            ><span class="logo-sub">پنل پزشک</span>
-          </div>
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">🩺</div>
+            <div>
+                <div class="brand-title">پنل پزشک</div>
+                <div class="brand-sub">Nova Hospital</div>
+            </div>
         </div>
-        <div class="sidebar-section">منوی من</div>
-        <a
-          th:href="@{/doctor/dashboard}"
-          href="/doctor/dashboard"
-          class="sidebar-link"
-          ><div class="link-icon">🏠</div>
-          داشبورد من</a
-        >
-        <a
-          th:href="@{/doctor/appointments}"
-          href="/doctor/appointments"
-          class="sidebar-link active"
-          ><div class="link-icon">📅</div>
-          نوبت‌های امروز<span class="sidebar-badge">۸</span></a
-        >
-        <a
-          th:href="@{/doctor/patients}"
-          href="/doctor/patients"
-          class="sidebar-link"
-          ><div class="link-icon">👤</div>
-          بیماران من</a
-        >
-        <a
-          th:href="@{/doctor/schedule}"
-          href="/doctor/schedule"
-          class="sidebar-link"
-          ><div class="link-icon">📆</div>
-          برنامه هفتگی</a
-        >
-        <div class="sidebar-section">بالینی</div>
-        <a
-          th:href="@{/doctor/admitted}"
-          href="/doctor/admitted"
-          class="sidebar-link"
-          ><div class="link-icon">🛏</div>
-          بیماران بستری</a
-        >
-        <a
-          th:href="@{/doctor/records}"
-          href="/doctor/records"
-          class="sidebar-link"
-          ><div class="link-icon">📋</div>
-          پرونده‌ها</a
-        >
-        <a
-          th:href="@{/doctor/prescriptions}"
-          href="/doctor/prescriptions"
-          class="sidebar-link"
-          ><div class="link-icon">💊</div>
-          تجویزها</a
-        >
-        <div class="sidebar-section">حساب کاربری</div>
-        <a
-          th:href="@{/doctor/profile}"
-          href="/doctor/profile"
-          class="sidebar-link"
-          ><div class="link-icon">👤</div>
-          پروفایل من</a
-        >
-        <a
-          th:href="@{/doctor/change-password}"
-          href="/doctor/change-password"
-          class="sidebar-link"
-          ><div class="link-icon">🔐</div>
-          تغییر رمز</a
-        >
+        <div class="nav-title">مدیریت ویزیت</div>
+        <a class="nav-link" th:href="@{/doctor/dashboard}"><span class="nav-ico">📊</span>داشبورد</a>
+        <a class="nav-link active" th:href="@{/doctor/appointments}"><span class="nav-ico">📅</span>نوبت‌ها</a>
+        <a class="nav-link" th:href="@{/doctor/patients}"><span class="nav-ico">👥</span>بیماران من</a>
+        <a class="nav-link" th:href="@{/doctor/schedule}"><span class="nav-ico">⏱</span>برنامه کاری</a>
+        <div class="nav-title">حساب کاربری</div>
+        <a class="nav-link" th:href="@{/doctor/profile}"><span class="nav-ico">👤</span>پروفایل</a><a class="nav-link"
+                                                                                                     th:href="@{/doctor/change-password}"><span
+            class="nav-ico">🔐</span>تغییر رمز</a>
+        <div class="side-user">
+            <div class="avatar">د</div>
+            <div>
+                <div class="side-name" th:text="${doctor != null ? doctor.firstName + ' ' + doctor.lastName : 'پزشک'}">
+                    پزشک
+                </div>
+                <div class="side-role"
+                     th:text="${doctor != null && doctor.speciality != null ? specialityLabels[doctor.speciality.name()] : 'پزشک بیمارستان'}">
+                    تخصص
+                </div>
+            </div>
+        </div>
+    </aside>
+    <main class="main">
+        <header class="topbar">
+            <div><h1>نوبت‌های پزشک</h1>
+                <div class="sub">فهرست کامل نوبت‌ها با فیلتر و جستجوی مستقیم از دیتابیس</div>
+            </div>
+            <div><a class="btn soft" th:href="@{/doctor/dashboard}">بازگشت به داشبورد</a> <a class="btn danger"
+                                                                                             th:href="@{/logout}">خروج</a>
+            </div>
+        </header>
+        <section class="content">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-num" th:text="${appointmentCount}">0</div>
+                    <div class="stat-label">نتیجه فیلتر</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num" th:text="${scheduledCount}">0</div>
+                    <div class="stat-label">رزرو شده</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num" th:text="${checkInCount}">0</div>
+                    <div class="stat-label">پذیرش شده</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num" th:text="${completedCount}">0</div>
+                    <div class="stat-label">تکمیل شده</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num" th:text="${cancelledCount}">0</div>
+                    <div class="stat-label">لغو شده</div>
+                </div>
+            </div>
+            <div class="panel">
+                <form class="filters" method="get" th:action="@{/doctor/appointments}">
+                    <div class="field"><label>جستجو</label><input class="input" name="q" th:value="${q}"
+                                                                  placeholder="نام بیمار، کد ملی، علت مراجعه..."/></div>
+                    <div class="field"><label>وضعیت</label><select class="select" name="status">
+                        <option value="">همه</option>
+                        <option th:each="st : ${appointmentStatuses}" th:value="${st}" th:selected="${status == st}"
+                                th:text="${statusLabels[st.name()]}">وضعیت
+                        </option>
+                    </select></div>
+                    <div class="field"><label>نوع</label><select class="select" name="type">
+                        <option value="">همه</option>
+                        <option th:each="tp : ${appointmentTypes}" th:value="${tp}" th:selected="${type == tp}"
+                                th:text="${typeLabels[tp.name()]}">نوع
+                        </option>
+                    </select></div>
+                    <div class="field"><label>از تاریخ</label><input class="input" type="date" name="from"
+                                                                     th:value="${from}"/></div>
+                    <div class="field"><label>تا تاریخ</label><input class="input" type="date" name="to"
+                                                                     th:value="${to}"/></div>
+                    <div class="field"><label>&nbsp;</label>
+                        <button class="btn primary" type="submit">🔎 فیلتر</button>
+                    </div>
+                </form>
+                <div class="empty" th:if="${#lists.isEmpty(appointments)}">هیچ نوبتی با این فیلترها پیدا نشد.</div>
+                <div class="table-wrap" th:if="${!#lists.isEmpty(appointments)}">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>بیمار</th>
+                            <th>تاریخ</th>
+                            <th>ساعت</th>
+                            <th>نوع</th>
+                            <th>وضعیت</th>
+                            <th>علت مراجعه</th>
+                            <th>بخش</th>
+                            <th>عملیات</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="appointment : ${appointments}">
+                            <td>
+                                <div class="patient">
+                                    <div class="pt-avatar">👤</div>
+                                    <div>
+                                        <div class="pt-name"
+                                             th:text="${appointment.patient != null ? appointment.patient.fullName : 'بیمار نامشخص'}">
+                                            بیمار
+                                        </div>
+                                        <div class="pt-sub"
+                                             th:text="${appointment.patient != null ? appointment.patient.nationalId + ' · ' + appointment.patient.phoneNumber : '-'}">
+                                            کد ملی
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td th:text="${appointment.appointmentDate != null ? #temporals.format(appointment.appointmentDate,'yyyy/MM/dd') : '-'}">
+                                تاریخ
+                            </td>
+                            <td><span
+                                    th:text="${appointment.startTime != null ? #temporals.format(appointment.startTime,'HH:mm') : '--:--'}">09:00</span>
+                                تا <span
+                                        th:text="${appointment.endTime != null ? #temporals.format(appointment.endTime,'HH:mm') : '--:--'}">09:30</span>
+                            </td>
+                            <td><span class="pill type"
+                                      th:text="${appointment.type != null ? typeLabels[appointment.type.name()] : '-'}">نوع</span>
+                            </td>
+                            <td><span class="pill"
+                                      th:classappend="${appointment.status != null ? ' status-' + appointment.status.name() : ''}"
+                                      th:text="${appointment.status != null ? statusLabels[appointment.status.name()] : '-'}">وضعیت</span>
+                            </td>
+                            <td th:text="${appointment.reason ?: 'ثبت نشده'}">علت</td>
+                            <td th:text="${appointment.department != null ? appointment.department.departmentName : '-'}">
+                                بخش
+                            </td>
+                            <td>
+                                <div class="row-actions"><a class="icon-btn" title="پرونده بیمار"
+                                                            th:href="@{/doctor/patients(q=${appointment.patient != null ? appointment.patient.nationalId : ''})}">👁</a><a
+                                        class="icon-btn" title="جستجوی همین بیمار"
+                                        th:href="@{/doctor/appointments(q=${appointment.patient != null ? appointment.patient.fullName : ''})}">🔎</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script>(function () {
+    function c() {
+        var b = a.contentDocument || a.contentWindow.document;
+        if (b) {
+            var d = b.createElement('script');
+            d.innerHTML = "window.__CF$cv$params={r:'a1167d8e28cf565a',t:'MTc4MjQxNjkxMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName('head')[0].appendChild(d)
+        }
+    }
 
-        <div class="sidebar-footer">
-          <div class="sidebar-user">
-            <div class="user-avatar">🩺</div>
-            <div class="user-info">
-              <span
-                class="user-name"
-                th:text="${doctor?.firstName + ' ' + doctor?.lastName ?: 'دکتر احمدی'}"
-                >دکتر سارا احمدی</span
-              >
-              <span class="user-role">متخصص قلب و عروق</span>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <main class="main">
-        <div class="topbar">
-          <div class="topbar-title">
-            <h1>نوبت‌های من</h1>
-            <div class="topbar-date" id="currentDate">در حال بارگذاری…</div>
-          </div>
-          <div class="topbar-actions">
-            <div class="topbar-btn">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-              </svg>
-              <div class="notif-dot"></div>
-            </div>
-            <a th:href="@{/logout}" href="/logout" class="btn-logout">خروج</a>
-          </div>
-        </div>
-
-        <div class="page-content">
-          <div class="stat-row">
-            <div class="stat-box">
-              <div class="num">۸</div>
-              <div class="lbl">نوبت امروز</div>
-            </div>
-            <div class="stat-box">
-              <div class="num">۵</div>
-              <div class="lbl">رزرو‌شده</div>
-            </div>
-            <div class="stat-box">
-              <div class="num">۲</div>
-              <div class="lbl">انجام‌شده</div>
-            </div>
-            <div class="stat-box">
-              <div class="num">۱</div>
-              <div class="lbl">لغو‌شده</div>
-            </div>
-          </div>
-          <div class="dash-card">
-            <div class="dash-card-header">
-              <h3>لیست نوبت‌ها</h3>
-              <div class="tabs">
-                <div class="tab active">امروز</div>
-                <div class="tab">این هفته</div>
-                <div class="tab">همه</div>
-              </div>
-            </div>
-            <div class="filters-row">
-              <input
-                class="filter-input"
-                type="text"
-                placeholder="جستجوی نام بیمار..."
-              />
-              <select class="filter-select">
-                <option>همه وضعیت‌ها</option>
-                <option>رزرو‌شده</option>
-                <option>انجام‌شده</option>
-                <option>لغو‌شده</option>
-                <option>در انتظار</option>
-              </select>
-              <select class="filter-select">
-                <option>همه نوع‌ها</option>
-                <option>حضوری</option>
-                <option>ویدیویی</option>
-                <option>تلفنی</option>
-              </select>
-            </div>
-            <table class="appt-table">
-              <thead>
-                <tr>
-                  <th>ساعت</th>
-                  <th>بیمار</th>
-                  <th>سن / جنسیت</th>
-                  <th>نوع نوبت</th>
-                  <th>وضعیت</th>
-                  <th>عملیات</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>۰۹:۰۰</td>
-                  <td>احمد رضایی</td>
-                  <td>۶۲ ساله · مرد</td>
-                  <td>حضوری</td>
-                  <td><span class="badge s">رزرو‌شده</span></td>
-                  <td class="row-actions">
-                    <button title="ورود">✅</button
-                    ><button title="لغو">❌</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>۰۹:۳۰</td>
-                  <td>مریم حسینی</td>
-                  <td>۴۵ ساله · زن</td>
-                  <td>حضوری</td>
-                  <td><span class="badge c">انجام‌شده</span></td>
-                  <td class="row-actions"><button title="مشاهده">👁</button></td>
-                </tr>
-                <tr>
-                  <td>۱۱:۰۰</td>
-                  <td>علی تهرانی</td>
-                  <td>۵۵ ساله · مرد</td>
-                  <td>ویدیویی</td>
-                  <td><span class="badge w">در انتظار</span></td>
-                  <td class="row-actions">
-                    <button title="ورود">✅</button
-                    ><button title="لغو">❌</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>۱۴:۰۰</td>
-                  <td>فاطمه نصیری</td>
-                  <td>۳۸ ساله · زن</td>
-                  <td>حضوری</td>
-                  <td><span class="badge s">رزرو‌شده</span></td>
-                  <td class="row-actions">
-                    <button title="ورود">✅</button
-                    ><button title="لغو">❌</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>۱۵:۳۰</td>
-                  <td>رضا کریمی</td>
-                  <td>۴۸ ساله · مرد</td>
-                  <td>تلفنی</td>
-                  <td><span class="badge x">لغو‌شده</span></td>
-                  <td class="row-actions"><button title="مشاهده">👁</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </main>
-    </div>
-    <script>
-      document.getElementById("currentDate").textContent =
-        new Date().toLocaleDateString("fa-IR", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
-    </script>
-  </body>
+    if (document.body) {
+        var a = document.createElement('iframe');
+        a.height = 1;
+        a.width = 1;
+        a.style.position = 'absolute';
+        a.style.top = 0;
+        a.style.left = 0;
+        a.style.border = 'none';
+        a.style.visibility = 'hidden';
+        document.body.appendChild(a);
+        if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else {
+            var e = document.onreadystatechange || function () {
+            };
+            document.onreadystatechange = function (b) {
+                e(b);
+                'loading' !== document.readyState && (document.onreadystatechange = e, c())
+            }
+        }
+    }
+})();</script>
+</body>
 </html>

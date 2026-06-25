@@ -107,10 +107,24 @@ public interface AppointmentRepository extends BaseEntityRepository<Appointment,
                                                    @Param("date") LocalDate date,
                                                    @Param("status") AppointmentStatus status);
 
-    @Query("SELECT a FROM appointmentEntity a " +
+    @Query("SELECT DISTINCT a FROM appointmentEntity a " +
             "JOIN FETCH a.patient p " +
+            "LEFT JOIN FETCH p.currentRoom cr " +
             "JOIN FETCH a.doctor d " +
-            "JOIN FETCH a.department dep " +
+            "LEFT JOIN FETCH d.department dd " +
+            "LEFT JOIN FETCH d.subSpecialities ss " +
+            "LEFT JOIN FETCH a.department dep " +
+            "WHERE d.id = :doctorId " +
+            "ORDER BY a.appointmentDate DESC, a.startTime DESC")
+    List<Appointment> findByDoctorIdWithDetails(@Param("doctorId") Long doctorId);
+
+    @Query("SELECT DISTINCT a FROM appointmentEntity a " +
+            "JOIN FETCH a.patient p " +
+            "LEFT JOIN FETCH p.currentRoom cr " +
+            "JOIN FETCH a.doctor d " +
+            "LEFT JOIN FETCH d.department dd " +
+            "LEFT JOIN FETCH d.subSpecialities ss " +
+            "LEFT JOIN FETCH a.department dep " +
             "ORDER BY a.appointmentDate DESC, a.startTime DESC")
     List<Appointment> findAllWithDetails();
 

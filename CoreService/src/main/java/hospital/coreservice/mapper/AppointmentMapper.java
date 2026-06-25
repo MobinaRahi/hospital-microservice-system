@@ -3,7 +3,9 @@ package hospital.coreservice.mapper;
 import hospital.coreservice.dto.appointment.AppointmentCreateDto;
 import hospital.coreservice.dto.appointment.AppointmentResponseDto;
 import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
+import hospital.coreservice.dto.department.DepartmentResponseDto;
 import hospital.coreservice.model.Appointment;
+import hospital.coreservice.model.Department;
 import org.mapstruct.*;
 
 @Mapper(
@@ -38,5 +40,25 @@ public interface AppointmentMapper {
     void updateEntity(@MappingTarget Appointment appointment, AppointmentUpdateDto updateDto);
 
 
+    @Mapping(target = "department", ignore = true)
     AppointmentResponseDto toResponseDto(Appointment appointment);
+
+    @AfterMapping
+    default void mapDepartmentSummary(Appointment appointment, @MappingTarget AppointmentResponseDto responseDto) {
+        Department department = appointment.getDepartment();
+        if (department == null) {
+            return;
+        }
+        DepartmentResponseDto departmentDto = new DepartmentResponseDto();
+        departmentDto.setId(department.getId());
+        departmentDto.setDepartmentName(department.getDepartmentName());
+        departmentDto.setDepartmentCode(department.getDepartmentCode());
+        departmentDto.setDescription(department.getDescription());
+        departmentDto.setLocation(department.getLocation());
+        departmentDto.setPhoneNumber(department.getPhoneNumber());
+        departmentDto.setIsActive(department.isActive());
+        departmentDto.setCreatedAt(department.getCreatedAt());
+        departmentDto.setUpdatedAt(department.getUpdatedAt());
+        responseDto.setDepartment(departmentDto);
+    }
 }
