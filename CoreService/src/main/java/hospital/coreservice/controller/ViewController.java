@@ -321,6 +321,8 @@ public class ViewController {
         model.addAttribute("activeNurseCount", safe(nurseService::countActiveNurses, 0L));
         model.addAttribute("appointmentCount", safe(appointmentService::countTotalAppointments, 0L));
         model.addAttribute("todayAppointments", safe(appointmentService::getTodayAppointments, List.of()));
+        model.addAttribute("doctors", safe(doctorService::getActiveDoctors, List.of()));
+
     }
 
     private void addDoctorPanelModel(Model model, Long doctorId) {
