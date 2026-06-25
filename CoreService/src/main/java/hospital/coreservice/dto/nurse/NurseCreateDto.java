@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 public class NurseCreateDto {
 
-    @NotBlank(message = "userId is required")
     private Long userId;
 
     @NotBlank(message = "First name is required")

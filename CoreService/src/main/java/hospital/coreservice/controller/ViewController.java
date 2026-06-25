@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -304,6 +304,12 @@ public class ViewController {
         model.addAttribute("nurses", safe(nurseService::getAllNurses, List.of()));
         model.addAttribute("activeNurseCount", safe(nurseService::countActiveNurses, 0L));
         return "nurses";
+    }
+
+    @GetMapping("/nurses/add")
+    public String addNurse(Model model) {
+        model.addAttribute("departments", safe(departmentService::getAllDepartments, List.of()));
+        return "add-nurse";
     }
 
     @GetMapping("/nurse/dashboard")

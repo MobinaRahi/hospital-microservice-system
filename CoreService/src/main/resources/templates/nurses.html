@@ -771,10 +771,6 @@
         ><div class="link-icon">👩‍⚕️</div>
             پرستاران</a
         >
-        <a th:href="@{/shifts}" class="sidebar-link"
-        ><div class="link-icon">⏰</div>
-            شیفت‌ها</a
-        >
         <a th:href="@{/appointments}" class="sidebar-link"
         ><div class="link-icon">📋</div>
             نوبت‌ها</a
@@ -783,10 +779,6 @@
         <a href="#" class="sidebar-link"
         ><div class="link-icon">👥</div>
             کاربران</a
-        >
-        <a href="#" class="sidebar-link"
-        ><div class="link-icon">🔐</div>
-            نقش‌ها</a
         >
 
         <div class="sidebar-footer">
@@ -821,10 +813,7 @@
                     </svg>
                     <div class="notif-dot"></div>
                 </div>
-                <button
-                        class="btn-primary"
-                        onclick="document.getElementById('addModal').classList.add('open')"
-                >
+                <a th:href="@{/nurses/add}" class="btn-primary">
                     <svg
                             width="14"
                             height="14"
@@ -835,8 +824,8 @@
                     >
                         <path d="M12 5v14M5 12h14" />
                     </svg>
-                    افزودن پرستار
-                </button>
+                    ثبت پرستار جدید
+                </a>
                 <a th:href="@{/logout}" class="btn-logout">خروج</a>
             </div>
         </div>
@@ -1117,5 +1106,5 @@
         ).textContent = `نمایش ${c} از ۱۱۸ نفر`;
     }
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a11383605ac50692',t:'MTc4MjM4NTY5NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
