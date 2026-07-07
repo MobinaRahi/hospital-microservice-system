@@ -77,57 +77,22 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
                 .authorizeHttpRequests(auth -> auth
-                        // ===== مسیرهای عمومی (بدون احراز هویت) =====
                         .requestMatchers(
-                                "/", "/index", "/home", "/login", "/error",
-                                "/css/**", "/js/**", "/images/**", "/static/**", "/webjars/**",
-                                "/patient/book",
-                                "/api/v1/doctor/active/by-department-id",
-                                "/api/v1/appointments/doctor/available",
-                                "/api/v1/appointments/patient",
-                                "/api/v1/doctor/count/by-department-id",
-                                "/patient/dashboard/",
-                                "/patient/dashboard",
-                                "/patient/patient_dashboard",
-                                "/patient_dashboard",
-                                "/api/v1/doctor/**",
-                                "/patient/complete-profile",
-                                "/doctors/**",
-                                "/departments/**",
-                                "/appointments/book",
-                                "/api/v1/doctors/search",
-                                "/api/v1/departments",
-                                "/api/v1/doctors",
-                                "/api/v1/doctor/by-department-id",
                                 "/api/v1/auth/**",
+                                "/api/v1/internal/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/h2-console/**"
+                                "/actuator/health",
+                                "/error"
                         ).permitAll()
 
-                        // ===== APIهای خاص که باید عمومی باشند =====
-                        .requestMatchers("/api/v1/patient/complete-registration").permitAll()
-                        .requestMatchers("/api/v1/users/register-with-roles").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/patient").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/departments").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/room").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/users/register").permitAll()
 
-                        // ===== صفحات نیازمند لاگین =====
-                        .requestMatchers(
-                                "/dashboard",
-                                "/patient/**",
-                                "/doctor/**",
-                                "/nurse/**",
-                                "/admin/**"
-                        ).authenticated()
-
-                        // ===== APIهای نقش‌محور =====
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
-                        .requestMatchers("/api/v1/nurse/**").hasAnyRole("NURSE", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/patient/**").hasAnyRole("PATIENT", "ADMIN", "DOCTOR", "NURSE")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/patient/**").hasAnyRole("PATIENT", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/patient/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/users/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                        .requestMatchers("/api/v1/roles/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                        .requestMatchers("/api/v1/permissions/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                        .requestMatchers("/api/v1/audit-logs/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                        .requestMatchers("/api/v1/profile/**").authenticated()
 
                         .anyRequest().authenticated()
                 )

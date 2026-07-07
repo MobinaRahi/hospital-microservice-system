@@ -1,5 +1,6 @@
 package hospital.authservice.security.provider;
 
+import hospital.authservice.security.model.SecurityUser;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -42,16 +43,23 @@ public class JwtTokenProvider {
     }
 
     private String generateToken(UserDetails userDetails, long expiration) {
-        String authorities = userDetails.getAuthorities().stream()
+        String authorities = userDetails.getAuthorities()
+                .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
 
-        return Jwts.builder()
+        JwtBuilder builder = Jwts.builder()
                 .subject(userDetails.getUsername())
-                .claim("auth", authorities)
+                .claim("auth", authorities);
+
+        if (userDetails instanceof SecurityUser securityUser) {
+            builder.claim("uid", securityUser.getId());
+        }
+
+        return builder
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey(), Jwts.SIG.HS512)

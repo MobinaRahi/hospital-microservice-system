@@ -9,6 +9,7 @@ import hospital.coreservice.dto.patient.PatientCreateDto;
 import hospital.coreservice.dto.room.RoomCreateDto;
 import hospital.coreservice.dto.shift.ShiftCreateDto;
 import hospital.coreservice.model.enums.*;
+import hospital.coreservice.client.AuthClient;
 import hospital.coreservice.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -29,9 +30,7 @@ import java.util.Set;
 @Order(2)
 public class DataInitializer implements CommandLineRunner {
 
-    private final UserService userService;
-    private final RoleService roleService;
-    private final PermissionService permissionService;
+    private final AuthClient authClient;
     private final DepartmentService departmentService;
     private final DoctorService doctorService;
     private final NurseService nurseService;
@@ -40,6 +39,7 @@ public class DataInitializer implements CommandLineRunner {
     private final ShiftService shiftService;
     private final DoctorScheduleService doctorScheduleService;
     private final AppointmentService appointmentService;
+
 
     @Override
     public void run(String... args) {
@@ -51,8 +51,6 @@ public class DataInitializer implements CommandLineRunner {
 
             log.info("🚀 شروع مقداردهی اولیه داده‌ها...");
 
-            initRolesAndPermissions();
-            initUsers();
             initDepartments();
             initDoctors();
             initNurses();
@@ -64,7 +62,6 @@ public class DataInitializer implements CommandLineRunner {
 
             log.info("✅ تمام داده‌های نمونه با موفقیت ایجاد شدند!");
             log.info("📊 خلاصه:");
-            log.info("   • کاربران: {}", userService.countAllUsers());
             log.info("   • بخش‌ها: {}", departmentService.countTotalDepartments());
             log.info("   • پزشکان: {}", doctorService.countAllDoctors());
             log.info("   • پرستاران: {}", nurseService.countAllNurses());
@@ -78,84 +75,7 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
-    // ============ 1. نقش‌ها و دسترسی‌ها ============
-
-    private void initRolesAndPermissions() {
-        log.info("📋 ایجاد نقش‌ها و دسترسی‌ها...");
-
-        if (permissionService.countAllPermissions() == 0) {
-            createPermission("CREATE_USER", "ایجاد کاربر جدید", "USER", "CREATE");
-            createPermission("READ_USER", "مشاهده اطلاعات کاربر", "USER", "READ");
-            createPermission("UPDATE_USER", "ویرایش اطلاعات کاربر", "USER", "UPDATE");
-            createPermission("DELETE_USER", "حذف کاربر", "USER", "DELETE");
-            createPermission("VIEW_PROFILE", "مشاهده پروفایل کاربران", "USER", "READ");
-            createPermission("MANAGE_ROLES", "مدیریت نقش‌ها", "ADMIN", "MANAGE");
-            createPermission("VIEW_AUDIT", "مشاهده لاگ‌های حسابرسی", "ADMIN", "READ");
-        }
-
-        if (roleService.countAllRoles() == 0) {
-            createRole(RoleName.SUPER_ADMIN, "مدیر ارشد سیستم - دسترسی کامل");
-            createRole(RoleName.ADMIN, "مدیر سیستم - مدیریت کاربران و نقش‌ها");
-            createRole(RoleName.DOCTOR, "پزشک - کادر پزشکی");
-            createRole(RoleName.NURSE, "پرستار - کادر پرستاری");
-            createRole(RoleName.PATIENT, "بیمار - کاربر عادی");
-            createRole(RoleName.RECEPTIONIST, "پذیرش - میز جلو");
-        }
-
-        log.info("✅ نقش‌ها و دسترسی‌ها با موفقیت ایجاد شدند");
-    }
-
-    private void createPermission(String name, String description, String resource, String action) {
-        try {
-            permissionService.createPermission(new PermissionCreateDto(name, description, resource, action));
-            log.debug("دسترسی '{}' ایجاد شد", name);
-        } catch (Exception e) {
-            log.warn("ایجاد دسترسی '{}' ناموفق بود: {}", name, e.getMessage(), e);
-        }
-    }
-
-    private void createRole(RoleName roleName, String description) {
-        try {
-            roleService.createRole(new hospital.coreservice.dto.role.RoleCreateDto(roleName, description, null));
-        } catch (Exception e) {
-            log.warn("ایجاد نقش '{}' ناموفق بود: {}", roleName, e.getMessage(), e);
-        }
-    }
-
-    // ============ 2. کاربران ============
-
-    private void initUsers() {
-        log.info("👤 ایجاد کاربران...");
-
-        createUser("دکتر علی", "رضایی", "dr.ali", "ali.rezaei@hospital.com", "Doctor@123", "09121111111", Set.of(RoleName.DOCTOR));
-        createUser("دکتر مریم", "احمدی", "dr.maryam", "maryam.ahmadi@hospital.com", "Doctor@123", "09122222222", Set.of(RoleName.DOCTOR));
-        createUser("پرستار فاطمه", "محمدی", "nurse.fatemeh", "fatemeh.mohammadi@hospital.com", "Nurse@123", "09123333333", Set.of(RoleName.NURSE));
-        createUser("پرستار حسین", "کریمی", "nurse.hossein", "hossein.karimi@hospital.com", "Nurse@123", "09124444444", Set.of(RoleName.NURSE));
-        createUser("بیمار رضا", "نجفی", "patient.reza", "reza.najafi@hospital.com", "Patient@123", "09125555555", Set.of(RoleName.PATIENT));
-        createUser("بیمار زهرا", "حسینی", "patient.zahra", "zahra.hosseini@hospital.com", "Patient@123", "09126666666", Set.of(RoleName.PATIENT));
-        createUser("مدیر", "سیستم", "admin", "admin@hospital.com", "Admin@123", "09127777777", Set.of(RoleName.SUPER_ADMIN, RoleName.ADMIN));
-
-        log.info("✅ کاربران با موفقیت ایجاد شدند");
-    }
-
-    private void createUser(String firstName, String lastName, String username, String email, String password, String phone, java.util.Set<RoleName> roles) {
-        try {
-            UserCreateDto dto = new UserCreateDto();
-            dto.setFirstName(firstName);
-            dto.setLastName(lastName);
-            dto.setUsername(username);
-            dto.setEmail(email);
-            dto.setPassword(password);
-            dto.setPhoneNumber(phone);
-            dto.setBirthDate(LocalDate.of(1990, 1, 1));
-            userService.registerUserWithRoles(dto, roles);
-            log.debug("کاربر '{}' ایجاد شد", username);
-        } catch (Exception e) {
-            log.warn("ایجاد کاربر '{}' ناموفق بود: {}", username, e.getMessage(), e);
-        }
-    }
-
-    // ============ 3. بخش‌ها ============
+    // ============ 1. بخش‌ها ============
 
     private void initDepartments() {
         log.info("🏥 ایجاد بخش‌ها...");
@@ -201,11 +121,11 @@ public class DataInitializer implements CommandLineRunner {
                               List<SubSpeciality> subSpecialities, int experience, Long fee,
                               String phone, int maxAppointments, int slotDuration, String departmentCode) {
         try {
-            var user = userService.getUserEntityByUsername(username);
+            Long userId = authClient.getUserIdByUsername(username);
             var department = departmentService.getDepartmentByCode(departmentCode);
 
             DoctorCreateDto dto = new DoctorCreateDto();
-            dto.setUserId(user.getId());
+            dto.setUserId(userId);
             dto.setFirstName(fullName.split(" ")[1]);
             dto.setLastName(fullName.split(" ")[2]);
             dto.setSpeciality(speciality);
@@ -242,16 +162,16 @@ public class DataInitializer implements CommandLineRunner {
     private void createNurse(String username, String fullName, String nurseCode, String nationalId,
                              NursePosition position, int experience, boolean active, String departmentCode) {
         try {
-            var user = userService.getUserEntityByUsername(username);
+            Long userId = authClient.getUserIdByUsername(username);
             var department = departmentService.getDepartmentByCode(departmentCode);
 
             NurseCreateDto dto = new NurseCreateDto();
-            dto.setUserId(user.getId());
+            dto.setUserId(userId);
             dto.setFirstName(fullName.split(" ")[0]);
             dto.setLastName(fullName.split(" ")[1]);
             dto.setNationalId(nationalId);
-            dto.setPhoneNumber(user.getPhoneNumber());
-            dto.setEmail(user.getEmail());
+            dto.setPhoneNumber(resolvePhone(username));
+            dto.setEmail(resolveEmail(username));
             dto.setNurseCode(nurseCode);
             dto.setPosition(position);
             dto.setYearsOfExperience(experience);
@@ -281,10 +201,10 @@ public class DataInitializer implements CommandLineRunner {
     private void createPatient(String username, String fullName, String nationalId, Gender gender,
                                BloodType bloodType, String address, String phone, String allergies) {
         try {
-            var user = userService.getUserEntityByUsername(username);
+            Long userId = authClient.getUserIdByUsername(username);
 
             PatientCreateDto dto = new PatientCreateDto();
-            dto.setUserId(user.getId());
+            dto.setUserId(userId);
             dto.setNationalId(nationalId);
             dto.setFirstName(fullName.split(" ")[0]);
             dto.setLastName(fullName.split(" ")[1]);
@@ -302,6 +222,7 @@ public class DataInitializer implements CommandLineRunner {
             log.warn("ایجاد بیمار '{}' ناموفق بود: {}", username, e.getMessage(), e);
         }
     }
+
 
     // ============ 7. اتاق‌ها ============
 
@@ -404,10 +325,11 @@ public class DataInitializer implements CommandLineRunner {
 
         log.info("✅ برنامه پزشکان با موفقیت ایجاد شد");
     }
+
     private void createDoctorSchedule(String username, DayOfWeek day, LocalDateTime start, LocalDateTime end, int slotDuration, String location) {
         try {
-            var user = userService.getUserEntityByUsername(username);
-            var doctor = doctorService.getDoctorByUserId(user.getId());
+            Long userId = resolveUserId(username);
+            var doctor = doctorService.getDoctorByUserId(userId);
 
             DoctorScheduleCreateDto dto = new DoctorScheduleCreateDto();
             dto.setDoctorId(doctor.getId());
@@ -444,8 +366,8 @@ public class DataInitializer implements CommandLineRunner {
                                    String patientNationalId, LocalDate date, LocalTime start, LocalTime end,
                                    AppointmentType type, String reason) {
         try {
-            var doctorUser = userService.getUserEntityByUsername(doctorUsername);
-            var doctor = doctorService.getDoctorByUserId(doctorUser.getId());
+            Long doctorUserId = resolveUserId(doctorUsername);
+            var doctor = doctorService.getDoctorByUserId(doctorUserId);
             var patient = patientService.getPatientByNationalId(patientNationalId);
             var department = departmentService.getDepartmentByCode(departmentCode);
 
@@ -465,4 +387,45 @@ public class DataInitializer implements CommandLineRunner {
             log.warn("ایجاد نوبت برای {} با {} در تاریخ {} ناموفق بود: {}", patientUsername, doctorUsername, date, e.getMessage(), e);
         }
     }
+
+    private Long resolveUserId(String username) {
+        Long id = authClient.getUserIdByUsername(username);
+        if (id != null) return id;
+        Long fallback = demoUserIds().get(username);
+        if (fallback != null) {
+            log.warn("Using fallback demo userId={} for username='{}'. Start AuthService first for real microservice resolution.", fallback, username);
+            return fallback;
+        }
+        throw new IllegalArgumentException("Cannot resolve userId for username: " + username);
+    }
+
+    private String resolvePhone(String username) {
+        return switch (username) {
+            case "nurse.fatemeh" -> "09123333333";
+            case "nurse.hossein" -> "09124444444";
+            default -> "09120000000";
+        };
+    }
+
+    private String resolveEmail(String username) {
+        return switch (username) {
+            case "nurse.fatemeh" -> "fatemeh.mohammadi@hospital.com";
+            case "nurse.hossein" -> "hossein.karimi@hospital.com";
+            default -> username + "@hospital.com";
+        };
+    }
+
+    private Map<String, Long> demoUserIds() {
+        return Map.of(
+                "dr.ali", 1L,
+                "dr.maryam", 2L,
+                "nurse.fatemeh", 3L,
+                "nurse.hossein", 4L,
+                "patient.reza", 5L,
+                "patient.zahra", 6L,
+                "admin", 7L
+        );
+
+    }
+
 }

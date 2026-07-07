@@ -9,7 +9,6 @@ import hospital.coreservice.model.enums.BloodType;
 import hospital.coreservice.model.enums.Gender;
 import hospital.coreservice.model.enums.PatientStatus;
 import hospital.coreservice.service.PatientService;
-import hospital.coreservice.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -31,7 +30,6 @@ import java.util.Map;
 public class PatientApi {
 
     private final PatientService patientService;
-    private final UserService userService;
 
     // ========== Core Operations (Create, Update, Patch, Delete) ==========
 

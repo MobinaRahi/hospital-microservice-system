@@ -22,7 +22,6 @@ public interface PatientRepository extends BaseEntityRepository<Patient, Long> {
 
     Optional<Patient> findByPhoneNumber(String phoneNumber);
 
-    @Query("select p from patientEntity p where p.userId=:userId")
     Optional<Patient> findByUserId(@Param("userId") Long userId);
 
     List<Patient> findByFirstNameContainingIgnoreCase(String firstName);
