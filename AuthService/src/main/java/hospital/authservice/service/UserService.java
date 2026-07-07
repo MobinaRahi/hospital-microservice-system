@@ -1,5 +1,6 @@
 package hospital.authservice.service;
 
+import hospital.authservice.dto.internal.InternalUserProfileDto;
 import hospital.authservice.dto.response.PasswordChangeRequest;
 import hospital.authservice.dto.user.*;
 import hospital.authservice.model.User;
@@ -44,6 +45,9 @@ public interface UserService {
     List<UserResponseDto> getUsersWithPermission(@NonNull String permissionName);
     Page<UserResponseDto> searchUsers(@NonNull String keyword, Pageable pageable);
     Page<UserResponseDto> getAllActiveUsers(Pageable pageable);
+    InternalUserProfileDto getInternalProfileById(Long id);
+    InternalUserProfileDto getInternalProfileByUsername(String username);
+    boolean userHasRole(Long userId, String role);
     List<UserSlimResponseDto> getAllUserSummaries();
     long countActiveUsers();
     long countEnabledUsers();

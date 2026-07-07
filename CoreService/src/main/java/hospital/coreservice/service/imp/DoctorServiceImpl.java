@@ -1,23 +1,21 @@
 package hospital.coreservice.service.imp;
 
+import hospital.coreservice.client.AuthClient;
 import hospital.coreservice.dto.doctor.DoctorCreateDto;
 import hospital.coreservice.dto.doctor.DoctorResponseDto;
 import hospital.coreservice.dto.doctor.DoctorUpdateDto;
 import hospital.coreservice.exception.department.DepartmentNotFoundException;
 import hospital.coreservice.exception.doctor.DoctorNotFoundException;
-import hospital.coreservice.exception.user.UserNotFoundException;
 import hospital.coreservice.mapper.DoctorMapper;
 import hospital.coreservice.model.Department;
 import hospital.coreservice.model.Doctor;
 import hospital.coreservice.model.DoctorSchedule;
-import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.DayOfWeek;
 import hospital.coreservice.model.enums.Speciality;
 import hospital.coreservice.model.enums.SubSpeciality;
 import hospital.coreservice.repository.DepartmentRepository;
 import hospital.coreservice.repository.DoctorRepository;
 import hospital.coreservice.repository.DoctorScheduleRepository;
-import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +39,7 @@ public class DoctorServiceImpl implements DoctorService {
     private final DoctorMapper doctorMapper;
     private final DoctorScheduleRepository doctorScheduleRepository;
     private final DepartmentRepository departmentRepository;
-    private final UserRepository userRepository;
+    private final AuthClient authClient;
 
     // ========== Core Operations ==========
 
@@ -49,17 +47,14 @@ public class DoctorServiceImpl implements DoctorService {
     @Transactional
     public DoctorResponseDto createDoctor(DoctorCreateDto doctorCreateDto) {
         log.info("Creating new doctor with license: {}", doctorCreateDto.getLicenseNumber());
-        User user = userRepository.findById(doctorCreateDto.getUserId())
-                .orElseThrow(() -> {
-                    return UserNotFoundException.byId(doctorCreateDto.getUserId());
-                });
+        authClient.validateUserHasRole(doctorCreateDto.getUserId(), "DOCTOR");
         Department department = null;
         if (doctorCreateDto.getDepartmentId() != null) {
             department = departmentRepository.findById(doctorCreateDto.getDepartmentId())
                     .orElseThrow(() -> DepartmentNotFoundException.byId(doctorCreateDto.getDepartmentId()));
         }
         Doctor doctor = doctorMapper.toEntity(doctorCreateDto);
-        doctor.setUser(user);
+        doctor.setUserId(doctorCreateDto.getUserId());
         doctor.setDepartment(department);
         if (doctorCreateDto.getSubSpecialities() != null) {
             doctor.setSubSpecialities(doctorCreateDto.getSubSpecialities());

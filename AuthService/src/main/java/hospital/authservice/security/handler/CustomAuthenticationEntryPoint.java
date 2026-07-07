@@ -1,7 +1,7 @@
 package hospital.authservice.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hospital.coreservice.dto.response.ApiResponse;
+import hospital.authservice.dto.response.ApiResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

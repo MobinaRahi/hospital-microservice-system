@@ -1,5 +1,6 @@
 package hospital.coreservice.service.imp;
 
+import hospital.coreservice.client.AuthClient;
 import hospital.coreservice.dto.patient.PatientCreateDto;
 import hospital.coreservice.dto.patient.PatientResponseDto;
 import hospital.coreservice.dto.patient.PatientUpdateDto;
@@ -11,19 +12,16 @@ import hospital.coreservice.exception.room.RoomNotFoundException;
 import hospital.coreservice.mapper.PatientMapper;
 import hospital.coreservice.model.Patient;
 import hospital.coreservice.model.Room;
-import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.BloodType;
 import hospital.coreservice.model.enums.Gender;
 import hospital.coreservice.model.enums.PatientStatus;
 import hospital.coreservice.repository.PatientRepository;
 import hospital.coreservice.repository.RoomRepository;
-import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.service.PatientService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,9 +45,9 @@ public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
     private final PatientMapper patientMapper;
     private final RoomRepository roomRepository;
-    private final UserRepository userRepository;
+    private final AuthClient authClient;
     private final EntityManager entityManager;
-    private final PasswordEncoder passwordEncoder;
+
 
     // ========== Create ==========
 
@@ -65,15 +63,13 @@ public class PatientServiceImpl implements PatientService {
             throw new DuplicatePhoneNumberException(createDto.getPhoneNumber());
         }
 
-        User user = null;
         if (createDto.getUserId() != null) {
-            user = userRepository.findById(createDto.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found with id: " + createDto.getUserId()));
+            authClient.validateUserHasRole(createDto.getUserId(), "PATIENT");
         }
         // =====================================
 
         Patient patient = patientMapper.toEntity(createDto);
-        patient.setUser(user);
+        patient.setUserId(createDto.getUserId());
         patient.setStatus(PatientStatus.ACTIVE);
 
         Patient saved = patientRepository.save(patient);
@@ -473,50 +469,13 @@ public class PatientServiceImpl implements PatientService {
     @Override
     @Transactional
     public PatientResponseDto completeRegistration(Long patientId, CompleteRegistrationRequest request) {
-        log.info("🔵 START completeRegistration for patientId: {}", patientId);
 
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> PatientNotFoundException.byId(patientId));
 
-        // ===== آپدیت بیمار =====
         patientMapper.updatePatientFromRegistration(patient, request);
 
-        // ===== آپدیت User =====
-        User user = patient.getUser();
-        if (user != null) {
-            log.info("🔵 Found user: id={}, current username={}", user.getId(), user.getUsername());
-
-            if (request.getUsername() != null && !request.getUsername().isBlank()) {
-                user.setUsername(request.getUsername());
-            }
-            if (request.getEmail() != null && !request.getEmail().isBlank()) {
-                user.setEmail(request.getEmail());
-            }
-            if (request.getNewPassword() != null && !request.getNewPassword().isBlank()) {
-                user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
-            }
-            user.setFirstName(request.getFirstName());
-            user.setLastName(request.getLastName());
-            user.setPhoneNumber(request.getPhoneNumber());
-            user.setBirthDate(request.getBirthDate());
-
-            // 💾 ذخیره و فلش فوری
-            user = userRepository.save(user);
-            entityManager.flush();  // 🔑 نیروی ارسال به دیتابیس
-
-            // 🔍 بررسی مجدد از دیتابیس
-            User reloaded = userRepository.findById(user.getId()).orElse(null);
-            if (reloaded != null) {
-                log.info("✅ Reloaded User: id={}, username={}, passwordHash={}",
-                        reloaded.getId(),
-                        reloaded.getUsername(),
-                        reloaded.getPasswordHash() != null ? "✅ موجود" : "❌ NULL");
-            }
-        }
-
         Patient saved = patientRepository.save(patient);
-        log.info("🔵 Patient saved: id={}", saved.getId());
-
         return patientMapper.toResponseDto(saved);
     }
 

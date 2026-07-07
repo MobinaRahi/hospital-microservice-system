@@ -20,7 +20,6 @@ public interface PatientMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "deleted", ignore = true)
     @Mapping(target = "currentRoom", ignore = true)
-    @Mapping(target = "user", ignore = true)
     Patient toEntity(PatientCreateDto createDto);
 
     @Mapping(target = "id", ignore = true)
@@ -31,14 +30,13 @@ public interface PatientMapper {
     void updateEntity(@MappingTarget Patient patient, PatientUpdateDto updateDto);
 
     @Mapping(target = "fullName", expression = "java(patient.getFirstName() + \" \" + patient.getLastName())")
-    @Mapping(target = "username", expression = "java(patient.getUser() != null ? patient.getUser().getUsername() : null)")
-    @Mapping(target = "email", expression = "java(patient.getUser() != null ? patient.getUser().getEmail() : null)")
+    @Mapping(target = "username", ignore = true)
+    @Mapping(target = "email", ignore = true)
     PatientResponseDto toResponseDto(Patient patient);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "nationalId", ignore = true)  // کد ملی تغییر نمی‌کند
-    @Mapping(target = "status", ignore = true)      // وضعیت تغییر نمی‌کند
+    @Mapping(target = "nationalId", ignore = true)
+    @Mapping(target = "status", ignore = true)
     @Mapping(target = "insuranceId", ignore = true)
     @Mapping(target = "currentRoom", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

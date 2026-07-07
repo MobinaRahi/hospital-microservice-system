@@ -1,6 +1,6 @@
 package hospital.authservice.security.service;
 
-import hospital.coreservice.repository.UserRepository;
+import hospital.authservice.repository.UserRepository;
 import hospital.authservice.security.model.SecurityUser;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

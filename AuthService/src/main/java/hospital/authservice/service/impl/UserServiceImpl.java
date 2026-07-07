@@ -1,5 +1,6 @@
 package hospital.authservice.service.impl;
 
+import hospital.authservice.dto.internal.InternalUserProfileDto;
 import hospital.authservice.dto.response.PasswordChangeRequest;
 import hospital.authservice.dto.role.RoleSlimResponseDto;
 import hospital.authservice.dto.user.*;
@@ -399,6 +400,43 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
+    public InternalUserProfileDto getInternalProfileById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> UserNotFoundException.byId(id));
+
+        return toInternalUserProfileDto(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public InternalUserProfileDto getInternalProfileByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> UserNotFoundException.byUsername(username));
+
+        return toInternalUserProfileDto(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean userHasRole(Long userId, String role) {
+        if (userId == null || role == null || role.isBlank()) {
+            return false;
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> UserNotFoundException.byId(userId));
+
+        String normalizedRole = normalizeRole(role);
+
+        return user.getRoles()
+                .stream()
+                .anyMatch(userRole ->
+                        userRole.getName().name().equals(normalizedRole)
+                                || userRole.getName().getAuthority().equals("ROLE_" + normalizedRole)
+                );
+    }
+    @Override
+    @Transactional(readOnly = true)
     public List<UserSlimResponseDto> getAllUserSummaries() {
         return userRepository.findAllUserSummaries().stream()
                 .map(s -> {
@@ -596,6 +634,36 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("کاربر یافت نشد"));
         user.setPasswordHash(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+    }
+
+    private InternalUserProfileDto toInternalUserProfileDto(User user) {
+        Set<String> roles = user.getRoles()
+                .stream()
+                .map(role -> role.getName().name())
+                .collect(Collectors.toSet());
+
+        return InternalUserProfileDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .phoneNumber(user.getPhoneNumber())
+                .nationalId(user.getNationalId())
+                .enabled(user.isEnabled())
+                .accountNonLocked(user.isAccountNonLocked())
+                .roles(roles)
+                .build();
+    }
+
+    private String normalizeRole(String role) {
+        String normalized = role.trim().toUpperCase();
+
+        if (normalized.startsWith("ROLE_")) {
+            normalized = normalized.substring(5);
+        }
+
+        return normalized;
     }
 
 }

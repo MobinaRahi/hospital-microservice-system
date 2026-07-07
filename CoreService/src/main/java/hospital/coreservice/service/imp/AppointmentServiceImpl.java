@@ -42,9 +42,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final PatientRepository patientRepository;
     private final DoctorRepository doctorRepository;
     private final DepartmentRepository departmentRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     // ========== Core Operations ==========
 
@@ -452,43 +449,51 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @Transactional
-    public AppointmentResponseDto bookAppointmentByPatient(PatientBookingRequest request, Authentication authentication) {
+    public AppointmentResponseDto bookAppointmentByPatient(
+            PatientBookingRequest request,
+            Authentication authentication
+    ) {
 
         Long patientId;
 
-        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+        // حالت ۱: بیمار لاگین کرده است
+        if (authentication != null
+                && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+
             SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+
             Patient patient = patientRepository.findByUserId(securityUser.getId())
-                    .orElseThrow(() -> new RuntimeException("Patient not found for user: " + securityUser.getUsername()));
+                    .orElseThrow(() -> new RuntimeException(
+                            "Patient not found for user: " + securityUser.getUsername()
+                    ));
+
             patientId = patient.getId();
+
         } else {
 
-            Optional<Patient> existingPatient = patientRepository.findByNationalId(request.getNationalId());
-            if (existingPatient.isPresent()) {
-                patientId = existingPatient.get().getId();
-            } else {
-                User user = new User();
-                user.setUsername(request.getNationalId());
-                user.setPasswordHash(passwordEncoder.encode("tempPassword" + System.currentTimeMillis()));
-                String[] nameParts = request.getFullName().trim().split("\\s+", 2);
-                user.setFirstName(nameParts[0]);
-                user.setLastName(nameParts.length > 1 ? nameParts[1] : "");
-                user.setEmail(request.getNationalId() + "@temp.hospital.com");
-                user.setPhoneNumber(request.getPhone());
-                user.setNationalId(request.getNationalId());
-                user.setEnabled(true);
-                user.setAccountNonLocked(true);
-                user.setBirthDate(LocalDate.now().minusYears(30));
+            // حالت ۲: بیمار مهمان است
+            Optional<Patient> existingPatient =
+                    patientRepository.findByNationalId(request.getNationalId());
 
-                Role patientRole = roleRepository.findByName(RoleName.PATIENT)
-                        .orElseThrow(() -> new RuntimeException("Role PATIENT not found"));
-                user.setRoles(Set.of(patientRole));
-                user = userRepository.save(user);
+            if (existingPatient.isPresent()) {
+
+                patientId = existingPatient.get().getId();
+
+            } else {
+
+                String[] nameParts = request.getFullName()
+                        .trim()
+                        .split("\\s+", 2);
 
                 Patient patient = new Patient();
-                patient.setUser(user);
-                patient.setFirstName(user.getFirstName());
-                patient.setLastName(user.getLastName());
+
+                // مهم‌ترین تغییر:
+                // بیمار مهمان حساب کاربری ندارد، پس userId null می‌ماند
+                patient.setUserId(null);
+
+                patient.setFirstName(nameParts[0]);
+                patient.setLastName(nameParts.length > 1 ? nameParts[1] : "");
                 patient.setPhoneNumber(request.getPhone());
                 patient.setNationalId(request.getNationalId());
                 patient.setStatus(PatientStatus.ACTIVE);
@@ -502,8 +507,9 @@ public class AppointmentServiceImpl implements AppointmentService {
             }
         }
 
-        // ===== ۳. ساخت Appointment =====
+        // ساخت نوبت
         AppointmentCreateDto createDto = new AppointmentCreateDto();
+
         createDto.setPatientId(patientId);
         createDto.setDoctorId(request.getDoctorId());
         createDto.setAppointmentDate(LocalDate.parse(request.getAppointmentDate()));
@@ -519,6 +525,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (doctor.getDepartment() == null) {
             throw new RuntimeException("Doctor does not have a department assigned");
         }
+
         createDto.setDepartmentId(doctor.getDepartment().getId());
 
         return createAppointment(createDto);

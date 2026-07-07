@@ -29,7 +29,7 @@ public class Patient extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private Long userId;
 
     @Column(name = "national_id", length = 10, nullable = false, unique = true)

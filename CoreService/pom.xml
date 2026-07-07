@@ -20,8 +20,8 @@
     <groupId>com.mftplus</groupId>
     <artifactId>CoreService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SpringBootFullSample</name>
-    <description>Spring Boot Full Sample with Security, JWT, and Modern Architecture</description>
+    <name>CoreService</name>
+    <description>Core hospital domain service for patients, doctors, departments, appointments, rooms, nurses and shifts</description>
 
     <!-- ========================================================== -->
     <!--                     PROPERTIES                             -->

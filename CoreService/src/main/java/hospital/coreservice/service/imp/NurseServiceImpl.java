@@ -1,5 +1,6 @@
 package hospital.coreservice.service.imp;
 
+import hospital.coreservice.client.AuthClient;
 import hospital.coreservice.dto.nurse.NurseCreateDto;
 import hospital.coreservice.dto.nurse.NurseResponseDto;
 import hospital.coreservice.dto.nurse.NurseUpdateDto;
@@ -7,17 +8,14 @@ import hospital.coreservice.exception.department.DepartmentNotFoundException;
 import hospital.coreservice.exception.nurse.NurseAlreadyExistsException;
 import hospital.coreservice.exception.nurse.NurseNotFoundException;
 import hospital.coreservice.exception.shift.ShiftNotFoundException;
-import hospital.coreservice.exception.user.UserNotFoundException;
 import hospital.coreservice.mapper.NurseMapper;
 import hospital.coreservice.model.Department;
 import hospital.coreservice.model.Nurse;
 import hospital.coreservice.model.Shift;
-import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.NursePosition;
 import hospital.coreservice.repository.DepartmentRepository;
 import hospital.coreservice.repository.NurseRepository;
 import hospital.coreservice.repository.ShiftRepository;
-import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.service.NurseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -43,7 +41,7 @@ public class NurseServiceImpl implements NurseService {
     private final NurseMapper nurseMapper;
     private final DepartmentRepository departmentRepository;
     private final ShiftRepository shiftRepository;
-    private final UserRepository userRepository;
+    private final AuthClient authClient;
 
     // ========== Core Operations ==========
 
@@ -51,10 +49,9 @@ public class NurseServiceImpl implements NurseService {
     @Transactional
     public NurseResponseDto createNurse(NurseCreateDto createDto) {
         log.info("Creating new nurse with code: {}", createDto.getNurseCode());
-        User user = userRepository.findById(createDto.getUserId())
-                .orElseThrow(() ->  UserNotFoundException.byId(createDto.getUserId()));
+        authClient.validateUserHasRole(createDto.getUserId(), "NURSE");
         Nurse nurse = nurseMapper.toEntity(createDto);
-        nurse.setUser(user);
+        nurse.setUserId(createDto.getUserId());
         if (createDto.getYearsOfExperience() != null) {
             nurse.setYearsOfExperience(createDto.getYearsOfExperience());
         }

@@ -1,6 +1,5 @@
 package hospital.coreservice.dto.patient;
 
-import hospital.coreservice.model.User;
 import hospital.coreservice.model.enums.BloodType;
 import hospital.coreservice.model.enums.Gender;
 import hospital.coreservice.model.enums.PatientStatus;

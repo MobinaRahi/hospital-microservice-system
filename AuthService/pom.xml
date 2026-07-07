@@ -18,10 +18,10 @@
     <!--                     PROJECT METADATA                       -->
     <!-- ========================================================== -->
     <groupId>com.mftplus</groupId>
-    <artifactId>CoreService</artifactId>
+    <artifactId>AuthService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SpringBootFullSample</name>
-    <description>Spring Boot Full Sample with Security, JWT, and Modern Architecture</description>
+    <name>AuthService</name>
+    <description>Authentication, authorization, user, role, permission and audit module for Hospital Microservice System</description>
 
     <!-- ========================================================== -->
     <!--                     PROPERTIES                             -->

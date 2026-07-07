@@ -1,8 +1,8 @@
 package hospital.authservice.security.model;
 
-import hospital.coreservice.model.Permission;
-import hospital.coreservice.model.Role;
-import hospital.coreservice.model.User;
+import hospital.authservice.model.Permission;
+import hospital.authservice.model.Role;
+import hospital.authservice.model.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
