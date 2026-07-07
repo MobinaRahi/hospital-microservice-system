@@ -29,9 +29,8 @@ public class Patient extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 
     @Column(name = "national_id", length = 10, nullable = false, unique = true)
     private String nationalId;

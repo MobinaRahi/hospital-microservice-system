@@ -30,9 +30,8 @@ public class Doctor extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 
     @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
