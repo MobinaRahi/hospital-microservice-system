@@ -14,6 +14,19 @@
 
 </div>
 
+‫> 🚧 **Project Status: Active Refactoring**
+>
+> This HIS is currently a **modular monolith with a strong CoreService**.
+> I'm actively extracting microservices – **Auth Service is in progress**.
+> Target architecture: **8 isolated domain services**
+> `Auth · Core · Clinical · Inventory · Billing · Lab · Admin · Notification`
+>
+> ✅ CoreService – Done  
+> 🔄 Auth Service / JWT – In Progress  
+> 📋 Clinical, Billing, Inventory, Lab, Admin, Notification – Roadmap
+>
+> The codebase is microservice-ready: clean domain boundaries, DTO/MapStruct layer, JWT security – designed for easy service extraction.
+
 ---
 
 ## Overview
