@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update" />
+    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="add AuthService">
+      <change beforePath="$PROJECT_DIR$/AuthService/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/src/main/java/com/hospital/authservice/AuthServiceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/src/test/java/com/hospital/authservice/AuthServiceApplicationTests.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -141,6 +151,7 @@
       <workItem from="1782343082941" duration="14064000" />
       <workItem from="1782379389021" duration="15285000" />
       <workItem from="1782414778885" duration="2576000" />
+      <workItem from="1783446397742" duration="434000" />
     </task>
     <task id="LOCAL-00001" summary="ADD controllers">
       <option name="closed" value="true" />
@@ -246,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1782417275439</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add AuthService">
+      <option name="closed" value="true" />
+      <created>1783446723873</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1783446723873</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,6 +275,7 @@
     <MESSAGE value="ADD controllers" />
     <MESSAGE value="fix login" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="add AuthService" />
+    <option name="LAST_COMMIT_MESSAGE" value="add AuthService" />
   </component>
 </project>
