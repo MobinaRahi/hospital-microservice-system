@@ -4,7 +4,6 @@ import hospital.coreservice.dto.appointment.AppointmentCreateDto;
 import hospital.coreservice.dto.appointment.AppointmentResponseDto;
 import hospital.coreservice.dto.appointment.AppointmentUpdateDto;
 import hospital.coreservice.dto.request.PatientBookingRequest;
-import hospital.coreservice.model.Appointment;
 import hospital.coreservice.model.enums.AppointmentStatus;
 import org.springframework.security.core.Authentication;
 

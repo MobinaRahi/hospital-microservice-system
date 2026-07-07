@@ -5,15 +5,59 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="add AuthService">
-      <change beforePath="$PROJECT_DIR$/AuthService/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/src/main/java/com/hospital/authservice/AuthServiceApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/src/test/java/com/hospital/authservice/AuthServiceApplicationTests.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/config/JacksonConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/config/OpenAPIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/response/ApiResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AuthService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/AuditLogApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/controller/AuditLogApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/AuthApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/controller/AuthApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/PermissionApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/controller/PermissionApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/ProfileApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/controller/ProfileApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/RoleApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/controller/RoleApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/controller/UserApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/controller/UserApi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/audit_log/AuditLogResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/audit_log/AuditLogResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/permission/PermissionCreateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/permission/PermissionResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionSlimResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/permission/PermissionSlimResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/permission/PermissionUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/permission/PermissionUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/request/CompleteRegistrationRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/request/CompleteRegistrationRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/request/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/request/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/request/PatientBookingRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/request/PatientBookingRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/request/TokenRefreshRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/request/TokenRefreshRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/response/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/response/ErrorResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/response/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/response/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/response/PasswordChangeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/response/PasswordChangeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/response/TokenRefreshResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/response/TokenRefreshResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/role/RoleCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/role/RoleCreateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/role/RoleResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/role/RoleResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/role/RoleSlimResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/role/RoleSlimResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/role/RoleUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/role/RoleUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/user/UserCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/user/UserCreateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/user/UserProfileDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/user/UserProfileDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/user/UserResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/user/UserResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/user/UserSlimResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/user/UserSlimResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/dto/user/UserUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/dto/user/UserUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/auth/InvalidTokenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/auth/InvalidTokenException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/permition/DuplicatePermissionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/permition/DuplicatePermissionException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/permition/PermissionNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/permition/PermissionNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/role/DuplicateRoleException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/role/DuplicateRoleException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/role/RoleInUseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/role/RoleInUseException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/role/RoleNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/role/RoleNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/user/AccessDeniedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/user/AccessDeniedException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/user/DuplicateEmailException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/user/DuplicateEmailException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/user/DuplicateUsernameException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/user/DuplicateUsernameException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/user/InvalidPasswordException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/user/InvalidPasswordException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/exception/user/UserNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/java/hospital/authservice/exception/user/UserNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/PermissionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/PermissionMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/AppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/AppointmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/AuditLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/AuditLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/DoctorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/DoctorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/NurseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/NurseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/service/imp/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,46 +107,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Spring Boot.CoreServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/AvalPc/Desktop/Hospital.Spring/hospital-microservice-system/CoreService/src/main/resources/static/css&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.CoreServiceApplication.executor": "Run",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/AvalPc/Desktop/Hospital.Spring/hospital-microservice-system/Project/AuthService/src/main/java/hospital/authservice/dto",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;oracle&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "oracle"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="hospital.coreservice.mapper" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\Project\AuthService\src\main\java\hospital\authservice\dto" />
+      <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\Project\AuthService\src\main\java\hospital\authservice" />
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\CoreService\src\main\resources\static\css" />
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\CoreService\src\main\resources\templates" />
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\HospitalSpringBoot\CoreService\src\main\resources\templates" />
-      <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\HospitalSpringBoot\CoreService\src\main\java\hospital\coreservice\controller" />
-      <recent name="C:\Users\AvalPc\Desktop\HospitalSpringBoot\CoreService\src\main\java\hospital\coreservice\config" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\CoreService\src\main\resources" />
@@ -112,10 +156,18 @@
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\HospitalSpringBoot\CoreService\src\main\resources\static\css\css" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="hospital.authservice.exception" />
       <recent name="hospital.coreservice.controller" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.CoreServiceApplication">
+    <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="AuthService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="hospital.authservice.AuthServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CoreServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="CoreService" />
@@ -151,7 +203,7 @@
       <workItem from="1782343082941" duration="14064000" />
       <workItem from="1782379389021" duration="15285000" />
       <workItem from="1782414778885" duration="2576000" />
-      <workItem from="1783446397742" duration="434000" />
+      <workItem from="1783446397742" duration="1192000" />
     </task>
     <task id="LOCAL-00001" summary="ADD controllers">
       <option name="closed" value="true" />
@@ -265,7 +317,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783446723873</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="add AuthService">
+      <option name="closed" value="true" />
+      <created>1783446869840</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1783446869840</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

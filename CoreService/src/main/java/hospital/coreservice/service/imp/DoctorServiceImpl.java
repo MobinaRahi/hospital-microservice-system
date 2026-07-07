@@ -19,7 +19,6 @@ import hospital.coreservice.repository.DoctorRepository;
 import hospital.coreservice.repository.DoctorScheduleRepository;
 import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.service.DoctorService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

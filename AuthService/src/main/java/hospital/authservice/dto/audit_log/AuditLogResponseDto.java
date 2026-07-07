@@ -1,0 +1,31 @@
+package hospital.authservice.dto.audit_log;
+
+import hospital.authservice.model.enums.AuditStatus;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+public class AuditLogResponseDto {
+    private Long id;
+
+    private Long userId;
+
+    private String userName;
+
+    private String action;
+
+    private String oldValue;
+
+    private String newValue;
+
+    private AuditStatus status;
+
+    private String errorMessage;
+
+    private Long duration;
+
+    private LocalDateTime timestamp;
+}

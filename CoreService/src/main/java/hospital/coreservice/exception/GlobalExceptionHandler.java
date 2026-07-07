@@ -2,7 +2,6 @@ package hospital.coreservice.exception;
 
 import hospital.coreservice.dto.response.ApiResponse;
 import hospital.coreservice.exception.appointment.*;
-import hospital.coreservice.exception.auth.InvalidTokenException;
 import hospital.coreservice.exception.common.InvalidSearchParameterException;
 import hospital.coreservice.exception.department.DepartmentHasNoHeadDoctorException;
 import hospital.coreservice.exception.department.DepartmentHasNoHeadNurseException;
@@ -14,18 +13,12 @@ import hospital.coreservice.exception.doctor_schedule.DuplicateDoctorScheduleExc
 import hospital.coreservice.exception.nurse.NurseAlreadyExistsException;
 import hospital.coreservice.exception.nurse.NurseNotFoundException;
 import hospital.coreservice.exception.patient.*;
-import hospital.coreservice.exception.permition.DuplicatePermissionException;
-import hospital.coreservice.exception.permition.PermissionNotFoundException;
-import hospital.coreservice.exception.role.DuplicateRoleException;
-import hospital.coreservice.exception.role.RoleInUseException;
-import hospital.coreservice.exception.role.RoleNotFoundException;
 import hospital.coreservice.exception.room.DuplicateRoomNumberException;
 import hospital.coreservice.exception.room.RoomFullException;
 import hospital.coreservice.exception.room.RoomNotAvailableException;
 import hospital.coreservice.exception.room.RoomNotFoundException;
 import hospital.coreservice.exception.shift.DuplicateShiftNameException;
 import hospital.coreservice.exception.shift.ShiftNotFoundException;
-import hospital.coreservice.exception.user.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -103,24 +96,6 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleUserNotFound(UserNotFoundException ex) {
-        log.error("User not found: {}", ex.getMessage());
-        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(RoleNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handleRoleNotFound(RoleNotFoundException ex) {
-        log.error("Role not found: {}", ex.getMessage());
-        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(PermissionNotFoundException.class)
-    public ResponseEntity<ApiResponse<Void>> handlePermissionNotFound(PermissionNotFoundException ex) {
-        log.error("Permission not found: {}", ex.getMessage());
-        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleJpaEntityNotFound(EntityNotFoundException ex) {
         log.error("Entity not found (JPA): {}", ex.getMessage());
@@ -135,7 +110,6 @@ public class GlobalExceptionHandler {
             InvalidCheckInStateException.class,
             InvalidCompleteStateException.class,
             InvalidSearchParameterException.class,
-            InvalidPasswordException.class,
             DoctorNotAvailableException.class,
             PatientAppointmentConflictException.class,
             PatientAlreadyActiveException.class,
@@ -149,14 +123,9 @@ public class GlobalExceptionHandler {
             DuplicateNationalIdException.class,
             DuplicatePhoneNumberException.class,
             DuplicateRoomNumberException.class,
-            DuplicateUsernameException.class,
-            DuplicateEmailException.class,
-            DuplicateRoleException.class,
-            DuplicatePermissionException.class,
             NurseAlreadyExistsException.class,
             DepartmentHasNoHeadDoctorException.class,
             DepartmentHasNoHeadNurseException.class,
-            RoleInUseException.class
     })
     public ResponseEntity<ApiResponse<Void>> handleBusinessRuleViolation(RuntimeException ex) {
         log.error("Business rule violation: {}", ex.getMessage());
@@ -169,12 +138,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleAuthenticationError(Exception ex) {
         log.error("Authentication error: {}", ex.getMessage());
         return buildErrorResponse("Invalid username or password", HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(InvalidTokenException.class)
-    public ResponseEntity<ApiResponse<Void>> handleInvalidToken(InvalidTokenException ex) {
-        log.error("Invalid token: {}", ex.getMessage());
-        return buildErrorResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     // ==================== 403 - Forbidden ====================

@@ -1119,7 +1119,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.349 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Permission */insert 
+        hospital.authservice.model.Permission */insert
     into
         permissions (action, created_at, created_by, deleted, deleted_at, deleted_by, description, name, permission_resource, updated_at, updated_by, version, id) 
     values
@@ -1137,7 +1137,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.438 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Permission */insert 
+        hospital.authservice.model.Permission */insert
     into
         permissions (action, created_at, created_by, deleted, deleted_at, deleted_by, description, name, permission_resource, updated_at, updated_by, version, id) 
     values
@@ -1155,7 +1155,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.446 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Permission */insert 
+        hospital.authservice.model.Permission */insert
     into
         permissions (action, created_at, created_by, deleted, deleted_at, deleted_by, description, name, permission_resource, updated_at, updated_by, version, id) 
     values
@@ -1173,7 +1173,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.452 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Permission */insert 
+        hospital.authservice.model.Permission */insert
     into
         permissions (action, created_at, created_by, deleted, deleted_at, deleted_by, description, name, permission_resource, updated_at, updated_by, version, id) 
     values
@@ -1191,7 +1191,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.457 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Permission */insert 
+        hospital.authservice.model.Permission */insert
     into
         permissions (action, created_at, created_by, deleted, deleted_at, deleted_by, description, name, permission_resource, updated_at, updated_by, version, id) 
     values
@@ -1209,7 +1209,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.464 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Permission */insert 
+        hospital.authservice.model.Permission */insert
     into
         permissions (action, created_at, created_by, deleted, deleted_at, deleted_by, description, name, permission_resource, updated_at, updated_by, version, id) 
     values
@@ -1227,7 +1227,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.471 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Permission */insert 
+        hospital.authservice.model.Permission */insert
     into
         permissions (action, created_at, created_by, deleted, deleted_at, deleted_by, description, name, permission_resource, updated_at, updated_by, version, id) 
     values
@@ -1253,7 +1253,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.500 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Role */insert 
+        hospital.authservice.model.Role */insert
     into
         roles (created_at, created_by, deleted, deleted_at, deleted_by, description, name, updated_at, updated_by, version, id) 
     values
@@ -1271,7 +1271,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.579 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Role */insert 
+        hospital.authservice.model.Role */insert
     into
         roles (created_at, created_by, deleted, deleted_at, deleted_by, description, name, updated_at, updated_by, version, id) 
     values
@@ -1289,7 +1289,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.587 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Role */insert 
+        hospital.authservice.model.Role */insert
     into
         roles (created_at, created_by, deleted, deleted_at, deleted_by, description, name, updated_at, updated_by, version, id) 
     values
@@ -1307,7 +1307,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.593 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Role */insert 
+        hospital.authservice.model.Role */insert
     into
         roles (created_at, created_by, deleted, deleted_at, deleted_by, description, name, updated_at, updated_by, version, id) 
     values
@@ -1325,7 +1325,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.599 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Role */insert 
+        hospital.authservice.model.Role */insert
     into
         roles (created_at, created_by, deleted, deleted_at, deleted_by, description, name, updated_at, updated_by, version, id) 
     values
@@ -1343,7 +1343,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.607 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.Role */insert 
+        hospital.authservice.model.Role */insert
     into
         roles (created_at, created_by, deleted, deleted_at, deleted_by, description, name, updated_at, updated_by, version, id) 
     values
@@ -1372,7 +1372,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:36.992 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User */insert 
+        hospital.authservice.model.User */insert
     into
         users (account_non_expired, account_non_locked, birth_date, created_at, created_by, credentials_non_expired, deleted, deleted_at, deleted_by, email, email_verified, enabled, failed_attempts, first_name, last_login, last_login_ip, last_name, locked_until, national_id, password_changed_at, password_hash, phone_number, profile_picture_url, secret_key, two_factor_enabled, updated_at, updated_by, username, version, id) 
     values
@@ -1399,7 +1399,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:37.500 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User */insert 
+        hospital.authservice.model.User */insert
     into
         users (account_non_expired, account_non_locked, birth_date, created_at, created_by, credentials_non_expired, deleted, deleted_at, deleted_by, email, email_verified, enabled, failed_attempts, first_name, last_login, last_login_ip, last_name, locked_until, national_id, password_changed_at, password_hash, phone_number, profile_picture_url, secret_key, two_factor_enabled, updated_at, updated_by, username, version, id) 
     values
@@ -1426,7 +1426,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:37.901 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User */insert 
+        hospital.authservice.model.User */insert
     into
         users (account_non_expired, account_non_locked, birth_date, created_at, created_by, credentials_non_expired, deleted, deleted_at, deleted_by, email, email_verified, enabled, failed_attempts, first_name, last_login, last_login_ip, last_name, locked_until, national_id, password_changed_at, password_hash, phone_number, profile_picture_url, secret_key, two_factor_enabled, updated_at, updated_by, username, version, id) 
     values
@@ -1453,7 +1453,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:38.293 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User */insert 
+        hospital.authservice.model.User */insert
     into
         users (account_non_expired, account_non_locked, birth_date, created_at, created_by, credentials_non_expired, deleted, deleted_at, deleted_by, email, email_verified, enabled, failed_attempts, first_name, last_login, last_login_ip, last_name, locked_until, national_id, password_changed_at, password_hash, phone_number, profile_picture_url, secret_key, two_factor_enabled, updated_at, updated_by, username, version, id) 
     values
@@ -1480,7 +1480,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:38.684 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User */insert 
+        hospital.authservice.model.User */insert
     into
         users (account_non_expired, account_non_locked, birth_date, created_at, created_by, credentials_non_expired, deleted, deleted_at, deleted_by, email, email_verified, enabled, failed_attempts, first_name, last_login, last_login_ip, last_name, locked_until, national_id, password_changed_at, password_hash, phone_number, profile_picture_url, secret_key, two_factor_enabled, updated_at, updated_by, username, version, id) 
     values
@@ -1507,7 +1507,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:39.064 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User */insert 
+        hospital.authservice.model.User */insert
     into
         users (account_non_expired, account_non_locked, birth_date, created_at, created_by, credentials_non_expired, deleted, deleted_at, deleted_by, email, email_verified, enabled, failed_attempts, first_name, last_login, last_login_ip, last_name, locked_until, national_id, password_changed_at, password_hash, phone_number, profile_picture_url, secret_key, two_factor_enabled, updated_at, updated_by, username, version, id) 
     values
@@ -1534,7 +1534,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         first ? rows only
 2026-06-24 22:04:39.451 [restartedMain] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User */insert 
+        hospital.authservice.model.User */insert
     into
         users (account_non_expired, account_non_locked, birth_date, created_at, created_by, credentials_non_expired, deleted, deleted_at, deleted_by, email, email_verified, enabled, failed_attempts, first_name, last_login, last_login_ip, last_name, locked_until, national_id, password_changed_at, password_hash, phone_number, profile_picture_url, secret_key, two_factor_enabled, updated_at, updated_by, username, version, id) 
     values
@@ -8617,7 +8617,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         r1_0.name=?
 2026-06-24 22:05:25.300 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User */insert 
+        hospital.authservice.model.User */insert
     into
         users (account_non_expired, account_non_locked, birth_date, created_at, created_by, credentials_non_expired, deleted, deleted_at, deleted_by, email, email_verified, enabled, failed_attempts, first_name, last_login, last_login_ip, last_name, locked_until, national_id, password_changed_at, password_hash, phone_number, profile_picture_url, secret_key, two_factor_enabled, updated_at, updated_by, username, version, id) 
     values
@@ -8820,7 +8820,7 @@ Caused by: oracle.jdbc.OracleDatabaseException: ORA-01408: such column list alre
         ss1_0.doctor_id=?
 2026-06-24 22:05:25.346 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
     /* insert for
-        hospital.coreservice.model.User.roles */insert 
+        hospital.authservice.model.User.roles */insert
     into
         user_roles (user_id, role_id) 
     values
