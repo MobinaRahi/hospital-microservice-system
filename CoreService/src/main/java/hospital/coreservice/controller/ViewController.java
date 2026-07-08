@@ -61,7 +61,6 @@ public class ViewController {
     private final DoctorScheduleService doctorScheduleService;
     private final AppointmentRepository appointmentRepository;
     private final AppointmentMapper appointmentMapper;
-    private final UserService userService;
 
     // ========== Public Pages ==========
 
