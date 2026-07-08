@@ -22,7 +22,7 @@ public interface PatientRepository extends BaseEntityRepository<Patient, Long> {
 
     Optional<Patient> findByPhoneNumber(String phoneNumber);
 
-    Optional<Patient> findByUserId(@Param("userId") Long userId);
+    Optional<Patient> findByUserId(Long userId);
 
     List<Patient> findByFirstNameContainingIgnoreCase(String firstName);
 

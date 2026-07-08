@@ -29,10 +29,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Global exception handler for CoreService microservice.
- * Converts domain-specific exceptions to standardized HTTP responses.
- */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
