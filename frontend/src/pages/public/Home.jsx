@@ -1,55 +1,94 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  Activity, CalendarPlus, Stethoscope, Users, Building2, CalendarDays,
-  ShieldCheck, Clock3, HeartPulse, Microscope, Pill, Siren,
-  ArrowLeft, CheckCircle2, Star, PhoneCall,
+  CalendarPlus, Play, ShieldCheck, Clock3, CheckCircle2, HeartPulse,
+  Stethoscope, Users, Building2, CalendarDays, Microscope,
+  Pill, Ambulance, PhoneCall, Brain, Bone, Baby, Eye, Smile,
 } from 'lucide-react';
 import PublicNavbar from '../../components/layout/PublicNavbar';
 import Footer from '../../components/layout/Footer';
-import { Button, Badge } from '../../components/ui';
+import EcgMonitor from '../../components/ui/EcgMonitor';
+import { useReveal } from '../../hooks/useReveal';
+import { useCountUp } from '../../hooks/useCountUp';
 import { useFetch } from '../../hooks/useFetch';
 import { endpoints } from '../../api/endpoints';
-import { toFa, faNumber, specialityLabel, initials } from '../../utils/format';
+import { faNumber, specialityLabel } from '../../utils/format';
 
 /* Demo fallback data so the page looks alive even before the backend is up */
 const DEMO_STATS = { doctors: 64, patients: 4820, departments: 18, appointments: 12640 };
 const DEMO_DEPTS = [
-  { id: 1, name: 'قلب و عروق', code: 'CARD', location: 'طبقه ۲' },
-  { id: 2, name: 'مغز و اعصاب', code: 'NEUR', location: 'طبقه ۳' },
-  { id: 3, name: 'ارتوپدی', code: 'ORTH', location: 'طبقه ۱' },
-  { id: 4, name: 'اطفال', code: 'PEDS', location: 'طبقه ۴' },
-  { id: 5, name: 'اورژانس', code: 'EMERG', location: 'همکف' },
-  { id: 6, name: 'رادیولوژی', code: 'RAD', location: 'زیرزمین' },
-  { id: 7, name: 'دندانپزشکی', code: 'DENT', location: 'طبقه ۱' },
-  { id: 8, name: 'چشم پزشکی', code: 'EYE', location: 'طبقه ۲' },
+  { id: 1, name: 'قلب و عروق', icon: HeartPulse, location: 'طبقه ۲' },
+  { id: 2, name: 'مغز و اعصاب', icon: Brain, location: 'طبقه ۳' },
+  { id: 3, name: 'ارتوپدی', icon: Bone, location: 'طبقه ۱' },
+  { id: 4, name: 'اطفال', icon: Baby, location: 'طبقه ۴' },
+  { id: 5, name: 'اورژانس', icon: Ambulance, location: 'همکف' },
+  { id: 6, name: 'رادیولوژی', icon: Microscope, location: 'زیرزمین' },
+  { id: 7, name: 'دندانپزشکی', icon: Smile, location: 'طبقه ۱' },
+  { id: 8, name: 'چشم پزشکی', icon: Eye, location: 'طبقه ۲' },
 ];
 const DEMO_DOCTORS = [
-  { id: 1, fullName: 'دکتر سارا محمدی', speciality: 'CARDIOLOGY', dept: 'قلب و عروق', active: true },
-  { id: 2, fullName: 'دکتر رضا کریمی', speciality: 'NEUROLOGY', dept: 'مغز و اعصاب', active: true },
-  { id: 3, fullName: 'دکتر مریم احمدی', speciality: 'PEDIATRICS', dept: 'اطفال', active: true },
-  { id: 4, fullName: 'دکتر علی رضایی', speciality: 'ORTHOPEDICS', dept: 'ارتوپدی', active: false },
+  { id: 1, fullName: 'دکتر سارا محمدی', speciality: 'CARDIOLOGY', dept: 'قلب و عروق', grad: 'linear-gradient(135deg,#0ea5e9,#14b8a6)' },
+  { id: 2, fullName: 'دکتر رضا کریمی', speciality: 'NEUROLOGY', dept: 'مغز و اعصاب', grad: 'linear-gradient(135deg,#10b981,#34d399)' },
+  { id: 3, fullName: 'دکتر مریم احمدی', speciality: 'PEDIATRICS', dept: 'اطفال', grad: 'linear-gradient(135deg,#0d9488,#2dd4bf)' },
+  { id: 4, fullName: 'دکتر علی رضایی', speciality: 'ORTHOPEDICS', dept: 'ارتوپدی', grad: 'linear-gradient(135deg,#14b8a6,#0ea5e9)' },
 ];
 
-const deptEmoji = (code) => ({
-  CARD: '🫀', NEUR: '🧠', ORTH: '🦴', PEDS: '👶', DERM: '🧴', DENT: '🦷',
-  EYE: '👁️', RAD: '🩻', EMERG: '🚑', ICU: '🏥', LAB: '🔬',
-}[String(code || '').slice(0, 4).toUpperCase()] || '🏥');
+const SERVICES = [
+  { icon: Ambulance, t: 'اورژانس ۲۴ ساعته', d: 'مراقبت فوری و تخصصی برای مواقع حساس، در تمام ساعات شبانه‌روز.' },
+  { icon: Microscope, t: 'رادیولوژی و آزمایشگاه', d: 'تجهیزات پیشرفته تصویربرداری و آزمایش برای تشخیص دقیق و سریع.' },
+  { icon: HeartPulse, t: 'قلب و عروق', d: 'تشخیص و درمان تخصصی بیماری‌های قلبی با تیم بوردتخصص.' },
+  { icon: Pill, t: 'داروخانه داخلی', d: 'تأمین سریع داروهای تجویزی و مشاوره دارویی در محل بیمارستان.' },
+  { icon: Stethoscope, t: 'ویزیت تخصصی', d: 'دسترسی آسان به متخصصان رشته‌های مختلف با نوبت‌دهی آنلاین.' },
+  { icon: ShieldCheck, t: 'بیمه و تسویه', d: 'پشتیبانی بیمه‌های پایه و تکمیلی و تسویه شفاف در صندوق.' },
+];
+
+const STEPS = [
+  { num: '۱', t: 'بخش و پزشک را انتخاب کنید', d: 'از میان ده‌ها تخصص و متخصص مجرب، مناسب‌ترین را بر اساس نیاز خود پیدا کنید.' },
+  { num: '۲', t: 'زمان نوبت را رزرو کنید', d: 'تقویم آنلاین پزشک را ببینید و زمان دلخواهتان را در چند ثانیه ثبت کنید.' },
+  { num: '۳', t: 'به بیمارستان مراجعه کنید', d: 'با کد رهروی نوبت، بدون انتظار و مستقیماً به مطب متخصص بروید.' },
+];
+
+const FEATURES = [
+  { icon: ShieldCheck, t: 'پزشکان بوردتخصص', d: 'دهه‌ها تجربه بالینی در رشته‌های مختلف تخصصی.' },
+  { icon: Clock3, t: 'دسترسی سریع و بدون معطلی', d: 'کمترین زمان انتظار با نوبت‌دهی هوشمند آنلاین.' },
+  { icon: HeartPulse, t: 'برنامه درمان شخصی‌سازی‌شده', d: 'روند درمان متناسب با شرایط منحصربه‌فرد هر بیمار.' },
+];
+
+function initials(fullName = '') {
+  const parts = fullName.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '؟';
+  if (parts.length === 1) return parts[0].slice(0, 2);
+  return (parts[0][0] || '') + (parts[1][0] || '');
+}
+
+/* scroll-reveal wrapper — each instance gets its own ref */
+function Reveal({ stagger, className = '', style, children, ...rest }) {
+  const ref = useReveal();
+  return (
+    <div ref={ref} className={`reveal ${stagger ? 'stagger' : ''} ${className}`.trim()} style={style} {...rest}>
+      {children}
+    </div>
+  );
+}
+
+/* animated stat counter */
+function Stat({ icon: Icon, value, label }) {
+  const [ref, n] = useCountUp(value);
+  return (
+    <div className="lp-stat">
+      <div className="ic"><Icon size={23} /></div>
+      <div className="n" ref={ref}>{faNumber(n)}</div>
+      <div className="l">{label}</div>
+    </div>
+  );
+}
 
 export default function Home() {
+  /* ---- Live data (falls back to demo) ---- */
   const { data: docCount } = useFetch(() => endpoints.doctors.countActive().catch(() => null), []);
   const { data: patCount } = useFetch(() => endpoints.patients.countActive().catch(() => null), []);
   const { data: deptCount } = useFetch(() => endpoints.departments.countActive().catch(() => null), []);
   const { data: aptCount } = useFetch(() => endpoints.appointments.count().catch(() => null), []);
-  const { data: doctorsRaw } = useFetch(() => endpoints.doctors.active().catch(() => null), []);
-  const { data: deptsRaw } = useFetch(() => endpoints.departments.active().catch(() => null), []);
-
-  // Smooth-scroll to hash sections
-  useEffect(() => {
-    if (window.location.hash) {
-      const el = document.querySelector(window.location.hash);
-      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 100);
-    }
-  }, []);
 
   const stats = {
     doctors: docCount ?? DEMO_STATS.doctors,
@@ -57,232 +96,228 @@ export default function Home() {
     departments: deptCount ?? DEMO_STATS.departments,
     appointments: aptCount ?? DEMO_STATS.appointments,
   };
+  const depts = DEMO_DEPTS;
 
-  const doctors = (Array.isArray(doctorsRaw) ? doctorsRaw : DEMO_DOCTORS).slice(0, 4);
-  const depts = (Array.isArray(deptsRaw) ? deptsRaw : DEMO_DEPTS).slice(0, 8);
+  /* ---- smooth-scroll to hash on mount ---- */
+  useEffect(() => {
+    if (window.location.hash) {
+      const el = document.querySelector(window.location.hash);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 120);
+    }
+  }, []);
 
   return (
     <>
       <PublicNavbar />
 
       {/* ===== HERO ===== */}
-      <section className="hero">
-        <div className="hero-inner">
-          <div className="hero-content fade-in-up">
-            <span className="hero-badge">
-              <span className="dot" />
-              {`بیش از ${toFa(stats.doctors)} پزشک متخصص فعال`}
-            </span>
-            <h1 className="hero-title">
-              مراقبت درمانی <span className="grad">هوشمند و انسانی</span>
-              <br />
-              برای سلامت شما و عزیزانتان
-            </h1>
-            <p className="hero-desc">
-              سامانه یکپارچه مدیریت بیمارستان نووا، با ترکیب فناوری روز و تیمی از بهترین
-              متخصصان، تجربه‌ای سریع، شفاف و مطمئن از پذیرش تا درمان را برای شما رقم می‌زند.
-            </p>
-            <div className="hero-actions">
-              <Button to="/book" size="lg" icon={CalendarPlus} iconRight>رزرو نوبت آنلاین</Button>
-              <Button to="/login" size="lg" variant="outline" icon={Activity}>ورود به سامانه</Button>
+      <header className="lp-hero" id="home">
+        <span className="blob1" />
+        <span className="blob2" />
+        <div className="container">
+          <div className="lp-hero-grid">
+            <Reveal>
+              <span className="lp-eyebrow"><span className="dot" /> سامانه سلامت هوشمند نسل جدید</span>
+              <h1>سلامتی <span className="lp-grad">ساده‌تر از همیشه</span>، در دستان شما</h1>
+              <p className="lead">
+                نووا، پلتفرم یکپارچه درمانی که با تجربه‌ای روان، دوستانه و مطمئن،
+                از اولین نوبت تا درمان کامل در کنار شماست.
+              </p>
+              <div className="lp-btns">
+                <Link className="lp-btn lp-btn-pri" to="/book"><CalendarPlus size={19} /> رزرو نوبت آنلاین</Link>
+                <Link className="lp-btn lp-btn-gh" to="/#how"><Play size={19} /> چطور کار می‌کند؟</Link>
+              </div>
+              <div className="lp-trust">
+                <div className="lp-av-grp">
+                  <span style={{ background: 'linear-gradient(135deg,#0ea5e9,#14b8a6)' }}>س م</span>
+                  <span style={{ background: 'linear-gradient(135deg,#10b981,#34d399)' }}>ر ک</span>
+                  <span style={{ background: 'linear-gradient(135deg,#0d9488,#2dd4bf)' }}>م ا</span>
+                  <span style={{ background: 'linear-gradient(135deg,#14b8a6,#0ea5e9)' }}>+</span>
+                </div>
+                <div className="tx">
+                  <span className="stars">★★★★★</span>
+                  <b>{faNumber(4820)}+ بیمار راضی</b>
+                </div>
+              </div>
+            </Reveal>
+
+            {/* hero visual with ECG */}
+            <Reveal className="lp-hvis" style={{ transitionDelay: '0.12s' }}>
+              <span className="lp-ring" />
+              <div className="lp-frame">
+                <img src="/assets/3d-hero.jpg" alt="گرافیک سلامت نووا" />
+                <div className="lp-ecg">
+                  <div className="lp-ecg-label"><span className="lbl-dot" /> ECG • {faNumber(78)} bpm</div>
+                  <EcgMonitor bpm={78} />
+                </div>
+              </div>
+              <div className="lp-float lp-float-1">
+                <span className="ic"><HeartPulse size={20} /></span>
+                <div><div className="t">{faNumber(78)} bpm</div><div className="s">ضربان قلب سالم</div></div>
+              </div>
+              <div className="lp-float lp-float-2">
+                <span className="ic"><CalendarDays size={20} /></span>
+                <div><div className="t">{faNumber(120)} ویزیت امروز</div><div className="s">نوبت‌های فعال</div></div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </header>
+
+      {/* ===== STATS ===== */}
+      <section className="lp-stats-sec">
+        <div className="container">
+          <Reveal stagger>
+            <div className="lp-stats">
+              <Stat icon={Stethoscope} value={stats.doctors} label="پزشک متخصص" />
+              <Stat icon={Users} value={stats.patients} label="بیمار تحت درمان" />
+              <Stat icon={Building2} value={stats.departments} label="بخش تخصصی" />
+              <Stat icon={CalendarDays} value={stats.appointments} label="نوبت ثبت‌شده" />
             </div>
-            <div className="flex items-center gap-16 mt-24" style={{ flexWrap: 'wrap' }}>
-              {[
-                { icon: ShieldCheck, t: 'تأییدیه وزارت بهداشت' },
-                { icon: Clock3, t: 'اورژانس ۲۴ ساعته' },
-                { icon: CheckCircle2, t: 'بیمه‌های پایه و تکمیلی' },
-              ].map((x) => (
-                <div key={x.t} className="flex items-center gap-8 text-sm text-secondary">
-                  <x.icon size={18} className="text-brand" /> {x.t}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ===== HOW IT WORKS ===== */}
+      <section className="lp-section" id="how">
+        <div className="container">
+          <Reveal>
+            <div className="lp-head">
+              <span className="lp-eyebrow"><span className="dot" /> نحوه کار</span>
+              <h2>در سه گام ساده، <span className="lp-grad">نوبت بگیرید</span></h2>
+              <p>بدون معطلی و پیچیدگی، فقط چند کلیک تا ویزیت متخصص.</p>
+            </div>
+          </Reveal>
+          <Reveal stagger>
+            <div className="lp-steps">
+              {STEPS.map((s) => (
+                <div className="lp-step" key={s.num}>
+                  <div className="num">{s.num}</div>
+                  <h3>{s.t}</h3>
+                  <p>{s.d}</p>
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Visual */}
-          <div className="hero-visual fade-in-up" style={{ animationDelay: '0.15s' }}>
-            <div className="hero-card-stack">
-              <div style={{
-                background: 'var(--gradient-brand)', borderRadius: 'var(--radius-xl)',
-                aspectRatio: '4/3', padding: 32, color: '#fff', position: 'relative',
-                boxShadow: 'var(--shadow-brand)', overflow: 'hidden',
-              }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 20%, rgba(255,255,255,0.25), transparent 55%)' }} />
-                <div className="flex items-center justify-between" style={{ position: 'relative' }}>
-                  <div className="fw-800 text-lg">سلامت در یک نگاه</div>
-                  <Activity size={26} />
-                </div>
-                <div style={{ position: 'relative', marginTop: 28 }}>
-                  <div className="text-sm" style={{ opacity: 0.85 }}>بیماران فعال این ماه</div>
-                  <div style={{ fontSize: '2.6rem', fontWeight: 800, lineHeight: 1.1 }}>{faNumber(stats.patients)}+</div>
-                </div>
-                <div style={{ position: 'relative', marginTop: 22, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  {[['رضایت بیماران', '۹۸٪'], ['نرخ درمان', '۹۶٪']].map(([k, v]) => (
-                    <div key={k} style={{ background: 'rgba(255,255,255,0.15)', borderRadius: 14, padding: '14px 16px' }}>
-                      <div style={{ fontSize: '1.3rem', fontWeight: 800 }}>{v}</div>
-                      <div className="text-xs" style={{ opacity: 0.85 }}>{k}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="hero-float" style={{ top: -18, left: -18 }}>
-                <span className="hf-ic"><HeartPulse size={20} /></span>
-                <div>
-                  <div className="fw-700 text-sm">ضربان قلب</div>
-                  <div className="text-xs text-muted">۷۸ ضربه/دقیقه</div>
-                </div>
-              </div>
-              <div className="hero-float" style={{ bottom: -20, right: -10 }}>
-                <span className="hf-ic"><CalendarDays size={20} /></span>
-                <div>
-                  <div className="fw-700 text-sm">نوبت‌های امروز</div>
-                  <div className="text-xs text-muted">{faNumber(120)} ویزیت</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats strip */}
-        <div className="hero-stats stagger">
-          <Stat icon={Stethoscope} value={`${faNumber(stats.doctors)}+`} label="پزشک متخصص" />
-          <Stat icon={Users} value={`${faNumber(stats.patients)}+`} label="بیمار تحت درمان" />
-          <Stat icon={Building2} value={faNumber(stats.departments)} label="بخش تخصصی" />
-          <Stat icon={CalendarDays} value={`${faNumber(stats.appointments)}+`} label="نوبت ثبت‌شده" />
+          </Reveal>
         </div>
       </section>
 
       {/* ===== SERVICES ===== */}
-      <section className="section section-alt" id="services">
+      <section className="lp-section lp-section-alt" id="services">
         <div className="container">
-          <div className="section-head">
-            <span className="section-eyebrow">خدمات ما</span>
-            <h2 className="section-title">مجموعه‌ای کامل از خدمات درمانی</h2>
-            <p className="section-sub">از پذیرش و تشخیص تا درمان و پیگیری، همه چیز در یک سامانه یکپارچه.</p>
-          </div>
-          <div className="grid-cards-3 stagger">
-            {[
-              { icon: Siren, t: 'اورژانس ۲۴ ساعته', d: 'مراقبت فوری و تخصصی برای مواقع حساس، در تمام ساعات شبانه‌روز.' },
-              { icon: Microscope, t: 'رادیولوژی و آزمایشگاه', d: 'تجهیزات پیشرفته تصویربرداری و آزمایش برای تشخیص دقیق و سریع.' },
-              { icon: HeartPulse, t: 'قلب و عروق', d: 'تشخیص و درمان تخصصی بیماری‌های قلبی با تیم بوردتخصص.' },
-              { icon: Pill, t: 'داروخانه داخلی', d: 'تأمین سریع داروهای تجویزی و مشاوره دارویی در محل بیمارستان.' },
-              { icon: Stethoscope, t: 'ویزیت تخصصی', d: 'دسترسی آسان به متخصصان رشته‌های مختلف با نوبت‌دهی آنلاین.' },
-              { icon: ShieldCheck, t: 'بیمه و تسویه', d: 'پشتیبانی بیمه‌های پایه و تکمیلی و تسویه شفاف در صندوق.' },
-            ].map((s) => (
-              <div className="feature-card" key={s.t}>
-                <div className="fc-icon"><s.icon size={26} /></div>
-                <h3>{s.t}</h3>
-                <p>{s.d}</p>
-              </div>
-            ))}
-          </div>
+          <Reveal>
+            <div className="lp-head">
+              <span className="lp-eyebrow"><span className="dot" /> خدمات ما</span>
+              <h2>هرآنچه برای سلامت <span className="lp-grad">نیاز دارید</span></h2>
+              <p>از پذیرش و تشخیص تا درمان و پیگیری، همه چیز در یک پلتفرم یکپارچه.</p>
+            </div>
+          </Reveal>
+          <Reveal stagger>
+            <div className="lp-grid3">
+              {SERVICES.map((s) => (
+                <div className="lp-card" key={s.t}>
+                  <div className="fc-ic"><s.icon size={27} /></div>
+                  <h3>{s.t}</h3>
+                  <p>{s.d}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ===== DEPARTMENTS ===== */}
-      <section className="section" id="departments">
+      <section className="lp-section" id="departments">
         <div className="container">
-          <div className="section-head">
-            <span className="section-eyebrow">بخش‌های تخصصی</span>
-            <h2 className="section-title">بخش مورد نظر خود را انتخاب کنید</h2>
-            <p className="section-sub">برای دریافت خدمات تخصصی، روی هر بخش کلیک کنید.</p>
-          </div>
-          <div className="grid-depts stagger">
-            {depts.map((d) => (
-              <a key={d.id || d.code} className="dept-chip" href="/book">
-                <div className="dc-emoji">{deptEmoji(d.departmentCode || d.code)}</div>
-                <div className="fw-700 text-sm">{d.departmentName || d.name}</div>
-                <div className="text-xs text-muted mt-8">{d.location}</div>
-              </a>
-            ))}
-          </div>
+          <Reveal>
+            <div className="lp-head">
+              <span className="lp-eyebrow"><span className="dot" /> بخش‌های تخصصی</span>
+              <h2>بخش مورد نظر خود را انتخاب کنید</h2>
+            </div>
+          </Reveal>
+          <Reveal stagger>
+            <div className="lp-depts">
+              {depts.map((d) => (
+                <Link className="lp-dept" to="/book" key={d.id}>
+                  <div className="emo"><d.icon size={29} /></div>
+                  <div className="nm">{d.name}</div>
+                  <div className="lc">{d.location}</div>
+                </Link>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ===== DOCTORS ===== */}
-      <section className="section section-alt" id="doctors">
+      <section className="lp-section lp-section-alt" id="doctors">
         <div className="container">
-          <div className="section-head">
-            <span className="section-eyebrow">تیم پزشکی</span>
-            <h2 className="section-title">با متخصصان ما آشنا شوید</h2>
-            <p className="section-sub">تیمی مجرب و متعهد از بهترین پزشکان هر تخصص.</p>
-          </div>
-          <div className="grid-cards-4 stagger">
-            {doctors.map((d) => (
-              <div className="doctor-card-pub" key={d.id}>
-                <div className="dc-photo">
-                  <div className="dc-avatar">{initials(d.fullName)}</div>
-                  <span className={`dc-status ${d.isActive === false || d.active === false ? 'off' : ''}`} />
+          <Reveal>
+            <div className="lp-head">
+              <span className="lp-eyebrow"><span className="dot" /> تیم پزشکی</span>
+              <h2>با متخصصان ما <span className="lp-grad">آشنا شوید</span></h2>
+              <p>تیمی مجرب و متعهد از بهترین پزشکان هر تخصص.</p>
+            </div>
+          </Reveal>
+          <Reveal stagger>
+            <div className="lp-grid4">
+              {DEMO_DOCTORS.map((d) => (
+                <div className="lp-doc" key={d.id}>
+                  <div className="av" style={{ background: d.grad }}>{initials(d.fullName)}</div>
+                  <div className="nm">{d.fullName}</div>
+                  <div className="sp">{specialityLabel(d.speciality)}</div>
+                  <div className="dp">{d.dept}</div>
+                  <div className="stars">★★★★★ {faNumber(5)}.۰</div>
+                  <Link className="bk" to="/book"><CalendarPlus size={15} /> رزرو نوبت</Link>
                 </div>
-                <div className="fw-700 text-sm">{d.fullName}</div>
-                <div className="text-sm text-brand fw-600 mt-8">{specialityLabel(d.speciality)}</div>
-                <div className="text-xs text-muted mt-8">{d.department?.departmentName || d.dept}</div>
-                <div className="flex items-center justify-center gap-4 mt-16">
-                  <span className="stars" style={{ color: 'var(--warning)' }}>★★★★★</span>
-                  <span className="text-xs text-muted">۵.۰</span>
-                </div>
-                <Button to="/book" size="sm" variant="soft" className="mt-16 w-full" icon={CalendarPlus}>رزرو نوبت</Button>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-32">
-            <Button to="/app/doctors" variant="outline" icon={ArrowLeft} iconRight>مشاهده همه پزشکان</Button>
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ===== WHY US ===== */}
-      <section className="section">
+      {/* ===== ABOUT split ===== */}
+      <section className="lp-section" id="about">
         <div className="container">
-          <div className="section-head">
-            <span className="section-eyebrow">چرا نووا؟</span>
-            <h2 className="section-title">تجربه‌ای متفاوت از درمان</h2>
-          </div>
-          <div className="grid-cards-4 stagger">
-            {[
-              { icon: ShieldCheck, t: 'پزشکان بوردتخصص', d: 'دهه‌ها تجربه بالینی' },
-              { icon: Clock3, t: 'دسترسی سریع', d: 'کمترین زمان انتظار' },
-              { icon: HeartPulse, t: 'بیمار‌محور', d: 'برنامه درمان شخصی‌سازی‌شده' },
-              { icon: Star, t: 'رضایت ۹۸٪', d: 'بیماران راضی' },
-            ].map((x) => (
-              <div className="feature-card" key={x.t} style={{ textAlign: 'center' }}>
-                <div className="fc-icon" style={{ marginInline: 'auto' }}><x.icon size={26} /></div>
-                <h3 style={{ fontSize: '1rem' }}>{x.t}</h3>
-                <p style={{ fontSize: '0.85rem' }}>{x.d}</p>
-              </div>
-            ))}
+          <div className="lp-split">
+            <Reveal className="pic">
+              <img src="/assets/3d-stats.jpg" alt="داشبورد سلامت نووا" />
+              <div className="badge"><b>{faNumber(98)}٪</b><span>رضایت بیماران</span></div>
+            </Reveal>
+            <Reveal style={{ transitionDelay: '0.1s' }}>
+              <span className="lp-eyebrow"><span className="dot" /> چرا نووا؟</span>
+              <h2 style={{ fontSize: 'clamp(1.8rem, 3.8vw, 2.7rem)', fontWeight: 900, lineHeight: 1.3, margin: '0.4em 0 0.5em' }}>
+                تجربه‌ای <span className="lp-grad">دوستانه</span> از درمان
+              </h2>
+              {FEATURES.map((f) => (
+                <div className="lp-feat" key={f.t}>
+                  <span className="ck"><CheckCircle2 size={19} /></span>
+                  <div><b>{f.t}</b><p>{f.d}</p></div>
+                </div>
+              ))}
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* ===== CTA ===== */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      <section className="lp-section" style={{ paddingTop: 0 }}>
         <div className="container">
-          <div className="cta-band">
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800 }}>همین حالا نوبت خود را رزرو کنید</h2>
-              <p style={{ opacity: 0.9, marginTop: 12, fontSize: '1.05rem' }}>بدون معطلی، آنلاین و در چند ثانیه.</p>
-              <div className="flex gap-12 justify-center mt-24" style={{ flexWrap: 'wrap' }}>
-                <Button to="/book" size="lg" variant="ghost" icon={CalendarPlus}>رزرو نوبت</Button>
-                <Button to="/login" size="lg" variant="ghost" icon={PhoneCall}>تماس با پذیرش</Button>
+          <Reveal>
+            <div className="lp-cta">
+              <div className="cta-bg"><img src="/assets/3d-dept.jpg" alt="" /></div>
+              <h2>همین حالا نوبت خود را رزرو کنید</h2>
+              <p>بدون معطلی، آنلاین و در چند ثانیه — سلامت شما اولویت ماست.</p>
+              <div className="lp-btns">
+                <Link className="lp-btn lp-btn-pri" to="/book"><CalendarPlus size={19} /> رزرو نوبت</Link>
+                <Link className="lp-btn lp-btn-gh" to="/login"><PhoneCall size={19} /> تماس با پذیرش</Link>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <Footer />
     </>
-  );
-}
-
-function Stat({ icon: Icon, value, label }) {
-  return (
-    <div className="hero-stat">
-      <Icon size={22} className="text-brand" />
-      <div className="hs-num mt-8">{value}</div>
-      <div className="hs-label">{label}</div>
-    </div>
   );
 }

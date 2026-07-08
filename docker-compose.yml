@@ -1,0 +1,101 @@
+# ============================================================
+# Hospital Nova — one-command full stack
+#
+#   docker compose up --build      → start everything
+#   docker compose down            → stop everything
+#
+# Services:
+#   oracle-xe   : Oracle Database XE 21  (port 1521)
+#   auth-service: Spring Boot JWT auth   (port 8081)
+#   core-service: Spring Boot core API   (port 8082)
+#   frontend    : React SPA via nginx    (port 5173 → browser)
+# ============================================================
+
+services:
+  # ----------------------------------------------------------
+  # DATABASE
+  # ----------------------------------------------------------
+  oracle-xe:
+    image: gvenzl/oracle-xe:21-slim-faststart
+    container_name: nova-oracle
+    environment:
+      ORACLE_PASSWORD: oracle123
+      ORACLE_DATABASE: XEPDB1
+      APP_USER: appuser
+      APP_USER_PASSWORD: appuser123
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./docker/oracle-init.sql:/container-entrypoint-initdb.d/01-create-users.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 10s
+      retries: 60
+      start_period: 60s
+    networks:
+      - nova-net
+
+  # ----------------------------------------------------------
+  # AUTH SERVICE (port 8081)
+  # ----------------------------------------------------------
+  auth-service:
+    build: ./AuthService
+    container_name: nova-auth
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      AUTH_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
+      AUTH_DATASOURCE_USERNAME: auth
+      AUTH_DATASOURCE_PASSWORD: auth123
+      AUTH_JPA_DDL_AUTO: update
+    ports:
+      - "8081:8081"
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - nova-net
+
+  # ----------------------------------------------------------
+  # CORE SERVICE (port 8082)
+  # ----------------------------------------------------------
+  core-service:
+    build: ./CoreService
+    container_name: nova-core
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      CORE_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
+      CORE_DATASOURCE_USERNAME: core
+      CORE_DATASOURCE_PASSWORD: core123
+      CORE_JPA_DDL_AUTO: update
+    ports:
+      - "8082:8082"
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - nova-net
+
+  # ----------------------------------------------------------
+  # FRONTEND (nginx on port 5173)
+  # ----------------------------------------------------------
+  frontend:
+    build: ./frontend
+    container_name: nova-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - auth-service
+      - core-service
+    networks:
+      - nova-net
+
+networks:
+  nova-net:
+    driver: bridge
+
+volumes:
+  oracle-data:

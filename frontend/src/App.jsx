@@ -13,6 +13,7 @@ import Shifts from './pages/dashboard/Shifts';
 import Book from './pages/dashboard/Book';
 import DoctorPanel from './pages/dashboard/DoctorPanel';
 import PatientPanel from './pages/dashboard/PatientPanel';
+import ProtectedRoute from './components/ui/ProtectedRoute';
 
 export default function App() {
   return (
@@ -21,8 +22,15 @@ export default function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
 
-      {/* Dashboard */}
-      <Route path="/app" element={<DashboardLayout />}>
+      {/* Dashboard (protected) */}
+      <Route
+        path="/app"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<AdminDashboard />} />
         <Route path="doctors" element={<Doctors />} />
         <Route path="patients" element={<Patients />} />

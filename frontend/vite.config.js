@@ -19,9 +19,15 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
-    // All /api requests are forwarded to the Spring Boot backend so the React
-    // frontend and the REST APIs share one origin (no CORS headaches).
+    // Dual-backend proxy:
+    //  - AuthService (login/JWT)  -> :8081  (matched first)
+    //  - CoreService  (everything else) -> :8082
+    // Ordering matters: the more specific /api/v1/auth rule wins.
     proxy: {
+      '/api/v1/auth': {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+      },
       '/api': {
         target: 'http://localhost:8082',
         changeOrigin: true,

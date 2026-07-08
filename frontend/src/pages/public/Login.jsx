@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
-  Activity, User, Lock, Eye, EyeOff, LogIn, ShieldCheck, HeartPulse, ArrowRight,
+  ArrowRight, User, Lock, Eye, EyeOff, LogIn, ShieldCheck,
+  HeartPulse, Activity, AlertCircle,
 } from 'lucide-react';
 import ThemeToggle from '../../components/ui/ThemeToggle';
-import { Button, Spinner } from '../../components/ui';
-import { endpoints } from '../../api/endpoints';
+import EcgMonitor from '../../components/ui/EcgMonitor';
+import { Spinner } from '../../components/ui';
+import { useAuth } from '../../context/AuthContext';
+import { faNumber } from '../../utils/format';
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
   const [form, setForm] = useState({ username: '', password: '' });
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,75 +24,83 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      const res = await endpoints.auth.login(form);
-      const token = res?.accessToken || res?.token;
-      if (token) localStorage.setItem('nova-token', token);
-      navigate('/app');
+      await login(form);
+      const dest = location.state?.from || '/app';
+      navigate(dest, { replace: true });
     } catch (err) {
-      // Backend may be down in demo — still allow entering the dashboard
-      setError(typeof err === 'string' ? err : 'ورود ناموفق بود. در حالت دمو وارد داشبورد می‌شوید.');
-      setTimeout(() => navigate('/app'), 900);
+      setError(typeof err === 'string' ? err : (err?.message || 'نام کاربری یا رمز عبور نادرست است.'));
     } finally {
       setLoading(false);
     }
   };
 
+  const quickFill = (u, p) => setForm({ username: u, password: p });
+
   return (
     <div className="auth-wrap">
-      {/* Branded aside */}
+      {/* ---- Branded aside ---- */}
       <aside className="auth-aside">
-        <Link to="/" className="flex items-center gap-12" style={{ position: 'relative', zIndex: 2 }}>
-          <span className="brand-mark" style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(255,255,255,0.18)', display: 'grid', placeItems: 'center' }}>
-            <Activity size={24} color="#fff" />
+        <div className="auth-aside-bg" />
+        <Link to="/" className="auth-logo">
+          <span className="mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M11 2h2a2 2 0 0 1 2 2v5h5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-5v5a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-5H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h5V4a2 2 0 0 1 2-2z" />
+            </svg>
           </span>
           <span>
-            <span className="fw-800" style={{ fontSize: '1.1rem' }}>نووا</span>
-            <span style={{ display: 'block', fontSize: '0.78rem', opacity: 0.8 }}>سامانه مدیریت بیمارستان</span>
+            نووا<small>NOVA HOSPITAL</small>
           </span>
         </Link>
 
-        <div style={{ position: 'relative', zIndex: 2 }}>
-          <h1 style={{ fontSize: '2.2rem', fontWeight: 800, lineHeight: 1.3 }}>به سامانه یکپارچه نووا خوش آمدید</h1>
-          <p style={{ marginTop: 16, opacity: 0.9, fontSize: '1.05rem', lineHeight: 1.9 }}>
-            مدیریت هوشمند بیماران، پزشکان، نوبت‌ها و بخش‌ها — همه در یک داشبورد حرفه‌ای و امن.
+        <div className="auth-aside-body">
+          <h1>به سامانه یکپارچه نووا خوش آمدید</h1>
+          <p>
+            مدیریت هوشمند بیماران، پزشکان، نوبت‌ها و بخش‌ها —
+            همه در یک داشبورد حرفه‌ای، امن و سریع.
           </p>
-          <div className="flex-col gap-16" style={{ marginTop: 32 }}>
+
+          {/* ECG monitor mini-card */}
+          <div className="auth-ecg-card">
+            <EcgMonitor bpm={72} />
+            <div className="auth-ecg-label">
+              <span className="lbl-dot" /> ECG • {faNumber(72)} bpm — سیستم فعال
+            </div>
+          </div>
+
+          <div className="auth-feats">
             {[
-              { icon: ShieldCheck, t: 'امنیت بالا با احراز هویت توکنی (JWT)' },
-              { icon: HeartPulse, t: 'پایش لحظه‌ای وضعیت بیماران' },
+              { icon: ShieldCheck, t: 'احراز هویت توکنی (JWT)' },
+              { icon: HeartPulse, t: 'پایش لحظه‌ای بیماران' },
               { icon: Activity, t: 'گزارش‌ها و نمودارهای زنده' },
             ].map((x) => (
-              <div key={x.t} className="flex items-center gap-12">
-                <span style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(255,255,255,0.16)', display: 'grid', placeItems: 'center' }}>
-                  <x.icon size={19} />
-                </span>
-                <span style={{ fontSize: '0.94rem' }}>{x.t}</span>
+              <div key={x.t} className="auth-feat">
+                <span className="fi"><x.icon size={18} /></span>
+                <span>{x.t}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <p style={{ position: 'relative', zIndex: 2, opacity: 0.7, fontSize: '0.82rem' }}>© ۱۴۰۵ بیمارستان فوق‌تخصصی نووا</p>
+        <p className="auth-aside-foot">© {faNumber(1404)} بیمارستان فوق‌تخصصی نووا</p>
       </aside>
 
-      {/* Form side */}
+      {/* ---- Form side ---- */}
       <div className="auth-form-side">
-        <div style={{ position: 'absolute', top: 24, left: 24 }}>
+        <div className="auth-top-actions">
           <ThemeToggle />
         </div>
 
         <div className="auth-card fade-in-up">
-          <div className="flex items-center gap-8 mb-8">
-            <Link to="/" className="theme-toggle btn-icon" style={{ width: 38, height: 38 }}><ArrowRight size={18} /></Link>
-            <span className="text-sm text-muted">بازگشت به خانه</span>
-          </div>
+          <Link to="/" className="auth-back">
+            <ArrowRight size={18} /> بازگشت به خانه
+          </Link>
 
-          <h2 className="text-2xl fw-800">ورود به حساب</h2>
-          <p className="text-muted mt-8 mb-24">برای دسترسی به داشبورد وارد شوید.</p>
+          <h2>ورود به حساب</h2>
+          <p className="auth-sub">برای دسترسی به داشبورد، اطلاعات خود را وارد کنید.</p>
 
           {error && (
-            <div className="badge badge-danger w-full mb-16" style={{ padding: '11px 14px', borderRadius: 12 }}>
-              {error}
+            <div className="auth-error">
+              <AlertCircle size={18} /> {error}
             </div>
           )}
 
@@ -97,10 +110,12 @@ export default function Login() {
               <div className="input-group has-icon">
                 <span className="input-icon"><User size={18} /></span>
                 <input
-                  className="input" placeholder="نام کاربری خود را وارد کنید"
+                  className="input"
+                  placeholder="نام کاربری خود را وارد کنید"
                   value={form.username}
                   onChange={(e) => setForm({ ...form, username: e.target.value })}
-                  required autoFocus
+                  required
+                  autoFocus
                 />
               </div>
             </div>
@@ -110,39 +125,49 @@ export default function Login() {
               <div className="input-group has-icon">
                 <span className="input-icon"><Lock size={18} /></span>
                 <input
-                  className="input" placeholder="رمز عبور"
+                  className="input"
+                  placeholder="رمز عبور"
                   type={show ? 'text' : 'password'}
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   required
                 />
-                <button type="button" className="input-icon" style={{ pointerEvents: 'auto', left: 14, right: 'auto' }} onClick={() => setShow((s) => !s)}>
+                <button
+                  type="button"
+                  className="input-icon input-icon-action"
+                  onClick={() => setShow((s) => !s)}
+                  aria-label={show ? 'پنهان کردن رمز' : 'نمایش رمز'}
+                >
                   {show ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between mb-24">
-              <label className="flex items-center gap-8 text-sm text-secondary">
+            <div className="auth-row">
+              <label className="auth-remember">
                 <span className="switch"><input type="checkbox" defaultChecked /><span className="slider" /></span>
                 مرا به خاطر بسپار
               </label>
-              <a href="#" className="text-sm text-brand">فراموشی رمز؟</a>
+              <a href="#" className="auth-forgot">فراموشی رمز؟</a>
             </div>
 
-            <Button type="submit" size="lg" className="btn-block" icon={loading ? undefined : LogIn} disabled={loading}>
-              {loading ? <><Spinner /> ورود…</> : 'ورود به سامانه'}
-            </Button>
+            <button className="auth-submit" type="submit" disabled={loading}>
+              {loading ? <><Spinner /> ورود…</> : <><LogIn size={19} /> ورود به سامانه</>}
+            </button>
           </form>
 
-          <div className="card mt-24" style={{ background: 'var(--surface-2)' }}>
-            <div className="card-body card-body-sm">
-              <div className="text-xs text-muted mb-8">حساب‌های نمایشی:</div>
-              <div className="text-sm flex-col gap-8">
-                <span><b>admin</b> / Admin@123 — مدیر</span>
-                <span><b>dr.ali</b> / Doctor@123 — پزشک</span>
-                <span><b>patient.reza</b> / Patient@123 — بیمار</span>
-              </div>
+          <div className="auth-demo">
+            <div className="auth-demo-label">حساب‌های نمایشی (کلیک = پر کردن سریع):</div>
+            <div className="auth-demo-grid">
+              <button type="button" onClick={() => quickFill('admin', 'Admin@123')}>
+                <b>admin</b><span>مدیر</span>
+              </button>
+              <button type="button" onClick={() => quickFill('dr.ali', 'Doctor@123')}>
+                <b>dr.ali</b><span>پزشک</span>
+              </button>
+              <button type="button" onClick={() => quickFill('patient.reza', 'Patient@123')}>
+                <b>patient.reza</b><span>بیمار</span>
+              </button>
             </div>
           </div>
         </div>

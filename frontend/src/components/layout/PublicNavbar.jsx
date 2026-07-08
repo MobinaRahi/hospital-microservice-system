@@ -1,50 +1,57 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, Activity, CalendarPlus, LogIn } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { CalendarPlus, Menu as MenuIcon } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
-import { Button } from '../ui';
 
 const links = [
-  { to: '/', label: 'خانه' },
-  { to: '/#services', label: 'خدمات' },
-  { to: '/#departments', label: 'بخش‌ها' },
-  { to: '/#doctors', label: 'پزشکان' },
-  { to: '/#contact', label: 'تماس' },
+  { to: '/', label: 'خانه', hash: 'home' },
+  { to: '/#how', label: 'نحوه کار', hash: 'how' },
+  { to: '/#services', label: 'خدمات', hash: 'services' },
+  { to: '/#departments', label: 'بخش‌ها', hash: 'departments' },
+  { to: '/#doctors', label: 'پزشکان', hash: 'doctors' },
 ];
 
 export default function PublicNavbar() {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className="public-nav">
-      <div className="public-nav-inner">
-        <Link to="/" className="flex items-center gap-12" style={{ flexShrink: 0 }}>
-          <span className="sidebar-brand brand-mark" style={{ width: 40, height: 40, borderRadius: 12, background: 'var(--gradient-brand)', display: 'grid', placeItems: 'center' }}>
-            <Activity size={22} color="#fff" />
+    <header className={`lp-nav ${scrolled ? 'scrolled' : ''}`}>
+      <div className="bar">
+        <Link to="/" className="lp-brand">
+          <span className="mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M11 2h2a2 2 0 0 1 2 2v5h5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-5v5a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-5H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h5V4a2 2 0 0 1 2-2z" />
+            </svg>
           </span>
           <span>
-            <span className="fw-800" style={{ display: 'block', lineHeight: 1.2 }}>نووا</span>
-            <span className="text-xs text-muted">بیمارستان فوق‌تخصصی</span>
+            نووا
+            <small>NOVA HOSPITAL</small>
           </span>
         </Link>
 
-        <nav className="nav-links" style={{ flex: 1, justifyContent: 'center' }} id="navLinks" data-open={open}>
+        <nav className={`lp-menu ${open ? 'open' : ''}`}>
           {links.map((l) => (
-            <Link key={l.to} to={l.to} className={pathname === l.to ? 'active' : ''} onClick={() => setOpen(false)}>
+            <Link key={l.to} to={l.to} onClick={() => setOpen(false)}>
               {l.label}
             </Link>
           ))}
+          <Link to="/book" className="cta" onClick={() => setOpen(false)}>
+            رزرو نوبت <CalendarPlus size={17} />
+          </Link>
         </nav>
 
-        <div className="flex items-center gap-8" style={{ marginLeft: 'auto' }}>
-          <ThemeToggle />
-          <Button to="/book" variant="soft" size="sm" icon={CalendarPlus}>رزرو نوبت</Button>
-          <Button to="/login" variant="primary" size="sm" icon={LogIn}>ورود</Button>
-          <button className="btn btn-ghost btn-icon nav-burger" onClick={() => setOpen((o) => !o)} aria-label="منو">
-            <Menu size={20} />
-          </button>
-        </div>
+        <ThemeToggle />
+        <button className="lp-burger" onClick={() => setOpen((o) => !o)} aria-label="منو">
+          <span /><span /><span />
+        </button>
       </div>
     </header>
   );

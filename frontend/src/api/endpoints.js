@@ -5,9 +5,10 @@ import { api } from './client';
  * Mirrors the CoreService (8082) + AuthService (8081) REST controllers.
  */
 export const endpoints = {
-  // ---------- Auth ----------
+  // ---------- Auth (AuthService :8081) ----------
   auth: {
     login: (body) => api.post('/auth/login', body, { isAuth: false }),
+    refresh: (refreshToken) => api.post('/auth/refresh', { refreshToken }, { isAuth: false }),
     me: () => api.get('/auth/me'),
   },
 
