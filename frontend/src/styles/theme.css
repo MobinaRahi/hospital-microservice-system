@@ -1,0 +1,132 @@
+/* =================================================================
+   NOVA HOSPITAL — DESIGN SYSTEM
+   Indigo/Violet premium theme with full dark/light mode support.
+   All colors flow through CSS custom properties so the whole app
+   re-themes instantly when [data-theme] changes on <html>.
+   ================================================================= */
+
+/* ----------------------- LIGHT THEME (default) ----------------------- */
+:root,
+[data-theme='light'] {
+  /* Brand — indigo → violet gradient */
+  --brand-50: #eef2ff;
+  --brand-100: #e0e7ff;
+  --brand-200: #c7d2fe;
+  --brand-300: #a5b4fc;
+  --brand-400: #818cf8;
+  --brand-500: #6366f1;
+  --brand-600: #5b50e6;
+  --brand-700: #4f46e5;
+  --brand-800: #4338ca;
+  --brand-900: #3730a3;
+  --accent-500: #a855f7;
+  --accent-600: #9333ea;
+
+  --gradient-brand: linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #a855f7 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(168, 85, 247, 0.12));
+  --gradient-hero: radial-gradient(1200px 600px at 80% -10%, rgba(139, 92, 246, 0.18), transparent 60%),
+                   radial-gradient(900px 500px at 0% 10%, rgba(99, 102, 241, 0.16), transparent 55%);
+
+  /* Status colors */
+  --success: #10b981;
+  --success-bg: #d1fae5;
+  --warning: #f59e0b;
+  --warning-bg: #fef3c7;
+  --danger: #ef4444;
+  --danger-bg: #fee2e2;
+  --info: #0ea5e9;
+  --info-bg: #e0f2fe;
+
+  /* Neutral surfaces */
+  --bg: #f4f5fb;
+  --bg-alt: #eceef7;
+  --surface: #ffffff;
+  --surface-2: #f8f9fd;
+  --surface-3: #f1f2f9;
+  --surface-hover: #f3f4fb;
+  --overlay: rgba(15, 23, 42, 0.45);
+
+  /* Text */
+  --text: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-on-brand: #ffffff;
+  --text-faint: #94a3b8;
+
+  /* Borders & rings */
+  --border: #e6e8f0;
+  --border-strong: #d4d7e3;
+  --ring: rgba(99, 102, 241, 0.35);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 18px 48px rgba(15, 23, 42, 0.12);
+  --shadow-brand: 0 12px 30px rgba(99, 102, 241, 0.28);
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.6);
+}
+
+/* ----------------------- DARK THEME ----------------------- */
+[data-theme='dark'] {
+  --gradient-hero: radial-gradient(1200px 600px at 80% -10%, rgba(139, 92, 246, 0.22), transparent 60%),
+                   radial-gradient(900px 500px at 0% 10%, rgba(99, 102, 241, 0.2), transparent 55%);
+
+  --success-bg: rgba(16, 185, 129, 0.16);
+  --warning-bg: rgba(245, 158, 11, 0.16);
+  --danger-bg: rgba(239, 68, 68, 0.16);
+  --info-bg: rgba(14, 165, 233, 0.16);
+
+  --bg: #0b1020;
+  --bg-alt: #0e1426;
+  --surface: #141b30;
+  --surface-2: #1a2238;
+  --surface-3: #212a44;
+  --surface-hover: #1d2540;
+  --overlay: rgba(2, 6, 23, 0.65);
+
+  --text: #e8ecf6;
+  --text-secondary: #b8c0d4;
+  --text-muted: #8b94ab;
+  --text-on-brand: #ffffff;
+  --text-faint: #647088;
+
+  --border: #263049;
+  --border-strong: #323d5c;
+  --ring: rgba(129, 140, 248, 0.45);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.55);
+  --shadow-brand: 0 12px 30px rgba(99, 102, 241, 0.4);
+
+  --glass-bg: rgba(20, 27, 48, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.06);
+}
+
+/* ----------------------- GLOBAL TOKENS ----------------------- */
+:root {
+  --radius-xs: 8px;
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  --sidebar-w: 264px;
+  --topbar-h: 68px;
+
+  --font: 'Vazirmatn', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: light;
+}
+[data-theme='dark'] {
+  color-scheme: dark;
+}
