@@ -1,26 +1,31 @@
 # ============================================================
-# Hospital Nova — one-command full stack
+# Hospital Microservice System — Docker Compose (Final)
 #
 #   docker compose up --build      → start everything
-#   docker compose down            → stop everything
+#   docker compose down -v         → stop + delete data
 #
-# Services:
-#   oracle-xe   : Oracle Database XE 21  (port 1521)
-#   auth-service: Spring Boot JWT auth   (port 8081)
-#   core-service: Spring Boot core API   (port 8082)
-#   frontend    : React SPA via nginx    (port 5173 → browser)
+# URLs:
+#   Frontend       → http://localhost:5373
+#   AuthService    → http://localhost:8281
+#   CoreService    → http://localhost:8382
+#   Swagger (Auth) → http://localhost:8281/swagger-ui.html
+#   Swagger (Core) → http://localhost:8382/swagger-ui.html
+#
+# Accounts:
+#   admin / Admin@123
+#   dr.ali / Doctor@123
+#   patient.reza / Patient@123
 # ============================================================
 
 services:
-  # ----------------------------------------------------------
-  # DATABASE
-  # ----------------------------------------------------------
+  # ─────────────────────────────────────────────────────────
+  # Oracle Database
+  # ─────────────────────────────────────────────────────────
   oracle-xe:
     image: gvenzl/oracle-xe:21-slim-faststart
     container_name: nova-oracle
     environment:
       ORACLE_PASSWORD: oracle123
-      ORACLE_DATABASE: XEPDB1
       APP_USER: appuser
       APP_USER_PASSWORD: appuser123
     ports:
@@ -37,56 +42,67 @@ services:
     networks:
       - nova-net
 
-  # ----------------------------------------------------------
-  # AUTH SERVICE (port 8081)
-  # ----------------------------------------------------------
+  # ─────────────────────────────────────────────────────────
+  # AuthService (host:8281 → container:8081)
+  # ─────────────────────────────────────────────────────────
   auth-service:
     build: ./AuthService
     container_name: nova-auth
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SERVER_PORT: 8081
       AUTH_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
       AUTH_DATASOURCE_USERNAME: auth
       AUTH_DATASOURCE_PASSWORD: auth123
       AUTH_JPA_DDL_AUTO: update
+      JWT_SECRET: "mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+"
     ports:
-      - "8081:8081"
+      - "8281:8081"
     depends_on:
       oracle-xe:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8081/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
     restart: on-failure
     networks:
       - nova-net
 
-  # ----------------------------------------------------------
-  # CORE SERVICE (port 8082)
-  # ----------------------------------------------------------
+  # ─────────────────────────────────────────────────────────
+  # CoreService (host:8382 → container:8082)
+  # ─────────────────────────────────────────────────────────
   core-service:
     build: ./CoreService
     container_name: nova-core
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SERVER_PORT: 8082
       CORE_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
       CORE_DATASOURCE_USERNAME: core
       CORE_DATASOURCE_PASSWORD: core123
       CORE_JPA_DDL_AUTO: update
+      AUTH_SERVICE_BASE_URL: http://auth-service:8081
+      JWT_SECRET: "mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+"
     ports:
-      - "8082:8082"
+      - "8382:8082"
     depends_on:
       oracle-xe:
+        condition: service_healthy
+      auth-service:
         condition: service_healthy
     restart: on-failure
     networks:
       - nova-net
 
-  # ----------------------------------------------------------
-  # FRONTEND (nginx on port 5173)
-  # ----------------------------------------------------------
+  # ─────────────────────────────────────────────────────────
+  # React Frontend (host:5373 → container:80)
+  # ─────────────────────────────────────────────────────────
   frontend:
     build: ./frontend
     container_name: nova-frontend
     ports:
-      - "5173:80"
+      - "5373:80"
     depends_on:
       - auth-service
       - core-service

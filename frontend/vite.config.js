@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   build: {
@@ -17,19 +16,18 @@ export default defineConfig({
     chunkSizeWarningLimit: 700,
   },
   server: {
-    port: 5173,
+    port: 5373,
     host: true,
     // Dual-backend proxy:
-    //  - AuthService (login/JWT)  -> :8081  (matched first)
-    //  - CoreService  (everything else) -> :8082
-    // Ordering matters: the more specific /api/v1/auth rule wins.
+    //  - AuthService (login/JWT)  -> :8281
+    //  - CoreService  (everything else) -> :8382
     proxy: {
       '/api/v1/auth': {
-        target: 'http://localhost:8081',
+        target: 'http://localhost:8281',
         changeOrigin: true,
       },
       '/api': {
-        target: 'http://localhost:8082',
+        target: 'http://localhost:8382',
         changeOrigin: true,
       },
     },

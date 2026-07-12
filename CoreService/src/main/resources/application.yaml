@@ -115,7 +115,7 @@ services:
 # ==================== JWT ====================
 app:
   jwt:
-    secret: "${JWT_SECRET:mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+}"
+    secret: "${JWT_SECRET:mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+ExtraLongSecretKey}"
     expiration: ${JWT_EXPIRATION:3600000}
     refresh-expiration: ${JWT_REFRESH_EXPIRATION:86400000}
 

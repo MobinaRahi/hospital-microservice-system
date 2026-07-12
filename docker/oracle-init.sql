@@ -1,14 +1,18 @@
 -- ============================================================
 -- Oracle init script — creates the two application schemas
--- Run automatically on first container start by the Oracle image.
 -- ============================================================
 
--- ---- AuthService schema ----
+-- Switch to PDB container
+ALTER SESSION SET CONTAINER = XEPDB1;
+
+-- Create auth user
 CREATE USER auth IDENTIFIED BY auth123;
-GRANT CONNECT, RESOURCE, DBA TO auth;
+GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE VIEW,
+CREATE PROCEDURE, CREATE TRIGGER TO auth;
 ALTER USER auth QUOTA UNLIMITED ON USERS;
 
--- ---- CoreService schema ----
+-- Create core user
 CREATE USER core IDENTIFIED BY core123;
-GRANT CONNECT, RESOURCE, DBA TO core;
+GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE VIEW,
+CREATE PROCEDURE, CREATE TRIGGER TO core;
 ALTER USER core QUOTA UNLIMITED ON USERS;

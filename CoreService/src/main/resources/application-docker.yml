@@ -38,6 +38,6 @@ spring:
 
 app:
   jwt:
-    secret: mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+
+    secret: "${JWT_SECRET:mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+ExtraLongSecretKey}"
     expiration: 3600000
     refresh-expiration: 86400000

@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 
         Set<Role> roles = roleNames.stream()
                 .map(rn -> roleRepository.findByName(rn)
-                        .orElseThrow(() -> new RoleNotFoundException(Long.valueOf(rn.name()))))
+                        .orElseThrow(() -> new RoleNotFoundException(rn)))
                 .collect(Collectors.toSet());
         user.setRoles(roles);
 

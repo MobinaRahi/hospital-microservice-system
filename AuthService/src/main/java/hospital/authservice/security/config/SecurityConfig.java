@@ -3,7 +3,6 @@ package hospital.authservice.security.config;
 import hospital.authservice.security.filter.JwtAuthenticationFilter;
 import hospital.authservice.security.handler.CustomAccessDeniedHandler;
 import hospital.authservice.security.handler.CustomAuthenticationEntryPoint;
-import hospital.authservice.security.handler.CustomAuthenticationSuccessHandler;
 import hospital.authservice.security.service.CustomUserDetailsService;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -40,8 +37,6 @@ public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final CustomAuthenticationEntryPoint authEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
-    private final CustomAuthenticationSuccessHandler successHandler;
-    private final LogoutHandler logoutHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -56,7 +51,15 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080"));
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://localhost:5173",
+                "http://localhost:5373",
+                "http://localhost:8080",
+                "http://localhost:8082",
+                "http://localhost:8281",
+                "http://localhost:8382"
+        ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setExposedHeaders(List.of("Authorization"));
@@ -70,11 +73,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // غیرفعال کردن CSRF برای APIها (اختیاری)
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-
-                // 🔑 تغییر ۱: سشن‌ها را برای فرم لاگین فعال می‌کنیم
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -82,33 +83,16 @@ public class SecurityConfig {
                                 "/api/v1/internal/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/actuator/health",
+                                "/actuator/**",
                                 "/error"
                         ).permitAll()
-
                         .requestMatchers("/api/v1/users/register").permitAll()
-
                         .requestMatchers("/api/v1/users/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/v1/roles/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/v1/permissions/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/v1/audit-logs/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/api/v1/profile/**").authenticated()
-
                         .anyRequest().authenticated()
-                )
-
-                // 🔑 تغییر ۲: فعال کردن فرم لاگین
-                .formLogin(form -> form
-                        .loginPage("/login")                   // صفحه لاگین سفارشی
-                        .successHandler(successHandler)        // هندلر سفارشی برای هدایت بر اساس نقش
-                        .failureUrl("/login?error=true")       // در صورت خطا
-                        .permitAll()                           // اجازه دسترسی به این مسیرها بدون لاگین
-                )
-
-                .logout(logout -> logout
-                        .logoutUrl("/logout")                  // مسیر خروج
-                        .logoutSuccessUrl("/login?logout=true")
-                        .permitAll()
                 )
 
                 .exceptionHandling(ex -> ex
