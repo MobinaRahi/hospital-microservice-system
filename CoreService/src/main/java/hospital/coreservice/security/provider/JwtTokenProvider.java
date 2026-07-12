@@ -1,13 +1,19 @@
 package hospital.coreservice.security.provider;
 
+import hospital.coreservice.security.model.SecurityUser;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -16,8 +22,56 @@ public class JwtTokenProvider {
     @Value("${app.jwt.secret:defaultSecretKeyForJWTTokenGenerationMustBeLongEnough1234567890}")
     private String jwtSecret;
 
+    @Value("${app.jwt.expiration:3600000}")
+    private long jwtExpiration;
+
+    @Value("${app.jwt.refresh-expiration:86400000}")
+    private long refreshExpiration;
+
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    // ✅ متد جدید — قبلاً وجود نداشت
+    public String generateAccessToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return generateToken(userDetails, jwtExpiration);
+    }
+
+    // ✅ متد جدید — قبلاً وجود نداشت
+    public String generateRefreshToken(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return generateToken(userDetails, refreshExpiration);
+    }
+
+    // ✅ متد جدید
+    private String generateToken(UserDetails userDetails, long expiration) {
+        String authorities = userDetails.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + expiration);
+
+        JwtBuilder builder = Jwts.builder()
+                .subject(userDetails.getUsername())
+                .claim("auth", authorities);
+
+        if (userDetails instanceof SecurityUser securityUser) {
+            builder.claim("uid", securityUser.getId());
+        }
+
+        return builder
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(getSigningKey(), Jwts.SIG.HS256)
+                .compact();
+    }
+
+    // ✅ متد جدید — قبلاً وجود نداشت
+    public String getUsernameFromToken(String token) {
+        return getClaims(token).getSubject();
     }
 
     public Claims getClaims(String token) {
