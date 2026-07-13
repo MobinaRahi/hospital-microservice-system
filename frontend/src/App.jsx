@@ -5,6 +5,7 @@ import Register from './pages/public/Register';
 import ForgotPassword from './pages/public/ForgotPassword';
 import PublicDoctors from './pages/public/PublicDoctors';
 import PublicDepartments from './pages/public/PublicDepartments';
+import DepartmentDetail from './pages/public/DepartmentDetail';
 import About from './pages/public/About';
 import Contact from './pages/public/Contact';
 import TrackAppointment from './pages/public/TrackAppointment';
@@ -45,6 +46,7 @@ export default function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/doctors" element={<PublicDoctors />} />
       <Route path="/departments" element={<PublicDepartments />} />
+      <Route path="/departments/:id" element={<DepartmentDetail />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/track" element={<TrackAppointment />} />

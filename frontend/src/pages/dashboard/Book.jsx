@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Building2, Stethoscope, CalendarDays, User, CheckCircle2,
   ChevronLeft, ChevronRight, Clock, ArrowRight,
@@ -10,9 +11,9 @@ import { toFa, faNumber, specialityLabel } from '../../utils/format';
 
 const STEPS = ['بخش', 'پزشک', 'تاریخ و ساعت', 'اطلاعات', 'تأیید'];
 const DEMO_DOCS = [
-  { id: 1, fullName: 'دکتر سارا محمدی', speciality: 'CARDIOLOGY', department: { departmentName: 'قلب و عروق' } },
-  { id: 2, fullName: 'دکتر رضا کریمی', speciality: 'NEUROLOGY', department: { departmentName: 'مغز و اعصاب' } },
-  { id: 3, fullName: 'دکتر مریم احمدی', speciality: 'PEDIATRICS', department: { departmentName: 'اطفال' } },
+  { id: 1, fullName: 'دکتر سارا محمدی', speciality: 'CARDIOLOGY', departmentId: 1, department: { departmentName: 'قلب و عروق' } },
+  { id: 2, fullName: 'دکتر رضا کریمی', speciality: 'NEUROLOGY', departmentId: 2, department: { departmentName: 'مغز و اعصاب' } },
+  { id: 3, fullName: 'دکتر مریم احمدی', speciality: 'PEDIATRICS', departmentId: 4, department: { departmentName: 'اطفال' } },
 ];
 const DEMO_DEPTS = [
   { id: 1, departmentName: 'قلب و عروق', departmentCode: 'CARD' }, { id: 2, departmentName: 'مغز و اعصاب', departmentCode: 'NEUR' },
@@ -21,6 +22,7 @@ const DEMO_DEPTS = [
 const SLOTS = ['09:00', '09:30', '10:00', '10:30', '11:00', '14:00', '14:30', '16:00'];
 
 export default function Book() {
+  const [searchParams] = useSearchParams();
   const [step, setStep] = useState(0);
   const [dept, setDept] = useState(null);
   const [doctor, setDoctor] = useState(null);
@@ -28,11 +30,40 @@ export default function Book() {
   const [slot, setSlot] = useState('');
   const [info, setInfo] = useState({ name: '', phone: '', nationalId: '', reason: '', type: 'IN_PERSON' });
   const [done, setDone] = useState(false);
+  const [prefilled, setPrefilled] = useState(false);
 
   const { data: doctors } = useFetch(() => endpoints.doctors.active().catch(() => DEMO_DOCS), []);
   const { data: depts } = useFetch(() => endpoints.departments.active().catch(() => DEMO_DEPTS), []);
   const docList = Array.isArray(doctors) && doctors.length ? doctors : DEMO_DOCS;
   const deptList = Array.isArray(depts) && depts.length ? depts : DEMO_DEPTS;
+
+  // Pre-fill from URL params (when coming from department page or doctor card)
+  useEffect(() => {
+    if (prefilled || !docList.length) return;
+    const doctorId = searchParams.get('doctorId');
+    const departmentId = searchParams.get('departmentId');
+
+    if (doctorId) {
+      const foundDoc = docList.find(d => String(d.id) === String(doctorId));
+      if (foundDoc) {
+        setDoctor(foundDoc);
+        const foundDept = deptList.find(d => String(d.id) === String(foundDoc.departmentId || departmentId));
+        if (foundDept) setDept(foundDept);
+        setStep(2);
+        setPrefilled(true);
+        return;
+      }
+    }
+
+    if (departmentId) {
+      const foundDept = deptList.find(d => String(d.id) === String(departmentId));
+      if (foundDept) {
+        setDept(foundDept);
+        setStep(1);
+        setPrefilled(true);
+      }
+    }
+  }, [searchParams, docList, deptList, prefilled]);
 
   const next = () => setStep((s) => Math.min(s + 1, STEPS.length - 1));
   const prev = () => setStep((s) => Math.max(s - 1, 0));

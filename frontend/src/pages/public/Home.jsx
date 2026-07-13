@@ -105,16 +105,35 @@ export default function Home() {
   const { data: deptCount } = useFetch(() => endpoints.departments.countActive().catch(() => null), []);
   const { data: aptCount } = useFetch(() => endpoints.appointments.count().catch(() => null), []);
   const { data: dbDepts } = useFetch(() => endpoints.departments.active().catch(() => null), []);
+  const { data: dbDoctors } = useFetch(() => endpoints.doctors.active().catch(() => null), []);
 
   const depts = (Array.isArray(dbDepts) && dbDepts.length)
     ? dbDepts.map(d => ({ ...d, name: d.departmentName || d.name, icon: d.icon || getDeptIcon(d.departmentName || d.name) }))
     : DEMO_DEPTS;
+
+  // Get real doctors from database, fallback to demo
+  const DOCTORS_COLORS = [
+    'linear-gradient(135deg,#0ea5e9,#14b8a6)',
+    'linear-gradient(135deg,#10b981,#34d399)',
+    'linear-gradient(135deg,#0d9488,#2dd4bf)',
+    'linear-gradient(135deg,#14b8a6,#0ea5e9)',
+    'linear-gradient(135deg,#6366f1,#a855f7)',
+    'linear-gradient(135deg,#ec4899,#f472b6)',
+  ];
+  const doctors = (Array.isArray(dbDoctors) && dbDoctors.length)
+    ? dbDoctors.slice(0, 6).map((d, i) => ({
+        ...d,
+        dept: d.departmentName || d.department?.departmentName || '',
+        grad: DOCTORS_COLORS[i % DOCTORS_COLORS.length]
+      }))
+    : DEMO_DOCTORS;
+
   // Get real counts - use database value if available, otherwise use demo
   const stats = {
-    doctors: docCount ?? DEMO_STATS.doctors,
-    patients: patCount ?? DEMO_STATS.patients,
-    departments: (Array.isArray(dbDepts) && dbDepts.length) ? dbDepts.length : (deptCount ?? DEMO_STATS.departments),
-    appointments: aptCount ?? DEMO_STATS.appointments,
+    doctors: Number(docCount) || DEMO_STATS.doctors,
+    patients: Number(patCount) || DEMO_STATS.patients,
+    departments: (Array.isArray(dbDepts) && dbDepts.length) ? dbDepts.length : (Number(deptCount) || DEMO_STATS.departments),
+    appointments: Number(aptCount) || DEMO_STATS.appointments,
   };
 
   /* ---- smooth-scroll to hash on mount ---- */
@@ -257,7 +276,7 @@ export default function Home() {
           <Reveal stagger>
             <div className="lp-depts">
               {depts.map((d) => (
-                <Link className="lp-dept" to="/departments" key={d.id}>
+                <Link className="lp-dept" to={`/departments/${d.id}`} key={d.id}>
                   <div className="emo"><d.icon size={29} /></div>
                   <div className="nm">{d.name || d.departmentName}</div>
                   <div className="lc">{d.location}</div>
@@ -280,14 +299,14 @@ export default function Home() {
           </Reveal>
           <Reveal stagger>
             <div className="lp-grid4">
-              {DEMO_DOCTORS.map((d) => (
+              {doctors.map((d) => (
                 <div className="lp-doc" key={d.id}>
                   <div className="av" style={{ background: d.grad }}>{initials(d.fullName)}</div>
                   <div className="nm">{d.fullName}</div>
                   <div className="sp">{specialityLabel(d.speciality)}</div>
                   <div className="dp">{d.dept}</div>
                   <div className="stars">★★★★★ {faNumber(5)}.۰</div>
-                  <Link className="bk" to="/book"><CalendarPlus size={15} /> رزرو نوبت</Link>
+                  <Link className="bk" to={`/book?doctorId=${d.id}`}><CalendarPlus size={15} /> رزرو نوبت</Link>
                 </div>
               ))}
             </div>
