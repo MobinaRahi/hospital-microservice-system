@@ -4,44 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update frontend">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/DashboardRouter.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/RoleRoute.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/UnderDevelopment.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/DoctorVisit.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/NurseDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/NurseNotes.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/PatientRecords.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/PatientVitals.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/ReceptionDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/Reports.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/Settings.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/Staff.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/SuperAdminDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/About.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/Contact.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/ForgotPassword.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/PublicBook.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/PublicDepartments.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/PublicDoctors.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/Register.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/TrackAppointment.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/model/SecurityUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/model/SecurityUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/provider/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/provider/JwtTokenProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/PublicNavbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/PublicNavbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Sidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ui/EcgMonitor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ui/EcgMonitor.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/landing.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/landing.css" afterDir="false" />
-    </list>
+    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update frontend" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,12 +26,12 @@
     &quot;assignee&quot;: &quot;MobinaRahi&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/MobinaRahi/hospital-microservice-system.git&quot;,
-    &quot;accountId&quot;: &quot;ec1121a2-da58-40e9-8b78-f1fbe631af6c&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MobinaRahi/hospital-microservice-system",
+    "accountId": "ec1121a2-da58-40e9-8b78-f1fbe631af6c"
   }
-}</component>
+}]]></component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -208,6 +171,7 @@
       <workItem from="1783937090976" duration="1730000" />
       <workItem from="1783939718698" duration="8000" />
       <workItem from="1783939746570" duration="1184000" />
+      <workItem from="1783959158937" duration="299000" />
     </task>
     <task id="LOCAL-00001" summary="ADD controllers">
       <option name="closed" value="true" />
@@ -385,7 +349,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783519562118</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="update frontend">
+      <option name="closed" value="true" />
+      <created>1783959222148</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1783959222149</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
