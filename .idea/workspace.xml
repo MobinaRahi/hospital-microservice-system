@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AuthService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/AuthService/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/favicon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoreService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +29,12 @@
     &quot;assignee&quot;: &quot;MobinaRahi&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/MobinaRahi/hospital-microservice-system",
-    "accountId": "ec1121a2-da58-40e9-8b78-f1fbe631af6c"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MobinaRahi/hospital-microservice-system&quot;,
+    &quot;accountId&quot;: &quot;ec1121a2-da58-40e9-8b78-f1fbe631af6c&quot;
   }
-}]]></component>
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -179,6 +175,8 @@
       <workItem from="1783939718698" duration="8000" />
       <workItem from="1783939746570" duration="1184000" />
       <workItem from="1783953028963" duration="739000" />
+      <workItem from="1783955089193" duration="2421000" />
+      <workItem from="1783958460328" duration="501000" />
     </task>
     <task id="LOCAL-00001" summary="ADD controllers">
       <option name="closed" value="true" />
