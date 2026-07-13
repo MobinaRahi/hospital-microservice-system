@@ -1,118 +1,73 @@
 # ============================================================
-# Hospital Microservice System — Docker Compose
-#
-#   docker compose up --build      → start everything
-#   docker compose down            → stop everything
-#
-# URLs after startup:
-#   React Frontend  → http://localhost:5173
-#   AuthService     → http://localhost:8081
-#   CoreService     → http://localhost:8082
-#   Swagger (Auth)  → http://localhost:8081/swagger-ui.html
-#   Swagger (Core)  → http://localhost:8082/swagger-ui.html
-#
-# Default accounts:
-#   admin / Admin@123
-#   dr.ali / Doctor@123
-#   patient.reza / Patient@123
+# AuthService — Spring Boot Configuration
 # ============================================================
 
-services:
-  # ─────────────────────────────────────────────────────────
-  # Oracle Database
-  # ─────────────────────────────────────────────────────────
-  oracle-xe:
-    image: gvenzl/oracle-xe:21-slim-faststart
-    container_name: nova-oracle
-    environment:
-      ORACLE_PASSWORD: oracle123
-      ORACLE_DATABASE: XEPDB1
-      APP_USER: appuser
-      APP_USER_PASSWORD: appuser123
-    ports:
-      - "1521:1521"
-    volumes:
-      - oracle-data:/opt/oracle/oradata
-      - ./docker/oracle-init.sql:/container-entrypoint-initdb.d/01-create-users.sql:ro
-    healthcheck:
-      test: ["CMD", "healthcheck.sh"]
-      interval: 10s
-      timeout: 10s
-      retries: 60
-      start_period: 60s
-    networks:
-      - nova-net
+spring:
+  application:
+    name: auth-service
 
-  # ─────────────────────────────────────────────────────────
-  # AuthService (port 8081)
-  # ─────────────────────────────────────────────────────────
-  auth-service:
-    build: ./AuthService
-    container_name: nova-auth
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-      AUTH_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
-      AUTH_DATASOURCE_USERNAME: auth
-      AUTH_DATASOURCE_PASSWORD: auth123
-      AUTH_JPA_DDL_AUTO: update
-      JWT_SECRET: "mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+"
-    ports:
-      - "8081:8081"
-    depends_on:
-      oracle-xe:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8081/actuator/health || exit 1"]
-      interval: 15s
-      timeout: 5s
-      retries: 20
-      start_period: 30s
-    restart: on-failure
-    networks:
-      - nova-net
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
 
-  # ─────────────────────────────────────────────────────────
-  # CoreService (port 8082)
-  # ─────────────────────────────────────────────────────────
-  core-service:
-    build: ./CoreService
-    container_name: nova-core
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-      CORE_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
-      CORE_DATASOURCE_USERNAME: core
-      CORE_DATASOURCE_PASSWORD: core123
-      CORE_JPA_DDL_AUTO: update
-      AUTH_SERVICE_BASE_URL: http://auth-service:8081
-      JWT_SECRET: "${JWT_SECRET:mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+ExtraLongSecretKey}"
-    ports:
-      - "8082:8082"
-    depends_on:
-      oracle-xe:
-        condition: service_healthy
-      auth-service:
-        condition: service_healthy
-    restart: on-failure
-    networks:
-      - nova-net
+  # ==================== DATABASE ====================
+  datasource:
+    url: ${AUTH_DATASOURCE_URL:jdbc:oracle:thin:@localhost:1521:XE}
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: ${AUTH_DATASOURCE_USERNAME:auth}
+    password: ${AUTH_DATASOURCE_PASSWORD:auth123}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
 
-  # ─────────────────────────────────────────────────────────
-  # React Frontend (port 5173)
-  # ─────────────────────────────────────────────────────────
-  frontend:
-    build: ./frontend
-    container_name: nova-frontend
-    ports:
-      - "5173:80"
-    depends_on:
-      - auth-service
-      - core-service
-    networks:
-      - nova-net
+  # ==================== JPA ====================
+  jpa:
+    database: ORACLE
+    hibernate:
+      ddl-auto: ${AUTH_JPA_DDL_AUTO:update}
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+        format_sql: true
 
-networks:
-  nova-net:
-    driver: bridge
+  # ==================== JACKSON ====================
+  jackson:
+    serialization:
+      indent-output: true
+    deserialization:
+      fail-on-unknown-properties: false
+    default-property-inclusion: non_null
 
-volumes:
-  oracle-data:
+# ==================== SERVER ====================
+server:
+  port: ${SERVER_PORT:8081}
+
+# ==================== JWT ====================
+app:
+  jwt:
+    secret: ${JWT_SECRET:mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+}
+    expiration: ${JWT_EXPIRATION:3600000}
+    refresh-expiration: ${JWT_REFRESH_EXPIRATION:86400000}
+
+# ==================== SPRING DOCS (OpenAPI/Swagger) ====================
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+    display-request-duration: true
+    filter: true
+  packages-to-scan: hospital.authservice.controller
+  paths-to-match: /api/v1/**
+
+# ==================== LOGGING ====================
+logging:
+  level:
+    root: INFO
+    hospital.authservice: DEBUG
+    org.springframework.security: INFO

@@ -29,22 +29,12 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
 
-    // ✅ بین PasswordEncoder — قبلاً وجود نداشت
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
-    // ✅ بین AuthenticationManager — قبلاً وجود نداشت
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -84,9 +74,12 @@ public class SecurityConfig {
                                 "/api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET,
-                                "/api/v1/doctor/active/**", "/api/v1/doctor/by-department-id",
+                                "/api/v1/doctor/active/**",
+                                "/api/v1/doctor/by-department-id",
                                 "/api/v1/appointments/doctor/available",
-                                "/api/v1/departments/**"
+                                "/api/v1/departments/**",
+                                "/api/v1/patient/active/count",
+                                "/api/v1/appointments/count"
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/appointments/patient").permitAll()
                         .anyRequest().authenticated()
