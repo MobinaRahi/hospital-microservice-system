@@ -24,7 +24,8 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      await login(form);
+      const res = await login(form);
+      // If user came from a specific page, go there; otherwise go to /app (which routes by role)
       const dest = location.state?.from || '/app';
       navigate(dest, { replace: true });
     } catch (err) {
@@ -42,10 +43,8 @@ export default function Login() {
       <aside className="auth-aside">
         <div className="auth-aside-bg" />
         <Link to="/" className="auth-logo">
-          <span className="mark">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M11 2h2a2 2 0 0 1 2 2v5h5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-5v5a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-5H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h5V4a2 2 0 0 1 2-2z" />
-            </svg>
+          <span className="mark" style={{ borderRadius: 12, overflow: 'hidden', padding: 0 }}>
+            <img src="/logo.png" alt="Nova" style={{ width: 44, height: 44, objectFit: 'cover', display: 'block' }} />
           </span>
           <span>
             نووا<small>NOVA HOSPITAL</small>
@@ -148,7 +147,7 @@ export default function Login() {
                 <span className="switch"><input type="checkbox" defaultChecked /><span className="slider" /></span>
                 مرا به خاطر بسپار
               </label>
-              <a href="#" className="auth-forgot">فراموشی رمز؟</a>
+              <Link to="/forgot-password" className="auth-forgot">فراموشی رمز؟</Link>
             </div>
 
             <button className="auth-submit" type="submit" disabled={loading}>
@@ -165,10 +164,22 @@ export default function Login() {
               <button type="button" onClick={() => quickFill('dr.ali', 'Doctor@123')}>
                 <b>dr.ali</b><span>پزشک</span>
               </button>
+              <button type="button" onClick={() => quickFill('nurse.fatemeh', 'Nurse@123')}>
+                <b>nurse.fatemeh</b><span>پرستار</span>
+              </button>
               <button type="button" onClick={() => quickFill('patient.reza', 'Patient@123')}>
                 <b>patient.reza</b><span>بیمار</span>
               </button>
             </div>
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: 20 }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+              حساب ندارید؟ <Link to="/register" style={{ color: 'var(--brand)', fontWeight: 700 }}>ثبت‌نام کنید</Link>
+            </p>
+            <p style={{ fontSize: '0.85rem', marginTop: 8 }}>
+              <Link to="/forgot-password" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>رمز عبور را فراموش کرده‌اید؟</Link>
+            </p>
           </div>
         </div>
       </div>

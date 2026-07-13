@@ -47,7 +47,7 @@ public class SecurityUser implements UserDetails {
     }
 
     /**
-     * سازنده از روی id، username و authoritiesCsv
+     * سازنده از روی id، username و authoritiesCsv (برای سازگاری)
      */
     public SecurityUser(Long id, String username, String authoritiesCsv) {
         this.id = id;
@@ -71,6 +71,10 @@ public class SecurityUser implements UserDetails {
                 .toList();
     }
 
+    // =========================================================================
+    // ============================ PRIVATE METHODS ============================
+    // =========================================================================
+
     private boolean calculateAccountNonLocked(User user) {
         if (user.getLockedUntil() != null && user.getLockedUntil().isAfter(LocalDateTime.now())) {
             return false;
@@ -79,59 +83,97 @@ public class SecurityUser implements UserDetails {
     }
 
     private Collection<GrantedAuthority> extractAuthorities(User user) {
-        Set<GrantedAuthority> auths = new HashSet<>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
         for (Role role : user.getRoles()) {
-            auths.add(new SimpleGrantedAuthority(role.getName().getAuthority()));
-            for (Permission perm : role.getPermissions()) {
-                auths.add(new SimpleGrantedAuthority(perm.getName()));
+            // اضافه کردن نقش (مثل ROLE_ADMIN, ROLE_DOCTOR و ...)
+            authorities.add(new SimpleGrantedAuthority(role.getName().getAuthority()));
+            // اضافه کردن مجوزها
+            for (Permission permission : role.getPermissions()) {
+                authorities.add(new SimpleGrantedAuthority(permission.getName()));
             }
         }
-        return Set.copyOf(auths);
+
+        return Set.copyOf(authorities);
     }
 
+    // =========================================================================
+    // ============================ HELPER METHODS =============================
+    // =========================================================================
+
     public String getFullName() {
-        if (firstName == null && lastName == null) return username;
-        if (firstName == null) return lastName;
-        if (lastName == null) return firstName;
+        if (firstName == null && lastName == null) {
+            return username;
+        } else if (firstName == null) {
+            return lastName;
+        } else if (lastName == null) {
+            return firstName;
+        }
         return firstName + " " + lastName;
     }
 
     public boolean hasRole(String roleName) {
-        if (roleName == null) return false;
+        if (roleName == null) {
+            return false;
+        }
         return authorities.stream()
-                .anyMatch(a -> roleName.equals(a.getAuthority()));
+                .anyMatch(authority -> roleName.equals(authority.getAuthority()));
     }
 
-    public boolean hasPermission(String permName) {
-        if (permName == null) return false;
+    public boolean hasPermission(String permissionName) {
+        if (permissionName == null) {
+            return false;
+        }
         return authorities.stream()
-                .anyMatch(a -> permName.equals(a.getAuthority()));
+                .anyMatch(authority -> permissionName.equals(authority.getAuthority()));
     }
 
     public boolean isAdmin() {
         return hasRole("ROLE_ADMIN") || hasRole("ROLE_SUPER_ADMIN");
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() { return authorities; }
+    // =========================================================================
+    // ============================ USER DETAILS METHODS ========================
+    // =========================================================================
 
     @Override
-    public String getPassword() { return password; }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
 
     @Override
-    public String getUsername() { return username; }
+    public String getPassword() {
+        return password;
+    }
 
     @Override
-    public boolean isAccountNonExpired() { return accountNonExpired; }
+    public String getUsername() {
+        return username;
+    }
 
     @Override
-    public boolean isAccountNonLocked() { return accountNonLocked; }
+    public boolean isAccountNonExpired() {
+        return accountNonExpired;
+    }
 
     @Override
-    public boolean isCredentialsNonExpired() { return credentialsNonExpired; }
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
 
     @Override
-    public boolean isEnabled() { return enabled; }
+    public boolean isCredentialsNonExpired() {
+        return credentialsNonExpired;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    // =========================================================================
+    // ============================ EQUALS & HASHCODE ==========================
+    // =========================================================================
 
     @Override
     public boolean equals(Object obj) {
@@ -142,7 +184,9 @@ public class SecurityUser implements UserDetails {
     }
 
     @Override
-    public int hashCode() { return Objects.hash(id, username); }
+    public int hashCode() {
+        return Objects.hash(id, username);
+    }
 
     @Override
     public String toString() {

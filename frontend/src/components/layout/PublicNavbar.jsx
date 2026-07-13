@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarPlus, Menu as MenuIcon } from 'lucide-react';
+import { CalendarPlus, Menu as MenuIcon, LogIn } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
+import { useAuth } from '../../context/AuthContext';
 
 const links = [
   { to: '/', label: 'خانه', hash: 'home' },
-  { to: '/#how', label: 'نحوه کار', hash: 'how' },
-  { to: '/#services', label: 'خدمات', hash: 'services' },
-  { to: '/#departments', label: 'بخش‌ها', hash: 'departments' },
-  { to: '/#doctors', label: 'پزشکان', hash: 'doctors' },
+  { to: '/doctors', label: 'پزشکان' },
+  { to: '/departments', label: 'بخش‌ها' },
+  { to: '/about', label: 'درباره ما' },
+  { to: '/contact', label: 'تماس' },
+  { to: '/track', label: 'پیگیری نوبت' },
 ];
 
 export default function PublicNavbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -26,10 +29,8 @@ export default function PublicNavbar() {
     <header className={`lp-nav ${scrolled ? 'scrolled' : ''}`}>
       <div className="bar">
         <Link to="/" className="lp-brand">
-          <span className="mark">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M11 2h2a2 2 0 0 1 2 2v5h5a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-5v5a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-5H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h5V4a2 2 0 0 1 2-2z" />
-            </svg>
+          <span className="mark" style={{ borderRadius: 12, overflow: 'hidden', padding: 0 }}>
+            <img src="/logo.png" alt="Nova" style={{ width: 42, height: 42, objectFit: 'cover', display: 'block' }} />
           </span>
           <span>
             نووا
@@ -48,7 +49,19 @@ export default function PublicNavbar() {
           </Link>
         </nav>
 
-        <ThemeToggle />
+        <div className="lp-actions">
+          <ThemeToggle />
+          {isAuthenticated ? (
+            <Link to="/app" className="lp-btn lp-btn-pri" style={{ padding: '8px 18px', fontSize: '0.85rem' }}>
+              داشبورد
+            </Link>
+          ) : (
+            <Link to="/login" className="lp-btn lp-btn-ghost" style={{ padding: '8px 18px', fontSize: '0.85rem' }}>
+              <LogIn size={16} /> ورود
+            </Link>
+          )}
+        </div>
+
         <button className="lp-burger" onClick={() => setOpen((o) => !o)} aria-label="منو">
           <span /><span /><span />
         </button>

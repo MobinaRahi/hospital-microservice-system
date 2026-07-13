@@ -4,10 +4,6 @@ import { useRef, useEffect } from 'react';
  * Realistic ECG (heartbeat) monitor rendered on <canvas>.
  * Generates a classic PQRST waveform that scrolls continuously with a
  * glowing leading dot and grid — works in both light & dark themes.
- *
- * Props:
- *  - bpm: number (heart rate, default 78)
- *  - className: string
  */
 export default function EcgMonitor({ bpm = 78, className = '' }) {
   const canvasRef = useRef(null);
@@ -18,10 +14,11 @@ export default function EcgMonitor({ bpm = 78, className = '' }) {
     const ctx = canvas.getContext('2d');
 
     let width = 0, height = 0, dpr = 1;
-    let buffer = [];          // one sample per pixel column
-    let sweepAccum = 0;       // fractional px accumulator
+    let buffer = [];
+    let sweepAccum = 0;
     let rafId = null;
     let last = performance.now();
+    let phaseAccum = 0; // continuous phase accumulator
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -34,14 +31,13 @@ export default function EcgMonitor({ bpm = 78, className = '' }) {
       if (buffer.length !== width) buffer = new Array(width).fill(0);
     }
 
-    /** One realistic ECG cycle value for phase t ∈ [0,1).
-     *  Negative = up on screen (canvas y grows downward). */
+    /** One realistic ECG cycle value for phase t ∈ [0,1). */
     function ecgSample(t) {
-      const g = (center, width, amp) => amp * Math.exp(-Math.pow((t - center) / width, 2));
+      const g = (center, w, amp) => amp * Math.exp(-Math.pow((t - center) / w, 2));
       return (
         g(0.16, 0.025, 0.12) +   // P wave
         g(0.245, 0.012, -0.10) + // Q dip
-        g(0.265, 0.012, -0.95) + // R spike (big)
+        g(0.265, 0.012, -0.95) + // R spike
         g(0.295, 0.014, 0.32) +  // S dip
         g(0.42, 0.05, -0.20)     // T wave
       );
@@ -70,16 +66,17 @@ export default function EcgMonitor({ bpm = 78, className = '' }) {
 
       const baseY = height * 0.52;
       const amp = height * 0.42;
-      const speed = 120; // px/s scroll
+      const speed = 120;
       sweepAccum += (speed * dt) / 1000;
 
       const cycleSec = 60 / bpm;
-      const t0 = performance.now() / 1000;
+      // Use continuous phase accumulator to avoid discontinuity
+      const phaseDelta = dt / (cycleSec * 1000);
 
       while (sweepAccum >= 1) {
-        const phase = (t0 % cycleSec) / cycleSec;
+        phaseAccum = (phaseAccum + phaseDelta) % 1;
         buffer.shift();
-        buffer.push(baseY + ecgSample(phase) * amp + (Math.random() - 0.5) * 0.6);
+        buffer.push(baseY + ecgSample(phaseAccum) * amp + (Math.random() - 0.5) * 0.4);
         sweepAccum -= 1;
       }
 
@@ -98,7 +95,6 @@ export default function EcgMonitor({ bpm = 78, className = '' }) {
 
       if (buffer.length > 1) {
         ctx.save();
-        // wide soft glow
         ctx.shadowBlur = 14;
         ctx.shadowColor = '#34d399';
         ctx.strokeStyle = '#34d399';
@@ -109,7 +105,6 @@ export default function EcgMonitor({ bpm = 78, className = '' }) {
         ctx.moveTo(0, buffer[0]);
         for (let i = 1; i < buffer.length; i++) ctx.lineTo(i, buffer[i]);
         ctx.stroke();
-        // bright thin core
         ctx.shadowBlur = 0;
         ctx.strokeStyle = '#a7f3d0';
         ctx.lineWidth = 1.1;
@@ -117,7 +112,6 @@ export default function EcgMonitor({ bpm = 78, className = '' }) {
         ctx.moveTo(0, buffer[0]);
         for (let i = 1; i < buffer.length; i++) ctx.lineTo(i, buffer[i]);
         ctx.stroke();
-        // leading glow dot
         const lx = buffer.length - 1;
         const ly = buffer[lx];
         ctx.shadowBlur = 18;
@@ -128,7 +122,6 @@ export default function EcgMonitor({ bpm = 78, className = '' }) {
         ctx.fill();
         ctx.restore();
 
-        // fade-out on left edge
         const grad = ctx.createLinearGradient(0, 0, width * 0.18, 0);
         grad.addColorStop(0, 'rgba(6, 11, 22, 0.85)');
         grad.addColorStop(1, 'rgba(6, 11, 22, 0)');

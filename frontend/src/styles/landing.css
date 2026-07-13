@@ -103,6 +103,30 @@
 .lp-burger.open span:nth-child(2) { opacity: 0; }
 .lp-burger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
+/* Navbar action buttons */
+.lp-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-inline-start: 8px;
+}
+.lp-btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+  box-shadow: none;
+}
+.lp-btn-ghost:hover {
+  border-color: var(--brand-500);
+  color: var(--brand-600);
+  background: var(--surface-3);
+  transform: translateY(-1px);
+}
+[data-theme='dark'] .lp-btn-ghost:hover {
+  background: rgba(45, 212, 191, 0.08);
+  color: var(--brand-300);
+}
+
 /* ---------- HERO ---------- */
 .lp-hero {
   position: relative;

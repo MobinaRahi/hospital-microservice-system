@@ -18,7 +18,7 @@
 # ============================================================
 
 services:
-  # ─────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────doc
   # Oracle Database
   # ─────────────────────────────────────────────────────────
   oracle-xe:
@@ -29,7 +29,7 @@ services:
       APP_USER: appuser
       APP_USER_PASSWORD: appuser123
     ports:
-      - "1521:1521"
+      - "1522:1521"
     volumes:
       - oracle-data:/opt/oracle/oradata
       - ./docker/oracle-init.sql:/container-entrypoint-initdb.d/01-create-users.sql:ro

@@ -26,6 +26,21 @@ const DEMO_DEPTS = [
   { id: 7, name: 'دندانپزشکی', icon: Smile, location: 'طبقه ۱' },
   { id: 8, name: 'چشم پزشکی', icon: Eye, location: 'طبقه ۲' },
 ];
+
+function getDeptIcon(name = '') {
+  const n = name.toLowerCase();
+  if (n.includes('قلب') || n.includes('cardio')) return HeartPulse;
+  if (n.includes('مغز') || n.includes('اعصاب') || n.includes('neuro')) return Brain;
+  if (n.includes('ارتوپد') || n.includes('ortho')) return Bone;
+  if (n.includes('اطفال') || n.includes('کودک') || n.includes('pedia')) return Baby;
+  if (n.includes('اورژانس') || n.includes('emergency')) return Ambulance;
+  if (n.includes('رادیولوژی') || n.includes('radio')) return Microscope;
+  if (n.includes('دندان') || n.includes('dental')) return Smile;
+  if (n.includes('چشم') || n.includes('ophthal')) return Eye;
+  if (n.includes('دارو') || n.includes('pharma')) return Pill;
+  if (n.includes('داخلی') || n.includes('internal')) return Stethoscope;
+  return Building2;
+}
 const DEMO_DOCTORS = [
   { id: 1, fullName: 'دکتر سارا محمدی', speciality: 'CARDIOLOGY', dept: 'قلب و عروق', grad: 'linear-gradient(135deg,#0ea5e9,#14b8a6)' },
   { id: 2, fullName: 'دکتر رضا کریمی', speciality: 'NEUROLOGY', dept: 'مغز و اعصاب', grad: 'linear-gradient(135deg,#10b981,#34d399)' },
@@ -89,14 +104,18 @@ export default function Home() {
   const { data: patCount } = useFetch(() => endpoints.patients.countActive().catch(() => null), []);
   const { data: deptCount } = useFetch(() => endpoints.departments.countActive().catch(() => null), []);
   const { data: aptCount } = useFetch(() => endpoints.appointments.count().catch(() => null), []);
+  const { data: dbDepts } = useFetch(() => endpoints.departments.active().catch(() => null), []);
 
+  const depts = (Array.isArray(dbDepts) && dbDepts.length)
+    ? dbDepts.map(d => ({ ...d, name: d.departmentName || d.name, icon: d.icon || getDeptIcon(d.departmentName || d.name) }))
+    : DEMO_DEPTS;
+  // Get real counts - use database value if available, otherwise use demo
   const stats = {
     doctors: docCount ?? DEMO_STATS.doctors,
     patients: patCount ?? DEMO_STATS.patients,
-    departments: deptCount ?? DEMO_STATS.departments,
+    departments: (Array.isArray(dbDepts) && dbDepts.length) ? dbDepts.length : (deptCount ?? DEMO_STATS.departments),
     appointments: aptCount ?? DEMO_STATS.appointments,
   };
-  const depts = DEMO_DEPTS;
 
   /* ---- smooth-scroll to hash on mount ---- */
   useEffect(() => {
@@ -125,7 +144,7 @@ export default function Home() {
               </p>
               <div className="lp-btns">
                 <Link className="lp-btn lp-btn-pri" to="/book"><CalendarPlus size={19} /> رزرو نوبت آنلاین</Link>
-                <Link className="lp-btn lp-btn-gh" to="/#how"><Play size={19} /> چطور کار می‌کند؟</Link>
+                <Link className="lp-btn lp-btn-gh" to="/departments"><Building2 size={19} /> مشاهده بخش‌ها</Link>
               </div>
               <div className="lp-trust">
                 <div className="lp-av-grp">
@@ -238,9 +257,9 @@ export default function Home() {
           <Reveal stagger>
             <div className="lp-depts">
               {depts.map((d) => (
-                <Link className="lp-dept" to="/book" key={d.id}>
+                <Link className="lp-dept" to="/departments" key={d.id}>
                   <div className="emo"><d.icon size={29} /></div>
-                  <div className="nm">{d.name}</div>
+                  <div className="nm">{d.name || d.departmentName}</div>
                   <div className="lc">{d.location}</div>
                 </Link>
               ))}
@@ -310,7 +329,7 @@ export default function Home() {
               <p>بدون معطلی، آنلاین و در چند ثانیه — سلامت شما اولویت ماست.</p>
               <div className="lp-btns">
                 <Link className="lp-btn lp-btn-pri" to="/book"><CalendarPlus size={19} /> رزرو نوبت</Link>
-                <Link className="lp-btn lp-btn-gh" to="/login"><PhoneCall size={19} /> تماس با پذیرش</Link>
+                <Link className="lp-btn lp-btn-gh" to="/contact"><PhoneCall size={19} /> تماس با پذیرش</Link>
               </div>
             </div>
           </Reveal>

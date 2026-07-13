@@ -21,19 +21,20 @@ export default function Footer() {
         <div>
           <h4>دسترسی سریع</h4>
           <Link to="/">خانه</Link>
-          <Link to="/#services">خدمات</Link>
-          <Link to="/#departments">بخش‌ها</Link>
           <Link to="/doctors">پزشکان</Link>
-          <Link to="/book">رزرو نوبت</Link>
+          <Link to="/departments">بخش‌ها</Link>
+          <Link to="/about">درباره ما</Link>
+          <Link to="/contact">تماس با ما</Link>
+          <Link to="/track">پیگیری نوبت</Link>
         </div>
 
         <div>
           <h4>بخش‌ها</h4>
-          <Link to="/book">قلب و عروق</Link>
-          <Link to="/book">مغز و اعصاب</Link>
-          <Link to="/book">ارتوپدی</Link>
-          <Link to="/book">اورژانس</Link>
-          <Link to="/book">رادیولوژی</Link>
+          <Link to="/departments">قلب و عروق</Link>
+          <Link to="/departments">مغز و اعصاب</Link>
+          <Link to="/departments">ارتوپدی</Link>
+          <Link to="/departments">اورژانس</Link>
+          <Link to="/departments">رادیولوژی</Link>
         </div>
 
         <div>

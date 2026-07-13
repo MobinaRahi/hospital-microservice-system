@@ -38,6 +38,18 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    // ✅ بین PasswordEncoder — قبلاً وجود نداشت
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
+
+    // ✅ بین AuthenticationManager — قبلاً وجود نداشت
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();

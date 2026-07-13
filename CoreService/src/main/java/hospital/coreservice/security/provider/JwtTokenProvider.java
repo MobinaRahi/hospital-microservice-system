@@ -32,19 +32,16 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
-    // ✅ متد جدید — قبلاً وجود نداشت
     public String generateAccessToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return generateToken(userDetails, jwtExpiration);
     }
 
-    // ✅ متد جدید — قبلاً وجود نداشت
     public String generateRefreshToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return generateToken(userDetails, refreshExpiration);
     }
 
-    // ✅ متد جدید
     private String generateToken(UserDetails userDetails, long expiration) {
         String authorities = userDetails.getAuthorities()
                 .stream()
@@ -69,7 +66,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // ✅ متد جدید — قبلاً وجود نداشت
     public String getUsernameFromToken(String token) {
         return getClaims(token).getSubject();
     }
