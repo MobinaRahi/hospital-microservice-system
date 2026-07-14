@@ -4,10 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update frontend">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="add ClinicalService">
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Allergy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/BaseEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Diagnosis.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Encounter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/NursingNote.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Observation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Prescription.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/PrescriptionItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Triage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/AllergySeverity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/AllergyType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/EncounterStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/EncounterType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/NoteType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/PrescriptionStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/Shift.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/TriageLevel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +33,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -58,52 +73,54 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Spring Boot.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.CoreServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/AvalPc/Desktop/Hospital.Spring/hospital-microservice-system/Project/frontend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.AuthServiceApplication.executor": "Run",
+    "Spring Boot.CoreServiceApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/AvalPc/Desktop/hospital-microservice-system/ClinicalService/src/main/java/hospital/clinicalservice/model",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;oracle&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "oracle"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="hospital.clinicalservice.model.enums" />
       <recent name="hospital.coreservice.mapper" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\AvalPc\Desktop\hospital-microservice-system\ClinicalService\src\main\java\hospital\clinicalservice\model" />
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\Project\frontend" />
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\Project" />
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\Project\CoreService\src\main\java\hospital\coreservice\security" />
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\Project\AuthService\src\main\java\hospital\authservice\model" />
-      <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\Project\AuthService\src\main\java\hospital\authservice\dto" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\AvalPc\Desktop\Hospital.Spring\hospital-microservice-system\CoreService\src\main\resources" />
@@ -119,6 +136,16 @@
       <recent name="hospital.authservice.exception" />
       <recent name="hospital.coreservice.controller" />
     </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
   </component>
   <component name="RunManager" selected="Spring Boot.AuthServiceApplication">
     <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
@@ -360,7 +387,15 @@
       <option name="project" value="LOCAL" />
       <updated>1783519562118</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="add ClinicalService">
+      <option name="closed" value="true" />
+      <created>1784052600661</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1784052600661</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -374,6 +409,7 @@
     <MESSAGE value="update" />
     <MESSAGE value="add frontend" />
     <MESSAGE value="update frontend" />
-    <option name="LAST_COMMIT_MESSAGE" value="update frontend" />
+    <MESSAGE value="add ClinicalService" />
+    <option name="LAST_COMMIT_MESSAGE" value="add ClinicalService" />
   </component>
 </project>
