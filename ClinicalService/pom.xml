@@ -10,18 +10,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>4.1.0</version>
         <relativePath/>
     </parent>
 
     <!-- ========================================================== -->
     <!--                     PROJECT METADATA                       -->
     <!-- ========================================================== -->
-    <groupId>hospital</groupId>
-    <artifactId>AuthService</artifactId>
+    <groupId>com.mftplus</groupId>
+    <artifactId>ClinicalService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>AuthService</name>
-    <description>Authentication, authorization, user, role, permission and audit module for Hospital Microservice System</description>
+    <name>ClinicalService</name>
+    <description>Core hospital domain service for patients, doctors, departments, appointments, rooms, nurses and shifts</description>
 
     <!-- ========================================================== -->
     <!--                     PROPERTIES                             -->
@@ -172,7 +172,6 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
-
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.boot</groupId>-->
         <!--            <artifactId>spring-boot-starter-security-test</artifactId>-->

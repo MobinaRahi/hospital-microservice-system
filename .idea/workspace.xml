@@ -5,42 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update frontend">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/DashboardRouter.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/RoleRoute.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/UnderDevelopment.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/DoctorVisit.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/NurseDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/NurseNotes.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/PatientRecords.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/PatientVitals.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/ReceptionDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/Reports.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/Settings.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/Staff.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/SuperAdminDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/About.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/Contact.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/ForgotPassword.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/PublicBook.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/PublicDepartments.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/PublicDoctors.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/Register.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/public/TrackAppointment.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/model/SecurityUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/model/SecurityUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/provider/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/CoreService/src/main/java/hospital/coreservice/security/provider/JwtTokenProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Footer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/PublicNavbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/PublicNavbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Sidebar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ui/EcgMonitor.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ui/EcgMonitor.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/public/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/styles/landing.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/styles/landing.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,6 +124,13 @@
     <configuration name="AuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="AuthService" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="hospital.authservice.AuthServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ClinicalServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="ClinicalService" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="hospital.clinicalservice.ClinicalServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
