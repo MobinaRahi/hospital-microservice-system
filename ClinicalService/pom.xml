@@ -21,7 +21,7 @@
     <artifactId>ClinicalService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ClinicalService</name>
-    <description>Core hospital domain service for patients, doctors, departments, appointments, rooms, nurses and shifts</description>
+    <description>Clinical service for encounters, diagnoses, prescriptions, observations, nursing notes, triage and allergies</description>
 
     <!-- ========================================================== -->
     <!--                     PROPERTIES                             -->

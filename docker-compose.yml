@@ -1,15 +1,17 @@
 # ============================================================
-# Hospital Microservice System — Docker Compose (Final)
+# Hospital Microservice System — Docker Compose
 #
 #   docker compose up --build      → start everything
-#   docker compose down -v         → stop + delete data
+#   docker compose down            → stop everything
 #
 # URLs:
 #   Frontend       → http://localhost:5373
 #   AuthService    → http://localhost:8281
 #   CoreService    → http://localhost:8382
+#   ClinicalService → http://localhost:8383
 #   Swagger (Auth) → http://localhost:8281/swagger-ui.html
 #   Swagger (Core) → http://localhost:8382/swagger-ui.html
+#   Swagger (Clin) → http://localhost:8383/swagger-ui.html
 #
 # Accounts:
 #   admin / Admin@123
@@ -96,6 +98,34 @@ services:
       - nova-net
 
   # ─────────────────────────────────────────────────────────
+  # ClinicalService (host:8383 → container:8083)
+  # ─────────────────────────────────────────────────────────
+  clinical-service:
+    build: ./ClinicalService
+    container_name: nova-clinical
+    environment:
+      SERVER_PORT: 8083
+      CLINICAL_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
+      CLINICAL_DATASOURCE_USERNAME: clinical
+      CLINICAL_DATASOURCE_PASSWORD: clinical123
+      CLINICAL_JPA_DDL_AUTO: update
+      AUTH_SERVICE_BASE_URL: http://auth-service:8081
+      CORE_SERVICE_BASE_URL: http://core-service:8082
+      JWT_SECRET: "mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+"
+    ports:
+      - "8383:8083"
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+      core-service:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - nova-net
+
+  # ─────────────────────────────────────────────────────────
   # React Frontend (host:5373 → container:80)
   # ─────────────────────────────────────────────────────────
   frontend:
@@ -106,6 +136,7 @@ services:
     depends_on:
       - auth-service
       - core-service
+      - clinical-service
     networks:
       - nova-net
 

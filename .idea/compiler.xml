@@ -22,7 +22,7 @@
         </processorPath>
         <module name="AuthService" />
       </profile>
-      <profile name="Annotation profile for CoreService" enabled="true">
+      <profile name="Annotation profile for ClinicalService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
