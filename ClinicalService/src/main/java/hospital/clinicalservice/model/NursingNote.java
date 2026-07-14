@@ -58,7 +58,7 @@ public class NursingNote extends BaseEntity {
 
     @Column(name = "shift")
     @Enumerated(EnumType.STRING)
-    private Shift sift;
+    private Shift shift;
 
     /**
      * متن گزارش
