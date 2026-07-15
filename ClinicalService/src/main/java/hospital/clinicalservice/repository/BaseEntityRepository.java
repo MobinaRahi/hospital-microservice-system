@@ -31,7 +31,7 @@ public interface BaseEntityRepository<T extends BaseEntity, ID> extends JpaRepos
     @Modifying
     @Transactional
     @Query("update #{#entityName} e set e.deleted = true, e.deletedAt = :now where e.id = :id")
-    int softDeleteById(@Param("id") ID id, @Param("now") LocalDateTime now);
+    void softDeleteById(@Param("id") ID id, @Param("now") LocalDateTime now);
 
     default T updateWithConflictMessage(ID id, Consumer<T> updateLogic) {
         try {
