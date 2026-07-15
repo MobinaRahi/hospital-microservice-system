@@ -4,26 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update coreService">
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/AllergyService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/CodeSearchService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/DiagnosisService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/EncounterService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/NursingNoteService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/ObservationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/PrescriptionItemService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/PrescriptionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/TriageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/AllergyServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/DiagnosisServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/EncounterServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/NursingNoteServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/ObservationServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/PrescriptionItemServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/PrescriptionServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/TriageServiceImpl.java" afterDir="false" />
+    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update clinicalService add service and exception">
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/AllergyApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/CodeSearchApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/DiagnosisApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/EncounterApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/NursingNoteApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/ObservationApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/PrescriptionApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/PrescriptionItemApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/TriageApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/resources/data/icd10.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ClinicalService/src/main/resources/data/loinc.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/BaseEntityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/BaseEntityRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +85,7 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/AvalPc/Desktop/hospital-microservice-system/ClinicalService/src/main/java/hospital/clinicalservice/service",
+    "last_opened_file_path": "C:/Users/AvalPc/Desktop/hospital-microservice-system/ClinicalService/src/main/java/hospital/clinicalservice",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -117,9 +110,9 @@
       <recent name="hospital.coreservice.mapper" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\AvalPc\Desktop\hospital-microservice-system\ClinicalService\src\main\java\hospital\clinicalservice\service" />
       <recent name="C:\Users\AvalPc\Desktop\hospital-microservice-system\ClinicalService\src\main\java\hospital\clinicalservice" />
       <recent name="C:\Users\AvalPc\Desktop\hospital-microservice-system\ClinicalService\src\main\resources" />
+      <recent name="C:\Users\AvalPc\Desktop\hospital-microservice-system\ClinicalService\src\main\java\hospital\clinicalservice\service" />
       <recent name="C:\Users\AvalPc\Desktop\hospital-microservice-system\ClinicalService" />
       <recent name="C:\Users\AvalPc\Desktop\hospital-microservice-system\ClinicalService\src\main\java\hospital\clinicalservice\model" />
     </key>
@@ -212,7 +205,7 @@
       <workItem from="1783939718698" duration="8000" />
       <workItem from="1783939746570" duration="1184000" />
       <workItem from="1784117494980" duration="2359000" />
-      <workItem from="1784127474633" duration="4767000" />
+      <workItem from="1784127474633" duration="6163000" />
     </task>
     <task id="LOCAL-00001" summary="ADD controllers">
       <option name="closed" value="true" />
@@ -446,7 +439,15 @@
       <option name="project" value="LOCAL" />
       <updated>1784120145698</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="update clinicalService add service and exception">
+      <option name="closed" value="true" />
+      <created>1784141214131</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1784141214131</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -466,6 +467,7 @@
     <MESSAGE value="update ClinicalService add dto" />
     <MESSAGE value="update ClinicalService add repository" />
     <MESSAGE value="update coreService" />
-    <option name="LAST_COMMIT_MESSAGE" value="update coreService" />
+    <MESSAGE value="update clinicalService add service and exception" />
+    <option name="LAST_COMMIT_MESSAGE" value="update clinicalService add service and exception" />
   </component>
 </project>
