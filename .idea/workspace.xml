@@ -4,112 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update clinicalService">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/mvnw.cmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/ClinicalServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/ClinicalServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/AllergyApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/AllergyApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/CodeSearchApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/CodeSearchApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/DiagnosisApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/DiagnosisApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/EncounterApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/EncounterApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/NursingNoteApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/NursingNoteApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/ObservationApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/ObservationApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/PrescriptionApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/PrescriptionApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/PrescriptionItemApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/PrescriptionItemApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/TriageApi.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/controller/TriageApi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/allergy/AllergyCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/allergy/AllergyCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/allergy/AllergyResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/allergy/AllergyResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/allergy/AllergyUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/allergy/AllergyUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/diagnosis/DiagnosisCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/diagnosis/DiagnosisCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/diagnosis/DiagnosisResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/diagnosis/DiagnosisResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/diagnosis/DiagnosisUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/diagnosis/DiagnosisUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/encounter/EncounterCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/encounter/EncounterCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/encounter/EncounterResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/encounter/EncounterResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/encounter/EncounterUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/encounter/EncounterUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/nursingnote/NursingNoteCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/nursingnote/NursingNoteCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/nursingnote/NursingNoteResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/nursingnote/NursingNoteResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/nursingnote/NursingNoteUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/nursingnote/NursingNoteUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/observation/ObservationCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/observation/ObservationCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/observation/ObservationResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/observation/ObservationResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/observation/ObservationUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/observation/ObservationUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescription/PrescriptionCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescription/PrescriptionCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescription/PrescriptionResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescription/PrescriptionResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescription/PrescriptionUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescription/PrescriptionUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescriptionitem/PrescriptionItemCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescriptionitem/PrescriptionItemCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescriptionitem/PrescriptionItemResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescriptionitem/PrescriptionItemResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescriptionitem/PrescriptionItemUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/prescriptionitem/PrescriptionItemUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/response/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/response/ApiResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/triage/TriageCreateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/triage/TriageCreateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/triage/TriageResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/triage/TriageResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/triage/TriageUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/dto/triage/TriageUpdateDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/allergy/AllergyNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/allergy/AllergyNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/common/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/common/ResourceNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/diagnosis/DiagnosisNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/diagnosis/DiagnosisNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/encounter/EncounterNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/encounter/EncounterNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/encounter/InvalidEncounterStateException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/encounter/InvalidEncounterStateException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/nursingnote/NursingNoteNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/nursingnote/NursingNoteNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/observation/ObservationNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/observation/ObservationNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/prescription/InvalidPrescriptionStateException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/prescription/InvalidPrescriptionStateException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/prescription/PrescriptionItemNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/prescription/PrescriptionItemNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/prescription/PrescriptionNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/prescription/PrescriptionNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/triage/TriageNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/exception/triage/TriageNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/AllergyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/AllergyMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/DiagnosisMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/DiagnosisMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/EncounterMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/EncounterMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/NursingNoteMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/NursingNoteMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/ObservationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/ObservationMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/PrescriptionItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/PrescriptionItemMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/PrescriptionMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/PrescriptionMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/TriageMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/mapper/TriageMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Allergy.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Allergy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/BaseEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Diagnosis.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Diagnosis.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Encounter.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Encounter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/NursingNote.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/NursingNote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Observation.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Observation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Prescription.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Prescription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/PrescriptionItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/PrescriptionItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Triage.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/Triage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/AllergySeverity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/AllergySeverity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/AllergyType.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/AllergyType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/EncounterStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/EncounterStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/EncounterType.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/EncounterType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/NoteType.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/NoteType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/PrescriptionStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/PrescriptionStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/Shift.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/Shift.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/TriageLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/model/enums/TriageLevel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/AllergyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/AllergyRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/BaseEntityRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/BaseEntityRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/DiagnosisRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/DiagnosisRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/EncounterRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/EncounterRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/NursingNoteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/NursingNoteRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/ObservationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/ObservationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/PrescriptionItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/PrescriptionItemRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/PrescriptionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/PrescriptionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/TriageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/repository/TriageRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/security/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/security/filter/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/security/filter/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/security/model/SecurityUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/security/model/SecurityUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/AllergyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/AllergyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/CodeSearchService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/CodeSearchService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/DiagnosisService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/DiagnosisService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/EncounterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/EncounterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/NursingNoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/NursingNoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/ObservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/ObservationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/PrescriptionItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/PrescriptionItemService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/PrescriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/PrescriptionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/TriageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/TriageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/AllergyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/AllergyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/DiagnosisServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/DiagnosisServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/EncounterServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/EncounterServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/NursingNoteServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/NursingNoteServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/ObservationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/ObservationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/PrescriptionItemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/PrescriptionItemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/PrescriptionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/PrescriptionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/TriageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ClinicalService/src/main/java/hospital/clinicalservice/service/imp/TriageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-    </list>
+    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update clinicalService add icd.json , loinc.json" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -132,12 +27,12 @@
     &quot;assignee&quot;: &quot;MobinaRahi&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/MobinaRahi/hospital-microservice-system&quot;,
-    &quot;accountId&quot;: &quot;ec1121a2-da58-40e9-8b78-f1fbe631af6c&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MobinaRahi/hospital-microservice-system",
+    "accountId": "ec1121a2-da58-40e9-8b78-f1fbe631af6c"
   }
-}</component>
+}]]></component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -159,43 +54,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;Spring Boot.AuthServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.CoreServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/AvalPc/Desktop/hospital-microservice-system/ClinicalService/src/main/java/hospital/clinicalservice&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.AuthServiceApplication.executor": "Run",
+    "Spring Boot.CoreServiceApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/AvalPc/Desktop/hospital-microservice-system/ClinicalService/src/main/java/hospital/clinicalservice",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;oracle&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "oracle"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="hospital.clinicalservice.model.enums" />
@@ -297,9 +192,7 @@
       <workItem from="1783939718698" duration="8000" />
       <workItem from="1783939746570" duration="1184000" />
       <workItem from="1784117494980" duration="2359000" />
-      <workItem from="1784127474633" duration="7281000" />
-      <workItem from="1784203874156" duration="4543000" />
-      <workItem from="1784378856290" duration="2869000" />
+      <workItem from="1784127474633" duration="6469000" />
     </task>
     <task id="LOCAL-00001" summary="ADD controllers">
       <option name="closed" value="true" />
@@ -557,23 +450,7 @@
       <option name="project" value="LOCAL" />
       <updated>1784142756886</updated>
     </task>
-    <task id="LOCAL-00033" summary="update clinicalService add security">
-      <option name="closed" value="true" />
-      <created>1784142860058</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1784142860058</updated>
-    </task>
-    <task id="LOCAL-00034" summary="update clinicalService">
-      <option name="closed" value="true" />
-      <created>1784142997785</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1784142997785</updated>
-    </task>
-    <option name="localTasksCounter" value="35" />
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -596,8 +473,6 @@
     <MESSAGE value="update clinicalService add service and exception" />
     <MESSAGE value="update clinicalService add controller" />
     <MESSAGE value="update clinicalService add icd.json , loinc.json" />
-    <MESSAGE value="update clinicalService add security" />
-    <MESSAGE value="update clinicalService" />
-    <option name="LAST_COMMIT_MESSAGE" value="update clinicalService" />
+    <option name="LAST_COMMIT_MESSAGE" value="update clinicalService add icd.json , loinc.json" />
   </component>
 </project>
