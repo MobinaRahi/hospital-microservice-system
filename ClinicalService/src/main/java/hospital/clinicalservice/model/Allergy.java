@@ -11,8 +11,10 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
- * حساسیت — ثبت حساسیت‌های بیمار (دارویی، غذایی، محیطی)
- * این اطلاعات برای جلوگیری از تجویز داروهای خطرناک بسیار حیاتی است
+ * Represents a patient allergy (drug, food, environmental).
+ * Critical for preventing dangerous drug prescriptions.
+ *
+ * @author Mobina
  */
 @Entity(name = "allergyEntity")
 @Table(name = "allergies",
@@ -32,36 +34,36 @@ public class Allergy extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** شناسه بیمار */
+    /** Patient ID */
     @Column(nullable = false)
     private Long patientId;
 
-    /** نوع حساسیت */
+    /** Allergy type */
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AllergyType type;
 
-    /** نام ماده حساسیت‌زا */
+    /** Allergen name */
     @Column(name = "allergen_name", length = 200, nullable = false)
     private String allergenName;
 
     @Column(name = "reaction",length = 500)
     private String reaction;
 
-    /** شدت حساسیت */
+    /** Severity level */
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AllergySeverity severity;
 
-    /** علائم */
+    /** Symptoms */
     @Column(name = "symptoms", length = 500)
     private String symptoms;
 
-    /** یادداشت */
+    /** Notes */
     @Column(name = "notes", length = 500)
     private String notes;
 
-    /** آیا فعال است؟ */
+    /** Is active? */
     @Column(name = "is_active", nullable = false)
     @Builder.Default
     private boolean active = true;

@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Repository for Observation entity.
+ * Provides query methods by encounter, LOINC code, and patient.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface ObservationRepository extends BaseEntityRepository<Observation, Long> {
 

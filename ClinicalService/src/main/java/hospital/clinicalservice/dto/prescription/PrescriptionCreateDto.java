@@ -8,6 +8,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new prescription.
+ *
+ * @author Mobina
+ */
 public class PrescriptionCreateDto {
 
     @NotNull(message = "Encounter ID is required")

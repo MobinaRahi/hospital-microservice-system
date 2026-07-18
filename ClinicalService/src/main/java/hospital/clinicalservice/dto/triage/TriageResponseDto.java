@@ -8,6 +8,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+/**
+ * DTO for triage response data.
+ *
+ * @author Mobina
+ */
 public class TriageResponseDto {
 
     private Long id;

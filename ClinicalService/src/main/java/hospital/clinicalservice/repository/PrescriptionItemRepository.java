@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for PrescriptionItem entity.
+ * Provides query methods by prescription and drug.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface PrescriptionItemRepository extends BaseEntityRepository<PrescriptionItem, Long> {
 

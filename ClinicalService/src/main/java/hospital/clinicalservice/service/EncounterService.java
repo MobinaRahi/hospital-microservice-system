@@ -8,6 +8,12 @@ import hospital.clinicalservice.model.enums.EncounterStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Service interface for Encounter management.
+ * Handles CRUD operations and status workflow for patient encounters.
+ *
+ * @author Mobina
+ */
 public interface EncounterService {
 
     EncounterResponseDto createEncounter(EncounterCreateDto createDto);

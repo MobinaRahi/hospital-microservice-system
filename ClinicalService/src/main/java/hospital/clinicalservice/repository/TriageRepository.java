@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for Triage entity.
+ * Provides query methods by encounter, patient, and severity level.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface TriageRepository extends BaseEntityRepository<Triage, Long> {
 

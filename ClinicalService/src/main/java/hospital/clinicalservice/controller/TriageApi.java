@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Triage management.
+ * Manages emergency triage assessments.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/triages")
 @RequiredArgsConstructor

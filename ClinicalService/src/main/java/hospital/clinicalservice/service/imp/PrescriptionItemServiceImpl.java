@@ -20,6 +20,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of PrescriptionItemService.
+ * Manages drug items within prescriptions.
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

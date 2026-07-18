@@ -8,6 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new diagnosis with ICD-10 code.
+ *
+ * @author Mobina
+ */
 public class DiagnosisCreateDto {
 
     @NotNull(message = "Encounter ID is required")

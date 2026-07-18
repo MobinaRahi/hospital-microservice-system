@@ -1,7 +1,12 @@
 package hospital.clinicalservice.model.enums;
 
 /**
- * وضعیت نسخه
+ * Prescription status
+ */
+/**
+ * Status of a prescription: ACTIVE, COMPLETED, CANCELLED, EXPIRED.
+ *
+ * @author Mobina
  */
 public enum PrescriptionStatus {
     ACTIVE,         // فعال

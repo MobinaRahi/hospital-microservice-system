@@ -9,6 +9,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an allergy record.
+ *
+ * @author Mobina
+ */
 public class AllergyUpdateDto {
 
     @NotNull(message = "Allergy ID is required for update")

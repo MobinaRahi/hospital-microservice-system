@@ -1,5 +1,10 @@
 package hospital.clinicalservice.exception.diagnosis;
 
+/**
+ * Thrown when a diagnosis is not found by ID, encounter, or ICD-10 code.
+ *
+ * @author Mobina
+ */
 public class DiagnosisNotFoundException extends RuntimeException {
 
     private DiagnosisNotFoundException(String message) {

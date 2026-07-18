@@ -7,6 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for updating a prescription item.
+ *
+ * @author Mobina
+ */
 public class PrescriptionItemUpdateDto {
 
     @NotNull(message = "Item ID is required for update")

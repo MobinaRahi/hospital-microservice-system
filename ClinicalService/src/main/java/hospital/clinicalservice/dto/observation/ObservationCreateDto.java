@@ -8,6 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new observation with LOINC code.
+ *
+ * @author Mobina
+ */
 public class ObservationCreateDto {
 
     private Long encounterId;

@@ -3,6 +3,11 @@ package hospital.clinicalservice.model.enums;
 /**
  * سطح فوریت تریاژ (هرچه کمتر، فوری‌تر)
  */
+/**
+ * Triage severity levels: LEVEL_1 (critical) to LEVEL_5 (consultation).
+ *
+ * @author Mobina
+ */
 public enum TriageLevel {
     LEVEL_1(1, "بحرانی", "#ef4444"),
     LEVEL_2(2, "فوری", "#f97316"),

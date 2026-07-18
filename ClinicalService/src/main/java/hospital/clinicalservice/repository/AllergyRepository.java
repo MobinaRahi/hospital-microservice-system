@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for Allergy entity.
+ * Provides query methods by patient, type, and severity.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface AllergyRepository extends BaseEntityRepository<Allergy, Long> {
 

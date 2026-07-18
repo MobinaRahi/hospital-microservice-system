@@ -1,5 +1,10 @@
 package hospital.clinicalservice.exception.allergy;
 
+/**
+ * Thrown when an allergy record is not found.
+ *
+ * @author Mobina
+ */
 public class AllergyNotFoundException extends RuntimeException {
 
     private AllergyNotFoundException(String message) {

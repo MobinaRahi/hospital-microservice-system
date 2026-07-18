@@ -10,6 +10,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new allergy record.
+ *
+ * @author Mobina
+ */
 public class AllergyCreateDto {
 
     @NotNull(message = "Patient ID is required")

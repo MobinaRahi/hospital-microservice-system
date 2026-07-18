@@ -16,6 +16,11 @@ import java.time.LocalDate;
 )
 public interface PrescriptionMapper {
 
+    /**
+     * Converts CreateDto to Entity.
+     * encounterId is ignored because entity has encounter (object).
+     * Service layer handles setting the encounter from encounterId.
+     */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "encounter", ignore = true)
     @Mapping(target = "items", ignore = true)
@@ -24,14 +29,19 @@ public interface PrescriptionMapper {
     @Mapping(target = "deleted", ignore = true)
     Prescription toEntity(PrescriptionCreateDto createDto);
 
+    /**
+     * Updates Entity from UpdateDto.
+     * encounterId, patientId, doctorId are immutable after creation.
+     */
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "encounterId", ignore = true)
-    @Mapping(target = "patientId", ignore = true)
-    @Mapping(target = "doctorId", ignore = true)
-    @Mapping(target = "prescribedDate", ignore = true)
+    @Mapping(target = "encounter", ignore = true)
     @Mapping(target = "items", ignore = true)
     void updateEntity(@MappingTarget Prescription prescription, PrescriptionUpdateDto updateDto);
 
+    /**
+     * Converts Entity to ResponseDto.
+     * encounterId is extracted from encounter object.
+     */
     @Mapping(target = "encounterId", expression = "java(prescription.getEncounter() != null ? prescription.getEncounter().getId() : null)")
     PrescriptionResponseDto toResponseDto(Prescription prescription);
 }

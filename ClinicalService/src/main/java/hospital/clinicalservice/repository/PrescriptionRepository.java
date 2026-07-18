@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Repository for Prescription entity.
+ * Provides query methods by encounter, patient, status, and doctor.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface PrescriptionRepository extends BaseEntityRepository<Prescription, Long> {
 

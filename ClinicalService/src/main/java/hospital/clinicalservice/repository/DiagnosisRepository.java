@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for Diagnosis entity.
+ * Provides query methods by encounter, ICD-10 code, and patient.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface DiagnosisRepository extends BaseEntityRepository<Diagnosis, Long> {
 

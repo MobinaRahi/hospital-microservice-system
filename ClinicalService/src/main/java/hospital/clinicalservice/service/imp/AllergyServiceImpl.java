@@ -19,6 +19,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of AllergyService.
+ * Manages patient allergies (drug, food, environmental).
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

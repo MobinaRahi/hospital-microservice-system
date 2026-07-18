@@ -6,6 +6,12 @@ import hospital.clinicalservice.dto.diagnosis.DiagnosisUpdateDto;
 
 import java.util.List;
 
+/**
+ * Service interface for Diagnosis management.
+ * Handles CRUD operations for medical diagnoses using ICD-10 codes.
+ *
+ * @author Mobina
+ */
 public interface DiagnosisService {
 
     DiagnosisResponseDto createDiagnosis(DiagnosisCreateDto createDto);

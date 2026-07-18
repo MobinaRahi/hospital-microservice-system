@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * نسخه — ثبت نسخه و داروهای تجویز شده
+ * Represents a prescription with status workflow:
+ * ACTIVE → CONFIRMED → DISPENSED → COMPLETED / CANCELLED / EXPIRED
+ *
+ * @author Mobina
  */
 @Entity(name = "prescriptionEntity")
 @Table(name = "prescriptions",
@@ -34,38 +37,38 @@ public class Prescription extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** ویزیت مربوطه */
+    /** Related encounter */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "encounter_id", nullable = false)
     private Encounter encounter;
 
-    /** شناسه بیمار */
+    /** Patient ID */
     @Column(nullable = false)
     private Long patientId;
 
-    /** شناسه پزشک */
+    /** Doctor ID */
     @Column(nullable = false)
     private Long doctorId;
 
-    /** وضعیت نسخه */
+    /** Prescription status */
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private PrescriptionStatus status = PrescriptionStatus.ACTIVE;
 
-    /** تاریخ تجویز */
+    /** Prescribed date */
     @Column(name = "prescribed_date", nullable = false)
     private LocalDate prescribedDate;
 
-    /** تاریخ انقضا */
+    /** Expiry date */
     @Column(name = "expiry_date")
     private LocalDate expiryDate;
 
-    /** یادداشت پزشک */
+    /** Doctor notes */
     @Column(name = "notes", length = 1000)
     private String notes;
 
-    /** آیتم‌های نسخه (داروها) */
+    /** Prescription items (drugs) */
     @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<PrescriptionItem> items = new ArrayList<>();

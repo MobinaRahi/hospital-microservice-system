@@ -11,8 +11,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 /**
- * تریاژ — تعیین سطح فوریت بیمار در اورژانس
- * هرچه سطح کمتر باشد، بیمار اورژانسی‌تر است
+ * Represents an emergency triage assessment with 5 severity levels.
+ * Level 1 (critical) to Level 5 (consultation).
+ *
+ * @author Mobina
  */
 @Entity(name = "triageEntity")
 @Table(name = "triages",
@@ -32,25 +34,25 @@ public class Triage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** ویزیت مربوطه */
+    /** Related encounter */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "encounter_id", nullable = false)
     private Encounter encounter;
 
-    /** شناسه بیمار */
+    /** Patient ID */
     @Column(nullable = false)
     private Long patientId;
 
-    /** سطح فوریت */
+    /** Triage level */
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TriageLevel level;
 
-    /** شرح حال */
+    /** Chief complaint */
     @Column(name = "chief_complaint", length = 1000, nullable = false)
     private String chiefComplaint;
 
-    /** علائم */
+    /** Symptoms */
     @Column(name = "symptoms", length = 1000)
     private String symptoms;
 
@@ -66,15 +68,15 @@ public class Triage extends BaseEntity {
     @Column(name = "consciousness")
     private String consciousness;
 
-    /** یادداشت */
+    /** Notes */
     @Column(name = "notes", length = 1000)
     private String notes;
 
-    /** شناسه پرستار تریاژ */
+    /** Triage nurse ID */
     @Column(nullable = false)
     private Long triagedBy;
 
-    /** زمان تریاژ */
+    /** Triage time */
     @Column(name = "triaged_at", nullable = false)
     private LocalDateTime triagedAt;
 }

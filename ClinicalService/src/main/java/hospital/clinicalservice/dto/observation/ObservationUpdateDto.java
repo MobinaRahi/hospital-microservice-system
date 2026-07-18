@@ -7,6 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing observation.
+ *
+ * @author Mobina
+ */
 public class ObservationUpdateDto {
 
     @NotNull(message = "Observation ID is required for update")

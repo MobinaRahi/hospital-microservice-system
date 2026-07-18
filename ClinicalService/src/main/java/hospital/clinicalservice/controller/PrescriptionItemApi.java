@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for PrescriptionItem management.
+ * Manages drug items within prescriptions.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/prescription-items")
 @RequiredArgsConstructor

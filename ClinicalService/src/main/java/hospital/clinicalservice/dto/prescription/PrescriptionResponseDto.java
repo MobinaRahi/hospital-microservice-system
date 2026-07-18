@@ -12,6 +12,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for prescription response data.
+ *
+ * @author Mobina
+ */
 public class PrescriptionResponseDto {
 
     private Long id;

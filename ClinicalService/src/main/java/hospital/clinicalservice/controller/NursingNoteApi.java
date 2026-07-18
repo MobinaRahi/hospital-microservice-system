@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for NursingNote management.
+ * Manages nursing notes and shift reports.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/nursing-notes")
 @RequiredArgsConstructor

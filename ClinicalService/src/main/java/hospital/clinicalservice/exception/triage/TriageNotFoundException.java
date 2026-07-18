@@ -1,5 +1,10 @@
 package hospital.clinicalservice.exception.triage;
 
+/**
+ * Thrown when a triage record is not found.
+ *
+ * @author Mobina
+ */
 public class TriageNotFoundException extends RuntimeException {
 
     private TriageNotFoundException(String message) {

@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+/**
+ * DTO for nursing note response data.
+ *
+ * @author Mobina
+ */
 public class NursingNoteResponseDto {
 
     private Long id;

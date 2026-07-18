@@ -20,6 +20,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of ObservationService.
+ * Manages vital signs and clinical observations with LOINC codes.
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

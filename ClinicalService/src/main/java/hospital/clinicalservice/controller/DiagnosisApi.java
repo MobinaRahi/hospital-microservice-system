@@ -15,13 +15,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Diagnosis management.
+ * Uses ICD-10 standard codes for medical diagnoses.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/diagnoses")
 @RequiredArgsConstructor
 @Tag(name = "Diagnosis Management", description = "Diagnosis CRUD and management APIs (ICD-10)")
 public class DiagnosisApi {
 
+    // ==================== Dependencies ====================
+
     private final DiagnosisService diagnosisService;
+
+    // ==================== Create ====================
 
     @PostMapping
     @Operation(summary = "Create a new diagnosis")
