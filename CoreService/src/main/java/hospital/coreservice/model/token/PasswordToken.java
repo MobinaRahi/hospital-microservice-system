@@ -1,6 +1,5 @@
 package hospital.coreservice.model.token;
 
-import hospital.coreservice.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

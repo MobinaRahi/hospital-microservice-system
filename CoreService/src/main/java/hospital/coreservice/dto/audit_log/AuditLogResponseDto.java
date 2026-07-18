@@ -1,6 +1,5 @@
 package hospital.coreservice.dto.audit_log;
 
-import hospital.coreservice.model.enums.AuditStatus;
 import lombok.Getter;
 import lombok.Setter;
 

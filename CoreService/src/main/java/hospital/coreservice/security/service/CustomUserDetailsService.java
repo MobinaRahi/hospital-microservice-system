@@ -1,6 +1,5 @@
 package hospital.coreservice.security.service;
 
-import hospital.coreservice.repository.UserRepository;
 import hospital.coreservice.security.model.SecurityUser;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

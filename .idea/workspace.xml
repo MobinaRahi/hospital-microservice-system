@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update clinicalService add icd.json , loinc.json" />
+    <list default="true" id="1b1d537a-aa41-4a2b-b756-9cb6b61767c6" name="Changes" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,12 +31,12 @@
     &quot;assignee&quot;: &quot;MobinaRahi&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/MobinaRahi/hospital-microservice-system",
-    "accountId": "ec1121a2-da58-40e9-8b78-f1fbe631af6c"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MobinaRahi/hospital-microservice-system&quot;,
+    &quot;accountId&quot;: &quot;ec1121a2-da58-40e9-8b78-f1fbe631af6c&quot;
   }
-}]]></component>
+}</component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
@@ -66,6 +70,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.AuthServiceApplication.executor": "Run",
     "Spring Boot.CoreServiceApplication.executor": "Run",
     "codeWithMe.voiceChat.enabledByDefault": "false",
@@ -450,7 +455,23 @@
       <option name="project" value="LOCAL" />
       <updated>1784142756886</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="update clinicalService, coreService comment">
+      <option name="closed" value="true" />
+      <created>1784401279922</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1784401279922</updated>
+    </task>
+    <task id="LOCAL-00034" summary="update">
+      <option name="closed" value="true" />
+      <created>1784401396131</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1784401396131</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -461,7 +482,6 @@
     <MESSAGE value="fix login" />
     <MESSAGE value="add AuthService" />
     <MESSAGE value="update AuthService" />
-    <MESSAGE value="update" />
     <MESSAGE value="add frontend" />
     <MESSAGE value="update frontend" />
     <MESSAGE value="add ClinicalService" />
@@ -473,6 +493,7 @@
     <MESSAGE value="update clinicalService add service and exception" />
     <MESSAGE value="update clinicalService add controller" />
     <MESSAGE value="update clinicalService add icd.json , loinc.json" />
-    <option name="LAST_COMMIT_MESSAGE" value="update clinicalService add icd.json , loinc.json" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>
