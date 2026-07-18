@@ -14,6 +14,11 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new appointment.
+ *
+ * @author Mobina
+ */
 public class AppointmentCreateDto {
 
     @NotNull(message = "Patient ID is required")

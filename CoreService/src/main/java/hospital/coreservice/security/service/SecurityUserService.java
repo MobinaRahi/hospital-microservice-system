@@ -5,6 +5,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service("securityUserService")
+/**
+ * Service for checking current user permissions.
+ *
+ * @author Mobina
+ */
 public class SecurityUserService {
 
     public boolean isCurrentUser(Long userId, Authentication authentication) {

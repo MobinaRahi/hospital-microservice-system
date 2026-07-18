@@ -12,6 +12,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository for Appointment entity.
+ * Provides query methods by patient, doctor, status, date, and department.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface AppointmentRepository extends BaseEntityRepository<Appointment, Long> {
 

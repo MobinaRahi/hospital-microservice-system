@@ -11,6 +11,11 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new doctor schedule.
+ *
+ * @author Mobina
+ */
 public class DoctorScheduleCreateDto {
 
     @NotNull(message = "Doctor ID is required")

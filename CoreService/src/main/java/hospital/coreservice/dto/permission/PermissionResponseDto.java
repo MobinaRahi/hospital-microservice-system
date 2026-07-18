@@ -5,6 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for permission response data.
+ *
+ * @author Mobina
+ */
 public class PermissionResponseDto {
 
     private Long id;

@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+/**
+ * Base repository with soft delete, versioning, and conflict handling.
+ *
+ * @author Mobina
+ */
 @NoRepositoryBean
 public interface BaseEntityRepository<T extends BaseEntity, ID> extends JpaRepository<T, ID> {
 

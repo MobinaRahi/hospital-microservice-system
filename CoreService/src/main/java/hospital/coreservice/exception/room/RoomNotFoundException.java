@@ -1,5 +1,10 @@
 package hospital.coreservice.exception.room;
 
+/**
+ * Thrown when a room is not found.
+ *
+ * @author Mobina
+ */
 public class RoomNotFoundException extends RuntimeException {
     public RoomNotFoundException(String message) {
         super(message);

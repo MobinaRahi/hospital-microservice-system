@@ -18,6 +18,20 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Global exception handler for ClinicalService REST controllers.
+ * Maps domain exceptions to appropriate HTTP responses.
+ *
+ * <p><strong>Handled exceptions:</strong></p>
+ * <ul>
+ *   <li>NotFoundException → 404 Not Found</li>
+ *   <li>InvalidStateException → 400 Bad Request</li>
+ *   <li>ValidationException → 400 Bad Request</li>
+ *   <li>Generic Exception → 500 Internal Server Error</li>
+ * </ul>
+ *
+ * @author Mobina
+ */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {

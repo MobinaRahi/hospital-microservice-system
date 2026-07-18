@@ -22,6 +22,12 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @SuperBuilder
+/**
+ * Represents a doctor's weekly schedule.
+ * Defines working days and time slots.
+ *
+ * @author Mobina
+ */
 public class DoctorSchedule extends BaseEntity {
 
     @Id

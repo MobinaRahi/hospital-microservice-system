@@ -7,6 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing department.
+ *
+ * @author Mobina
+ */
 public class DepartmentUpdateDto {
 
     @NotNull(message = "Department ID is required for update")

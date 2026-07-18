@@ -1,5 +1,10 @@
 package hospital.clinicalservice.exception.nursingnote;
 
+/**
+ * Thrown when a nursing note is not found.
+ *
+ * @author Mobina
+ */
 public class NursingNoteNotFoundException extends RuntimeException {
 
     private NursingNoteNotFoundException(String message) {

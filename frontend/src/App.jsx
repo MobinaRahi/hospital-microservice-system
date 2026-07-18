@@ -26,7 +26,8 @@ import Book from './pages/dashboard/Book';
 import Settings from './pages/dashboard/Settings';
 import Reports from './pages/dashboard/Reports';
 import Staff from './pages/dashboard/Staff';
-import DoctorVisit from './pages/dashboard/DoctorVisit';
+import DoctorVisit from './pages/dashboard/doctor/DoctorVisit';
+import PatientRecord from './pages/dashboard/doctor/PatientRecord';
 import PatientRecords from './pages/dashboard/PatientRecords';
 import PatientVitals from './pages/dashboard/PatientVitals';
 import NurseNotes from './pages/dashboard/NurseNotes';
@@ -81,6 +82,7 @@ export default function App() {
         <Route element={<RoleRoute allowedRoles={['DOCTOR']} />}>
           <Route path="doctor" element={<DoctorDashboard />} />
           <Route path="doctor/visit/:id" element={<DoctorVisit />} />
+          <Route path="doctor/patient/:id" element={<PatientRecord />} />
         </Route>
 
         {/* Nurse routes */}

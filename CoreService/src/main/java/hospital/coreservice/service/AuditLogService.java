@@ -8,6 +8,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service interface for AuditLog management.
+ * Handles logging and querying audit trails.
+ *
+ * @author Mobina
+ */
 public interface AuditLogService {
 
     void logSuccess(User user, String action, String newValue, Long duration);

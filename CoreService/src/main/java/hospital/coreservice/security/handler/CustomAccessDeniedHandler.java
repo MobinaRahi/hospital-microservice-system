@@ -16,6 +16,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Slf4j
+/**
+ * Handler for 403 Forbidden responses.
+ *
+ * @author Mobina
+ */
 @Component
 @RequiredArgsConstructor
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {

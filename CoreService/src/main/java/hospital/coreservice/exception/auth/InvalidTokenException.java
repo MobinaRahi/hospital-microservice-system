@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Exception thrown when a refresh token is invalid, expired, or malformed.
  */
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
+/**
+ * Thrown when JWT token is invalid or expired.
+ *
+ * @author Mobina
+ */
 public class InvalidTokenException extends RuntimeException {
 
     public InvalidTokenException() {

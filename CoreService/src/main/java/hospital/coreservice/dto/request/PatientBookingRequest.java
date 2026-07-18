@@ -5,6 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * Request DTO for request operations.
+ *
+ * @author Mobina
+ */
 public class PatientBookingRequest {
     private Long doctorId;
     private String appointmentDate;

@@ -10,6 +10,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for doctor response data.
+ *
+ * @author Mobina
+ */
 public class DoctorSlimResponseDto {
     private Long id;
 

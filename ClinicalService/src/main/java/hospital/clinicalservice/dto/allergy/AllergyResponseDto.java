@@ -9,6 +9,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+/**
+ * DTO for allergy response data.
+ *
+ * @author Mobina
+ */
 public class AllergyResponseDto {
 
     private Long id;

@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * REST controller for DoctorSchedule management.
+ * Handles CRUD for doctor working hours and availability.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/doctor-schedules")
 @RequiredArgsConstructor

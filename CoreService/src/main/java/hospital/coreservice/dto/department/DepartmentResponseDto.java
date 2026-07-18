@@ -12,6 +12,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for department response data.
+ *
+ * @author Mobina
+ */
 public class DepartmentResponseDto {
 
     private Long id;

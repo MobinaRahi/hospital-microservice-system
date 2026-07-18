@@ -1,5 +1,10 @@
 package hospital.clinicalservice.exception.observation;
 
+/**
+ * Thrown when an observation is not found by ID or LOINC code.
+ *
+ * @author Mobina
+ */
 public class ObservationNotFoundException extends RuntimeException {
 
     private ObservationNotFoundException(String message) {

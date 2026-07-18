@@ -44,6 +44,11 @@ import java.util.Map;
  */
 @Slf4j
 @RestControllerAdvice
+/**
+ * Global exception handler for CoreService REST controllers.
+ *
+ * @author Mobina
+ */
 public class GlobalExceptionHandler {
 
     // ==================== 404 - Not Found ====================

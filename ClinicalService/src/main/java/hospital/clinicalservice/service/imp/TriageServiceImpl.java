@@ -21,6 +21,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of TriageService.
+ * Manages emergency triage assessments.
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

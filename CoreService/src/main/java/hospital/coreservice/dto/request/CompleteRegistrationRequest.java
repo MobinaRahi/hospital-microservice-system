@@ -10,6 +10,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+/**
+ * Request DTO for request operations.
+ *
+ * @author Mobina
+ */
 public class CompleteRegistrationRequest {
     @NotNull
     private Long patientId;

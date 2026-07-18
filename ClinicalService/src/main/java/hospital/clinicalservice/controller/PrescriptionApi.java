@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Prescription management.
+ * Handles prescription lifecycle and status changes.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/prescriptions")
 @RequiredArgsConstructor

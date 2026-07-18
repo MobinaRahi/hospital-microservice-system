@@ -11,6 +11,12 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Service interface for Role management.
+ * Handles CRUD and permission assignment.
+ *
+ * @author Mobina
+ */
 public interface RoleService {
 
     RoleResponseDto createRole(RoleCreateDto createDto);

@@ -9,6 +9,12 @@ import hospital.coreservice.model.enums.SubSpeciality;
 
 import java.util.List;
 
+/**
+ * Service interface for Doctor management.
+ * Handles CRUD, specialty, department assignment, and schedules.
+ *
+ * @author Mobina
+ */
 public interface DoctorService {
     DoctorResponseDto createDoctor(DoctorCreateDto doctorCreateDto);
     DoctorResponseDto updateDoctor(Long doctorId, DoctorUpdateDto doctorUpdateDto);

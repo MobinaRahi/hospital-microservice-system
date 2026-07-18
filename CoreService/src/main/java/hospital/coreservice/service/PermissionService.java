@@ -8,6 +8,12 @@ import lombok.NonNull;
 
 import java.util.Set;
 
+/**
+ * Service interface for Permission management.
+ * Handles CRUD for fine-grained access control.
+ *
+ * @author Mobina
+ */
 public interface PermissionService  {
 
     PermissionResponseDto createPermission(@NonNull PermissionCreateDto createDto);

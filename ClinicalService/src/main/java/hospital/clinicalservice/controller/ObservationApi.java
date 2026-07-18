@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Observation management.
+ * Uses LOINC codes for vital signs and clinical observations.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/observations")
 @RequiredArgsConstructor

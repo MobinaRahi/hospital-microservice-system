@@ -12,6 +12,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing nurse.
+ *
+ * @author Mobina
+ */
 public class NurseUpdateDto {
 
     @NotNull(message = "Nurse ID is required for update")

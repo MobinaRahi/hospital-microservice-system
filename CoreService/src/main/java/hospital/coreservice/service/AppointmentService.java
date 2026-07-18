@@ -12,6 +12,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Service interface for Appointment management.
+ * Handles CRUD, status workflow, scheduling, and availability.
+ *
+ * @author Mobina
+ */
 public interface AppointmentService {
 
     AppointmentResponseDto createAppointment(AppointmentCreateDto createDto);

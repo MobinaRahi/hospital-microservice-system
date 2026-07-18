@@ -1,9 +1,9 @@
 -- ============================================================
--- Oracle init script — creates the two application schemas
+-- Oracle init script — creates application schemas
+--
+-- NOTE: gvenzl/oracle-xe runs init scripts against XEPDB1 (PDB)
+-- automatically. Do NOT use ALTER SESSION SET CONTAINER here.
 -- ============================================================
-
--- Switch to PDB container
-ALTER SESSION SET CONTAINER = XEPDB1;
 
 -- Create auth user
 CREATE USER auth IDENTIFIED BY auth123;

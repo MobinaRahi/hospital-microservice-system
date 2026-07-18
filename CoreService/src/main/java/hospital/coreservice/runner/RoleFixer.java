@@ -18,6 +18,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @Order(3)
+/**
+ * Startup runner for fixing role assignments.
+ *
+ * @author Mobina
+ */
 public class RoleFixer implements CommandLineRunner {
 
     private final UserRepository userRepository;

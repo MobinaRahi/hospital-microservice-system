@@ -7,6 +7,12 @@ import hospital.clinicalservice.model.enums.PrescriptionStatus;
 
 import java.util.List;
 
+/**
+ * Service interface for Prescription management.
+ * Handles CRUD and status workflow for prescriptions.
+ *
+ * @author Mobina
+ */
 public interface PrescriptionService {
 
     PrescriptionResponseDto createPrescription(PrescriptionCreateDto createDto);

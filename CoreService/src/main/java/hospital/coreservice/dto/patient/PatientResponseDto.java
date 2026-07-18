@@ -12,6 +12,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+/**
+ * DTO for patient response data.
+ *
+ * @author Mobina
+ */
 public class PatientResponseDto {
 
     private Long id;

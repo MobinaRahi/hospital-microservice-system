@@ -13,6 +13,11 @@ import java.time.LocalDateTime;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
+/**
+ * MapStruct mapper for Observation entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface ObservationMapper {
 
     @Mapping(target = "id", ignore = true)

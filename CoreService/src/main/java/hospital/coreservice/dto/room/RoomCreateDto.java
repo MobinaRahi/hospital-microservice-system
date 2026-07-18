@@ -8,6 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new room.
+ *
+ * @author Mobina
+ */
 public class RoomCreateDto {
 
     @NotBlank(message = "Room number is required")

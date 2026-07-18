@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for NursingNote entity.
+ * Provides query methods by encounter, patient, nurse, and shift.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface NursingNoteRepository extends BaseEntityRepository<NursingNote, Long> {
 

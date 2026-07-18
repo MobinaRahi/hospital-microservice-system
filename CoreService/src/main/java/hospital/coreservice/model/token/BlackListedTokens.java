@@ -13,6 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+/**
+ * Blacklisted JWT tokens (logged out tokens).
+ *
+ * @author Mobina
+ */
 public class BlackListedTokens {
 
     @Id

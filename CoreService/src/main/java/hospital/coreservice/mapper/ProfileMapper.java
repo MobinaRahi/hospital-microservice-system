@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         uses = {RoleSlimMapper.class}
 )
+/**
+ * MapStruct mapper for Profile entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface ProfileMapper {
 
     // ========== Main Mapping ==========

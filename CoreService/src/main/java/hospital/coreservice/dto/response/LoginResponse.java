@@ -7,6 +7,11 @@ import java.util.Set;
 
 @Getter
 @Builder
+/**
+ * DTO for response response data.
+ *
+ * @author Mobina
+ */
 public class LoginResponse {
 
     private final String accessToken;

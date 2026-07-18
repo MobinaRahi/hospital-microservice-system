@@ -9,6 +9,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new triage assessment.
+ *
+ * @author Mobina
+ */
 public class TriageCreateDto {
 
     @NotNull(message = "Encounter ID is required")

@@ -6,6 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for nurse response data.
+ *
+ * @author Mobina
+ */
 public class NurseSlimResponseDto {
 
     private Long id;

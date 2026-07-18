@@ -10,6 +10,11 @@ import org.mapstruct.*;
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
+/**
+ * MapStruct mapper for AuditLog entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface AuditLogMapper {
 
     @Mapping(target = "userId", source = "user.id")

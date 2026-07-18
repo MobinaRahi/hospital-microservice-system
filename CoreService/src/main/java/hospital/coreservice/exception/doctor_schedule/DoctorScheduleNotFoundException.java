@@ -2,6 +2,11 @@ package hospital.coreservice.exception.doctor_schedule;
 
 import hospital.coreservice.model.enums.DayOfWeek;
 
+/**
+ * Thrown when a doctor_schedule is not found.
+ *
+ * @author Mobina
+ */
 public class DoctorScheduleNotFoundException extends RuntimeException {
     public DoctorScheduleNotFoundException(String message) {
         super(message);

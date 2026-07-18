@@ -1,7 +1,12 @@
 package hospital.clinicalservice.model.enums;
 
 /**
- * شدت حساسیت
+ * Allergy severity levels
+ */
+/**
+ * Severity levels for allergies: MILD, MODERATE, SEVERE, LIFE_THREATENING.
+ *
+ * @author Mobina
  */
 public enum AllergySeverity {
     MILD,           // خفیف

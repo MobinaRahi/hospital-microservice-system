@@ -1,5 +1,10 @@
 package hospital.coreservice.exception.department;
 
+/**
+ * Thrown when a department is not found.
+ *
+ * @author Mobina
+ */
 public class DepartmentNotFoundException extends RuntimeException {
     public DepartmentNotFoundException(String message) {
         super(message);

@@ -8,6 +8,12 @@ import hospital.clinicalservice.model.enums.Shift;
 
 import java.util.List;
 
+/**
+ * Service interface for NursingNote management.
+ * Handles CRUD operations for nursing notes and shift reports.
+ *
+ * @author Mobina
+ */
 public interface NursingNoteService {
 
     NursingNoteResponseDto createNursingNote(NursingNoteCreateDto createDto);

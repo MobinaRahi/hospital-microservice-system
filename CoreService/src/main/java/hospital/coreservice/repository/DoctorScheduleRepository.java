@@ -11,6 +11,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository for DoctorSchedule entity.
+ * Provides query methods by doctor and day of week.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface DoctorScheduleRepository extends BaseEntityRepository<DoctorSchedule, Long> {
 

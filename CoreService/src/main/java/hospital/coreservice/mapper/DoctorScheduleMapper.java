@@ -12,6 +12,11 @@ import org.mapstruct.*;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         uses = {DoctorMapper.class}
 )
+/**
+ * MapStruct mapper for DoctorSchedule entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface DoctorScheduleMapper {
 
     @Mapping(target = "id", ignore = true)

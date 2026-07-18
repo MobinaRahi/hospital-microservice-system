@@ -13,6 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
+/**
+ * Implementation of ProfileService.
+ *
+ * @author Mobina
+ */
 @Service
 @Transactional(readOnly = true)
 public class ProfileServiceImp implements ProfileService {

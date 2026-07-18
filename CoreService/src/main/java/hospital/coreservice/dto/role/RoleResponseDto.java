@@ -10,6 +10,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for role response data.
+ *
+ * @author Mobina
+ */
 public class RoleResponseDto {
 
     private Long id;

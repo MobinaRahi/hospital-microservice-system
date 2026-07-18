@@ -2,6 +2,12 @@ package hospital.coreservice.model.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
+/**
+ * User roles:
+ * SUPER_ADMIN, ADMIN, DOCTOR, NURSE, RECEPTIONIST, PATIENT, etc.
+ *
+ * @author Mobina
+ */
 public enum RoleName implements GrantedAuthority {
     SUPER_ADMIN,
     ADMIN,

@@ -7,6 +7,11 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
+/**
+ * MapStruct mapper for Doctor entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface DoctorSlimMapper {
 
     @Mapping(target = "fullName", expression = "java(doctor.getFirstName() + \" \" + doctor.getLastName())")

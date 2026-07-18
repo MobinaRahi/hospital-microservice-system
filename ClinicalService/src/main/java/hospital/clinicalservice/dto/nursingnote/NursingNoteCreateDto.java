@@ -10,6 +10,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new nursing note.
+ *
+ * @author Mobina
+ */
 public class NursingNoteCreateDto {
 
     private Long encounterId;

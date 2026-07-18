@@ -5,6 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for updating a permission.
+ *
+ * @author Mobina
+ */
 public class PermissionUpdateDto {
 
     private String name;

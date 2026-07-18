@@ -21,6 +21,12 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
+/**
+ * Represents a hospital room.
+ * Has capacity tracking and patient assignment.
+ *
+ * @author Mobina
+ */
 public class Room extends BaseEntity {
 
     @Id

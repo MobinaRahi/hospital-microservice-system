@@ -1,5 +1,10 @@
 package hospital.coreservice.exception.patient;
 
+/**
+ * Exception for patient operations.
+ *
+ * @author Mobina
+ */
 public class PatientActivationFailedException extends RuntimeException {
     public PatientActivationFailedException(Long id) {
         super("Failed to activate patient with id: " + id);

@@ -21,6 +21,12 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
+/**
+ * Represents a hospital department.
+ * Contains doctors, nurses, and rooms.
+ *
+ * @author Mobina
+ */
 public class Department extends BaseEntity {
 
     @Id

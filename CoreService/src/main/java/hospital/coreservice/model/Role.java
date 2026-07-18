@@ -24,6 +24,11 @@ import java.util.Set;
 @Getter
 @Setter
 @SuperBuilder
+/**
+ * Represents a user role with associated permissions.
+ *
+ * @author Mobina
+ */
 public class Role extends BaseEntity {
 
     @Id

@@ -15,6 +15,11 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ * DTO for creating a new role.
+ *
+ * @author Mobina
+ */
 public class RoleCreateDto {
 
     @NotNull(message = "Role name is required")

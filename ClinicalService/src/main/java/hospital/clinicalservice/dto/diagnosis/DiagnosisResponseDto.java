@@ -7,6 +7,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+/**
+ * DTO for diagnosis response data.
+ *
+ * @author Mobina
+ */
 public class DiagnosisResponseDto {
 
     private Long id;

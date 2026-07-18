@@ -8,7 +8,10 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 /**
- * آیتم نسخه — هر داروی تجویز شده در نسخه
+ * Represents a single drug item within a prescription.
+ * Links to InventoryService via drugId for drug details.
+ *
+ * @author Mobina
  */
 @Entity(name = "prescriptionItemEntity")
 @Table(name = "prescription_items",
@@ -31,11 +34,11 @@ public class PrescriptionItem extends BaseEntity {
     @JoinColumn(name = "prescription_id", nullable = false)
     private Prescription prescription;
 
-    /** شناسه دارو (از InventoryService) */
+    /** Drug ID (from InventoryService) */
     @Column(name = "drug_id")
     private Long drugId;
 
-    /** نام دارو */
+    /** Drug name */
     @Column(name = "drug_name", length = 200, nullable = false)
     private String drugName;
 
@@ -43,7 +46,7 @@ public class PrescriptionItem extends BaseEntity {
     @Column(name = "dosage", length = 50, nullable = false)
     private String dosage;
 
-    /** تعداد دفعات در روز */
+    /** Frequency */
     @Column(name = "frequency", length = 50, nullable = false)
     private String frequency;
 
@@ -51,11 +54,11 @@ public class PrescriptionItem extends BaseEntity {
     @Column(name = "duration", length = 50)
     private String duration;
 
-    /** دستور مصرف */
+    /** Instructions */
     @Column(name = "instructions", length = 500)
     private String instructions;
 
-    /** تعداد */
+    /** Quantity */
     @Column(name = "quantity")
     private Integer quantity;
 

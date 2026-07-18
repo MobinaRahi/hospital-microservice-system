@@ -13,6 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+/**
+ * Refresh token for JWT renewal.
+ *
+ * @author Mobina
+ */
 public class RefreshTokens {
 
     @Id

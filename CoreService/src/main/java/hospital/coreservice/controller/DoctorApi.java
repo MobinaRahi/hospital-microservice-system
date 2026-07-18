@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Doctor management.
+ * Handles CRUD, specialty filtering, and department assignment.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/doctor")
 @RequiredArgsConstructor

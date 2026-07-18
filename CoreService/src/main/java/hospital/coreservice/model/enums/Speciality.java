@@ -1,5 +1,11 @@
 package hospital.coreservice.model.enums;
 
+/**
+ * Doctor specializations:
+ * CARDIOLOGY, NEUROLOGY, PEDIATRICS, ORTHOPEDICS, etc.
+ *
+ * @author Mobina
+ */
 public enum Speciality {
     CARDIOLOGY,
     INTERNAL_MEDICINE,

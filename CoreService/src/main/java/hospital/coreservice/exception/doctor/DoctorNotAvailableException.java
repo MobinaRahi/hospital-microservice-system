@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Exception for doctor operations.
+ *
+ * @author Mobina
+ */
 public class DoctorNotAvailableException extends RuntimeException {
 
     public DoctorNotAvailableException(Long doctorId, LocalDate date, LocalTime time) {

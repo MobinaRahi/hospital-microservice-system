@@ -6,6 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * Slim DTO for role list views.
+ *
+ * @author Mobina
+ */
 public class RoleSlimResponseDto {
 
     private Long id;

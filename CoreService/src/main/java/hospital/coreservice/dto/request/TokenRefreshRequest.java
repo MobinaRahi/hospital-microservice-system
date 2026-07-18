@@ -8,6 +8,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+/**
+ * Request DTO for request operations.
+ *
+ * @author Mobina
+ */
 public class TokenRefreshRequest {
 
     @NotBlank(message = "Refresh token is required")

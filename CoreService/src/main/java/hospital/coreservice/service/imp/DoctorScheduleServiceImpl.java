@@ -22,6 +22,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of DoctorScheduleService.
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 @Log4j2

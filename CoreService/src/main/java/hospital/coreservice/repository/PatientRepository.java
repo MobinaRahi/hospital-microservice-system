@@ -15,6 +15,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository for Patient entity.
+ * Provides query methods by national ID, phone, gender, blood type, and status.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface PatientRepository extends BaseEntityRepository<Patient, Long> {
 

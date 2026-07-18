@@ -24,6 +24,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Startup data initializer for demo/sample data.
+ *
+ * @author Mobina
+ */
 @Component
 @RequiredArgsConstructor
 @Slf4j

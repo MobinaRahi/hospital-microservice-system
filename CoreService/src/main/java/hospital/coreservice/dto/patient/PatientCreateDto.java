@@ -13,6 +13,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new patient.
+ *
+ * @author Mobina
+ */
 public class PatientCreateDto {
 
     private Long userId;

@@ -9,6 +9,11 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing shift.
+ *
+ * @author Mobina
+ */
 public class ShiftUpdateDto {
 
     @NotNull(message = "Shift ID is required for update")

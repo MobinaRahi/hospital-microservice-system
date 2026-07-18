@@ -22,6 +22,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of NursingNoteService.
+ * Manages nursing notes including shift reports.
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

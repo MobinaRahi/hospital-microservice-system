@@ -5,6 +5,11 @@ import lombok.Getter;
 
 @Getter
 @Builder
+/**
+ * DTO for response response data.
+ *
+ * @author Mobina
+ */
 public class TokenRefreshResponse {
 
     private final String accessToken;

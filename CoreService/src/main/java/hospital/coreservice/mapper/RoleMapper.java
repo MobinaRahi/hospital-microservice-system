@@ -10,6 +10,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring", uses = PermissionMapper.class)
+/**
+ * MapStruct mapper for Role entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface RoleMapper {
 
     @Mapping(target = "id", ignore = true)

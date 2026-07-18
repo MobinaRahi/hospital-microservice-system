@@ -10,6 +10,11 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+/**
+ * DTO for doctor schedule response data.
+ *
+ * @author Mobina
+ */
 public class DoctorScheduleResponseDto {
 
     private Long id;

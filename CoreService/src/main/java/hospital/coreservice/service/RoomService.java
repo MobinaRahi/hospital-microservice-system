@@ -7,6 +7,12 @@ import hospital.coreservice.dto.patient.PatientResponseDto;
 
 import java.util.List;
 
+/**
+ * Service interface for Room management.
+ * Handles CRUD, occupancy tracking, and patient assignment.
+ *
+ * @author Mobina
+ */
 public interface RoomService {
 
     RoomResponseDto createRoom(RoomCreateDto roomCreateDto);

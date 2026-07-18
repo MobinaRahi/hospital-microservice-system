@@ -5,6 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * Slim DTO for user list views.
+ *
+ * @author Mobina
+ */
 public class UserSlimResponseDto {
     private Long id;
     private String username;

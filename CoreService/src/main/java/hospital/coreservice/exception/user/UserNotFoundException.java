@@ -1,5 +1,10 @@
 package hospital.coreservice.exception.user;
 
+/**
+ * Thrown when a user is not found.
+ *
+ * @author Mobina
+ */
 public class UserNotFoundException extends RuntimeException {
 
     public UserNotFoundException(String message) {

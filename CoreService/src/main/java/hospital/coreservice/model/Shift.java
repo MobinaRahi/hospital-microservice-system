@@ -18,6 +18,12 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @SuperBuilder
+/**
+ * Represents a work shift.
+ * Defines working hours for hospital staff.
+ *
+ * @author Mobina
+ */
 public class Shift extends BaseEntity {
 
     @Id

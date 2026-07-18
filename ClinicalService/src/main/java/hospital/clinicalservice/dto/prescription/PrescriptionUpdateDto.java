@@ -9,6 +9,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing prescription.
+ *
+ * @author Mobina
+ */
 public class PrescriptionUpdateDto {
 
     @NotNull(message = "Prescription ID is required for update")

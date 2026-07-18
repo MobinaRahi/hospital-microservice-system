@@ -14,6 +14,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+/**
+ * Represents an audit log entry tracking user actions.
+ *
+ * @author Mobina
+ */
 public class AuditLog extends BaseEntity {
 
     @Id

@@ -6,6 +6,12 @@ import hospital.coreservice.dto.shift.ShiftUpdateDto;
 
 import java.util.List;
 
+/**
+ * Service interface for Shift management.
+ * Handles CRUD for work shifts.
+ *
+ * @author Mobina
+ */
 public interface ShiftService {
     ShiftResponseDto createShift(ShiftCreateDto createDto);
     ShiftResponseDto updateShift(Long shiftId, ShiftUpdateDto updateDto);

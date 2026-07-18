@@ -13,16 +13,28 @@ import org.mapstruct.*;
 )
 public interface DiagnosisMapper {
 
+    /**
+     * Converts CreateDto to Entity.
+     * encounterId is ignored because entity has encounter (object).
+     * Service layer handles setting the encounter from encounterId.
+     */
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "encounter", ignore = true)
     @Mapping(target = "deleted", ignore = true)
     Diagnosis toEntity(DiagnosisCreateDto createDto);
 
+    /**
+     * Updates Entity from UpdateDto.
+     * encounterId and icd10Code are immutable after creation.
+     */
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "encounterId", ignore = true)
-    @Mapping(target = "icd10Code", ignore = true)
+    @Mapping(target = "encounter", ignore = true)
     void updateEntity(@MappingTarget Diagnosis diagnosis, DiagnosisUpdateDto updateDto);
 
+    /**
+     * Converts Entity to ResponseDto.
+     * encounterId is extracted from encounter object.
+     */
     @Mapping(target = "encounterId", expression = "java(diagnosis.getEncounter() != null ? diagnosis.getEncounter().getId() : null)")
     DiagnosisResponseDto toResponseDto(Diagnosis diagnosis);
 }

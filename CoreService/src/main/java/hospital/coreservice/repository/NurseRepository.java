@@ -10,6 +10,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository for Nurse entity.
+ * Provides query methods by department, position, and status.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface NurseRepository extends BaseEntityRepository<Nurse, Long> {
 

@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Service interface for Patient management.
+ * Handles CRUD, room assignment, and patient search.
+ *
+ * @author Mobina
+ */
 public interface PatientService {
     PatientResponseDto createPatient(PatientCreateDto patientCreateDto);
     PatientResponseDto updatePatient(Long id, PatientUpdateDto patientUpdateDto);

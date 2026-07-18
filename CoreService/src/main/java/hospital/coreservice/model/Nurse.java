@@ -22,6 +22,13 @@ import java.util.List;
 @Setter
 @SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
+/**
+ * Represents a nurse in the hospital.
+ * Linked to a User account via userId.
+ * Has position, department, and shift assignments.
+ *
+ * @author Mobina
+ */
 public class Nurse extends  BaseEntity {
 
     @Id

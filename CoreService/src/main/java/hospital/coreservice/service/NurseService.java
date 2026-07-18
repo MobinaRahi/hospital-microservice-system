@@ -7,6 +7,12 @@ import hospital.coreservice.model.enums.NursePosition;
 
 import java.util.List;
 
+/**
+ * Service interface for Nurse management.
+ * Handles CRUD, department assignment, and shift management.
+ *
+ * @author Mobina
+ */
 public interface NurseService {
     NurseResponseDto createNurse(NurseCreateDto nurseCreateDto);
     NurseResponseDto updateNurse(Long nurseId, NurseUpdateDto nurseUpdateDto);

@@ -8,6 +8,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+/**
+ * DTO for audit log response data.
+ *
+ * @author Mobina
+ */
 public class AuditLogResponseDto {
     private Long id;
 

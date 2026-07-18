@@ -20,6 +20,12 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 
+/**
+ * Base entity for all CoreService entities.
+ * Provides common fields: soft delete, versioning, auditing timestamps.
+ *
+ * @author Mobina
+ */
 public class BaseEntity {
 
     @Column(name = "deleted", nullable = false)

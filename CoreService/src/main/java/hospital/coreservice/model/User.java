@@ -28,6 +28,11 @@ import java.util.Set;
 @Getter
 @Setter
 @SuperBuilder
+/**
+ * Represents a system user account.
+ *
+ * @author Mobina
+ */
 public class User extends BaseEntity {
 
     @Id

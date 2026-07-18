@@ -16,6 +16,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Slf4j
+/**
+ * Handler for 401 Unauthorized responses.
+ *
+ * @author Mobina
+ */
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {

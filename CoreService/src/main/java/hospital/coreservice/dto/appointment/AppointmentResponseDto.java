@@ -14,6 +14,11 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+/**
+ * DTO for appointment response data.
+ *
+ * @author Mobina
+ */
 public class AppointmentResponseDto {
 
     private Long id;

@@ -18,6 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Department management.
+ * Handles CRUD, leadership assignment, and member management.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/departments")
 @RequiredArgsConstructor

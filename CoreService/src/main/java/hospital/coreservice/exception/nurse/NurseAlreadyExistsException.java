@@ -1,5 +1,10 @@
 package hospital.coreservice.exception.nurse;
 
+/**
+ * Exception for nurse operations.
+ *
+ * @author Mobina
+ */
 public class NurseAlreadyExistsException extends RuntimeException {
     public NurseAlreadyExistsException(String message) {
         super(message);

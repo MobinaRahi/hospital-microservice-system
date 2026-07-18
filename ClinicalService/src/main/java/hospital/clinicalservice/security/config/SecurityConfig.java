@@ -18,6 +18,22 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+/**
+ * Security configuration for ClinicalService.
+ * Validates JWT tokens issued by AuthService.
+ *
+ * <p><strong>What this config does:</strong></p>
+ * <ul>
+ *   <li>Disables CSRF (not needed for stateless JWT)</li>
+ *   <li>Enables CORS for frontend access</li>
+ *   <li>Sets stateless session management</li>
+ *   <li>Permits public endpoints (Swagger, health check, code search)</li>
+ *   <li>Requires authentication for all other endpoints</li>
+ *   <li>Adds JWT filter before Spring Security filter</li>
+ * </ul>
+ *
+ * @author Mobina
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -26,6 +42,10 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    /**
+     * CORS configuration for frontend access.
+     * Allows requests from local development servers and production domains.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -47,6 +67,18 @@ public class SecurityConfig {
         return source;
     }
 
+    /**
+     * Main security filter chain configuration.
+     *
+     * <p><strong>Public endpoints (no auth required):</strong></p>
+     * <ul>
+     *   <li>/ - Home page</li>
+     *   <li>/swagger-ui/** - Swagger UI</li>
+     *   <li>/v3/api-docs/** - OpenAPI docs</li>
+     *   <li>/actuator/health - Health check</li>
+     *   <li>/api/v1/codes/** - ICD-10 and LOINC code search</li>
+     * </ul>
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http

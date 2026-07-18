@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Allergy management.
+ * Manages patient allergies (drug, food, environmental).
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/allergies")
 @RequiredArgsConstructor

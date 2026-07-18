@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.Optional;
 
 
+/**
+ * Repository for Department entity.
+ * Provides query methods by name, location, and status.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface DepartmentRepository extends BaseEntityRepository<Department, Long> {
 

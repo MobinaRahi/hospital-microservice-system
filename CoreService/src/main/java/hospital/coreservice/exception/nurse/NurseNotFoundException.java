@@ -1,5 +1,10 @@
 package hospital.coreservice.exception.nurse;
 
+/**
+ * Thrown when a nurse is not found.
+ *
+ * @author Mobina
+ */
 public class NurseNotFoundException extends RuntimeException {
     public NurseNotFoundException(String message) {
         super(message);

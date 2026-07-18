@@ -8,6 +8,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+/**
+ * DTO for user response data.
+ *
+ * @author Mobina
+ */
 public class UserResponseDto {
     private Long id;
     private String username;

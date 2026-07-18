@@ -8,6 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for adding a drug to a prescription.
+ *
+ * @author Mobina
+ */
 public class PrescriptionItemCreateDto {
 
     @NotNull(message = "Prescription ID is required")

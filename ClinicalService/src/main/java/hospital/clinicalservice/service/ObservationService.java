@@ -7,6 +7,12 @@ import hospital.clinicalservice.dto.observation.ObservationUpdateDto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Service interface for Observation management.
+ * Handles CRUD operations for vital signs using LOINC codes.
+ *
+ * @author Mobina
+ */
 public interface ObservationService {
 
     ObservationResponseDto createObservation(ObservationCreateDto createDto);

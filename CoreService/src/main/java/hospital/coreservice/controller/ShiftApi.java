@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Shift management.
+ * Handles CRUD for work shifts.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/shift")
 @RequiredArgsConstructor

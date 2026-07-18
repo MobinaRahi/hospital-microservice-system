@@ -17,6 +17,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+/**
+ * JWT token provider for token generation and validation.
+ *
+ * @author Mobina
+ */
 public class JwtTokenProvider {
 
     @Value("${app.jwt.secret:defaultSecretKeyForJWTTokenGenerationMustBeLongEnough1234567890}")

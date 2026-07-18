@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository for Shift entity.
+ * Provides query methods by name, night shift, and active status.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface ShiftRepository extends BaseEntityRepository<Shift,Long> {
 

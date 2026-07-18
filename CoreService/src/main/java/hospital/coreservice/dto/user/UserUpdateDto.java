@@ -11,6 +11,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+/**
+ * DTO for updating a user.
+ *
+ * @author Mobina
+ */
 public class UserUpdateDto {
 
     @Size(min = 2, max = 50)

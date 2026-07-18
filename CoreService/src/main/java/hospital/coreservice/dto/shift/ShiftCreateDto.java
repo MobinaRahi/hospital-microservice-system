@@ -10,6 +10,11 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new shift.
+ *
+ * @author Mobina
+ */
 public class ShiftCreateDto {
 
     @NotBlank(message = "Shift name is required")

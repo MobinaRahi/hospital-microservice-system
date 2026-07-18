@@ -13,7 +13,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 /**
- * گزارش پرستاری — ثبت مشاهدات و اقدامات پرستار
+ * Represents a nursing note documenting patient care observations and actions.
+ * Supports multiple note types (general, shift report, medication, etc.).
+ *
+ * @author Mobina
  */
 @Entity(name = "nursingNoteEntity")
 @Table(name = "nursing_notes",
@@ -33,14 +36,14 @@ public class NursingNote extends BaseEntity {
     private Long id;
 
     /**
-     * ویزیت مربوطه
+     * Related encounter
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "encounter_id")
     private Encounter encounter;
 
     /**
-     * شناسه بیمار
+     * Patient ID
      */
     @Column(nullable = false)
     private Long patientId;
@@ -51,7 +54,7 @@ public class NursingNote extends BaseEntity {
     private NoteType noteType = NoteType.GENERAL;
 
     /**
-     * شناسه پرستار
+     * Nurse ID
      */
     @Column(nullable = false)
     private Long nurseId;
@@ -67,7 +70,7 @@ public class NursingNote extends BaseEntity {
     private String note;
 
     /**
-     * زمان ثبت
+     * Recorded at
      */
     @Column(name = "recorded_at", nullable = false)
     private LocalDateTime recordedAt;

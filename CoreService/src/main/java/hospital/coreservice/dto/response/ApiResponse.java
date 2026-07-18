@@ -10,6 +10,11 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+/**
+ * Standard API response wrapper for all endpoints.
+ *
+ * @author Mobina
+ */
 public class ApiResponse<T> {
 
     private final boolean success;

@@ -1,5 +1,10 @@
 package hospital.clinicalservice.exception.prescription;
 
+/**
+ * Thrown when a prescription state transition is invalid.
+ *
+ * @author Mobina
+ */
 public class InvalidPrescriptionStateException extends RuntimeException {
 
     private InvalidPrescriptionStateException(String message) {

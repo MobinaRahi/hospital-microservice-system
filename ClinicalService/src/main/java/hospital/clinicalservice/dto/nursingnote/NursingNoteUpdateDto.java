@@ -8,6 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for updating a nursing note.
+ *
+ * @author Mobina
+ */
 public class NursingNoteUpdateDto {
 
     @NotNull(message = "Note ID is required for update")

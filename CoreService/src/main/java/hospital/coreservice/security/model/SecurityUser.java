@@ -12,6 +12,11 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Getter
+/**
+ * Lightweight security user extracted from JWT token.
+ *
+ * @author Mobina
+ */
 public class SecurityUser implements UserDetails {
     private final Long id;
     private final String username;

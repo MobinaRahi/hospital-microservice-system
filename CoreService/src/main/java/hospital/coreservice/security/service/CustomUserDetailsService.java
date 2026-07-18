@@ -26,6 +26,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+/**
+ * Custom UserDetailsService for loading users from database.
+ *
+ * @author Mobina
+ */
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;

@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Room management.
+ * Handles CRUD, occupancy tracking, and patient assignment.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/room")
 @RequiredArgsConstructor

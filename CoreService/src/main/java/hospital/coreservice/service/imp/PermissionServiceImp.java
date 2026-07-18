@@ -21,6 +21,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
+/**
+ * Implementation of PermissionService.
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 public class PermissionServiceImp implements PermissionService {

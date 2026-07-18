@@ -24,6 +24,13 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
+/**
+ * Represents a doctor in the hospital.
+ * Linked to a User account via userId.
+ * Has specialty, department, and schedule.
+ *
+ * @author Mobina
+ */
 public class Doctor extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

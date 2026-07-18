@@ -7,6 +7,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+/**
+ * DTO for observation response data.
+ *
+ * @author Mobina
+ */
 public class ObservationResponseDto {
 
     private Long id;

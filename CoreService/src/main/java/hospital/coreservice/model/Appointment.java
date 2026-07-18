@@ -27,6 +27,13 @@ import java.time.LocalTime;
 @Setter
 @SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
+/**
+ * Represents a scheduled appointment.
+ * Links patient, doctor, department, date, and time.
+ * Has status workflow: SCHEDULED → CHECK_IN → IN_PROGRESS → COMPLETED/CANCELLED
+ *
+ * @author Mobina
+ */
 public class Appointment extends BaseEntity {
 
     @Id

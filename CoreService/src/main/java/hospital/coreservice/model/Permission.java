@@ -22,6 +22,11 @@ import java.util.Set;
 @NoArgsConstructor
 @SuperBuilder
 
+/**
+ * Represents a fine-grained permission for access control.
+ *
+ * @author Mobina
+ */
 public class Permission extends BaseEntity  {
 
     @Id

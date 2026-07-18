@@ -9,6 +9,12 @@ import hospital.coreservice.dto.room.RoomResponseDto;
 
 import java.util.List;
 
+/**
+ * Service interface for Department management.
+ * Handles CRUD, leadership assignment, and member management.
+ *
+ * @author Mobina
+ */
 public interface DepartmentService {
 
     DepartmentResponseDto createDepartment(DepartmentCreateDto createDto);

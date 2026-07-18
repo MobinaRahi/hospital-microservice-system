@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
+/**
+ * OpenAPI/Swagger configuration for API documentation.
+ *
+ * @author Mobina
+ */
 @Configuration
 public class OpenAPIConfig {
 

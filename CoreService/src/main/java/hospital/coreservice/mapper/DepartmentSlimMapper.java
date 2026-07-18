@@ -6,6 +6,11 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
+/**
+ * MapStruct mapper for Department entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface DepartmentSlimMapper {
 
     DepartmentSlimResponseDto toSlimDto(Department department);

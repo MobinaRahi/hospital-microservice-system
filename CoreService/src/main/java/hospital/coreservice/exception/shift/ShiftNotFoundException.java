@@ -1,5 +1,10 @@
 package hospital.coreservice.exception.shift;
 
+/**
+ * Thrown when a shift is not found.
+ *
+ * @author Mobina
+ */
 public class ShiftNotFoundException extends RuntimeException {
     public ShiftNotFoundException(String message) {
         super(message);

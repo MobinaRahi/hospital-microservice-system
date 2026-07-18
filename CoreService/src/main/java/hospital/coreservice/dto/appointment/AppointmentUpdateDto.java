@@ -10,6 +10,11 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * DTO for updating an existing appointment.
+ *
+ * @author Mobina
+ */
 public class AppointmentUpdateDto {
 
     @NotNull(message = "Appointment ID is required for update")

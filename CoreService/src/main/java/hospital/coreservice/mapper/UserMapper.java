@@ -19,6 +19,11 @@ import java.util.stream.Collectors;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         uses = {RoleSlimMapper.class}
 )
+/**
+ * MapStruct mapper for User entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface UserMapper {
 
     // ========== Create Mapping ==========

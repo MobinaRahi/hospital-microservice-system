@@ -13,6 +13,11 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Map;
 
 @Slf4j
+/**
+ * Client for communicating with AuthService API.
+ *
+ * @author Mobina
+ */
 @Component
 @RequiredArgsConstructor
 public class AuthClient {

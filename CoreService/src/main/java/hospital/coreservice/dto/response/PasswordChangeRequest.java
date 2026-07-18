@@ -7,6 +7,11 @@ import lombok.Setter;
 
 @Setter
 @Getter
+/**
+ * Request DTO for response operations.
+ *
+ * @author Mobina
+ */
 public class PasswordChangeRequest {
     @NotBlank(message = "Current password is required")
     private String currentPassword;

@@ -8,6 +8,12 @@ import hospital.clinicalservice.model.enums.AllergyType;
 
 import java.util.List;
 
+/**
+ * Service interface for Allergy management.
+ * Handles CRUD operations for patient allergies.
+ *
+ * @author Mobina
+ */
 public interface AllergyService {
 
     AllergyResponseDto createAllergy(AllergyCreateDto createDto);

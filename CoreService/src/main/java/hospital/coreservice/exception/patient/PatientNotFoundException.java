@@ -1,5 +1,10 @@
 package hospital.coreservice.exception.patient;
 
+/**
+ * Thrown when a patient is not found.
+ *
+ * @author Mobina
+ */
 public class PatientNotFoundException extends RuntimeException {
 
     private PatientNotFoundException(String message) {

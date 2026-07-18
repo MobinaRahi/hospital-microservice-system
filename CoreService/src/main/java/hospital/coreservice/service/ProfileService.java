@@ -3,6 +3,12 @@ package hospital.coreservice.service;
 import hospital.coreservice.dto.user.UserProfileDto;
 import lombok.NonNull;
 
+/**
+ * Service interface for user profile management.
+ * Handles profile retrieval and cache.
+ *
+ * @author Mobina
+ */
 public interface ProfileService {
 
     UserProfileDto getUserProfile(@NonNull Long userId);

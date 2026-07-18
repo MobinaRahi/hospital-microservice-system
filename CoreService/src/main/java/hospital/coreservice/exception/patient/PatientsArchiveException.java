@@ -3,6 +3,11 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
+/**
+ * Exception for patient operations.
+ *
+ * @author Mobina
+ */
 public class PatientsArchiveException extends RuntimeException {
     private final List<Long> failedIds;
 

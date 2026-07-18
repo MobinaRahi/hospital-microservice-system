@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * Handler for successful authentication.
+ *
+ * @author Mobina
+ */
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 

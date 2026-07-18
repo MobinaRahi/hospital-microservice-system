@@ -1,10 +1,15 @@
 package hospital.clinicalservice.model.enums;
 
 /**
- * نوع حساسیت
+ * Allergy types
+ */
+/**
+ * Types of allergies: DRUG, FOOD, ENVIRONMENTAL, OTHER.
+ *
+ * @author Mobina
  */
 public enum AllergyType {
-    DRUG,           // دارویی
+    DRUG,           // Drug
     FOOD,           // غذایی
     ENVIRONMENTAL,  // محیطی
     OTHER           // سایر

@@ -1,5 +1,10 @@
 package hospital.coreservice.model.enums;
 
+/**
+ * Blood types: A+, A-, B+, B-, AB+, AB-, O+, O-
+ *
+ * @author Mobina
+ */
 public enum BloodType {
     A_POSITIVE,
     A_NEGATIVE,

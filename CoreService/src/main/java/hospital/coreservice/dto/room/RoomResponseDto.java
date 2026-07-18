@@ -10,6 +10,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for room response data.
+ *
+ * @author Mobina
+ */
 public class RoomResponseDto {
 
     private Long id;

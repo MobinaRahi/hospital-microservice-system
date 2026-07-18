@@ -10,6 +10,11 @@ import java.time.LocalTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+/**
+ * DTO for appointment response data.
+ *
+ * @author Mobina
+ */
 public class TimeSlotResponseDto {
     private LocalTime startTime;
     private LocalTime endTime;

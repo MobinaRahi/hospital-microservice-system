@@ -13,6 +13,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new nurse.
+ *
+ * @author Mobina
+ */
 public class NurseCreateDto {
 
     private Long userId;

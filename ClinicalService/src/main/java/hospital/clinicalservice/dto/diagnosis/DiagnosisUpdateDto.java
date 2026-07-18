@@ -7,6 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing diagnosis.
+ *
+ * @author Mobina
+ */
 public class DiagnosisUpdateDto {
 
     @NotNull(message = "Diagnosis ID is required for update")

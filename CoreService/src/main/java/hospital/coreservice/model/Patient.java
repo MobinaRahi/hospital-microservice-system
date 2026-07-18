@@ -22,6 +22,13 @@ import java.time.LocalDate;
 @Setter
 @SuperBuilder
 @EntityListeners(AuditingEntityListener.class)
+/**
+ * Represents a patient in the hospital.
+ * Linked to a User account via userId.
+ * Stores medical and personal information.
+ *
+ * @author Mobina
+ */
 public class Patient extends BaseEntity {
 
     @Id

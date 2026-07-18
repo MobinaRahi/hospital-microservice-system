@@ -10,6 +10,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new department.
+ *
+ * @author Mobina
+ */
 public class DepartmentCreateDto {
 
     @NotBlank(message = "Department name is required")

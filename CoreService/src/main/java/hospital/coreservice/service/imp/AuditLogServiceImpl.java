@@ -19,6 +19,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of AuditLogService.
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 @Log4j2

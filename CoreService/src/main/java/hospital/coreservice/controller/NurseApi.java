@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for Nurse management.
+ * Handles CRUD, department assignment, and shift management.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/nurse")
 @RequiredArgsConstructor

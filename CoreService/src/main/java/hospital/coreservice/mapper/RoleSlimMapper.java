@@ -12,6 +12,11 @@ import java.util.Set;
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
+/**
+ * MapStruct mapper for Role entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface RoleSlimMapper {
 
     @Mapping(target = "name", source = "name")

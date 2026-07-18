@@ -8,6 +8,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new user.
+ *
+ * @author Mobina
+ */
 public class UserCreateDto {
 
     @NotBlank(message = "First name is required")

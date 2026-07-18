@@ -10,9 +10,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 /**
- * مشاهده/علائم حیاتی — ثبت علائم حیاتی بیمار
- * با کد استاندارد LOINC کدگذاری می‌شود
- * مثال: 8480-6 = فشار خون سیستولیک، 8867-4 = ضربان قلب
+ * Represents a clinical observation or vital sign using LOINC codes.
+ * Tracks numeric/text values with reference ranges and abnormality flags.
+ *
+ * @author Mobina
  */
 @Entity(name = "observationEntity")
 @Table(name = "observations",
@@ -32,16 +33,16 @@ public class Observation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** ویزیت مربوطه */
+    /** Related encounter */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "encounter_id")
     private Encounter encounter;
 
-    /** شناسه بیمار */
+    /** Patient ID */
     @Column(nullable = false)
     private Long patientId;
 
-    /** شناسه ثبت‌کننده (پزشک/پرستار) */
+    /** Recorder ID (doctor/nurse) */
     @Column(nullable = false)
     private Long recordedBy;
 
@@ -53,11 +54,11 @@ public class Observation extends BaseEntity {
     @Column(name = "name", length = 100, nullable = false)
     private String name;
 
-    /** مقدار عددی */
+    /** Numeric value */
     @Column(name = "value_numeric")
     private Double valueNumeric;
 
-    /** مقدار متنی */
+    /** Text value */
     @Column(name = "value_text", length = 200)
     private String valueText;
 
@@ -65,23 +66,23 @@ public class Observation extends BaseEntity {
     @Column(name = "unit", length = 30)
     private String unit;
 
-    /** محدوده نرمال پایین */
+    /** Normal range low */
     @Column(name = "reference_range_low")
     private Double referenceRangeLow;
 
-    /** محدوده نرمال بالا */
+    /** Normal range high */
     @Column(name = "reference_range_high")
     private Double referenceRangeHigh;
 
-    /** آیا مقدار غیرنرمال است؟ */
+    /** Is abnormal? */
     @Column(name = "is_abnormal")
     private boolean abnormal;
 
-    /** زمان اندازه‌گیری */
+    /** Observed at */
     @Column(name = "observed_at", nullable = false)
     private LocalDateTime observedAt;
 
-    /** یادداشت */
+    /** Notes */
     @Column(name = "notes", length = 500)
     private String notes;
 }

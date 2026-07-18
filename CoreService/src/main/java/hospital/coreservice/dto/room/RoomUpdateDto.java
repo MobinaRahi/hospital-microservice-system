@@ -7,6 +7,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing room.
+ *
+ * @author Mobina
+ */
 public class RoomUpdateDto {
 
     @NotNull(message = "Room ID is required for update")

@@ -14,6 +14,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+/**
+ * Password reset token.
+ *
+ * @author Mobina
+ */
 public class PasswordToken {
 
     @Id

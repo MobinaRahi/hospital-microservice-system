@@ -11,6 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Repository for AuditLog entity.
+ * Provides query methods by user, action, status, and date.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface AuditLogRepository extends BaseEntityRepository<AuditLog, Long> {
 

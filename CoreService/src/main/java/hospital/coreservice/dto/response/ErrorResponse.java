@@ -12,6 +12,11 @@ import java.util.Map;
 @Getter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+/**
+ * Error response DTO for exception handling.
+ *
+ * @author Mobina
+ */
 public class ErrorResponse {
 
     private final String error;

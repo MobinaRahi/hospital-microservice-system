@@ -31,6 +31,11 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of AppointmentService.
+ *
+ * @author Mobina
+ */
 @Service
 @RequiredArgsConstructor
 @Log4j2

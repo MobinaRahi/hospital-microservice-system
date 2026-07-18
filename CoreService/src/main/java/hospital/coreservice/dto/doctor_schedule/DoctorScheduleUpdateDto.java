@@ -11,6 +11,11 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing doctor schedule.
+ *
+ * @author Mobina
+ */
 public class DoctorScheduleUpdateDto {
 
     @NotNull(message = "Schedule ID is required for update")

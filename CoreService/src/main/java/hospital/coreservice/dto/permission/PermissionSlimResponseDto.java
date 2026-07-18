@@ -5,6 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * Slim DTO for permission list views.
+ *
+ * @author Mobina
+ */
 public class PermissionSlimResponseDto {
 
     private Long id;

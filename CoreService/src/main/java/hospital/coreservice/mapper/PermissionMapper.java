@@ -12,6 +12,11 @@ import org.mapstruct.*;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
+/**
+ * MapStruct mapper for Permission entity ↔ DTO conversion.
+ *
+ * @author Mobina
+ */
 public interface PermissionMapper {
 
     // ========== Create ==========

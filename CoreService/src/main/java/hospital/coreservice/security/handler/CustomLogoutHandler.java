@@ -11,6 +11,11 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
 
 @Slf4j
+/**
+ * Handler for logout operations.
+ *
+ * @author Mobina
+ */
 @Component
 @RequiredArgsConstructor
 public class CustomLogoutHandler implements LogoutHandler {

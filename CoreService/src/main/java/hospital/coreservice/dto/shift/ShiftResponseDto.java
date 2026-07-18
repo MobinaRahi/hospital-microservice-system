@@ -7,6 +7,11 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
+/**
+ * DTO for shift response data.
+ *
+ * @author Mobina
+ */
 public class ShiftResponseDto {
 
     private Long id;

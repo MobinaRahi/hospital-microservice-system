@@ -4,6 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Exception for patient operations.
+ *
+ * @author Mobina
+ */
 public class PatientAppointmentConflictException extends RuntimeException {
 
     public PatientAppointmentConflictException(Long patientId, LocalDate date, LocalTime time) {

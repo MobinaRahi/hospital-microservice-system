@@ -13,6 +13,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Service interface for User management.
+ * Handles CRUD, role assignment, and password management.
+ *
+ * @author Mobina
+ */
 public interface UserService {
 
     UserResponseDto registerUser(@NonNull UserCreateDto createDto);

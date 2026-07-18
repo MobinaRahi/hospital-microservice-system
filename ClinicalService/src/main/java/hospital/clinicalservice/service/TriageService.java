@@ -7,6 +7,12 @@ import hospital.clinicalservice.model.enums.TriageLevel;
 
 import java.util.List;
 
+/**
+ * Service interface for Triage management.
+ * Handles CRUD and severity tracking for emergency triage.
+ *
+ * @author Mobina
+ */
 public interface TriageService {
 
     TriageResponseDto createTriage(TriageCreateDto createDto);

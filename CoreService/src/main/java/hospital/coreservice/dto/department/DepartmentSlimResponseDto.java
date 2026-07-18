@@ -5,6 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
+/**
+ * DTO for department response data.
+ *
+ * @author Mobina
+ */
 public class DepartmentSlimResponseDto {
     private Long id;
 

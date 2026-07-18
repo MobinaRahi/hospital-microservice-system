@@ -11,6 +11,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ * DTO for creating a new permission.
+ *
+ * @author Mobina
+ */
 public class PermissionCreateDto {
 
     @NotNull(message = "Permission name is required")

@@ -9,6 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+/**
+ * Request DTO for request operations.
+ *
+ * @author Mobina
+ */
 public class LoginRequest {
 
     @NotBlank(message = "Username is required")

@@ -10,6 +10,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository for Room entity.
+ * Provides query methods by department, occupancy, and availability.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface RoomRepository extends BaseEntityRepository<Room, Long> {
 

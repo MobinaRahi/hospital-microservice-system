@@ -10,6 +10,11 @@ import java.util.Set;
 
 @Getter
 @Setter
+/**
+ * DTO for user profile data.
+ *
+ * @author Mobina
+ */
 public class UserProfileDto {
     private Long id;
     private String username;

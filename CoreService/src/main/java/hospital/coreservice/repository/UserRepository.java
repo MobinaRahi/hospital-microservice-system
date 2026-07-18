@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Repository for User entity.
+ * Provides query methods by username, email, and role.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface UserRepository extends BaseEntityRepository<User, Long> {
 

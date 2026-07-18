@@ -8,6 +8,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for updating a role.
+ *
+ * @author Mobina
+ */
 public class RoleUpdateDto {
 
     @Size(max = 200, message = "Description max 200 characters")

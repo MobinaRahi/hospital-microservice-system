@@ -23,6 +23,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * REST controller for Patient management.
+ * Handles CRUD, room assignment, and patient search.
+ *
+ * @author Mobina
+ */
 @RestController
 @RequestMapping("/api/v1/patient")
 @RequiredArgsConstructor

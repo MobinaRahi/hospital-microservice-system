@@ -19,6 +19,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Slf4j
+/**
+ * JWT authentication filter.
+ * Validates tokens and sets security context.
+ *
+ * @author Mobina
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

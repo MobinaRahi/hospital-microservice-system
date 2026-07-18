@@ -8,6 +8,12 @@ import hospital.coreservice.model.enums.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Service interface for DoctorSchedule management.
+ * Handles CRUD for doctor working hours.
+ *
+ * @author Mobina
+ */
 public interface DoctorScheduleService {
     DoctorScheduleResponseDto createDoctorSchedule(DoctorScheduleCreateDto createDto);
     DoctorScheduleResponseDto updateDoctorSchedule(Long scheduleId, DoctorScheduleUpdateDto updateDto);

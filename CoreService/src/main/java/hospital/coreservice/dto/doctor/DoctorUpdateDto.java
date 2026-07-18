@@ -12,6 +12,11 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing doctor.
+ *
+ * @author Mobina
+ */
 public class DoctorUpdateDto {
 
     @NotNull(message = "Doctor ID is required for update")

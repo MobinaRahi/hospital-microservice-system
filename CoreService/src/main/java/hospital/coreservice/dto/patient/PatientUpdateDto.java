@@ -12,6 +12,11 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+/**
+ * DTO for updating an existing patient.
+ *
+ * @author Mobina
+ */
 public class PatientUpdateDto {
 
     @NotNull(message = "Patient ID is required for update")

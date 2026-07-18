@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Repository for Role entity.
+ * Provides query methods by name.
+ *
+ * @author Mobina
+ */
 @Repository
 public interface RoleRepository extends BaseEntityRepository<Role, Long> {
 

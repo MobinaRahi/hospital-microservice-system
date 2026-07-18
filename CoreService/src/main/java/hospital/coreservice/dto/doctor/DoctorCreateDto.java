@@ -14,6 +14,11 @@ import java.util.List;
 
 @Getter
 @Setter
+/**
+ * DTO for creating a new doctor.
+ *
+ * @author Mobina
+ */
 public class DoctorCreateDto {
 
     private Long userId;

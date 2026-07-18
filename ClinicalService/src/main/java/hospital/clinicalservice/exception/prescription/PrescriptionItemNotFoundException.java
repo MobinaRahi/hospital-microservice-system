@@ -1,5 +1,10 @@
 package hospital.clinicalservice.exception.prescription;
 
+/**
+ * Thrown when a prescription item is not found.
+ *
+ * @author Mobina
+ */
 public class PrescriptionItemNotFoundException extends RuntimeException {
 
     private PrescriptionItemNotFoundException(String message) {
