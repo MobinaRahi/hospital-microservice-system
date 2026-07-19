@@ -33,5 +33,5 @@ export default function DashboardRouter() {
   }
 
   // Default fallback
-  return <Navigate to="/app/admin" replace />;
+  return <Navigate to="/login" replace />;
 }
