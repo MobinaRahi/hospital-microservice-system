@@ -1,0 +1,49 @@
+# ============================================================
+# Hospital Microservice System — Root .gitignore
+# ============================================================
+
+# ---------- Secrets ----------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ---------- IDE: IntelliJ IDEA ----------
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ---------- IDE: Eclipse / VS Code ----------
+.classpath
+.project
+.settings/
+.vscode/
+
+# ---------- Build output ----------
+target/
+build/
+dist/
+!.mvn/wrapper/maven-wrapper.jar
+
+# ---------- Logs ----------
+logs/
+*.log
+*.log.*
+
+# ---------- Node / Frontend ----------
+node_modules/
+.vite/
+frontend/dist/
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---------- Misc ----------
+*.tmp
+*.bak
+*~

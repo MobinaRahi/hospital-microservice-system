@@ -27,9 +27,9 @@ services:
     image: gvenzl/oracle-xe:21-slim-faststart
     container_name: nova-oracle
     environment:
-      ORACLE_PASSWORD: oracle123
-      APP_USER: appuser
-      APP_USER_PASSWORD: appuser123
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD:?set ORACLE_PASSWORD in .env}
+      APP_USER: ${APP_USER:-appuser}
+      APP_USER_PASSWORD: ${APP_USER_PASSWORD:?set APP_USER_PASSWORD in .env}
     ports:
       - "1522:1521"
     volumes:
@@ -53,10 +53,10 @@ services:
     environment:
       SERVER_PORT: 8081
       AUTH_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
-      AUTH_DATASOURCE_USERNAME: auth
-      AUTH_DATASOURCE_PASSWORD: auth123
-      AUTH_JPA_DDL_AUTO: update
-      JWT_SECRET: "mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+"
+      AUTH_DATASOURCE_USERNAME: ${AUTH_DB_USERNAME:-auth}
+      AUTH_DATASOURCE_PASSWORD: ${AUTH_DB_PASSWORD:?set AUTH_DB_PASSWORD in .env}
+      AUTH_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
     ports:
       - "8281:8081"
     depends_on:
@@ -81,11 +81,11 @@ services:
     environment:
       SERVER_PORT: 8082
       CORE_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
-      CORE_DATASOURCE_USERNAME: core
-      CORE_DATASOURCE_PASSWORD: core123
-      CORE_JPA_DDL_AUTO: update
+      CORE_DATASOURCE_USERNAME: ${CORE_DB_USERNAME:-core}
+      CORE_DATASOURCE_PASSWORD: ${CORE_DB_PASSWORD:?set CORE_DB_PASSWORD in .env}
+      CORE_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
       AUTH_SERVICE_BASE_URL: http://auth-service:8081
-      JWT_SECRET: "mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+"
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
     ports:
       - "8382:8082"
     depends_on:
@@ -112,12 +112,12 @@ services:
     environment:
       SERVER_PORT: 8083
       CLINICAL_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
-      CLINICAL_DATASOURCE_USERNAME: clinical
-      CLINICAL_DATASOURCE_PASSWORD: clinical123
-      CLINICAL_JPA_DDL_AUTO: update
+      CLINICAL_DATASOURCE_USERNAME: ${CLINICAL_DB_USERNAME:-clinical}
+      CLINICAL_DATASOURCE_PASSWORD: ${CLINICAL_DB_PASSWORD:?set CLINICAL_DB_PASSWORD in .env}
+      CLINICAL_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
       AUTH_SERVICE_BASE_URL: http://auth-service:8081
       CORE_SERVICE_BASE_URL: http://core-service:8082
-      JWT_SECRET: "mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+"
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
     ports:
       - "8383:8083"
     depends_on:

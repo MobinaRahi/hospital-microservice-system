@@ -15,5 +15,6 @@
     <modules>
         <module>AuthService</module>
         <module>CoreService</module>
+        <module>ClinicalService</module>
     </modules>
 </project>
