@@ -25,10 +25,20 @@ jobs:
         run: chmod +x mvnw
 
       - name: Build with Maven (compile all modules)
-        run: ./mvnw clean compile -B --no-transfer-progress
+        run: |
+          chmod +x AuthService/mvnw CoreService/mvnw ClinicalService/mvnw
+          ./AuthService/mvnw clean compile -B --no-transfer-progress -f AuthService/pom.xml
+          ./CoreService/mvnw clean compile -B --no-transfer-progress -f CoreService/pom.xml
+          ./ClinicalService/mvnw clean compile -B --no-transfer-progress -f ClinicalService/pom.xml
 
       - name: Run tests
-        run: ./mvnw test -B --no-transfer-progress
+        run: |
+          ./AuthService/mvnw test -B --no-transfer-progress -f AuthService/pom.xml
+          ./CoreService/mvnw test -B --no-transfer-progress -f CoreService/pom.xml
+          ./ClinicalService/mvnw test -B --no-transfer-progress -f ClinicalService/pom.xml
 
-      - name: Package (verify build artifacts)
-        run: ./mvnw package -DskipTests -B --no-transfer-progress
+      - name: Package services (skip tests)
+        run: |
+          ./AuthService/mvnw package -DskipTests -B --no-transfer-progress -f AuthService/pom.xml
+          ./CoreService/mvnw package -DskipTests -B --no-transfer-progress -f CoreService/pom.xml
+          ./ClinicalService/mvnw package -DskipTests -B --no-transfer-progress -f ClinicalService/pom.xml
