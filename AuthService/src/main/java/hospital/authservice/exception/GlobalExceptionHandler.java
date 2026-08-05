@@ -6,6 +6,10 @@ import hospital.authservice.exception.permition.DuplicatePermissionException;
 import hospital.authservice.exception.permition.PermissionNotFoundException;
 import hospital.authservice.exception.role.DuplicateRoleException;
 import hospital.authservice.exception.role.RoleNotFoundException;
+import hospital.authservice.exception.otp.InvalidOtpException;
+import hospital.authservice.exception.otp.InvalidResetTokenException;
+import hospital.authservice.exception.otp.OtpExpiredException;
+import hospital.authservice.exception.otp.OtpLockedException;
 import hospital.authservice.exception.user.DuplicateEmailException;
 import hospital.authservice.exception.user.DuplicateUsernameException;
 import hospital.authservice.exception.user.InvalidPasswordException;
@@ -57,6 +61,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleJpaEntityNotFound(EntityNotFoundException ex) {
         log.error("Entity not found (JPA): {}", ex.getMessage());
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    // ==================== 400 - OTP errors ====================
+
+    @ExceptionHandler({InvalidOtpException.class, OtpExpiredException.class, OtpLockedException.class, InvalidResetTokenException.class})
+    public ResponseEntity<ApiResponse<Void>> handleOtpErrors(RuntimeException ex) {
+        log.error("OTP error: {}", ex.getMessage());
+        return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     // ==================== 400 - Bad Request (Business logic violations) ====================

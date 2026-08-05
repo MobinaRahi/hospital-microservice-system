@@ -57,6 +57,10 @@ public class JwtTokenProvider {
 
         if (userDetails instanceof SecurityUser securityUser) {
             builder.claim("uid", securityUser.getId());
+            // Include tenantId in JWT for multi-tenant SaaS
+            if (securityUser.getTenantId() != null) {
+                builder.claim("tenantId", securityUser.getTenantId());
+            }
         }
 
         return builder
@@ -73,6 +77,33 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    /**
+     * Extracts the tenant ID from a JWT token.
+     * Used by TenantResolver to set TenantContext for multi-tenant data isolation.
+     *
+     * @param token the JWT token string
+     * @return the tenant ID, or null if not present
+     */
+    public Long getTenantIdFromToken(String token) {
+        try {
+            Object tenantId = Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .get("tenantId");
+            if (tenantId instanceof Integer) {
+                return ((Integer) tenantId).longValue();
+            } else if (tenantId instanceof Long) {
+                return (Long) tenantId;
+            }
+            return null;
+        } catch (Exception e) {
+            log.debug("Could not extract tenantId from token: {}", e.getMessage());
+            return null;
+        }
     }
 
     public boolean validateToken(String token) {

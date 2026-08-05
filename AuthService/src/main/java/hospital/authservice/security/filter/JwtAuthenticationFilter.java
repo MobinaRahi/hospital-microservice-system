@@ -2,6 +2,7 @@ package hospital.authservice.security.filter;
 
 import hospital.authservice.security.provider.JwtTokenProvider;
 import hospital.authservice.security.service.CustomUserDetailsService;
+import hospital.authservice.tenant.TenantContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,6 +47,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 log.debug("✅ User authenticated: {}", username);
+
+                // Set TenantContext from JWT for multi-tenant data isolation
+                Long tenantId = tokenProvider.getTenantIdFromToken(jwt);
+                if (tenantId != null) {
+                    TenantContext.setCurrentTenant(tenantId);
+                    log.debug("🏢 Tenant context set: {}", tenantId);
+                }
             }
         } catch (Exception e) {
             log.error("Cannot set user authentication: {}", e.getMessage());
@@ -87,6 +95,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         path.startsWith("/api/v1/doctors") ||
                         path.startsWith("/api/v1/doctor/by-department-id") ||
                         path.startsWith("/api/v1/auth/") ||
+                        path.startsWith("/api/v1/password/") ||
                         path.startsWith("/swagger-ui/") ||
                         path.startsWith("/v3/api-docs/") ||
                         path.startsWith("/api/v1/doctor/active/by-department-id") ||

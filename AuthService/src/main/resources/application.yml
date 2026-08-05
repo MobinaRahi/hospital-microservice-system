@@ -48,6 +48,8 @@ app:
     secret: ${JWT_SECRET:dev-only-insecure-secret-change-me-in-production-0123456789abcdef}
     expiration: ${JWT_EXPIRATION:3600000}
     refresh-expiration: ${JWT_REFRESH_EXPIRATION:86400000}
+  otp:
+    send-real-email: ${OTP_SEND_REAL_EMAIL:false}
 
 # ==================== SPRING DOCS (OpenAPI/Swagger) ====================
 springdoc:

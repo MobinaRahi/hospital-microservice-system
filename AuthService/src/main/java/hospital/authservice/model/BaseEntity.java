@@ -23,6 +23,14 @@ import java.time.LocalDateTime;
 
 public class BaseEntity {
 
+    /**
+     * Tenant ID for multi-tenant SaaS data isolation.
+     * Every entity that extends BaseEntity will automatically be filtered by this field.
+     * null = global/tenant-agnostic data (e.g., system-level config).
+     */
+    @Column(name = "tenant_id")
+    private Long tenantId;
+
     @Column(name = "deleted", nullable = false)
     @Builder.Default
     private boolean deleted = false;

@@ -36,6 +36,7 @@ public final class SecurityUser implements UserDetails, Serializable {
     private final String email;
     private final String firstName;
     private final String lastName;
+    private final Long tenantId;
     private final boolean enabled;
     private final boolean accountNonExpired;
     private final boolean accountNonLocked;
@@ -60,6 +61,7 @@ public final class SecurityUser implements UserDetails, Serializable {
         this.email = user.getEmail();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
+        this.tenantId = user.getTenantId();
         this.enabled = user.isEnabled() && !user.isDeleted();
         this.accountNonExpired = user.isAccountNonExpired();
         this.credentialsNonExpired = user.isCredentialsNonExpired();
