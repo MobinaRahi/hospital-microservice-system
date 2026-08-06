@@ -47,6 +47,11 @@ app:
   jwt:
     secret: ${JWT_SECRET:dev-only-insecure-secret-change-me-in-production-0123456789abcdef}
 
+# ==================== SERVICES ====================
+services:
+  auth:
+    base-url: ${AUTH_SERVICE_BASE_URL:http://localhost:8281}
+
 # ==================== SPRING DOCS (OpenAPI/Swagger) ====================
 springdoc:
   api-docs:
