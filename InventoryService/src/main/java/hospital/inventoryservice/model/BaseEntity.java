@@ -1,6 +1,10 @@
 package hospital.inventoryservice.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLRestriction;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,6 +38,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
+@SQLRestriction("deleted = false")
+@FilterDef(name = "tenantFilter", parameters = @ParamDef(name = "tenantId", type = Long.class))
 public abstract class BaseEntity {
 
     /**
@@ -42,6 +48,7 @@ public abstract class BaseEntity {
      * null = global/tenant-agnostic data (e.g., system-level config).
      */
     @Column(name = "tenant_id")
+    @Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
     private Long tenantId;
 
     /**
