@@ -9,9 +9,11 @@
 #   AuthService    → http://localhost:8281
 #   CoreService    → http://localhost:8382
 #   ClinicalService → http://localhost:8383
+#   InventoryService → http://localhost:8084
 #   Swagger (Auth) → http://localhost:8281/swagger-ui.html
 #   Swagger (Core) → http://localhost:8382/swagger-ui.html
 #   Swagger (Clin) → http://localhost:8383/swagger-ui.html
+#   Swagger (Inv)  → http://localhost:8084/swagger-ui.html
 #
 # Accounts:
 #   admin / Admin@123
@@ -149,6 +151,38 @@ services:
       - auth-service
       - core-service
       - clinical-service
+      - inventory-service
+    networks:
+      - nova-net
+
+  # ─────────────────────────────────────────────────────────
+  # InventoryService (host:8084 → container:8084)
+  # ─────────────────────────────────────────────────────────
+  inventory-service:
+    build: ./InventoryService
+    container_name: nova-inventory
+    environment:
+      SERVER_PORT: 8084
+      INVENTORY_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
+      INVENTORY_DATASOURCE_USERNAME: ${INVENTORY_DB_USERNAME:-inventory}
+      INVENTORY_DATASOURCE_PASSWORD: ${INVENTORY_DB_PASSWORD:?set INVENTORY_DB_PASSWORD in .env}
+      INVENTORY_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      AUTH_SERVICE_BASE_URL: http://auth-service:8081
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+    ports:
+      - "8084:8084"
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8084/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: on-failure
     networks:
       - nova-net
 
