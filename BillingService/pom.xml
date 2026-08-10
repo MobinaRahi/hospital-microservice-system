@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>hospital</groupId>
-    <artifactId>InventoryService</artifactId>
+    <artifactId>BillingService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>InventoryService</name>
-    <description>Inventory service for drugs, stock, suppliers, equipment and purchase orders</description>
+    <name>BillingService</name>
+    <description>BillingService</description>
 
     <properties>
         <java.version>17</java.version>
