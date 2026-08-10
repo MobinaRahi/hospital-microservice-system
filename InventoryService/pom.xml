@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.mftplus</groupId>
+    <groupId>hospital</groupId>
     <artifactId>InventoryService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>InventoryService</name>
