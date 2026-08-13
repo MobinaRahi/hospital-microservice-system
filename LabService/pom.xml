@@ -18,10 +18,10 @@
     <!--                     PROJECT METADATA                       -->
     <!-- ========================================================== -->
     <groupId>hospital</groupId>
-    <artifactId>CoreService</artifactId>
+    <artifactId>LabService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>CoreService</name>
-    <description>Core hospital domain service for patients, doctors, departments, appointments, rooms, nurses and shifts</description>
+    <name>LabService</name>
+    <description>LabService</description>
 
     <!-- ========================================================== -->
     <!--                     PROPERTIES                             -->
