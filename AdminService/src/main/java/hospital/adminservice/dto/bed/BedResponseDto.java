@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import hospital.adminservice.model.enums.BedStatus;
 import hospital.adminservice.model.enums.BedType;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  * @author MobinaRahi
  */
 @Data
+@SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BedResponseDto {
 

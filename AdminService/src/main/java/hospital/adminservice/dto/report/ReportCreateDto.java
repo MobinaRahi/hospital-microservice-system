@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 /**
  * DTO for creating a new report generation request.
@@ -32,6 +33,7 @@ import lombok.Data;
  * @author MobinaRahi
  */
 @Data
+@SuperBuilder
 public class ReportCreateDto {
 
     @NotBlank(message = "Report name is required")

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
@@ -46,6 +47,7 @@ import java.time.LocalDate;
  * @author MobinaRahi
  */
 @Data
+@SuperBuilder
 public class HolidayCreateDto {
 
     @NotBlank(message = "Holiday name is required")

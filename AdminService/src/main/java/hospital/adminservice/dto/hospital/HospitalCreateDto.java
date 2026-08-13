@@ -3,6 +3,7 @@ package hospital.adminservice.dto.hospital;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 /**
  * DTO for creating a new hospital.
@@ -29,6 +30,7 @@ import lombok.Data;
  * @author MobinaRahi
  */
 @Data
+@SuperBuilder
 public class HospitalCreateDto {
 
     @NotBlank(message = "Hospital name is required")

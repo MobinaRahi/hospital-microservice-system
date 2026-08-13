@@ -2,6 +2,7 @@ package hospital.adminservice.dto.employeeshift;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
  * @author MobinaRahi
  */
 @Data
+@SuperBuilder
 public class EmployeeShiftCreateDto {
 
     @NotNull(message = "Employee ID is required")

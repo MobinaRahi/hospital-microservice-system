@@ -2,6 +2,7 @@ package hospital.adminservice.dto.systemconfig;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
  * @author MobinaRahi
  */
 @Data
+@SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SystemConfigResponseDto {
 
