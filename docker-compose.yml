@@ -10,12 +10,12 @@
 #   CoreService    → http://localhost:8382
 #   ClinicalService → http://localhost:8383
 #   InventoryService → http://localhost:8084
-#   BillingService   → http://localhost:8085
 #   Swagger (Auth) → http://localhost:8281/swagger-ui.html
 #   Swagger (Core) → http://localhost:8382/swagger-ui.html
 #   Swagger (Clin) → http://localhost:8383/swagger-ui.html
 #   Swagger (Inv)  → http://localhost:8084/swagger-ui.html
-#   Swagger (Bill) → http://localhost:8085/swagger-ui.html
+#   AdminService     → http://localhost:8086
+#   Swagger (Admin)  → http://localhost:8086/swagger-ui.html
 #
 # Accounts:
 #   admin / Admin@123
@@ -142,38 +142,6 @@ services:
       - nova-net
 
   # ─────────────────────────────────────────────────────────
-  # BillingService (host:8085 → container:8085)
-  # ─────────────────────────────────────────────────────────
-  billing-service:
-    build: ./BillingService
-    container_name: nova-billing
-    environment:
-      SERVER_PORT: 8085
-      BILLING_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
-      BILLING_DATASOURCE_USERNAME: ${BILLING_DB_USERNAME:-billing}
-      BILLING_DATASOURCE_PASSWORD: ${BILLING_DB_PASSWORD:?set BILLING_DB_PASSWORD in .env}
-      BILLING_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
-      AUTH_SERVICE_BASE_URL: http://auth-service:8081
-      CORE_SERVICE_BASE_URL: http://core-service:8082
-      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
-    ports:
-      - "8085:8085"
-    depends_on:
-      oracle-xe:
-        condition: service_healthy
-      auth-service:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8085/actuator/health || exit 1"]
-      interval: 15s
-      timeout: 5s
-      retries: 30
-      start_period: 60s
-    restart: on-failure
-    networks:
-      - nova-net
-
-  # ─────────────────────────────────────────────────────────
   # React Frontend (host:5373 → container:80)
   # ─────────────────────────────────────────────────────────
   frontend:
@@ -186,7 +154,7 @@ services:
       - core-service
       - clinical-service
       - inventory-service
-      - billing-service
+      - admin-service
     networks:
       - nova-net
 
@@ -213,6 +181,38 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8084/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: on-failure
+    networks:
+      - nova-net
+
+  # ─────────────────────────────────────────────────────────
+  # AdminService (host:8086 → container:8086)
+  # ─────────────────────────────────────────────────────────
+  admin-service:
+    build: ./AdminService
+    container_name: nova-admin
+    environment:
+      SERVER_PORT: 8086
+      ADMIN_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
+      ADMIN_DATASOURCE_USERNAME: ${ADMIN_DB_USERNAME:-admin}
+      ADMIN_DATASOURCE_PASSWORD: ${ADMIN_DB_PASSWORD:?set ADMIN_DB_PASSWORD in .env}
+      ADMIN_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      AUTH_SERVICE_BASE_URL: http://auth-service:8081
+      CORE_SERVICE_BASE_URL: http://core-service:8082
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+    ports:
+      - "8086:8086"
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8086/actuator/health || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 30
