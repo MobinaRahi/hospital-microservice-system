@@ -35,7 +35,7 @@ public interface LabRequestMapper {
      * Converts LabRequestCreateDto to LabRequest entity.
      * Status defaults to PENDING (set by entity).
      * RequestedBy is set by service layer.
-     * Items are mapped via LabRequestItemMapper (without labRequest reference).
+     * Items are ignored here — service layer resolves test entities and adds items manually.
      *
      * @param dto the create DTO
      * @return LabRequest entity
@@ -45,7 +45,7 @@ public interface LabRequestMapper {
     @Mapping(target = "requestedBy", ignore = true)
     @Mapping(target = "approvedBy", ignore = true)
     @Mapping(target = "approvedAt", ignore = true)
-    @Mapping(target = "items", source = "items")
+    @Mapping(target = "items", ignore = true)
     @Mapping(target = "tenantId", ignore = true)
     LabRequest toEntity(LabRequestCreateDto dto);
 

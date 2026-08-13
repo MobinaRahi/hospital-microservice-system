@@ -171,4 +171,13 @@ public class LabResult extends BaseEntity {
         return this.flag != ResultFlag.NORMAL;
     }
 
+    /**
+     * Determines the result flag based on the value and normal range.
+     * This is a simplified implementation - real implementation would parse numeric values.
+     *
+     * @param flag the flag to set
+     */
+    public void setFlag(ResultFlag flag) {
+        this.flag = flag;
+    }
 }

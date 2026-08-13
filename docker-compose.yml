@@ -16,6 +16,8 @@
 #   Swagger (Inv)  → http://localhost:8084/swagger-ui.html
 #   AdminService     → http://localhost:8086
 #   Swagger (Admin)  → http://localhost:8086/swagger-ui.html
+#   LabService       → http://localhost:8087
+#   Swagger (Lab)    → http://localhost:8087/swagger-ui.html
 #
 # Accounts:
 #   admin / Admin@123
@@ -155,6 +157,7 @@ services:
       - clinical-service
       - inventory-service
       - admin-service
+      - lab-service
     networks:
       - nova-net
 
@@ -213,6 +216,38 @@ services:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8086/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: on-failure
+    networks:
+      - nova-net
+
+  # ─────────────────────────────────────────────────────────
+  # LabService (host:8087 → container:8087)
+  # ─────────────────────────────────────────────────────────
+  lab-service:
+    build: ./LabService
+    container_name: nova-lab
+    environment:
+      SERVER_PORT: 8087
+      LAB_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
+      LAB_DATASOURCE_USERNAME: ${LAB_DB_USERNAME:-lab}
+      LAB_DATASOURCE_PASSWORD: ${LAB_DB_PASSWORD:?set LAB_DB_PASSWORD in .env}
+      LAB_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      AUTH_SERVICE_BASE_URL: http://auth-service:8081
+      CORE_SERVICE_BASE_URL: http://core-service:8082
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+    ports:
+      - "8087:8087"
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8087/actuator/health || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 30
