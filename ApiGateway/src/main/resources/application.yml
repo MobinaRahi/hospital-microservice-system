@@ -1,0 +1,189 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false  # We use explicit routes
+      
+      # CORS Configuration
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            maxAge: 3600
+      
+      # Routes
+      routes:
+        # AuthService
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/auth/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: authCircuitBreaker
+                fallbackUri: forward:/fallback/auth
+
+        # CoreService
+        - id: core-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/core/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: coreCircuitBreaker
+                fallbackUri: forward:/fallback/core
+
+        # ClinicalService
+        - id: clinical-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/clinical/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: clinicalCircuitBreaker
+                fallbackUri: forward:/fallback/clinical
+
+        # InventoryService
+        - id: inventory-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/v1/inventory/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: inventoryCircuitBreaker
+                fallbackUri: forward:/fallback/inventory
+
+        # BillingService
+        - id: billing-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/v1/billing/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: billingCircuitBreaker
+                fallbackUri: forward:/fallback/billing
+
+        # AdminService
+        - id: admin-service
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/v1/admin/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: adminCircuitBreaker
+                fallbackUri: forward:/fallback/admin
+
+        # LabService
+        - id: lab-service
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/v1/lab/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: labCircuitBreaker
+                fallbackUri: forward:/fallback/lab
+
+        # NotificationService
+        - id: notification-service
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/v1/notification/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: notificationCircuitBreaker
+                fallbackUri: forward:/fallback/notification
+
+  # Redis Configuration (for rate limiting)
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+
+# Resilience4j Configuration
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+    instances:
+      authCircuitBreaker:
+        baseConfig: default
+      coreCircuitBreaker:
+        baseConfig: default
+      clinicalCircuitBreaker:
+        baseConfig: default
+      inventoryCircuitBreaker:
+        baseConfig: default
+      billingCircuitBreaker:
+        baseConfig: default
+      adminCircuitBreaker:
+        baseConfig: default
+      labCircuitBreaker:
+        baseConfig: default
+      notificationCircuitBreaker:
+        baseConfig: default
+
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 3s
+
+# JWT Configuration
+app:
+  jwt:
+    secret: mySuperSecretKeyForJWTTokenGenerationWithHighSecurity1234567890!@#$%^&*()_+
+
+# Logging
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: DEBUG
+    com.hospital.gateway: DEBUG

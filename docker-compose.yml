@@ -22,6 +22,8 @@
 #   Swagger (Lab)    → http://localhost:8087/swagger-ui.html
 #   NotificationService → http://localhost:8088
 #   Swagger (Notification) → http://localhost:8088/swagger-ui.html
+#   API Gateway    → http://localhost:8080
+#   Gateway Swagger → http://localhost:8080/swagger-ui.html
 #
 # Accounts:
 #   admin / Admin@123
@@ -30,7 +32,37 @@
 # ============================================================
 
 services:
-  # ─────────────────────────────────────────────────────────doc
+  # ─────────────────────────────────────────────────────────
+  # API Gateway (host:8080 → container:8080)
+  # ─────────────────────────────────────────────────────────
+  api-gateway:
+    build: ./ApiGateway
+    container_name: nova-gateway
+    environment:
+      SERVER_PORT: 8080
+      APP_JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - core-service
+      - clinical-service
+      - inventory-service
+      - billing-service
+      - admin-service
+      - lab-service
+      - notification-service
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    restart: on-failure
+    networks:
+      - nova-net
+
+  # ─────────────────────────────────────────────────────────
   # Oracle Database
   # ─────────────────────────────────────────────────────────
   oracle-xe:

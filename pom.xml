@@ -16,5 +16,11 @@
         <module>AuthService</module>
         <module>CoreService</module>
         <module>ClinicalService</module>
+        <module>InventoryService</module>
+        <module>BillingService</module>
+        <module>AdminService</module>
+        <module>LabService</module>
+        <module>NotificationService</module>
+        <module>ApiGateway</module>
     </modules>
 </project>
