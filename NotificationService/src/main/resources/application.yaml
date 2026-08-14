@@ -44,6 +44,18 @@ spring:
     caffeine:
       spec: maximumSize=1000,expireAfterWrite=300s
 
+  # ==================== RABBITMQ ====================
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        concurrency: 3
+        max-concurrency: 10
+        prefetch: 5
+
 # ==================== SERVER ====================
 server:
   port: ${SERVER_PORT:8088}

@@ -2,6 +2,7 @@ package hospital.notificationservice.service.impl;
 
 import hospital.notificationservice.dto.emaillog.EmailLogCreateDto;
 import hospital.notificationservice.dto.emaillog.EmailLogResponseDto;
+import hospital.notificationservice.exception.emaillog.EmailCancelException;
 import hospital.notificationservice.exception.emaillog.EmailLogNotFoundException;
 import hospital.notificationservice.mapper.EmailLogMapper;
 import hospital.notificationservice.model.EmailLog;
