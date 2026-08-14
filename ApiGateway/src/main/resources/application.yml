@@ -123,6 +123,18 @@ spring:
                 name: notificationCircuitBreaker
                 fallbackUri: forward:/fallback/notification
 
+        # TenantService
+        - id: tenant-service
+          uri: http://localhost:8089
+          predicates:
+            - Path=/api/v1/tenant/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: tenantCircuitBreaker
+                fallbackUri: forward:/fallback/tenant
+
   # Redis Configuration (for rate limiting)
   data:
     redis:
@@ -169,6 +181,8 @@ resilience4j:
       labCircuitBreaker:
         baseConfig: default
       notificationCircuitBreaker:
+        baseConfig: default
+      tenantCircuitBreaker:
         baseConfig: default
 
   timelimiter:

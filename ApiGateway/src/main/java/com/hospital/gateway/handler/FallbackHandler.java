@@ -62,6 +62,11 @@ public class FallbackHandler {
         return createFallbackResponse("Notification Service is temporarily unavailable");
     }
 
+    @GetMapping("/fallback/tenant")
+    public Mono<Map<String, Object>> tenantFallback() {
+        return createFallbackResponse("Tenant Service is temporarily unavailable");
+    }
+
     private Mono<Map<String, Object>> createFallbackResponse(String message) {
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", LocalDateTime.now().toString());
