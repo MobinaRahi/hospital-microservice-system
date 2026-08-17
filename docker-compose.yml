@@ -24,6 +24,14 @@
 #   Swagger (Notification) → http://localhost:8088/swagger-ui.html
 #   API Gateway    → http://localhost:8080
 #   Gateway Swagger → http://localhost:8080/swagger-ui.html
+#   RabbitMQ       → http://localhost:15672 (Management UI)
+#   RabbitMQ Port  → 5672 (AMQP)
+#   TenantService  → http://localhost:8089
+#   Swagger (Tenant) → http://localhost:8089/swagger-ui.html
+#   SuperAdminService → http://localhost:8090
+#   Swagger (SuperAdmin) → http://localhost:8090/swagger-ui.html
+#   ReceptionistService → http://localhost:8091
+#   Swagger (Receptionist) → http://localhost:8091/swagger-ui.html
 #
 # Accounts:
 #   admin / Admin@123
@@ -32,6 +40,32 @@
 # ============================================================
 
 services:
+  # ─────────────────────────────────────────────────────────
+  # RabbitMQ (Message Queue for Async Notifications)
+  # Management UI: http://localhost:15672 (guest/guest)
+  # AMQP Port: 5672
+  # ─────────────────────────────────────────────────────────
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: nova-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    restart: on-failure
+    networks:
+      - nova-net
+
   # ─────────────────────────────────────────────────────────
   # API Gateway (host:8080 → container:8080)
   # ─────────────────────────────────────────────────────────
@@ -52,6 +86,8 @@ services:
       - admin-service
       - lab-service
       - notification-service
+      - tenant-service
+      - super-admin-service
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
       interval: 15s
@@ -196,6 +232,7 @@ services:
       - admin-service
       - lab-service
       - notification-service
+      - tenant-service
     networks:
       - nova-net
 
@@ -340,12 +377,18 @@ services:
       NOTIFICATION_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
       AUTH_SERVICE_BASE_URL: http://auth-service:8081
       JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME:-guest}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
     ports:
       - "8088:8088"
     depends_on:
       oracle-xe:
         condition: service_healthy
       auth-service:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:8088/actuator/health || exit 1"]
@@ -357,9 +400,76 @@ services:
     networks:
       - nova-net
 
+  # ─────────────────────────────────────────────────────────
+  # TenantService (host:8089 → container:8089)
+  # ────────────────────────────────────────────────────────
+  tenant-service:
+    build: ./TenantService
+    container_name: nova-tenant
+    environment:
+      SERVER_PORT: 8089
+      TENANT_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
+      TENANT_DATASOURCE_USERNAME: ${TENANT_DB_USERNAME:-tenant}
+      TENANT_DATASOURCE_PASSWORD: ${TENANT_DB_PASSWORD:?set TENANT_DB_PASSWORD in .env}
+      TENANT_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      AUTH_SERVICE_BASE_URL: http://auth-service:8081
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+    ports:
+      - "8089:8089"
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8089/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: on-failure
+    networks:
+      - nova-net
+  # ─────────────────────────────────────────────────────────
+  # SuperAdminService (host:8090 → container:8090)
+  # ────────────────────────────────────────────────────────
+  super-admin-service:
+    build: ./SuperAdminService
+    container_name: nova-super-admin
+    environment:
+      SERVER_PORT: 8090
+      SUPERADMIN_DATASOURCE_URL: jdbc:oracle:thin:@oracle-xe:1521/XEPDB1
+      SUPERADMIN_DATASOURCE_USERNAME: ${SUPERADMIN_DB_USERNAME:-superadmin}
+      SUPERADMIN_DATASOURCE_PASSWORD: ${SUPERADMIN_DB_PASSWORD:?set SUPERADMIN_DB_PASSWORD in .env}
+      SUPERADMIN_JPA_DDL_AUTO: ${JPA_DDL_AUTO:-update}
+      AUTH_SERVICE_BASE_URL: http://auth-service:8081
+      TENANT_SERVICE_BASE_URL: http://tenant-service:8089
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+    ports:
+      - "8090:8090"
+    depends_on:
+      oracle-xe:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8090/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 60s
+    restart: on-failure
+    networks:
+      - nova-net
+
+
 networks:
   nova-net:
     driver: bridge
 
 volumes:
   oracle-data:
+  rabbitmq-data:
+
+
+
