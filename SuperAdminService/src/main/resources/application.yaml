@@ -1,0 +1,72 @@
+# ============================================================
+# SuperAdminService — Spring Boot Configuration
+# ============================================================
+
+spring:
+  application:
+    name: super-admin-service
+
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  # Database
+  datasource:
+    url: ${SUPERADMIN_DATASOURCE_URL:jdbc:oracle:thin:@localhost:1522/XEPDB1}
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: ${SUPERADMIN_DATASOURCE_USERNAME:superadmin}
+    password: ${SUPERADMIN_DATASOURCE_PASSWORD:superadmin123}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  # JPA
+  jpa:
+    database: ORACLE
+    hibernate:
+      ddl-auto: ${SUPERADMIN_JPA_DDL_AUTO:update}
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+
+  # Cache
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=300s
+
+# Server
+server:
+  port: ${SERVER_PORT:8090}
+
+# Services
+services:
+  auth:
+    base-url: ${AUTH_SERVICE_BASE_URL:http://localhost:8281}
+  tenant:
+    base-url: ${TENANT_SERVICE_BASE_URL:http://localhost:8089}
+
+# JWT
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-only-insecure-secret-change-me-in-production-0123456789abcdef}
+
+# Swagger
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+  packages-to-scan: com.hospital.superadmin.controller
+  paths-to-match: /api/v1/super-admin/**
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.hospital.superadmin: DEBUG
+    org.springframework.security: INFO

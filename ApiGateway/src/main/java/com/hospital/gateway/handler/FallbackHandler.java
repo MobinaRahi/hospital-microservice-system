@@ -2,7 +2,6 @@ package com.hospital.gateway.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -13,7 +12,6 @@ import java.util.Map;
 
 /**
  * Fallback Handler for Circuit Breaker
- * 
  * Returns user-friendly error responses when services are unavailable.
  * 
  * @author MobinaRahi
@@ -65,6 +63,11 @@ public class FallbackHandler {
     @GetMapping("/fallback/tenant")
     public Mono<Map<String, Object>> tenantFallback() {
         return createFallbackResponse("Tenant Service is temporarily unavailable");
+    }
+
+    @GetMapping("/fallback/super-admin")
+    public Mono<Map<String, Object>> superAdminFallback() {
+        return createFallbackResponse("Super Admin Service is temporarily unavailable");
     }
 
     private Mono<Map<String, Object>> createFallbackResponse(String message) {

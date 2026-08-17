@@ -135,6 +135,20 @@ spring:
                 name: tenantCircuitBreaker
                 fallbackUri: forward:/fallback/tenant
 
+        # SuperAdminService
+        - id: super-admin-service
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/super-admin/**
+          filters:
+            - StripPrefix=0
+            - name: CircuitBreaker
+              args:
+                name: superAdminCircuitBreaker
+                fallbackUri: forward:/fallback/super-admin
+
+
+
   # Redis Configuration (for rate limiting)
   data:
     redis:
@@ -183,6 +197,8 @@ resilience4j:
       notificationCircuitBreaker:
         baseConfig: default
       tenantCircuitBreaker:
+        baseConfig: default
+      superAdminCircuitBreaker:
         baseConfig: default
 
   timelimiter:

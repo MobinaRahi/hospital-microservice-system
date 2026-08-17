@@ -21,6 +21,8 @@
         <module>AdminService</module>
         <module>LabService</module>
         <module>NotificationService</module>
+        <module>TenantService</module>
+        <module>SuperAdminService</module>
         <module>ApiGateway</module>
     </modules>
 </project>
