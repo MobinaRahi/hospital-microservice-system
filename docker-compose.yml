@@ -4,34 +4,33 @@
 #   docker compose up --build      → start everything
 #   docker compose down            → stop everything
 #
-# URLs:
-#   Frontend       → http://localhost:5373
-#   AuthService    → http://localhost:8281
-#   CoreService    → http://localhost:8382
-#   ClinicalService → http://localhost:8383
-#   InventoryService → http://localhost:8084
-#   Swagger (Auth) → http://localhost:8281/swagger-ui.html
-#   Swagger (Core) → http://localhost:8382/swagger-ui.html
-#   Swagger (Clin) → http://localhost:8383/swagger-ui.html
-#   Swagger (Inv)  → http://localhost:8084/swagger-ui.html
-#   BillingService   → http://localhost:8085
-#   Swagger (Billing) → http://localhost:8085/swagger-ui.html
-#   AdminService     → http://localhost:8086
-#   Swagger (Admin)  → http://localhost:8086/swagger-ui.html
-#   LabService       → http://localhost:8087
-#   Swagger (Lab)    → http://localhost:8087/swagger-ui.html
-#   NotificationService → http://localhost:8088
-#   Swagger (Notification) → http://localhost:8088/swagger-ui.html
-#   API Gateway    → http://localhost:8080
-#   Gateway Swagger → http://localhost:8080/swagger-ui.html
-#   RabbitMQ       → http://localhost:15672 (Management UI)
-#   RabbitMQ Port  → 5672 (AMQP)
-#   TenantService  → http://localhost:8089
-#   Swagger (Tenant) → http://localhost:8089/swagger-ui.html
-#   SuperAdminService → http://localhost:8090
-#   Swagger (SuperAdmin) → http://localhost:8090/swagger-ui.html
-#   ReceptionistService → http://localhost:8091
-#   Swagger (Receptionist) → http://localhost:8091/swagger-ui.html
+# Services:
+#   Frontend             → http://localhost:5373
+#   API Gateway          → http://localhost:8080
+#   AuthService          → http://localhost:8281
+#   CoreService          → http://localhost:8382
+#   ClinicalService      → http://localhost:8383
+#   InventoryService     → http://localhost:8084
+#   BillingService       → http://localhost:8085
+#   AdminService         → http://localhost:8086
+#   LabService           → http://localhost:8087
+#   NotificationService  → http://localhost:8088
+#   TenantService        → http://localhost:8089
+#   SuperAdminService    → http://localhost:8090
+#   RabbitMQ Management  → http://localhost:15672 (guest/guest)
+#
+# Swagger UI:
+#   http://localhost:8281/swagger-ui.html
+#   http://localhost:8382/swagger-ui.html
+#   http://localhost:8383/swagger-ui.html
+#   http://localhost:8084/swagger-ui.html
+#   http://localhost:8085/swagger-ui.html
+#   http://localhost:8086/swagger-ui.html
+#   http://localhost:8087/swagger-ui.html
+#   http://localhost:8088/swagger-ui.html
+#   http://localhost:8089/swagger-ui.html
+#   http://localhost:8090/swagger-ui.html
+#   http://localhost:8080/swagger-ui.html
 #
 # Accounts:
 #   admin / Admin@123
@@ -40,6 +39,31 @@
 # ============================================================
 
 services:
+
+  # ─────────────────────────────────────────────────────────
+  # Oracle Database
+  # ────────────────────────────────────────────────────────
+  oracle-xe:
+    image: gvenzl/oracle-xe:21-slim-faststart
+    container_name: nova-oracle
+    environment:
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD:?set ORACLE_PASSWORD in .env}
+      APP_USER: ${APP_USER:-appuser}
+      APP_USER_PASSWORD: ${APP_USER_PASSWORD:?set APP_USER_PASSWORD in .env}
+    ports:
+      - "1522:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./docker/oracle-init.sql:/container-entrypoint-initdb.d/01-create-users.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 10s
+      retries: 60
+      start_period: 60s
+    networks:
+      - nova-net
+
   # ─────────────────────────────────────────────────────────
   # RabbitMQ (Message Queue for Async Notifications)
   # Management UI: http://localhost:15672 (guest/guest)
@@ -63,62 +87,6 @@ services:
       retries: 30
       start_period: 30s
     restart: on-failure
-    networks:
-      - nova-net
-
-  # ─────────────────────────────────────────────────────────
-  # API Gateway (host:8080 → container:8080)
-  # ─────────────────────────────────────────────────────────
-  api-gateway:
-    build: ./ApiGateway
-    container_name: nova-gateway
-    environment:
-      SERVER_PORT: 8080
-      APP_JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
-    ports:
-      - "8080:8080"
-    depends_on:
-      - auth-service
-      - core-service
-      - clinical-service
-      - inventory-service
-      - billing-service
-      - admin-service
-      - lab-service
-      - notification-service
-      - tenant-service
-      - super-admin-service
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
-      interval: 15s
-      timeout: 5s
-      retries: 30
-      start_period: 30s
-    restart: on-failure
-    networks:
-      - nova-net
-
-  # ─────────────────────────────────────────────────────────
-  # Oracle Database
-  # ─────────────────────────────────────────────────────────
-  oracle-xe:
-    image: gvenzl/oracle-xe:21-slim-faststart
-    container_name: nova-oracle
-    environment:
-      ORACLE_PASSWORD: ${ORACLE_PASSWORD:?set ORACLE_PASSWORD in .env}
-      APP_USER: ${APP_USER:-appuser}
-      APP_USER_PASSWORD: ${APP_USER_PASSWORD:?set APP_USER_PASSWORD in .env}
-    ports:
-      - "1522:1521"
-    volumes:
-      - oracle-data:/opt/oracle/oradata
-      - ./docker/oracle-init.sql:/container-entrypoint-initdb.d/01-create-users.sql:ro
-    healthcheck:
-      test: ["CMD", "healthcheck.sh"]
-      interval: 10s
-      timeout: 10s
-      retries: 60
-      start_period: 60s
     networks:
       - nova-net
 
@@ -216,27 +184,6 @@ services:
       - nova-net
 
   # ─────────────────────────────────────────────────────────
-  # React Frontend (host:5373 → container:80)
-  # ─────────────────────────────────────────────────────────
-  frontend:
-    build: ./frontend
-    container_name: nova-frontend
-    ports:
-      - "5373:80"
-    depends_on:
-      - auth-service
-      - core-service
-      - clinical-service
-      - inventory-service
-      - billing-service
-      - admin-service
-      - lab-service
-      - notification-service
-      - tenant-service
-    networks:
-      - nova-net
-
-  # ─────────────────────────────────────────────────────────
   # InventoryService (host:8084 → container:8084)
   # ─────────────────────────────────────────────────────────
   inventory-service:
@@ -269,7 +216,7 @@ services:
 
   # ─────────────────────────────────────────────────────────
   # BillingService (host:8085 → container:8085)
-  # ────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────
   billing-service:
     build: ./BillingService
     container_name: nova-billing
@@ -301,7 +248,7 @@ services:
 
   # ─────────────────────────────────────────────────────────
   # AdminService (host:8086 → container:8086)
-  # ────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────
   admin-service:
     build: ./AdminService
     container_name: nova-admin
@@ -402,7 +349,7 @@ services:
 
   # ─────────────────────────────────────────────────────────
   # TenantService (host:8089 → container:8089)
-  # ────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────
   tenant-service:
     build: ./TenantService
     container_name: nova-tenant
@@ -430,9 +377,10 @@ services:
     restart: on-failure
     networks:
       - nova-net
+
   # ─────────────────────────────────────────────────────────
   # SuperAdminService (host:8090 → container:8090)
-  # ────────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────────
   super-admin-service:
     build: ./SuperAdminService
     container_name: nova-super-admin
@@ -462,6 +410,50 @@ services:
     networks:
       - nova-net
 
+  # ─────────────────────────────────────────────────────────
+  # API Gateway (host:8080 → container:8080)
+  # ────────────────────────────────────────────────────────
+  api-gateway:
+    build: ./ApiGateway
+    container_name: nova-gateway
+    environment:
+      SERVER_PORT: 8080
+      APP_JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - core-service
+      - clinical-service
+      - inventory-service
+      - billing-service
+      - admin-service
+      - lab-service
+      - notification-service
+      - tenant-service
+      - super-admin-service
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    restart: on-failure
+    networks:
+      - nova-net
+
+  # ─────────────────────────────────────────────────────────
+  # React Frontend (host:5373 → container:80)
+  # ─────────────────────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: nova-frontend
+    ports:
+      - "5373:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - nova-net
 
 networks:
   nova-net:
@@ -470,6 +462,3 @@ networks:
 volumes:
   oracle-data:
   rabbitmq-data:
-
-
-
